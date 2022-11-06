@@ -9,6 +9,6 @@ public class UnitTest1
     {
         var sut = new Class1();
 
-        sut.hello.Should().Be("welt");
+        sut.hello.Should().Be("world");
     }
 }
