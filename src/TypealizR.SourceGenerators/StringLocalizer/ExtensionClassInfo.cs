@@ -6,8 +6,8 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 
 internal class ExtensionClassInfo
 {
-    private static string generatorName = typeof(CodeGenerator).FullName;
-    private static Version generatorVersion = typeof(CodeGenerator).Assembly.GetName().Version;
+    private static string generatorName = typeof(SourceGenerator).FullName;
+    private static Version generatorVersion = typeof(SourceGenerator).Assembly.GetName().Version;
 
     private readonly string targetTypeName;
     private readonly string targetNamespace;
