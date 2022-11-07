@@ -6,26 +6,25 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using TypealizR.SourceGenerators.Extensions;
-using TypealizR.SourceGenerators.StringLocalizer;
 
-namespace TypealizR.Extensions.System;
+namespace TypealizR.SourceGenerators.StringLocalizer;
 
 internal class StringLocalizerExtensionMethodBuilder
 {
-    private string ressourceName;
-    private readonly string defaultValue;
+    private string key;
+    private readonly string value;
 
-    public StringLocalizerExtensionMethodBuilder(string ressourceName, string defaultValue)
+    public StringLocalizerExtensionMethodBuilder(string key, string value)
     {
-        this.ressourceName = ressourceName;
-        this.defaultValue = defaultValue;
+        this.key = key;
+        this.value = value;
     }
 
-    public ExtensionMethodInfo Build(string typeName)
+    public ExtensionMethodInfo Build(string targetTypeName)
     {
-        var parameters = BuildParameters(ressourceName);
+        var parameters = BuildParameters(key);
 
-        var methodNameWithoutParameters = ressourceName;
+        var methodNameWithoutParameters = key;
 
         foreach (var parameter in parameters)
         {
@@ -34,7 +33,7 @@ internal class StringLocalizerExtensionMethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new ExtensionMethodInfo(typeName, ressourceName, defaultValue, compilableMethodName, parameters);
+        return new ExtensionMethodInfo(targetTypeName, key, value, compilableMethodName, parameters);
     }
 
 
