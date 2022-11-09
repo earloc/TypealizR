@@ -8,7 +8,7 @@ internal class StringLocalizerExtensionClassBuilder
 {
 	private List<StringLocalizerExtensionMethodBuilder> methodBuilders = new();
 
-	public StringLocalizerExtensionClassBuilder(string projectDirectoryPath, string projectRootNamespace)
+	public StringLocalizerExtensionClassBuilder()
 	{
 	}
 
@@ -21,7 +21,7 @@ internal class StringLocalizerExtensionClassBuilder
 	public ExtensionClassInfo Build(string targetTypeName, string targetNamespace)
 	{
 		var methods = methodBuilders
-			.Select(x => x.Build(targetTypeName))
+			.Select(x => x.Build(targetTypeName, targetNamespace))
 			.ToArray()
 		;
 

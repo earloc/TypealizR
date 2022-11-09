@@ -1,10 +1,10 @@
 ﻿@page "/"
 @inject IStringLocalizer<Index> localize
 
-<PageTitle>Index</PageTitle>
+<PageTitle>@localize.PageTitle()</PageTitle>
 
-<h1>@localize["Hello, world!"]</h1>
+<h1>@localize.Hello_world()</h1>
 
-Welcome to your new app.
+@localize.Welcome_to_your_new_app__now(DateTimeOffset.Now)
 
 <SurveyPrompt Title="How is Blazor working for you?" />

@@ -117,7 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
+  <data name="Hallo, Welt." xml:space="preserve">
+    <value>Hallo, Welt.</value>
+  </data>
   <data name="Hello, world!" xml:space="preserve">
     <value>Hello World from Ressource!</value>
+  </data>
+  <data name="PageTitle" xml:space="preserve">
+    <value>Index</value>
+  </data>
+  <data name="Welcome to your new app {now}" xml:space="preserve">
+    <value>Welcome to your new app, it is now:'{0}'</value>
   </data>
 </root>

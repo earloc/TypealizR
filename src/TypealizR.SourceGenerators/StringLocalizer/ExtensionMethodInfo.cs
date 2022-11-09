@@ -7,8 +7,9 @@ using System.Xml.Linq;
 namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ExtensionMethodInfo
 {
-    public static string ThisParameterFor(string T) => $"this IStringLocalizer<{T}> that";
+    public static string ThisParameterFor(string namespaceOfT, string T) => $"this IStringLocalizer<{namespaceOfT}.{T}> that";
 
+    private readonly string NamespaceOfT;
     private readonly string T;
     private readonly string rawRessourceName;
     private readonly string defaultValue;
@@ -17,21 +18,22 @@ internal class ExtensionMethodInfo
     public readonly string Signature;
     public readonly string Body;
 
-    public ExtensionMethodInfo(string tOfStringLocalizer, string rawRessourceName, string defaultValue, string compilableMethodName, IEnumerable<ExtensionMethodParameterInfo>? parameters = null)
+    public ExtensionMethodInfo(string namespaceOfT, string tOfStringLocalizer, string rawRessourceName, string defaultValue, string compilableMethodName, IEnumerable<ExtensionMethodParameterInfo>? parameters = null)
     {
+        NamespaceOfT = namespaceOfT;
         T = tOfStringLocalizer;
         this.rawRessourceName = rawRessourceName;
         this.defaultValue = defaultValue;
         Name = compilableMethodName;
         Parameters = parameters ?? Enumerable.Empty<ExtensionMethodParameterInfo>();
 
-        Signature = $"({ThisParameterFor(T)})";
+        Signature = $"({ThisParameterFor(NamespaceOfT, T)})";
         Body = $@"that[""{rawRessourceName}""]";
 
         if (Parameters.Any())
         {
             var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => x.Declaration));
-            Signature = $"({ThisParameterFor(T)}, {additionalParameterDeclarations})";
+            Signature = $"({ThisParameterFor(NamespaceOfT, T)}, {additionalParameterDeclarations})";
 
             var parameterCollection = string.Join(", ", Parameters.Select(x => x.Name));
             Body = $@"that[""{rawRessourceName}"", {parameterCollection}]";

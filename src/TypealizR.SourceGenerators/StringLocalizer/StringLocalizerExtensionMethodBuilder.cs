@@ -20,7 +20,7 @@ internal class StringLocalizerExtensionMethodBuilder
         this.value = value;
     }
 
-    public ExtensionMethodInfo Build(string targetTypeName)
+    public ExtensionMethodInfo Build(string targetTypeName, string targetNameSpace)
     {
         var parameters = BuildParameters(key);
 
@@ -33,7 +33,7 @@ internal class StringLocalizerExtensionMethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new ExtensionMethodInfo(targetTypeName, key, value, compilableMethodName, parameters);
+        return new ExtensionMethodInfo(targetNameSpace, targetTypeName, key, value, compilableMethodName, parameters);
     }
 
 

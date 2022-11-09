@@ -20,7 +20,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
     {
         var sut = new StringLocalizerExtensionMethodBuilder(input, input);
-        var method = sut.Build("T1");
+        var method = sut.Build("NS", "T1");
 
         var actual = method.Name;
         actual.Should().Be(expected);
@@ -35,7 +35,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     public void Extracts_Parameters(string input, params string[] expected)
     {
         var sut = new StringLocalizerExtensionMethodBuilder(input, input);
-        var method = sut.Build("T1");
+        var method = sut.Build("NS", "T1");
 
         var actual = method.Parameters.Select(x => x.Declaration).ToArray();
 
@@ -51,10 +51,10 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     public void Declares_Parameters_In_Signature(string input, string expectedPartialSignature)
     {
         var sut = new StringLocalizerExtensionMethodBuilder(input, input);
-        var method = sut.Build("T1");
+        var method = sut.Build("NS", "T1");
 
         var actual = method.Signature;
-        var expected = $"({ExtensionMethodInfo.ThisParameterFor("T1")}, {expectedPartialSignature})";
+        var expected = $"({ExtensionMethodInfo.ThisParameterFor("NS", "T1")}, {expectedPartialSignature})";
 
         actual.Should().Be(expected);
     }
@@ -68,7 +68,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     public void Passes_Parameters_In_Invocation(string input, string expectedInvocation)
     {
         var sut = new StringLocalizerExtensionMethodBuilder(input, input);
-        var method = sut.Build("T1");
+        var method = sut.Build("NS", "T1");
 
         var actual = method.Body;
         var expected = $@"that[""{input}"", {expectedInvocation}]";

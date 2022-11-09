@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Resources.NetStandard;
 using System.Text;
@@ -8,31 +9,31 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
-internal class SourceGenerator : IIncrementalGenerator
+
+[Generator]
+public class SourceGenerator : IIncrementalGenerator
 {
     private class Settings
     {
 
 
-        public Settings(string? projectFullPath, string? rootNamespace)
+        public Settings(string? projectDirectory, string? rootNamespace)
         {
-            ProjectFullPath = projectFullPath;
             RootNamespace = rootNamespace ?? "";
 
-            ProjectDirectory = new DirectoryInfo(ProjectFullPath);
+            ProjectDirectory = new DirectoryInfo(projectDirectory);
         }
 
-        public string? ProjectFullPath { get; }
         public DirectoryInfo ProjectDirectory { get; }
         public string RootNamespace { get; }
 
         public static Settings From(AnalyzerConfigOptions options)
         {
-            options.TryGetValue("build_property.MSBuildProjectFullPath", out var projectFullPath);
-            options.TryGetValue("build_property.RootNamespace", out var rootNamespace);
+            options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory);
+            options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
 
             return new(
-                projectFullPath, rootNamespace
+                projectDirectory, rootNamespace
             );
         }
     }
@@ -54,7 +55,9 @@ internal class SourceGenerator : IIncrementalGenerator
 
             foreach(var file in files)
             {
-                var builder = new StringLocalizerExtensionClassBuilder(options.ProjectDirectory.FullName, options.RootNamespace);
+
+                
+                var builder = new StringLocalizerExtensionClassBuilder();
 
                 using (var reader = ResXResourceReader.FromFileContents(File.ReadAllText(file.FullPath)))
                 {
@@ -66,7 +69,7 @@ internal class SourceGenerator : IIncrementalGenerator
 
                 var targetTypeName = file.SimpleName;
 
-                var targetNamespace = FindNameSpaceOf(options.RootNamespace, targetTypeName, file.FullPath, options.ProjectDirectory.FullName);
+                var targetNamespace = FindNameSpaceOf(options.RootNamespace, file.FullPath, options.ProjectDirectory.FullName);
                 var extensionClass = builder.Build(file.SimpleName, targetNamespace);
 
                 ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
@@ -74,7 +77,7 @@ internal class SourceGenerator : IIncrementalGenerator
         });
     }
 
-    private string FindNameSpaceOf(string? rootNamespace, string targetTypeName, string resxFilePath, string projectFullPath)
+    private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
     {
         var nameSpace = resxFilePath.Replace(projectFullPath, "");
         nameSpace = nameSpace.Replace(Path.GetFileName(resxFilePath), "");
