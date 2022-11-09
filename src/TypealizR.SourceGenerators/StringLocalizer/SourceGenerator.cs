@@ -70,7 +70,7 @@ public class SourceGenerator : IIncrementalGenerator
                 var targetTypeName = file.SimpleName;
 
                 var targetNamespace = FindNameSpaceOf(options.RootNamespace, file.FullPath, options.ProjectDirectory.FullName);
-                var extensionClass = builder.Build(file.SimpleName, targetNamespace);
+                var extensionClass = builder.Build(new (targetNamespace, file.SimpleName));
 
                 ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
             }

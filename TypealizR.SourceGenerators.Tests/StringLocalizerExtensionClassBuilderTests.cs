@@ -16,7 +16,7 @@ public class StringLocalizerExtensionClassBuilderTests
 
         sut.WithMethodFor("SomeKey", "SomeValue");
 
-        var classInfo = sut.Build("Name.Space", "TypeName");
+        var classInfo = sut.Build(new("Name.Space", "TypeName"));
 
         classInfo.Methods.Should().HaveCount(1);
 
