@@ -9,15 +9,19 @@ internal class ExtensionClassInfo
     private static string generatorName = typeof(SourceGenerator).FullName;
     private static Version generatorVersion = typeof(SourceGenerator).Assembly.GetName().Version;
 
-    private readonly string targetTypeName;
     private readonly string targetNamespace;
+    private readonly string targetTypeName;
 
     private readonly string members;
 
-    public ExtensionClassInfo(string targetTypeName, string targetNamespace, ExtensionMethodInfo[] methods)
+    public IEnumerable<ExtensionMethodInfo> Methods { get; }
+
+    public ExtensionClassInfo(string targetNamespace, string targetTypeName, IEnumerable<ExtensionMethodInfo> methods)
     {
-        this.targetTypeName = targetTypeName;
         this.targetNamespace = targetNamespace;
+        this.targetTypeName = targetTypeName;
+
+        Methods = methods;
 
         members = string.Join("\r", methods
             .Select(x => x.Declaration)
