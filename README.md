@@ -1,21 +1,10 @@
 # TypealizR
+The **type**d internation**aliz**e**R*
 
-Typed localization-support on steroids
+Strongly typed internationalization support for the dotnet eco-system.
+
 
 ## usage
-
-instead of using this:
-
-
-```csharp
-
-@inject IStringLocalizer<HomePage> localize;
-@inject AppUser user;
-
-<h1>@localize["Title"]<h1>
-<h2>@localize["Welcome back, {0}", user.GivenName]<h2>
-
-```
 
 use this:
 
@@ -29,9 +18,25 @@ use this:
 
 ```
 
+instead of this:
+
+
+```csharp
+
+@inject IStringLocalizer<HomePage> localize;
+@inject AppUser user;
+
+<h1>@localize["Title"]<h1>
+<h2>@localize["Welcome back, {0}", user.GivenName]<h2>
+
+```
+
+
+
 ## setup
 
 - install via nuget
+  `dotnet package add TypealizR`
 - modify target csproj
 ```xml
 
