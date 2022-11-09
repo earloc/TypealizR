@@ -4,35 +4,46 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
+		<FileVersion>0.1.0</FileVersion>
+		<Version>0.1.0</Version>
 	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>TypealizR</PackageId>
+		<PackageVersion>0.1.0-pre4</PackageVersion>
+		<Title>TypealizR</Title>
+		<Authors>earloc</Authors>
+		<Product>TypealizR</Product>
+		<PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageOutputPath>../../bin</PackageOutputPath>
+		<AssemblyVersion>0.1.0</AssemblyVersion>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+	</PropertyGroup>
+
+	<!--package as analyzer only-->
+	<ItemGroup>
+		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+	</ItemGroup>
+	<PropertyGroup>
+		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
+		<IncludeBuildOutput>false</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<!--package as analyzer only-->
 
 	<ItemGroup>
 	  <None Include="../../README.md" />
 	</ItemGroup>
-
+	
 	<ItemGroup>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="ResXResourceReader.NetStandard" Version="1.1.0" PrivateAssets="all" GeneratePathProperty="true">
-		</PackageReference>
 	</ItemGroup>
-
-	<PropertyGroup>
-		<GetTargetPathDependsOn>$(GetTargetPathDependsOn);GetDependencyTargetPaths</GetTargetPathDependsOn>
-		<PackageId>TypealizR</PackageId>
-		<Title>TypealizR</Title>
-		<Authors>earloc</Authors>
-		<Product>TypealizR</Product>
-		<PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
-	</PropertyGroup>
-
-	<Target Name="GetDependencyTargetPaths">
-		<ItemGroup>
-			<!-- Newtonsoft.json will generate a path property because we did the GeneratePathProperty="true"-->
-			<TargetPathWithTargetPlatformMoniker Include="$(PKGResXResourceReader_NetStandard)\lib\netstandard2.0\*.dll" IncludeRuntimeDependency="false" />
-		</ItemGroup>
-	</Target>
 </Project>

@@ -4,22 +4,42 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators;
 internal class RessourceFile
 {
 
-    public RessourceFile(string simpleName, string fullPath)
+    internal record struct Entry (string Key, string Value);
+
+    private readonly XDocument document;
+
+    public IEnumerable<Entry> Entries { get; }
+
+    public RessourceFile(string simpleName, string fullPath, string content)
     {
         SimpleName = simpleName;
         FullPath = fullPath;
         IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
+
+        var reader = new StringReader(content);
+
+        document = XDocument.Load(reader, LoadOptions.SetLineInfo);
+
+        Entries = document
+            .Root
+            .Descendants()
+            .Where(x => x.Name == "data")
+            .Select(x => new Entry(
+                x.Attribute("name").Value,
+                x.Descendants("value").FirstOrDefault().Value
+            ));
     }
 
     public string SimpleName { get; }
-
     public string FullPath { get; }
+
     public bool IsDefaultLocale { get; }
 
     public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalText> source) => From(source.Select(x => x.Path));
@@ -33,7 +53,7 @@ internal class RessourceFile
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new RessourceFile(resx.Key, resx.Max())
+                .Select(resx => new RessourceFile(resx.Key, resx.Max(), File.ReadAllText(resx.Max()))
             )
         );
 

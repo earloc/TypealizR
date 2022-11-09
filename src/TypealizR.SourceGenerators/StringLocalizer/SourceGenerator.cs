@@ -3,7 +3,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
-using System.Resources.NetStandard;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -55,16 +54,11 @@ public class SourceGenerator : IIncrementalGenerator
 
             foreach(var file in files)
             {
-
-                
                 var builder = new StringLocalizerExtensionClassBuilder();
 
-                using (var reader = ResXResourceReader.FromFileContents(File.ReadAllText(file.FullPath)))
+                foreach (var entry in file.Entries)
                 {
-                    foreach (DictionaryEntry entry in reader)
-                    {
-                        builder.WithMethodFor(entry.Key.ToString(), entry.Value.ToString());
-                    }
+                    builder.WithMethodFor(entry.Key, entry.Value);
                 }
 
                 var targetTypeName = file.SimpleName;
