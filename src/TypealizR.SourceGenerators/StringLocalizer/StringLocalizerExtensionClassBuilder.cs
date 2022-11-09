@@ -21,7 +21,7 @@ internal class StringLocalizerExtensionClassBuilder
 	public ExtensionClassInfo Build(string targetTypeName, string targetNamespace)
 	{
 		var methods = methodBuilders
-			.Select(x => x.Build(targetTypeName, targetNamespace))
+			.Select(x => x.Build(targetNamespace, targetTypeName))
 			.ToArray()
 		;
 
