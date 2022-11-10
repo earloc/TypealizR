@@ -6,11 +6,12 @@
 		<LangVersion>10</LangVersion>
 		<FileVersion>0.2.0</FileVersion>
 		<Version>0.2.0</Version>
+		<AssemblyVersion>0.2.0</AssemblyVersion>
+		<PackageVersion>0.2.1</PackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
 		<PackageId>TypealizR</PackageId>
-		<PackageVersion>0.2.0</PackageVersion>
 		<Title>TypealizR</Title>
 		<Authors>earloc</Authors>
 		<Product>TypealizR</Product>
@@ -18,7 +19,7 @@
 		<RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageOutputPath>../../bin</PackageOutputPath>
-		<AssemblyVersion>0.1.0</AssemblyVersion>
+		
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
