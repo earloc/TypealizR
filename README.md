@@ -1,5 +1,5 @@
 # TypealizR
-The **type**d internation**aliz**e**R*
+> The **type**d internation**aliz**e**R**
 
 Strongly typed internationalization support for the dotnet eco-system.
 

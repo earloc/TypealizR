@@ -23,18 +23,25 @@ internal class RessourceFile
         FullPath = fullPath;
         IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
 
-        var reader = new StringReader(content);
+        if (string.IsNullOrEmpty(content))
+        {
+            Entries = Enumerable.Empty<Entry>();
+        }
+        else
+        {
+            using var reader = new StringReader(content);
 
-        document = XDocument.Load(reader, LoadOptions.SetLineInfo);
+            document = XDocument.Load(reader, LoadOptions.SetLineInfo);
 
-        Entries = document
-            .Root
-            .Descendants()
-            .Where(x => x.Name == "data")
-            .Select(x => new Entry(
-                x.Attribute("name").Value,
-                x.Descendants("value").FirstOrDefault().Value
-            ));
+            Entries = document
+                .Root
+                .Descendants()
+                .Where(x => x.Name == "data")
+                .Select(x => new Entry(
+                    x.Attribute("name").Value,
+                    x.Descendants("value").FirstOrDefault().Value
+                ));
+        }
     }
 
     public string SimpleName { get; }
@@ -46,6 +53,15 @@ internal class RessourceFile
 
     public static IEnumerable<RessourceFile> From(IEnumerable<string> filePaths)
     {
+        string TryGetFileContent(string filePath)
+        {
+            if (File.Exists(filePath))
+            {
+                return File.ReadAllText(filePath);
+            }
+            return string.Empty;
+        }
+
         var byFolder = filePaths
             .GroupBy(x => Directory.GetParent(x).FullName)
             .Select(x => x.GroupBy(y => GetSimpleFileNameOf(y)))
@@ -53,7 +69,8 @@ internal class RessourceFile
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new RessourceFile(resx.Key, resx.Max(), File.ReadAllText(resx.Max()))
+                .Select(resx => new { Name = resx.Key, MainFile = resx.Max()})
+                .Select(_ => new RessourceFile(_.Name, _.MainFile, TryGetFileContent(_.MainFile))
             )
         );
 
