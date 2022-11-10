@@ -1,3 +1,5 @@
+[![.NET](https://github.com/earloc/TypealizR/actions/workflows/dotnet.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet.yml)
+
 # TypealizR
 > The **type**d internation**aliz**e**R**
 
