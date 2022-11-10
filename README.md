@@ -1,7 +1,7 @@
 # TypealizR
 > The **type**d internation**aliz**e**R**
 
-Strongly typed internationalization support for the dotnet eco-system.
+Strongly typed i18n support for the dotnet eco-system.
 
 
 ## usage
