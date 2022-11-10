@@ -15,6 +15,7 @@ internal class ExtensionMethodInfo
     public readonly IEnumerable<ExtensionMethodParameterInfo> Parameters;
     public readonly string Signature;
     public readonly string Body;
+    public readonly string ReturnType = "LocalizedString";
 
     public ExtensionMethodInfo(TypeInfo t, string rawRessourceName, string defaultValue, string compilableMethodName, IEnumerable<ExtensionMethodParameterInfo>? parameters = null)
     {
@@ -43,6 +44,6 @@ internal class ExtensionMethodInfo
   /// <returns>
   /// A localized version of the current default value of '{defaultValue.Replace("\r\n", " ").Replace("\n", " ")}'
   /// </returns>
-  public static string {Name}{Signature} => {Body};
+  public static {ReturnType} {Name}{Signature} => {Body};
 ";
 }
