@@ -4,10 +4,7 @@
 		<TargetFramework>netstandard2.0</TargetFramework>
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
-		<FileVersion>0.2.0</FileVersion>
 		<Version>0.1.0</Version>
-		<AssemblyVersion>0.2.0</AssemblyVersion>
-		<PackageVersion>0.2.1</PackageVersion>
 	</PropertyGroup>
 
 	<PropertyGroup>
