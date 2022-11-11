@@ -36,8 +36,8 @@ jobs:
       uses: vers-one/dotnet-project-version-updater@v1.2
       with:
         file: |
-          "**/*.csproj", "**/*.nuspec", "**/AssemblyInfo.cs"
-        version: ${{ steps.gitversion.version }}.${{ github.run_number }}
+          "**/TypealizR.SourceGenerators"
+        version: ${{ steps.gitversion.outputs.version }}.${{ github.run_number }}
     - name: Build
       run: dotnet build --no-restore
     - name: Test
@@ -47,5 +47,5 @@ jobs:
         git config user.name "earloc"
         git config user.email "earloc@live.de"
         git add .
-        git commit -m "${{ steps.gitversion.version }}.${{ github.run_number }}"
+        git commit -m "${{ steps.gitversion.outputs.version }}.${{ github.run_number }}"
         git push
