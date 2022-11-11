@@ -37,7 +37,7 @@ jobs:
       with:
         file: |
           "**/*.csproj", "**/*.nuspec", "**/AssemblyInfo.cs"
-        version: ${{ steps.gitversion.MAJOR }}.${{ steps.gitversion.MINOR }}.${{ steps.gitversion.PATCH }}.${{ github.run_number }}
+        version: ${{ steps.gitversion.version }}.${{ github.run_number }}
     - name: Build
       run: dotnet build --no-restore
     - name: Test
@@ -47,5 +47,5 @@ jobs:
         git config user.name "earloc"
         git config user.email "earloc@live.de"
         git add .
-        git commit -m "${{ MAJOR }}.${{ MINOR }}.${{ PATCH }}.${{ github.run_number }}"
+        git commit -m "${{ steps.gitversion.version }}.${{ github.run_number }}"
         git push
