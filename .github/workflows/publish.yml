@@ -42,7 +42,7 @@ jobs:
         suffix: '@@@'
         sourceFile: './src/Version.props'
         placeholder: 'Major'
-        replacement: ${{ steps.version.outputs.major }}
+        replacement: ${{ steps.semver.outputs.major }}
         
     - name: Replace minor-version
       uses: alexrogalskiy/github-action-tag-replacer@master
@@ -51,7 +51,7 @@ jobs:
         suffix: '@@@'
         sourceFile: './src/Version.props'
         placeholder: 'Minor'
-        replacement: ${{ steps.version.outputs.minor }}
+        replacement: ${{ steps.semver.outputs.minor }}
         
     - name: Replace patch-version
       uses: alexrogalskiy/github-action-tag-replacer@master
@@ -60,7 +60,7 @@ jobs:
         suffix: '@@@'
         sourceFile: './src/Version.props'
         placeholder: 'Patch'
-        replacement: ${{ steps.version.outputs.patch }}
+        replacement: ${{ steps.semver.outputs.patch }}
         
     - name: Replace patch-version
       uses: alexrogalskiy/github-action-tag-replacer@master
@@ -69,7 +69,7 @@ jobs:
         suffix: '@@@'
         sourceFile: './src/Version.props'
         placeholder: 'Patch'
-        replacement: ${{ steps.version.outputs.patch }}
+        replacement: ${{ steps.semver.outputs.patch }}
         
     - name: Replace prerelease-version
       uses: alexrogalskiy/github-action-tag-replacer@master
@@ -78,7 +78,7 @@ jobs:
         suffix: '@@@'
         sourceFile: './src/Version.props'
         placeholder: 'PreRelease'
-        replacement: ${{ steps.version.outputs.prerelease  }}
+        replacement: ${{ steps.semver.outputs.prerelease  }}
         
     - name: Replace prerelease-version
       uses: alexrogalskiy/github-action-tag-replacer@master
