@@ -54,14 +54,14 @@ jobs:
       with:
         sourceFile: './src/Version.props'
         placeholder: '@@@PackageVersion@@@'
-        replacement: '${{ steps.semver.outputs.full }}'
+        replacement: '${{ steps.semver.outputs.full }}${{ github.run_attempt }}'
         
     - name: Replace InformationalVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
         sourceFile: './src/Version.props'
         placeholder: '@@@InformationalVersion@@@'
-        replacement: '${{ steps.semver.outputs.tag }}-${{github.sha}}'
+        replacement: '${{ steps.semver.outputs.tag }}-${{ github.sha }}'
     
     - name: show version patch
       run: cat ./src/Version.props
