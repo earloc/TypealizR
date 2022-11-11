@@ -21,7 +21,7 @@ jobs:
       id: semver
       uses: release-kit/semver@v1
       with:
-        fallback: 'v3.4.5-pre'
+        fallback: 'v0.3.0-pre'
         
     - name: prepare version patch
       run: |
@@ -54,7 +54,7 @@ jobs:
       with:
         sourceFile: './src/Version.props'
         placeholder: '@@@PackageVersion@@@'
-        replacement: '${{ steps.semver.outputs.full }}${{ github.run_attempt }}'
+        replacement: '${{ steps.semver.outputs.full }}${{ github.run_number }}${{ github.run_attempt }}'
         
     - name: Replace InformationalVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
@@ -82,3 +82,6 @@ jobs:
       with:
         name: my-artifact
         path: "**/*.nupkg"
+        
+    - name: Publish
+      run: dotnet nuget push "**/*.nupkg" -k "${{secrets.NUGET_APIKEY_TYPEALIZR}}" --skip-duplicate -s "https://api.nuget.org/v3/index.json"
