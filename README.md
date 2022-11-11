@@ -1,5 +1,8 @@
 [![.NET](https://github.com/earloc/TypealizR/actions/workflows/dotnet.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet.yml)
 [![CodeQL](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml)
+[![Publish](https://github.com/earloc/TypealizR/actions/workflows/nuget.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/nuget.yml)
+[![Nuget](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+[![Nuget (unstable)](https://img.shields.io/nuget/vpre/TypealizR)]((https://www.nuget.org/packages/TypealizR))
 
 # TypealizR
 > The **type**d internation**aliz**e**R**
