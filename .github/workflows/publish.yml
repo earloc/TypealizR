@@ -22,18 +22,16 @@ jobs:
       uses: release-kit/semver@v1
       
     - name: prepare version patch
-      uses: actions/github-script@v6
-      with:
-        script: |
-          echo '<Project>' > ./src/Version.props
-          echo '	<PropertyGroup>' >> ./src/Version.props
-          echo '    <AssemblyVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@</AssemblyVersion>' >> ./src/Version.props
-          echo '    <FileVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@-@@@SHA@@@</FileVersion>' >> ./src/Version.props
-          echo '    <PackageVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@</PackageVersion>' >> ./src/Version.props
-          echo '    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>' >> ./src/Version.props
-          echo '	</PropertyGroup>' >> ./src/Version.props
-          echo '</Project>' >> ./src/Version.props
-          cat ./src/Version.props
+      run: |
+        echo '<Project>' > ./src/Version.props
+        echo '	<PropertyGroup>' >> ./src/Version.props
+        echo '    <AssemblyVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@</AssemblyVersion>' >> ./src/Version.props
+        echo '    <FileVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@-@@@SHA@@@</FileVersion>' >> ./src/Version.props
+        echo '    <PackageVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@</PackageVersion>' >> ./src/Version.props
+        echo '    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>' >> ./src/Version.props
+        echo '	</PropertyGroup>' >> ./src/Version.props
+        echo '</Project>' >> ./src/Version.props
+        cat ./src/Version.props
           
     - name: Replace major-version
       uses: alexrogalskiy/github-action-tag-replacer@master
