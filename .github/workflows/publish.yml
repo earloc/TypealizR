@@ -40,14 +40,14 @@ jobs:
         result-encoding: string
         retries: 3
         script: |
-          "<Project>" > ./src/Version.props
-          "	<PropertyGroup>" >> ./src/Version.props
-          "    <AssemblyVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@</AssemblyVersion>" >> ./src/Version.props
-          "    <FileVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@-@@@SHA@@@</FileVersion>" >> ./src/Version.props
-          "    <PackageVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@</PackageVersion>" >> ./src/Version.props
-          "    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>" >> ./src/Version.props
-          "	</PropertyGroup>" >> ./src/Version.props
-          "</Project>" >> ./src/Version.props
+          echo "<Project>" > ./src/Version.props
+          echo "	<PropertyGroup>" >> ./src/Version.props
+          echo "    <AssemblyVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@</AssemblyVersion>" >> ./src/Version.props
+          echo "    <FileVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@-@@@SHA@@@</FileVersion>" >> ./src/Version.props
+          echo "    <PackageVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@</PackageVersion>" >> ./src/Version.props
+          echo "    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>" >> ./src/Version.props
+          echo "	</PropertyGroup>" >> ./src/Version.props
+          echo "</Project>" >> ./src/Version.props
           
     - name: Replace major-version
       uses: alexrogalskiy/github-action-tag-replacer@master
