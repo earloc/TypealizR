@@ -27,55 +27,41 @@ jobs:
       run: |
         echo '<Project>' > ./src/Version.props
         echo '	<PropertyGroup>' >> ./src/Version.props
-        echo '    <AssemblyVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@</AssemblyVersion>' >> ./src/Version.props
-        echo '    <FileVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@-@@@SHA@@@</FileVersion>' >> ./src/Version.props
-        echo '    <PackageVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@</PackageVersion>' >> ./src/Version.props
-        echo '    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>' >> ./src/Version.props
+        echo '    <AssemblyVersion>@@@AssemblyVersion@@@</AssemblyVersion>' >> ./src/Version.props
+        echo '    <FileVersion>@@@FileVersion@@@</FileVersion>' >> ./src/Version.props
+        echo '    <PackageVersion>@@@PackageVersion@@@</PackageVersion>' >> ./src/Version.props
+        echo '    <InformationalVersion>@@@InformationalVersion@@@</InformationalVersion>' >> ./src/Version.props
         echo '	</PropertyGroup>' >> ./src/Version.props
         echo '</Project>' >> ./src/Version.props
         cat ./src/Version.props
           
-    - name: Replace major-version
+    - name: Replace AssemblyVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
         sourceFile: './src/Version.props'
-        placeholder: '@@@Major@@@'
-        replacement: ${{ steps.semver.outputs.major }}
+        placeholder: '@@@AssemblyVersion@@@'
+        replacement: '${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}'
         
-    - name: Replace minor-version
+    - name: Replace FileVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
         sourceFile: './src/Version.props'
-        placeholder: '@@@Minor@@@'
-        replacement: ${{ steps.semver.outputs.minor }}
+        placeholder: '@@@FileVersion@@@'
+        replacement: '${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}'
         
-    - name: Replace patch-version
+    - name: Replace PackageVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
         sourceFile: './src/Version.props'
-        placeholder: '@@@Patch@@@'
-        replacement: ${{ steps.semver.outputs.patch }}
+        placeholder: '@@@PackageVersion@@@'
+        replacement: '${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}'
         
-    - name: Replace patch-version
+    - name: Replace InformationalVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
         sourceFile: './src/Version.props'
-        placeholder: '@@@Patch@@@'
-        replacement: ${{ steps.semver.outputs.patch }}
-        
-    - name: Replace prerelease-version
-      uses: alexrogalskiy/github-action-tag-replacer@master
-      with:
-        sourceFile: './src/Version.props'
-        placeholder: '@@@PreRelease@@@'
-        replacement: ${{ steps.semver.outputs.prerelease  }}
-        
-    - name: Replace prerelease-version
-      uses: alexrogalskiy/github-action-tag-replacer@master
-      with:
-        sourceFile: './src/Version.props'
-        placeholder: '@@@SHA@@@'
-        replacement: ${{github.sha}}
+        placeholder: '@@@InformationalVersion@@@'
+        replacement: '${{ steps.semver.outputs.major }}.${{ steps.semver.outputs.minor }}.${{ steps.semver.outputs.patch }}-${{ steps.semver.outputs.prerelease  }}-${{github.sha}}'
     
     - name: show version patch
       run: cat ./src/Version.props
