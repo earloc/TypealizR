@@ -29,18 +29,87 @@ jobs:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Set project versions
-      id: update
-      uses: vers-one/dotnet-project-version-updater@v1.2
+    - name: Semver Parse
+      id: semver
+      uses: release-kit/semver@v1
+      
+    - name: prepare version patch
+      uses: actions/github-script@v6
+      id: my-script
       with:
-        file: |
-          "**/TypealizR.SourceGenerators.csproj"
-        version: ${{ steps.gitversion.outputs.version }}
+        result-encoding: string
+        retries: 3
+        script: |
+          "<Project>" > ./src/Version.props
+          "	<PropertyGroup>" >> ./src/Version.props
+          "    <AssemblyVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@</AssemblyVersion>" >> ./src/Version.props
+          "    <FileVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@-@@@SHA@@@</FileVersion>" >> ./src/Version.props
+          "    <PackageVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@</PackageVersion>" >> ./src/Version.props
+          "    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>" >> ./src/Version.props
+          "	</PropertyGroup>" >> ./src/Version.props
+          "</Project>" >> ./src/Version.props
+          
+    - name: Replace major-version
+      uses: alexrogalskiy/github-action-tag-replacer@master
+      with:
+        prefix: '@@@'
+        suffix: '@@@'
+        sourceFile: './src/Version.props'
+        placeholder: 'Major'
+        replacement: ${{ steps.version.outputs.major }}
+        
+    - name: Replace major-version
+      uses: alexrogalskiy/github-action-tag-replacer@master
+      with:
+        prefix: '@@@'
+        suffix: '@@@'
+        sourceFile: './src/Version.props'
+        placeholder: 'Minor'
+        replacement: ${{ steps.version.outputs.minor }}
+        
+    - name: Replace patch-version
+      uses: alexrogalskiy/github-action-tag-replacer@master
+      with:
+        prefix: '@@@'
+        suffix: '@@@'
+        sourceFile: './src/Version.props'
+        placeholder: 'Patch'
+        replacement: ${{ steps.version.outputs.patch }}
+        
+    - name: Replace patch-version
+      uses: alexrogalskiy/github-action-tag-replacer@master
+      with:
+        prefix: '@@@'
+        suffix: '@@@'
+        sourceFile: './src/Version.props'
+        placeholder: 'Patch'
+        replacement: ${{ steps.version.outputs.patch }}
+        
+    - name: Replace prerelease-version
+      uses: alexrogalskiy/github-action-tag-replacer@master
+      with:
+        prefix: '@@@'
+        suffix: '@@@'
+        sourceFile: './src/Version.props'
+        placeholder: 'PreRelease'
+        replacement: ${{ steps.version.outputs.prerelease  }}
+        
+    - name: Replace prerelease-version
+      uses: alexrogalskiy/github-action-tag-replacer@master
+      with:
+        prefix: '@@@'
+        suffix: '@@@'
+        sourceFile: './src/Version.props'
+        placeholder: 'SHA'
+        replacement: ${{github.sha}}
+        
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack
       run: dotnet pack --configuration Release --no-build --verbosity normal
-    - name: Publish
-      run: dotnet nuget push "**/*.nupkg" -k "${{secrets.NUGET_APIKEY_TYPEALIZR}}" --skip-duplicate -s "https://api.nuget.org/v3/index.json"
+    - uses: actions/upload-artifact@v3
+      with:
+        name: my-artifact
+        path: "**/*.nupkg"
