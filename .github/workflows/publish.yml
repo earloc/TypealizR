@@ -90,10 +90,7 @@ jobs:
         replacement: ${{github.sha}}
     
     - name: show version patch
-      uses: actions/github-script@v6
-      with:
-        script: |
-          cat ./src/Version.props
+      run: cat ./src/Version.props
           
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
