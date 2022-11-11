@@ -20,6 +20,7 @@ jobs:
         ref: ${{ github.head_ref }}   # checkout the correct branch name
         fetch-depth: 0
     - name: Git Version
+      id: gitversion
       uses: codacy/git-version@2.4.0
       with:
        release-branch: main
@@ -36,7 +37,7 @@ jobs:
       with:
         file: |
           "**/*.csproj", "**/*.nuspec", "**/AssemblyInfo.cs"
-        version: ${{ MAJOR }}.${{ MINOR }}.${{ PATCH }}.${{ github.run_number }}
+        version: ${{ steps.gitversion.MAJOR }}.${{ steps.gitversion.MINOR }}.${{ steps.gitversion.PATCH }}.${{ github.run_number }}
     - name: Build
       run: dotnet build --no-restore
     - name: Test
