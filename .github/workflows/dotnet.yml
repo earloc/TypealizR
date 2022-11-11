@@ -36,7 +36,7 @@ jobs:
       uses: vers-one/dotnet-project-version-updater@v1.2
       with:
         file: |
-          "**/TypealizR.SourceGenerators"
+          "**/TypealizR.SourceGenerators.csproj"
         version: ${{ steps.gitversion.outputs.version }}.${{ github.run_number }}
     - name: Build
       run: dotnet build --no-restore
