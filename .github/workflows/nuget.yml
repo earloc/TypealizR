@@ -43,4 +43,4 @@ jobs:
     - name: Pack
       run: dotnet pack --no-build --verbosity normal
     - name: Publish
-      run: dotnet nuget push "*.nupkg" -k ${{secrets.NUGET_APIKEY_TYPEALIZR}} --skip-duplicate
+      run: dotnet nuget push "*.nupkg" -k "${{secrets.NUGET_APIKEY_TYPEALIZR}}" --skip-duplicate -s "https://api.nuget.org/v3/index.json"
