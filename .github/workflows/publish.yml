@@ -26,12 +26,12 @@ jobs:
     - name: prepare version patch
       run: |
         echo '<Project>' > ./src/Version.props
-        echo '	<PropertyGroup>' >> ./src/Version.props
+        echo '  <PropertyGroup>' >> ./src/Version.props
         echo '    <AssemblyVersion>@@@AssemblyVersion@@@</AssemblyVersion>' >> ./src/Version.props
         echo '    <FileVersion>@@@FileVersion@@@</FileVersion>' >> ./src/Version.props
         echo '    <PackageVersion>@@@PackageVersion@@@</PackageVersion>' >> ./src/Version.props
         echo '    <InformationalVersion>@@@InformationalVersion@@@</InformationalVersion>' >> ./src/Version.props
-        echo '	</PropertyGroup>' >> ./src/Version.props
+        echo '  </PropertyGroup>' >> ./src/Version.props
         echo '</Project>' >> ./src/Version.props
         cat ./src/Version.props
           
