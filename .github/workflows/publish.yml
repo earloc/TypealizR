@@ -6,8 +6,6 @@ name: Publish
 on:
   release:
     types: [published]
-  push:
-    branches: [main]
 
 jobs:
   build:
@@ -20,8 +18,6 @@ jobs:
     - name: Semver Parse
       id: semver
       uses: release-kit/semver@v1
-      with:
-        fallback: 'v0.3.0-pre'
         
     - name: prepare version patch
       run: |
