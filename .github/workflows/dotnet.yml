@@ -42,10 +42,9 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: push version
-      run: |
-        git config user.name "earloc"
-        git config user.email "earloc@live.de"
-        git add .
-        git commit -m v"${{ steps.gitversion.outputs.version }}"
-        git push
+    - name: Test
+      run: dotnet test --no-build --verbosity normal
+    - name: PACK
+      run: dotnet pack --no-build --verbosity normal
+    - name: Publish
+      run: dotnet nuget push "*.nupkg" -s ./bin -k ${{secrets.NUGET_APIKEY_TYPEALIZR}} -s https://api.nuget.org/v3/index.json --skip-duplicate

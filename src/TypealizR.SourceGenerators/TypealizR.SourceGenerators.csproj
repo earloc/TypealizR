@@ -16,7 +16,6 @@
 		<RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
 		<RepositoryType>git</RepositoryType>
 		<PackageOutputPath>../../bin</PackageOutputPath>
-		
 		<DevelopmentDependency>true</DevelopmentDependency>
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
@@ -27,9 +26,8 @@
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 	<PropertyGroup>
-		<GeneratePackageOnBuild>true</GeneratePackageOnBuild>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
-		<Description>Strongly typed i18n support for the dotnet eco-system.</Description>
+		<Description>Strongly typed i18n support for the .NET - ecosystem</Description>
 	</PropertyGroup>
 
 	<!--package as analyzer only-->
