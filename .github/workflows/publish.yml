@@ -38,55 +38,43 @@ jobs:
     - name: Replace major-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
-        prefix: '@@@'
-        suffix: '@@@'
         sourceFile: './src/Version.props'
-        placeholder: 'Major'
+        placeholder: '@@@Major@@@'
         replacement: ${{ steps.semver.outputs.major }}
         
     - name: Replace minor-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
-        prefix: '@@@'
-        suffix: '@@@'
         sourceFile: './src/Version.props'
-        placeholder: 'Minor'
+        placeholder: '@@@Minor@@@'
         replacement: ${{ steps.semver.outputs.minor }}
         
     - name: Replace patch-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
-        prefix: '@@@'
-        suffix: '@@@'
         sourceFile: './src/Version.props'
-        placeholder: 'Patch'
+        placeholder: '@@@Patch@@@'
         replacement: ${{ steps.semver.outputs.patch }}
         
     - name: Replace patch-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
-        prefix: '@@@'
-        suffix: '@@@'
         sourceFile: './src/Version.props'
-        placeholder: 'Patch'
+        placeholder: '@@@Patch@@@'
         replacement: ${{ steps.semver.outputs.patch }}
         
     - name: Replace prerelease-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
-        prefix: '@@@'
-        suffix: '@@@'
         sourceFile: './src/Version.props'
-        placeholder: 'PreRelease'
+        placeholder: '@@@PreRelease@@@'
         replacement: ${{ steps.semver.outputs.prerelease  }}
         
     - name: Replace prerelease-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
-        prefix: '@@@'
-        suffix: '@@@'
         sourceFile: './src/Version.props'
-        placeholder: 'SHA'
+        placeholder: '@@@SHA@@@'
         replacement: ${{github.sha}}
     
     - name: show version patch
