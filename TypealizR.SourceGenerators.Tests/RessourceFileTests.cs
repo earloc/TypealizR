@@ -77,7 +77,6 @@ public class RessourceFileTests
     [InlineData("SomeFile", @"c:/SomeRelativePath/SomeFile.resx")]
     [InlineData("SomeFile", @"c:/SomeRelativePath/SomeFile.de.resx")]
     [InlineData("SomeFile", @"c:/SomeRelativePath/SomeFile.de-DE.resx")]
-    [InlineData("SomeFile", @"c:\SomeRelativePath\SomeFile")]
     public void SimpleFileNameOf_Reduces_All_Additional_Extensions(string expected, string input)
     {
         var actual = RessourceFile.GetSimpleFileNameOf(input);

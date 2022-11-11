@@ -1,8 +1,7 @@
 # TypealizR
 > The **type**d internation**aliz**e**R**
 
-Strongly typed i18n support for the dotnet eco-system.
-
+Strongly typed i18n support for the .NET - ecosystem
 
 ## usage
 
@@ -30,8 +29,6 @@ instead of this:
 <h2>@localize["Welcome back, {0}", user.GivenName]<h2>
 
 ```
-
-
 
 ## setup
 
