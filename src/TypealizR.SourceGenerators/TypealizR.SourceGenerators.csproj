@@ -5,7 +5,7 @@
 		<Nullable>enable</Nullable>
 		<LangVersion>10</LangVersion>
 		<FileVersion>0.2.0</FileVersion>
-		<Version>0.2.0</Version>
+		<Version>0.0.1.31</Version>
 		<AssemblyVersion>0.2.0</AssemblyVersion>
 		<PackageVersion>0.2.1</PackageVersion>
 	</PropertyGroup>
