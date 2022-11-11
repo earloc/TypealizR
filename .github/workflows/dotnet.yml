@@ -37,7 +37,7 @@ jobs:
       with:
         file: |
           "**/TypealizR.SourceGenerators.csproj"
-        version: ${{ steps.gitversion.outputs.version }}.${{ github.run_number }}
+        version: ${{ steps.gitversion.outputs.version }}
     - name: Build
       run: dotnet build --no-restore
     - name: Test
@@ -47,5 +47,5 @@ jobs:
         git config user.name "earloc"
         git config user.email "earloc@live.de"
         git add .
-        git commit -m "${{ steps.gitversion.outputs.version }}.${{ github.run_number }}"
+        git commit -m v"${{ steps.gitversion.outputs.version }}"
         git push
