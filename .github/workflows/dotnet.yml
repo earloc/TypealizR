@@ -16,13 +16,35 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
+      with:
+        ref: ${{ github.head_ref }}   # checkout the correct branch name
+        fetch-depth: 0
+    - name: Git Version
+      uses: codacy/git-version@2.4.0
+      with:
+       release-branch: main
+       dev-branch: dev
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
+    - name: Set project versions
+      id: update
+      uses: vers-one/dotnet-project-version-updater@v1.2
+      with:
+        file: |
+          "**/*.csproj", "**/*.nuspec", "**/AssemblyInfo.cs"
+        version: ${{ MAJOR }}.${{ MINOR }}.${{ PATCH }}.${{ github.run_number }}
     - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
+    - name: push version
+      run: |
+        git config user.name "earloc"
+        git config user.email "earloc@live.de"
+        git add .
+        git commit -m "${{ MAJOR }}.${{ MINOR }}.${{ PATCH }}.${{ github.run_number }}"
+        git push
