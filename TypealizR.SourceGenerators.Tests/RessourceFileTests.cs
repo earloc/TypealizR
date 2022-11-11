@@ -72,7 +72,6 @@ public class RessourceFileTests
     [InlineData("SomeFile", @"SomeRelativePath/SomeFile.resx")]
     [InlineData("SomeFile", @"SomeRelativePath/SomeFile.de.resx")]
     [InlineData("SomeFile", @"SomeRelativePath/SomeFile.de-DE.resx")]
-    [InlineData("SomeFile", @"SomeRelativePath\SomeFile")]
     [InlineData("SomeFile", @"c:/SomeRelativePath/SomeFile")]
     [InlineData("SomeFile", @"c:/SomeRelativePath/SomeFile.resx")]
     [InlineData("SomeFile", @"c:/SomeRelativePath/SomeFile.de.resx")]
