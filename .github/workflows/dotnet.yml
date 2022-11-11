@@ -19,30 +19,13 @@ jobs:
       with:
         ref: ${{ github.head_ref }}   # checkout the correct branch name
         fetch-depth: 0
-    - name: Git Version
-      id: gitversion
-      uses: codacy/git-version@2.4.0
-      with:
-       release-branch: main
-       dev-branch: dev
     - name: Setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
       run: dotnet restore
-    - name: Set project versions
-      id: update
-      uses: vers-one/dotnet-project-version-updater@v1.2
-      with:
-        file: |
-          "**/TypealizR.SourceGenerators.csproj"
-        version: ${{ steps.gitversion.outputs.version }}
     - name: Build
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Pack
-      run: dotnet pack --no-build --verbosity normal
-    - name: Publish
-      run: dotnet nuget push "*.nupkg" -s ./bin -k ${{secrets.NUGET_APIKEY_TYPEALIZR}} --skip-duplicate
