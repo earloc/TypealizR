@@ -42,9 +42,7 @@ jobs:
       run: dotnet build --no-restore
     - name: Test
       run: dotnet test --no-build --verbosity normal
-    - name: Test
-      run: dotnet test --no-build --verbosity normal
-    - name: PACK
+    - name: Pack
       run: dotnet pack --no-build --verbosity normal
     - name: Publish
-      run: dotnet nuget push "*.nupkg" -s ./bin -k ${{secrets.NUGET_APIKEY_TYPEALIZR}} -s https://api.nuget.org/v3/index.json --skip-duplicate
+      run: dotnet nuget push "*.nupkg" -s ./bin -k ${{secrets.NUGET_APIKEY_TYPEALIZR}} --skip-duplicate
