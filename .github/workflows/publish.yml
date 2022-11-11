@@ -6,6 +6,8 @@ name: Publish
 on:
   release:
     types: [published]
+  push:
+    branches: [main]
 
 jobs:
   build:
@@ -14,31 +16,14 @@ jobs:
 
     steps:
     - uses: actions/checkout@v3
-      with:
-        ref: ${{ github.head_ref }}   # checkout the correct branch name
-        fetch-depth: 0
-    - name: Git Version
-      id: gitversion
-      uses: codacy/git-version@2.4.0
-      with:
-       release-branch: main
-       dev-branch: dev
-    - name: Setup .NET
-      uses: actions/setup-dotnet@v3
-      with:
-        dotnet-version: 6.0.x
-    - name: Restore dependencies
-      run: dotnet restore
+    
     - name: Semver Parse
       id: semver
       uses: release-kit/semver@v1
       
     - name: prepare version patch
       uses: actions/github-script@v6
-      id: my-script
       with:
-        result-encoding: string
-        retries: 3
         script: |
           echo "<Project>" > ./src/Version.props
           echo "	<PropertyGroup>" >> ./src/Version.props
@@ -48,6 +33,7 @@ jobs:
           echo "    <InformationalVersion>@@@Major@@@.@@@Minor@@@.@@@Patch@@@@@@PreRelease@@@-@@@SHA@@@</InformationalVersion>" >> ./src/Version.props
           echo "	</PropertyGroup>" >> ./src/Version.props
           echo "</Project>" >> ./src/Version.props
+          cat ./src/Version.props
           
     - name: Replace major-version
       uses: alexrogalskiy/github-action-tag-replacer@master
@@ -58,7 +44,7 @@ jobs:
         placeholder: 'Major'
         replacement: ${{ steps.version.outputs.major }}
         
-    - name: Replace major-version
+    - name: Replace minor-version
       uses: alexrogalskiy/github-action-tag-replacer@master
       with:
         prefix: '@@@'
@@ -102,7 +88,19 @@ jobs:
         sourceFile: './src/Version.props'
         placeholder: 'SHA'
         replacement: ${{github.sha}}
-        
+    
+    - name: show version patch
+      uses: actions/github-script@v6
+      with:
+        script: |
+          cat ./src/Version.props
+          
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version: 6.0.x
+    - name: Restore dependencies
+      run: dotnet restore        
     - name: Build
       run: dotnet build --configuration Release --no-restore
     - name: Test
