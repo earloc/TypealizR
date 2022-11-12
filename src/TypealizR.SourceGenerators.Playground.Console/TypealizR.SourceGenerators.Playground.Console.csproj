@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Update="Program.resx">
+    <EmbeddedResource Update="App.resx">
       <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
