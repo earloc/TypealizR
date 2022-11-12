@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using System.Xml;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class TypeInfo
@@ -22,9 +23,9 @@ internal class StringLocalizerExtensionClassBuilder
 {
 	private List<StringLocalizerExtensionMethodBuilder> methodBuilders = new();
 
-	public StringLocalizerExtensionClassBuilder WithMethodFor(string key, string value)
+	public StringLocalizerExtensionClassBuilder WithMethodFor(string key, string value, IXmlLineInfo line)
 	{
-        methodBuilders.Add(new(key, value));
+        methodBuilders.Add(new(key, value, line));
 		return this;
 	}
 
@@ -36,7 +37,6 @@ internal class StringLocalizerExtensionClassBuilder
 		;
 
 		return new(target, methods);
-
     }
 
 	public IEnumerable<StringLocalizerExtensionMethodBuilder> Methods => methodBuilders;

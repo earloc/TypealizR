@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Xml;
+using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 
@@ -46,4 +49,10 @@ internal static partial class IStringLocalizerExtensions_{target.Name}
 {members}
 }}
 ";
+
+    public IEnumerable<Diagnostic> Warnings { get; internal set; } = new Diagnostic[]
+    {
+			ErrorCodes.AmbigiousRessourceKey_001010("SomeRessource.resx", 10, "SomeKey", "SomeKey"),
+			ErrorCodes.AmbigiousRessourceKey_001010("SomeRessource.resx", 20, "SomeKey", "SomeKey1"),
+		};
 }

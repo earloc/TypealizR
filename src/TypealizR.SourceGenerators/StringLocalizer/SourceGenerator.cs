@@ -56,9 +56,7 @@ public class SourceGenerator : IIncrementalGenerator
 
             if (!options.ProjectDirectory.Exists)
             {
-                ctxt.ReportDiagnostic(Diagnostic.Create(
-                    ErrorCodes.TargetProjectRootDirectoryNotFound_000010(), null
-                ));
+                ctxt.ReportDiagnostic( ErrorCodes.TargetProjectRootDirectoryNotFound_000010());
                 return;
             }
 
@@ -68,7 +66,7 @@ public class SourceGenerator : IIncrementalGenerator
 
                 foreach (var entry in file.Entries)
                 {
-                    builder.WithMethodFor(entry.Key, entry.Value);
+                    builder.WithMethodFor(entry.Key, entry.Value, entry.Location);
                 }
 
                 var targetTypeName = file.SimpleName;
