@@ -8,8 +8,6 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.SourceGenerators;
 internal static class ErrorCodes
 {
-
-
 	internal static Diagnostic TargetProjectRootDirectoryNotFound_000010() =>
 		Diagnostic.Create(
 			new(id: "TYPEALIZR000010",

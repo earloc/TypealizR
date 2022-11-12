@@ -51,7 +51,7 @@ internal class StringLocalizerExtensionClassBuilder
 			.SelectMany(method =>
 				method.Parameters
 				.Where(parameter => parameter.IsGeneric)
-				.Select(parameter => ErrorCodes.UnnamedGenericParameter_0001011(fileName, method.LineNumber, method.RawRessourceName, parameter.Token))
+				.Select(parameter => ErrorCodes.UnnamedGenericParameter_001011(fileName, method.LineNumber, method.RawRessourceName, parameter.Token))
 			);
 
 		var allWarnings = deduplicated.Warnings.Concat(parameterWarnings);
