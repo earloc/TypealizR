@@ -1,4 +1,4 @@
-# TYPEALIZR001011: UnnamedGenericParameter
+# TR0003: UnnamedGenericParameter
 
 ## Cause
 The processed Resx-file contains a key that uses a generic format-parameter like '{0}', '{1}', etc.

@@ -65,7 +65,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 
 		var expected = new Diagnostic[]
         {
-			ErrorCodes.AmbigiousRessourceKey_001010(SomeFileName, duplicateKey, 20, $"{firstMethod.Name}1"),
+			ErrorCodes.AmbigiousRessourceKey_0002(SomeFileName, duplicateKey, 20, $"{firstMethod.Name}1"),
 		}
         .Select(x => x.ToString());
 

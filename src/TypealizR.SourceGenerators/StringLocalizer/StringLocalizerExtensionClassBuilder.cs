@@ -51,7 +51,7 @@ internal class StringLocalizerExtensionClassBuilder
 			.SelectMany(method =>
 				method.Parameters
 				.Where(parameter => parameter.IsGeneric)
-				.Select(parameter => ErrorCodes.UnnamedGenericParameter_001011(fileName, method.RawRessourceName, method.LineNumber, parameter.Token))
+				.Select(parameter => ErrorCodes.UnnamedGenericParameter_0003(fileName, method.RawRessourceName, method.LineNumber, parameter.Token))
 		);
 
 		var unrecognizedParameterTypeWarnings = deduplicated
@@ -59,7 +59,7 @@ internal class StringLocalizerExtensionClassBuilder
 			.SelectMany(method =>
 				method.Parameters
 				.Where(parameter => parameter.HasUnrecognizedParameterTypeExpression)
-				.Select(parameter => ErrorCodes.UnrecognizedParameterType_001012(fileName, method.RawRessourceName, method.LineNumber, parameter.InvalidTypeExpression))
+				.Select(parameter => ErrorCodes.UnrecognizedParameterType_0004(fileName, method.RawRessourceName, method.LineNumber, parameter.InvalidTypeExpression))
 		);
 
 		var allWarnings = deduplicated.Warnings
@@ -88,7 +88,7 @@ internal class StringLocalizerExtensionClassBuilder
 			foreach (var duplicate in methodGroup.Skip(1))
 			{
 				duplicate.DeduplicateWith(discriminator++);
-				warnings.Add(ErrorCodes.AmbigiousRessourceKey_001010(fileName, duplicate.RawRessourceName, duplicate.LineNumber, duplicate.Name));
+				warnings.Add(ErrorCodes.AmbigiousRessourceKey_0002(fileName, duplicate.RawRessourceName, duplicate.LineNumber, duplicate.Name));
 			}
 
 			deduplicatedMethods.AddRange(methodGroup);

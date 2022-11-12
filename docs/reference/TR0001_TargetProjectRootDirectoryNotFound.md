@@ -1,4 +1,4 @@
-# TYPEALIZR000010: TargetProjectRootDirectoryNotFound
+# TR0001: TargetProjectRootDirectoryNotFound
 
 ## Cause
 The code generator could not determine the projects root-directory

@@ -57,7 +57,7 @@ public class SourceGenerator : IIncrementalGenerator
 
             if (!options.ProjectDirectory.Exists)
             {
-                ctxt.ReportDiagnostic( ErrorCodes.TargetProjectRootDirectoryNotFound_000010());
+                ctxt.ReportDiagnostic( ErrorCodes.TargetProjectRootDirectoryNotFound_0001());
                 return;
             }
 

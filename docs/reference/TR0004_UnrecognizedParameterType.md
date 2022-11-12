@@ -1,4 +1,4 @@
-# TYPEALIZR001012: UnrecognizedParameterType
+# TR0004: UnrecognizedParameterType
 
 ## Cause
 The processed Resx-file contains a key that uses a parameter with an unrecognized type-annotation

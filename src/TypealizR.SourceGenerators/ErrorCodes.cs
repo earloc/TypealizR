@@ -8,9 +8,9 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.SourceGenerators;
 internal static class ErrorCodes
 {
-	internal static Diagnostic TargetProjectRootDirectoryNotFound_000010() =>
+	internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
 		Diagnostic.Create(
-			new(id: "TYPEALIZR000010",
+			new(id: "TR0001",
 				title: "TargetProjectRootDirectoryNotFound",
 				messageFormat: "The code generator could not determine the projects root-directory",
 				category: "Project",
@@ -21,9 +21,9 @@ internal static class ErrorCodes
 			Location.None
 		);
 
-	internal static Diagnostic AmbigiousRessourceKey_001010(string fileName, string rawRessourceKey, int lineNumber,  string fallback) =>
+	internal static Diagnostic AmbigiousRessourceKey_0002(string fileName, string rawRessourceKey, int lineNumber,  string fallback) =>
 		Diagnostic.Create(
-			new(id: "TYPEALIZR001010",
+			new(id: "TR0002",
 				title: "AmbigiousRessourceKey",
 				messageFormat: "Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key",
 				category: "Readability",
@@ -41,9 +41,9 @@ internal static class ErrorCodes
 			rawRessourceKey, fallback
 		);
 
-	internal static Diagnostic UnnamedGenericParameter_001011(string fileName, string rawRessourceKey, int lineNumber, string parameterName) =>
+	internal static Diagnostic UnnamedGenericParameter_0003(string fileName, string rawRessourceKey, int lineNumber, string parameterName) =>
 		Diagnostic.Create(
-			new(id: "TYPEALIZR001011",
+			new(id: "TR0003",
 				title: "UnnamedGenericParameter",
 				messageFormat: "Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to to use a more meaningful name, instead",
 				category: "Readability",
@@ -61,9 +61,9 @@ internal static class ErrorCodes
 			rawRessourceKey, parameterName
 		);
 
-	internal static Diagnostic UnrecognizedParameterType_001012(string fileName, string rawRessourceKey, int lineNumber, string parameterType) =>
+	internal static Diagnostic UnrecognizedParameterType_0004(string fileName, string rawRessourceKey, int lineNumber, string parameterType) =>
 		Diagnostic.Create(
-			new(id: "TYPEALIZR001012",
+			new(id: "TR0004",
 				title: "UnrecognizedParameterType",
 				messageFormat: "Ressource-key '{0}' uses unrecognized parameter-type '{1}'. Falling back to 'object'",
 				category: "Readability",
