@@ -97,4 +97,4 @@ internal static class IStringLocalizerExtensions_HomePage
 
 which then can be used in favor of the lesser-typed default-syntax of IStringLocalizer&lt;T&gt;
 
-> note that the above samples (partially) require certain types (`int`, `string`) instead of just plain `object`s. This is done by leveraging the built-in `type-annotations`. [Tell me more about this!](docs/reference/TR0004_UnrecognizedParameterType.md)
+> note that the above samples (partially) require certain types (`int`, `string`) instead of just plain `object`s. This is done by leveraging the built-in `type-annotations`. [Tell me more about this!](docs/reference/TR0004_UnrecognizedParameterType.md#rule-description)
