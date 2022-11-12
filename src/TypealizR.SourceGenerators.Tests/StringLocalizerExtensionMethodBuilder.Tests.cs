@@ -9,12 +9,6 @@ namespace TypealizR.SourceGenerators;
 
 public class StringLocalizerExtensionMethodBuilder_Tests
 {
-    private static XmlLineInfo anywhere = new()
-    {
-        LineNumber = 0,
-        LinePosition = 0
-    };
-
     private static TypeInfo targetType = new ("Name.Space", "TypeName");
 
     [Theory]
