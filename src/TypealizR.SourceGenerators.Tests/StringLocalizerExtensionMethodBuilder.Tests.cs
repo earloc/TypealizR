@@ -3,9 +3,8 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using TypealizR.SourceGenerators.StringLocalizer;
-using TypealizR.SourceGenerators.Tests;
 
-namespace TypealizR.SourceGenerators;
+namespace TypealizR.SourceGenerators.Tests;
 
 public class StringLocalizerExtensionMethodBuilder_Tests
 {

@@ -56,7 +56,7 @@ internal class StringLocalizerExtensionMethodBuilder
     /// <summary>
     /// matches strings like {0}, {0:12}, {name} usable in format-strings
     /// </summary>
-    static Regex parameterExpression = new ("{\\d(:+.*)}|{[a-zA-Z](\\d|\\w)*}");
+    internal static Regex parameterExpression = new ("{(?<name>(\\d*\\w*))(:+(?<expression>.*))?}");
 
     private IEnumerable<ExtensionMethodParameterInfo> BuildParameters(string rawValue)
     {
@@ -72,8 +72,10 @@ internal class StringLocalizerExtensionMethodBuilder
         foreach (Match match in matches)
         {
             var token = match.Value;
+			var name = match.Groups["name"].Value;
+			var expression = match.Groups["expression"].Value;
 
-            parameters.Add(new(token));
+			parameters.Add(new(token, name, expression));
         }
 
         return parameters

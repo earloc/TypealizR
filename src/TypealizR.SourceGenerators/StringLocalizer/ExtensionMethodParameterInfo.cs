@@ -15,20 +15,41 @@ internal class ExtensionMethodParameterInfo
 	public readonly string Declaration;
 	public readonly bool IsGeneric;
 
-	public ExtensionMethodParameterInfo(string token)
+	public ExtensionMethodParameterInfo(string token, string name, string expression)
     {
         Token = token;
         Type = "object";
 
-        var content = token.Trim('{', '}');
-		Name = SanitizeParameterName(content);
-		IsGeneric = int.TryParse(Name, out var _);
+		if (!string.IsNullOrEmpty(expression))
+        {
+            Type = SanitizeType(expression);
+        }
+
+		IsGeneric = int.TryParse(name, out var _);
+		Name = SanitizeName(name);
 
         DisplayName = $"_{Name.Trim('_', ' ')}_";
 		Declaration = $"{Type} {Name}";
 	}
 
-	private string SanitizeParameterName(string rawParameterName)
+    private string SanitizeType(string type) => type switch
+    {
+        "int" => "int",
+		"i" => "int",
+		"string" => "string",
+		"s" => "string",
+		"DateTime" => "DateTime",
+		"dt" => "DateTime",
+		"DateTimeOffset" => "DateTimeOffset",
+		"dto" => "DateTimeOffset",
+		"DateOnly" => "DateOnly",
+		"d" => "DateOnly",
+		"TimeOnly" => "TimeOnly",
+		"t" => "TimeOnly",
+		_ => "object"
+    };
+	
+	private string SanitizeName(string rawParameterName)
     {
         var parameterName = new string(
             rawParameterName
