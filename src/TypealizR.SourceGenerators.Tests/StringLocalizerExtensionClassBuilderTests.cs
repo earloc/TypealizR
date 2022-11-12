@@ -74,4 +74,25 @@ public class StringLocalizerExtensionClassBuilderTests
 
         actual.Should().BeEquivalentTo(expected);
 	}
+
+	[Theory]
+	[InlineData("Hello {0}",
+		"Ressource-key 'Hello {0}' uses the generic format-parameter '{0}'. Consider to to use a more meaningful name, instead"
+	)]
+	[InlineData("Hello {0}, today is {1}",
+		"Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '{0}'. Consider to to use a more meaningful name, instead",
+		"Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '{1}'. Consider to to use a more meaningful name, instead"
+	)]
+	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
+	{
+		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+
+        sut.WithMethodFor(input, "some value", 30);
+
+		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+
+		var actual = extensionClass.Warnings.Select(x => x.GetMessage());
+
+		actual.Should().BeEquivalentTo(expectedWarnings);
+	}
 }

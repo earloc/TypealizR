@@ -126,4 +126,10 @@
   <data name="Hello, World?" xml:space="preserve">
     <value>Hello, World?</value>
   </data>
+  <data name="Hello, {0}" xml:space="preserve">
+    <value>Hello, {0}</value>
+  </data>
+  <data name="Hello, {UserName}" xml:space="preserve">
+    <value>Hello, {0}</value>
+  </data>
 </root>

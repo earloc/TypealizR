@@ -17,7 +17,7 @@ internal class ExtensionClassInfo
     private readonly string members;
 
     public IEnumerable<ExtensionMethodInfo> Methods { get; }
-	public IEnumerable<Diagnostic> Warnings { get; }
+    public IEnumerable<Diagnostic> Warnings { get; }
 
 	public ExtensionClassInfo(TypeInfo target, IEnumerable<ExtensionMethodInfo> methods, IEnumerable<Diagnostic> warnings)
     {
