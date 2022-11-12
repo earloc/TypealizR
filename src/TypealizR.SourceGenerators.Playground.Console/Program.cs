@@ -11,3 +11,7 @@ var localize = provider.GetRequiredService<IStringLocalizer<App>>();
 Console.WriteLine(localize.Hello_World());
 Console.WriteLine(localize.Hello_World1());
 Console.WriteLine(localize.Hello_World2());
+Console.WriteLine(localize.Hello_World2());
+
+Console.WriteLine(localize.Hello__0(_0: "Arthur"));
+Console.WriteLine(localize.Hello__UserName(UserName: "Arthur"));

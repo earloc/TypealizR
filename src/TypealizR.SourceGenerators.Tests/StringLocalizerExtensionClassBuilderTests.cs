@@ -74,4 +74,25 @@ public class StringLocalizerExtensionClassBuilderTests
 
         actual.Should().BeEquivalentTo(expected);
 	}
+
+	[Theory]
+	[InlineData("Hello {0}",
+		"Ressource-key 'Hello {0}' contains the generic parameter '{0}'. Consider to rename the parameter to a more meaningful value"
+	)]
+	[InlineData("Hello {0}, today is {1}",
+		"Ressource-key 'Hello {0}, today is {1}' contains the generic parameter '{0}'. Consider to rename the parameter to a more meaningful value",
+		"Ressource-key 'Hello {0}, today is {1}' contains the generic parameter '{1}'. Consider to rename the parameter to a more meaningful value"
+	)]
+	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
+	{
+		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+
+        sut.WithMethodFor(input, "some value", 30);
+
+		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+
+		var actual = extensionClass.Warnings.Select(x => x.GetMessage());
+
+		actual.Should().BeEquivalentTo(expectedWarnings);
+	}
 }

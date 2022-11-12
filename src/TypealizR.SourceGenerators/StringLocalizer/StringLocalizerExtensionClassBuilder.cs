@@ -46,7 +46,17 @@ internal class StringLocalizerExtensionClassBuilder
 
 		var deduplicated = Deduplicate(fileName, methods);
 
-		return new(target, deduplicated.Methods, deduplicated.Warnings);
+		var parameterWarnings = deduplicated
+			.Methods
+			.SelectMany(method =>
+				method.Parameters
+				.Where(parameter => parameter.IsGeneric)
+				.Select(parameter => ErrorCodes.UnnamedGenericParameter_0001011(fileName, method.LineNumber, method.RawRessourceName, parameter.Token))
+			);
+
+		var allWarnings = deduplicated.Warnings.Concat(parameterWarnings);
+
+		return new(target, deduplicated.Methods, allWarnings);
     }
 
 	private (IEnumerable<ExtensionMethodInfo> Methods, IEnumerable<Diagnostic> Warnings) Deduplicate(string fileName, ExtensionMethodInfo[] methods)

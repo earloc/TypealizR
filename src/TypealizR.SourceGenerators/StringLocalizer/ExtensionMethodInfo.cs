@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml.Linq;
+using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ExtensionMethodInfo
@@ -34,9 +35,10 @@ internal class ExtensionMethodInfo
         Signature = $"({ThisParameterFor(t)})";
         Body = $@"that[""{rawRessourceName}""]";
 
+        
         if (Parameters.Any())
         {
-            var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => x.Declaration));
+			var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => x.Declaration));
             Signature = $"({ThisParameterFor(t)}, {additionalParameterDeclarations})";
 
             var parameterCollection = string.Join(", ", Parameters.Select(x => x.Name));
@@ -53,4 +55,5 @@ internal class ExtensionMethodInfo
   /// </returns>
   public static {ReturnType} {Name}{Signature} => {Body};
 ";
+
 }

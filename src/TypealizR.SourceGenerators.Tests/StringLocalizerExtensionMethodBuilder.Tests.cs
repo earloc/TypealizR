@@ -78,4 +78,5 @@ public class StringLocalizerExtensionMethodBuilder_Tests
 
         actual.Should().Be(expected);
     }
+
 }

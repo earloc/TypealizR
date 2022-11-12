@@ -20,7 +20,9 @@ internal class ExtensionMethodParameterInfo
     public string DisplayName => $"_{Name.Trim('_', ' ')}_";
     public string Declaration => $"{Type} {Name}";
 
-    private string SanitizeParameterName(string rawParameterName)
+    public bool IsGeneric => int.TryParse(Token.Trim('{', '}'), out var _);
+
+	private string SanitizeParameterName(string rawParameterName)
     {
         var parameterName = new string(
             rawParameterName
