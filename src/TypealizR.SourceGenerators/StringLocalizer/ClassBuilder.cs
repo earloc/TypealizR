@@ -22,7 +22,6 @@ internal class TypeInfo
 }
 internal class ClassBuilder
 {
-
 	public ClassBuilder(string fileName)
 	{
 		this.fileName = fileName;
