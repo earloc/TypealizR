@@ -13,7 +13,6 @@ internal class RessourceFile
 
     internal record struct Entry (string Key, string Value);
 
-    private readonly XDocument document;
 
     public IEnumerable<Entry> Entries { get; }
 
@@ -31,7 +30,7 @@ internal class RessourceFile
         {
             using var reader = new StringReader(content);
 
-            document = XDocument.Load(reader, LoadOptions.SetLineInfo);
+            var document = XDocument.Load(reader, LoadOptions.SetLineInfo);
 
             Entries = document
                 .Root

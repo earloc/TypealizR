@@ -28,15 +28,17 @@ public class SourceGenerator : IIncrementalGenerator
 
         public static Settings From(AnalyzerConfigOptions options)
         {
-            options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory);
+            if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
+            {
+                options.TryGetValue("build_property.projectdir", out projectDirectory);
+			}
             options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
 
             return new(
-                projectDirectory, rootNamespace
-            );
+                projectDirectory ?? Guid.NewGuid().ToString(), rootNamespace ?? Guid.NewGuid().ToString()
+			);
         }
     }
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
@@ -52,7 +54,15 @@ public class SourceGenerator : IIncrementalGenerator
             var files = source.Left;
             var options = source.Right;
 
-            foreach(var file in files)
+            if (!options.ProjectDirectory.Exists)
+            {
+                ctxt.ReportDiagnostic(Diagnostic.Create(
+                    ErrorCodes.TargetProjectRootDirectoryNotFound_000010(), null
+                ));
+                return;
+            }
+
+			foreach (var file in files)
             {
                 var builder = new StringLocalizerExtensionClassBuilder();
 
