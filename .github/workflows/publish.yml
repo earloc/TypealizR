@@ -73,7 +73,7 @@ jobs:
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack
-      run: dotnet pack --configuration Release --no-build --verbosity normal
+      run: dotnet pack ./src/TypealizR.SourceGenerators/TypealizR.SourceGenerators.csproj --configuration Release --no-build --verbosity normal
     - uses: actions/upload-artifact@v3
       with:
         name: my-artifact
