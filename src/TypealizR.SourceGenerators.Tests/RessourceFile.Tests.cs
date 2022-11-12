@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 
 namespace TypealizR.SourceGenerators.Tests;
-public class RessourceFileTests
+public class RessourceFile_Tests
 {
 
     [Theory]
