@@ -19,18 +19,18 @@ If you´re OK with the generated method-name, that automagically got de-duplicate
 ## Example of a violation
 
 ### Description
-The following content of a Resx-file demonstrate, what keys file might end up with duplicated method-names. All keys would end up in the following method-name: `Hello_World()`
+The following content of a Resx-file demonstrate, what keys might end up with duplicated method-names. All keys would end up in the following method-name: `Hello_World()`
 ### Code
 
 ```
 <root>
-  <data name="Hello, World." xml:space="preserve">
+  <data name="Hello, World." xml:space="preserve"> <!-- will be derived to "Hello_World()" -->
     <value>Hello, World.</value>
   </data>
-  <data name="Hello, World!" xml:space="preserve">
+  <data name="Hello, World!" xml:space="preserve"> <!-- will be derived to "Hello_World1()" -->
     <value>Hello, World!</value>
   </data>
-  <data name="Hello, World?" xml:space="preserve">
+  <data name="Hello, World?" xml:space="preserve"> <!-- will be derived to "Hello_World2()" -->
     <value>Hello, World?</value>
   </data>
 </root>
