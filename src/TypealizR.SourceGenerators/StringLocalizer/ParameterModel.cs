@@ -7,7 +7,7 @@ using Microsoft.CodeAnalysis;
 using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
-internal class ExtensionMethodParameterInfo
+internal class ParameterModel
 {
 	public readonly string Token;
 	public readonly string Type;
@@ -18,7 +18,7 @@ internal class ExtensionMethodParameterInfo
 	public readonly string InvalidTypeAnnotation;
 	public bool HasUnrecognizedParameterTypeAnnotation => !string.IsNullOrEmpty(InvalidTypeAnnotation);
 
-	public ExtensionMethodParameterInfo(string token, string name, string annotation)
+	public ParameterModel(string token, string name, string annotation)
     {
 		Token = token;
 

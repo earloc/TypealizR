@@ -20,24 +20,24 @@ internal class TypeInfo
 	public string FullName => $"{Namespace}.{Name}";
 
 }
-internal class StringLocalizerExtensionClassBuilder
+internal class ClassBuilder
 {
 
-	public StringLocalizerExtensionClassBuilder(string fileName)
+	public ClassBuilder(string fileName)
 	{
 		this.fileName = fileName;
 	}
 
-	private readonly List<StringLocalizerExtensionMethodBuilder> methodBuilders = new();
+	private readonly List<MethodBuilder> methodBuilders = new();
 	private readonly string fileName;
 
-	public StringLocalizerExtensionClassBuilder WithMethodFor(string key, string value, int lineNumber)
+	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
 	{
         methodBuilders.Add(new(key, value, lineNumber));
 		return this;
 	}
 
-	public ExtensionClassInfo Build(TypeInfo target)
+	public ClassModel Build(TypeInfo target)
 	{
 		var methods = methodBuilders
 			.Select(x => x.Build(target))
@@ -70,10 +70,10 @@ internal class StringLocalizerExtensionClassBuilder
 		return new(target, deduplicated.Methods, allWarnings);
     }
 
-	private (IEnumerable<ExtensionMethodInfo> Methods, IEnumerable<Diagnostic> Warnings) Deduplicate(string fileName, ExtensionMethodInfo[] methods)
+	private (IEnumerable<MethodModel> Methods, IEnumerable<Diagnostic> Warnings) Deduplicate(string fileName, MethodModel[] methods)
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Name);
-		var deduplicatedMethods = new List<ExtensionMethodInfo>(methods.Count());
+		var deduplicatedMethods = new List<MethodModel>(methods.Count());
 		var warnings = new List<Diagnostic>(methods.Count());
 
 		foreach (var methodGroup in groupByMethodName)
@@ -98,6 +98,6 @@ internal class StringLocalizerExtensionClassBuilder
 
 	}
 
-	public IEnumerable<StringLocalizerExtensionMethodBuilder> Methods => methodBuilders;
+	public IEnumerable<MethodBuilder> Methods => methodBuilders;
 
 }

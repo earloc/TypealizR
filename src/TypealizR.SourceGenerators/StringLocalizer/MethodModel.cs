@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
-internal class ExtensionMethodInfo
+internal class MethodModel
 {
     public static string ThisParameterFor(TypeInfo T) => $"this IStringLocalizer<{T.FullName}> that";
 
@@ -18,19 +18,19 @@ internal class ExtensionMethodInfo
 	public string RawRessourceName { get; }
     private readonly string defaultValue;
     public string Name;
-    public readonly IEnumerable<ExtensionMethodParameterInfo> Parameters;
+    public readonly IEnumerable<ParameterModel> Parameters;
     public readonly string Signature;
     public readonly string Body;
     public readonly string ReturnType = "LocalizedString";
     public int LineNumber { get; }
 
-    public ExtensionMethodInfo(TypeInfo t, string rawRessourceName, string defaultValue, string compilableMethodName, int lineNumber, IEnumerable<ExtensionMethodParameterInfo>? parameters = null)
+    public MethodModel(TypeInfo t, string rawRessourceName, string defaultValue, string compilableMethodName, int lineNumber, IEnumerable<ParameterModel>? parameters = null)
     {
 		RawRessourceName = rawRessourceName;
         this.defaultValue = defaultValue;
         Name = compilableMethodName;
 		LineNumber = lineNumber;
-		Parameters = parameters ?? Enumerable.Empty<ExtensionMethodParameterInfo>();
+		Parameters = parameters ?? Enumerable.Empty<ParameterModel>();
 
         Signature = $"({ThisParameterFor(t)})";
         Body = $@"that[""{rawRessourceName}""]";

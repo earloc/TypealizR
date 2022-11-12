@@ -16,7 +16,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	[Fact]
     public void Simple_Method_Can_Be_Generated ()
     {
-        var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+        var sut = new ClassBuilder(SomeFileName);
 
         sut.WithMethodFor("SomeKey", "SomeValue", 0);
 
@@ -52,7 +52,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	[InlineData("Hello, {planet}", "Hello, {planet}?")]
 	public void Keys_Ending_Up_To_Produce_Duplicate_MethodNames_Produce_Diagnostics(string firstKey, string duplicateKey)
     {
-		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName);
 		
 		sut.WithMethodFor(firstKey, "SomeValue", 10);
 		sut.WithMethodFor(duplicateKey, "SomeOtherValue", 20);
@@ -83,7 +83,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
 	{
-		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName);
 
         sut.WithMethodFor(input, "some value", 30);
 
@@ -104,7 +104,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
 	{
-		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName);
 
 		sut.WithMethodFor(input, "some value", 30);
 

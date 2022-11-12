@@ -57,13 +57,13 @@ public class SourceGenerator : IIncrementalGenerator
 
             if (!options.ProjectDirectory.Exists)
             {
-                ctxt.ReportDiagnostic( ErrorCodes.TargetProjectRootDirectoryNotFound_0001());
+                ctxt.ReportDiagnostic( ErrorCodes.TargetProjectRootDirectoryNotFound_000010());
                 return;
             }
 
 			foreach (var file in files)
             {
-                var builder = new StringLocalizerExtensionClassBuilder(file.FullPath);
+                var builder = new ClassBuilder(file.FullPath);
 
                 foreach (var entry in file.Entries)
                 {

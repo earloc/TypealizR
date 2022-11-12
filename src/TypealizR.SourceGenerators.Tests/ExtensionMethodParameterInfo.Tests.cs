@@ -30,11 +30,11 @@ public class ExtensionMethodParameterInfo_Tests
 	[InlineData("{now:wtf}", "object", true)]
 	public void Parameter_Gets_Typed_As(string token, string expected, bool expectInvalidTypeExpression)
 	{
-		var match = StringLocalizerExtensionMethodBuilder.parameterExpression.Match(token);
+		var match = MethodBuilder.parameterExpression.Match(token);
 		var name = match.Groups["name"].Value;
 		var expression = match.Groups["expression"].Value;
 
-		var sut = new ExtensionMethodParameterInfo(token, name, expression);
+		var sut = new ParameterModel(token, name, expression);
 
 		var actual = sut.Type;
 

@@ -10,20 +10,20 @@ using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 
-internal class StringLocalizerExtensionMethodBuilder
+internal class MethodBuilder
 {
     private string key;
     private readonly string value;
 	private readonly int lineNumber;
 
-	public StringLocalizerExtensionMethodBuilder(string key, string value, int lineNumber)
+	public MethodBuilder(string key, string value, int lineNumber)
     {
         this.key = key;
         this.value = value;
 		this.lineNumber = lineNumber;
 	}
 
-    public ExtensionMethodInfo Build(TypeInfo target)
+    public MethodModel Build(TypeInfo target)
     {
         var parameters = BuildParameters(key);
 
@@ -36,7 +36,7 @@ internal class StringLocalizerExtensionMethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new ExtensionMethodInfo(target, key, value, compilableMethodName, lineNumber, parameters);
+        return new MethodModel(target, key, value, compilableMethodName, lineNumber, parameters);
     }
 
 
@@ -58,16 +58,16 @@ internal class StringLocalizerExtensionMethodBuilder
     /// </summary>
     internal static Regex parameterExpression = new ("{(?<name>([0-9a-zA-Z]*))(:+(?<expression>[0-9a-zA-Z]*))?}");
 
-    private IEnumerable<ExtensionMethodParameterInfo> BuildParameters(string rawValue)
+    private IEnumerable<ParameterModel> BuildParameters(string rawValue)
     {
         var matches = parameterExpression.Matches(rawValue);
 
         if (matches.Count <= 0)
         {
-            return Enumerable.Empty<ExtensionMethodParameterInfo>();
+            return Enumerable.Empty<ParameterModel>();
         }
 
-        var parameters = new List<ExtensionMethodParameterInfo>(matches.Count);
+        var parameters = new List<ParameterModel>(matches.Count);
 
         foreach (Match match in matches)
         {
