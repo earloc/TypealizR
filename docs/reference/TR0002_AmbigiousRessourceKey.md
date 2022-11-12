@@ -1,4 +1,4 @@
-# TYPEALIZR001010: AmbigiousRessourceKey
+# TR0002: AmbigiousRessourceKey
 
 ## Cause
 The processed Resx-file contains keys that end up in possible duplicate extension-method names.

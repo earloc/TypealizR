@@ -9,11 +9,9 @@ using Microsoft.CodeAnalysis.Text;
 using TypealizR.SourceGenerators.StringLocalizer;
 
 namespace TypealizR.SourceGenerators.Tests;
-public class StringLocalizerExtensionClassBuilderTests
+public class StringLocalizerExtensionClassBuilder_Tests
 {
-
     private const string SomeFileName = "Ressource1.resx";
-
 
 	[Fact]
     public void Simple_Method_Can_Be_Generated ()
@@ -65,7 +63,7 @@ public class StringLocalizerExtensionClassBuilderTests
 
 		var expected = new Diagnostic[]
         {
-			ErrorCodes.AmbigiousRessourceKey_001010(SomeFileName, 20, duplicateKey, $"{firstMethod.Name}1"),
+			ErrorCodes.AmbigiousRessourceKey_0002(SomeFileName, duplicateKey, 20, $"{firstMethod.Name}1"),
 		}
         .Select(x => x.ToString());
 
@@ -77,11 +75,11 @@ public class StringLocalizerExtensionClassBuilderTests
 
 	[Theory]
 	[InlineData("Hello {0}",
-		"Ressource-key 'Hello {0}' uses the generic format-parameter '{0}'. Consider to to use a more meaningful name, instead"
+		"TR0003"
 	)]
 	[InlineData("Hello {0}, today is {1}",
-		"Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '{0}'. Consider to to use a more meaningful name, instead",
-		"Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '{1}'. Consider to to use a more meaningful name, instead"
+		"TR0003",
+		"TR0003"
 	)]
 	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
 	{
@@ -91,7 +89,28 @@ public class StringLocalizerExtensionClassBuilderTests
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.GetMessage());
+		var actual = extensionClass.Warnings.Select(x => x.Id);
+
+		actual.Should().BeEquivalentTo(expectedWarnings);
+	}
+
+	[Theory]
+	[InlineData("Hello {name:xyz}",
+		"TR0004"
+	)]
+	[InlineData("Hello {0:xyz}",
+		"TR0003",
+		"TR0004"
+	)]
+	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
+	{
+		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+
+		sut.WithMethodFor(input, "some value", 30);
+
+		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+
+		var actual = extensionClass.Warnings.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}

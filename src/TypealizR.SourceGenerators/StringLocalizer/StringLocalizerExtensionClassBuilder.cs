@@ -28,7 +28,7 @@ internal class StringLocalizerExtensionClassBuilder
 		this.fileName = fileName;
 	}
 
-	private List<StringLocalizerExtensionMethodBuilder> methodBuilders = new();
+	private readonly List<StringLocalizerExtensionMethodBuilder> methodBuilders = new();
 	private readonly string fileName;
 
 	public StringLocalizerExtensionClassBuilder WithMethodFor(string key, string value, int lineNumber)
@@ -46,15 +46,26 @@ internal class StringLocalizerExtensionClassBuilder
 
 		var deduplicated = Deduplicate(fileName, methods);
 
-		var parameterWarnings = deduplicated
+		var genericParameterWarnings = deduplicated
 			.Methods
 			.SelectMany(method =>
 				method.Parameters
 				.Where(parameter => parameter.IsGeneric)
-				.Select(parameter => ErrorCodes.UnnamedGenericParameter_001011(fileName, method.LineNumber, method.RawRessourceName, parameter.Token))
-			);
+				.Select(parameter => ErrorCodes.UnnamedGenericParameter_0003(fileName, method.RawRessourceName, method.LineNumber, parameter.Token))
+		);
 
-		var allWarnings = deduplicated.Warnings.Concat(parameterWarnings);
+		var unrecognizedParameterTypeWarnings = deduplicated
+			.Methods
+			.SelectMany(method =>
+				method.Parameters
+				.Where(parameter => parameter.HasUnrecognizedParameterTypeAnnotation)
+				.Select(parameter => ErrorCodes.UnrecognizedParameterType_0004(fileName, method.RawRessourceName, method.LineNumber, parameter.InvalidTypeAnnotation))
+		);
+
+		var allWarnings = deduplicated.Warnings
+			.Concat(genericParameterWarnings)
+			.Concat(unrecognizedParameterTypeWarnings)
+		;
 
 		return new(target, deduplicated.Methods, allWarnings);
     }
@@ -77,7 +88,7 @@ internal class StringLocalizerExtensionClassBuilder
 			foreach (var duplicate in methodGroup.Skip(1))
 			{
 				duplicate.DeduplicateWith(discriminator++);
-				warnings.Add(ErrorCodes.AmbigiousRessourceKey_001010(fileName, duplicate.LineNumber, duplicate.RawRessourceName, duplicate.Name));
+				warnings.Add(ErrorCodes.AmbigiousRessourceKey_0002(fileName, duplicate.RawRessourceName, duplicate.LineNumber, duplicate.Name));
 			}
 
 			deduplicatedMethods.AddRange(methodGroup);
