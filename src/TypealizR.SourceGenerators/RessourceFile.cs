@@ -14,7 +14,6 @@ internal class RessourceFile
 
     internal record struct Entry (string Key, string Value, IXmlLineInfo Location);
 
-
     public IEnumerable<Entry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content)
