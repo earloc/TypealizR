@@ -11,9 +11,7 @@ using TypealizR.SourceGenerators.StringLocalizer;
 namespace TypealizR.SourceGenerators.Tests;
 public class StringLocalizerExtensionClassBuilder_Tests
 {
-
     private const string SomeFileName = "Ressource1.resx";
-
 
 	[Fact]
     public void Simple_Method_Can_Be_Generated ()
