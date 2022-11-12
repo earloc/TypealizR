@@ -10,7 +10,7 @@ This is done by inspecting the parameter-token after the colon `:`, if present.
 
 > e.g. `xyz` as ín `hello {world:xyz}`
 
-If no parameter-type was found, the generator just assumes to use `object`.
+If no parameter-annotation was found, the generator just assumes to use `object`.
 
 When a value is found, it is matched against the following built-in data-types, in order to generate a stricter typed method-signature:
 
