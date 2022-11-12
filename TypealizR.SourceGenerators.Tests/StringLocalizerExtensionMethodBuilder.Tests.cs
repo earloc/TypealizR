@@ -3,11 +3,17 @@ using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
 using TypealizR.SourceGenerators.StringLocalizer;
+using TypealizR.SourceGenerators.Tests;
 
 namespace TypealizR.SourceGenerators;
 
 public class StringLocalizerExtensionMethodBuilder_Tests
 {
+    private static XmlLineInfo anywhere = new()
+    {
+        LineNumber = 0,
+        LinePosition = 0
+    };
 
     private static TypeInfo targetType = new ("Name.Space", "TypeName");
 
@@ -22,7 +28,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     [InlineData("Hello {name}, today is {now}", "Hello__name__today_is__now")]
     public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
     {
-        var sut = new StringLocalizerExtensionMethodBuilder(input, input);
+        var sut = new StringLocalizerExtensionMethodBuilder(input, input, 0);
         var method = sut.Build(targetType);
 
         var actual = method.Name;
@@ -37,7 +43,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     [InlineData("{date} Hello {name}, today is {date}", "object name", "object date")]
     public void Extracts_Parameters(string input, params string[] expected)
     {
-        var sut = new StringLocalizerExtensionMethodBuilder(input, input);
+        var sut = new StringLocalizerExtensionMethodBuilder(input, input, 0);
         var method = sut.Build(targetType);
 
         var actual = method.Parameters.Select(x => x.Declaration).ToArray();
@@ -53,7 +59,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     [InlineData("{date} Hello {name}, today is {date}", "object date, object name")]
     public void Declares_Parameters_In_Signature(string input, string expectedPartialSignature)
     {
-        var sut = new StringLocalizerExtensionMethodBuilder(input, input);
+        var sut = new StringLocalizerExtensionMethodBuilder(input, input, 0);
         var method = sut.Build(targetType);
 
         var actual = method.Signature;
@@ -70,7 +76,7 @@ public class StringLocalizerExtensionMethodBuilder_Tests
     [InlineData("{date} Hello {name}, today is {date}", "date, name")]
     public void Passes_Parameters_In_Invocation(string input, string expectedInvocation)
     {
-        var sut = new StringLocalizerExtensionMethodBuilder(input, input);
+        var sut = new StringLocalizerExtensionMethodBuilder(input, input, 0);
         var method = sut.Build(targetType);
 
         var actual = method.Body;

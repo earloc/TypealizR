@@ -5,6 +5,7 @@ using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Xml;
 using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
@@ -13,12 +14,14 @@ internal class StringLocalizerExtensionMethodBuilder
 {
     private string key;
     private readonly string value;
+	private readonly int lineNumber;
 
-    public StringLocalizerExtensionMethodBuilder(string key, string value)
+	public StringLocalizerExtensionMethodBuilder(string key, string value, int lineNumber)
     {
         this.key = key;
         this.value = value;
-    }
+		this.lineNumber = lineNumber;
+	}
 
     public ExtensionMethodInfo Build(TypeInfo target)
     {
@@ -33,7 +36,7 @@ internal class StringLocalizerExtensionMethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new ExtensionMethodInfo(target, key, value, compilableMethodName, parameters);
+        return new ExtensionMethodInfo(target, key, value, compilableMethodName, lineNumber, parameters);
     }
 
 

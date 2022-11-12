@@ -3,6 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
@@ -28,15 +29,17 @@ public class SourceGenerator : IIncrementalGenerator
 
         public static Settings From(AnalyzerConfigOptions options)
         {
-            options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory);
+            if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
+            {
+                options.TryGetValue("build_property.projectdir", out projectDirectory);
+			}
             options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
 
             return new(
-                projectDirectory, rootNamespace
-            );
+                projectDirectory ?? Guid.NewGuid().ToString(), rootNamespace ?? Guid.NewGuid().ToString()
+			);
         }
     }
-
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
@@ -52,13 +55,19 @@ public class SourceGenerator : IIncrementalGenerator
             var files = source.Left;
             var options = source.Right;
 
-            foreach(var file in files)
+            if (!options.ProjectDirectory.Exists)
             {
-                var builder = new StringLocalizerExtensionClassBuilder();
+                ctxt.ReportDiagnostic( ErrorCodes.TargetProjectRootDirectoryNotFound_000010());
+                return;
+            }
+
+			foreach (var file in files)
+            {
+                var builder = new StringLocalizerExtensionClassBuilder(file.FullPath);
 
                 foreach (var entry in file.Entries)
                 {
-                    builder.WithMethodFor(entry.Key, entry.Value);
+                    builder.WithMethodFor(entry.Key, entry.Value, entry.Location.LineNumber);
                 }
 
                 var targetTypeName = file.SimpleName;
@@ -66,8 +75,13 @@ public class SourceGenerator : IIncrementalGenerator
                 var targetNamespace = FindNameSpaceOf(options.RootNamespace, file.FullPath, options.ProjectDirectory.FullName);
                 var extensionClass = builder.Build(new (targetNamespace, file.SimpleName));
 
-                ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
-            }
+				ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
+
+                foreach (var warning in extensionClass.Warnings)
+                {
+					ctxt.ReportDiagnostic(warning);
+				}
+			}
         });
     }
 

@@ -7,9 +7,11 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators.Tests", "TypealizR.SourceGenerators.Tests\TypealizR.SourceGenerators.Tests.csproj", "{EF4F367B-0040-4AEC-B303-4AADC68B26CC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypealizR.SourceGenerators.Playground.BlazorServer", "src\TypealizR.SourceGenerators.Playground.BlazorServer\TypealizR.SourceGenerators.Playground.BlazorServer.csproj", "{71908EB2-AF97-42DF-8205-21A62E56C743}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators.Playground.BlazorServer", "src\TypealizR.SourceGenerators.Playground.BlazorServer\TypealizR.SourceGenerators.Playground.BlazorServer.csproj", "{71908EB2-AF97-42DF-8205-21A62E56C743}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{1BF2A702-C027-47A6-B85E-65648F9ADC00}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypealizR.SourceGenerators.Playground.Console", "src\TypealizR.SourceGenerators.Playground.Console\TypealizR.SourceGenerators.Playground.Console.csproj", "{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -29,12 +31,17 @@ Global
 		{71908EB2-AF97-42DF-8205-21A62E56C743}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{71908EB2-AF97-42DF-8205-21A62E56C743}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{71908EB2-AF97-42DF-8205-21A62E56C743}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
 		{71908EB2-AF97-42DF-8205-21A62E56C743} = {1BF2A702-C027-47A6-B85E-65648F9ADC00}
+		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2} = {1BF2A702-C027-47A6-B85E-65648F9ADC00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {963536E5-E9EB-471B-9292-73125DAB4B08}

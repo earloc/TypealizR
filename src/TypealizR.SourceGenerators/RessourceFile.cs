@@ -4,6 +4,7 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Xml;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
@@ -11,9 +12,8 @@ namespace TypealizR.SourceGenerators;
 internal class RessourceFile
 {
 
-    internal record struct Entry (string Key, string Value);
+    internal record struct Entry (string Key, string Value, IXmlLineInfo Location);
 
-    private readonly XDocument document;
 
     public IEnumerable<Entry> Entries { get; }
 
@@ -31,16 +31,17 @@ internal class RessourceFile
         {
             using var reader = new StringReader(content);
 
-            document = XDocument.Load(reader, LoadOptions.SetLineInfo);
+            var document = XDocument.Load(reader, LoadOptions.SetLineInfo);
 
             Entries = document
                 .Root
                 .Descendants()
                 .Where(x => x.Name == "data")
                 .Select(x => new Entry(
-                    x.Attribute("name").Value,
-                    x.Descendants("value").FirstOrDefault().Value
-                ));
+                    Key: x.Attribute("name").Value,
+                    Value: x.Descendants("value").FirstOrDefault().Value,
+					Location: x.Attribute("name")
+				));
         }
     }
 

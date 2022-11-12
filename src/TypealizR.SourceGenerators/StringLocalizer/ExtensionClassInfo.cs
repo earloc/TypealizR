@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Runtime.InteropServices.ComTypes;
+using System.Xml;
+using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 
@@ -14,13 +17,14 @@ internal class ExtensionClassInfo
     private readonly string members;
 
     public IEnumerable<ExtensionMethodInfo> Methods { get; }
+	public IEnumerable<Diagnostic> Warnings { get; }
 
-    public ExtensionClassInfo(TypeInfo target, IEnumerable<ExtensionMethodInfo> methods)
+	public ExtensionClassInfo(TypeInfo target, IEnumerable<ExtensionMethodInfo> methods, IEnumerable<Diagnostic> warnings)
     {
         this.target = target;
         Methods = methods;
-
-        members = string.Join("\r", methods
+		Warnings = warnings;
+		members = string.Join("\r", methods
             .Select(x => x.Declaration)
             .ToArray()
         );
@@ -46,4 +50,5 @@ internal static partial class IStringLocalizerExtensions_{target.Name}
 {members}
 }}
 ";
+
 }
