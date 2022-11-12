@@ -8,5 +8,4 @@ var provider = services.BuildServiceProvider();
 
 var localize = provider.GetRequiredService<IStringLocalizer<App>>();
 
-
 Console.WriteLine(localize.Hello_World());
