@@ -123,4 +123,7 @@
   <data name="Hello, World." xml:space="preserve">
     <value>Hello, World.</value>
   </data>
+  <data name="Hello, World?" xml:space="preserve">
+    <value>Hello, World?</value>
+  </data>
 </root>
