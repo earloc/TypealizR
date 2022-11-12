@@ -12,23 +12,23 @@ namespace TypealizR.SourceGenerators.Tests;
 public class ExtensionMethodParameterInfo_Tests
 {
 	[Theory]
-	[InlineData("{0}", "object")]
-	[InlineData("{1}", "object")]
-	[InlineData("{userName}", "object")]
-	[InlineData("{count:int}", "int")]
-	[InlineData("{count:i}", "int")]
-	[InlineData("{userName:string}", "string")]
-	[InlineData("{userName:s}", "string")]
-	[InlineData("{now:DateTime}", "DateTime")]
-	[InlineData("{now:dt}", "DateTime")]
-	[InlineData("{now:DateTimeOffset}", "DateTimeOffset")]
-	[InlineData("{now:dto}", "DateTimeOffset")]
-	[InlineData("{today:DateOnly}", "DateOnly")]
-	[InlineData("{today:d}", "DateOnly")]
-	[InlineData("{now:TimeOnly}", "TimeOnly")]
-	[InlineData("{now:t}", "TimeOnly")]
-	[InlineData("{now:wtf}", "object")]
-	public void Parameter_Gets_Typed_As(string token, string expected)
+	[InlineData("{0}", "object", false)]
+	[InlineData("{1}", "object", false)]
+	[InlineData("{userName}", "object", false)]
+	[InlineData("{count:int}", "int", false)]
+	[InlineData("{count:i}", "int", false)]
+	[InlineData("{userName:string}", "string", false)]
+	[InlineData("{userName:s}", "string", false)]
+	[InlineData("{now:DateTime}", "DateTime", false)]
+	[InlineData("{now:dt}", "DateTime", false)]
+	[InlineData("{now:DateTimeOffset}", "DateTimeOffset", false)]
+	[InlineData("{now:dto}", "DateTimeOffset", false)]
+	[InlineData("{today:DateOnly}", "DateOnly", false)]
+	[InlineData("{today:d}", "DateOnly", false)]
+	[InlineData("{now:TimeOnly}", "TimeOnly", false)]
+	[InlineData("{now:t}", "TimeOnly", false)]
+	[InlineData("{now:wtf}", "object", true)]
+	public void Parameter_Gets_Typed_As(string token, string expected, bool expectInvalidTypeExpression)
 	{
 		var match = StringLocalizerExtensionMethodBuilder.parameterExpression.Match(token);
 		var name = match.Groups["name"].Value;
@@ -39,6 +39,12 @@ public class ExtensionMethodParameterInfo_Tests
 		var actual = sut.Type;
 
 		actual.Should().Be(expected);
+
+		if (expectInvalidTypeExpression)
+		{
+			sut.InvalidTypeExpression.Should().NotBeNullOrEmpty();
+		}
+	
 	}
 }
 

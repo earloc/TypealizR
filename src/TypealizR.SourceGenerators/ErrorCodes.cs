@@ -21,7 +21,7 @@ internal static class ErrorCodes
 			Location.None
 		);
 
-	internal static Diagnostic AmbigiousRessourceKey_001010(string fileName, int lineNumber, string rawRessourceKey, string fallback) =>
+	internal static Diagnostic AmbigiousRessourceKey_001010(string fileName, string rawRessourceKey, int lineNumber,  string fallback) =>
 		Diagnostic.Create(
 			new(id: "TYPEALIZR001010",
 				title: "AmbigiousRessourceKey",
@@ -41,7 +41,7 @@ internal static class ErrorCodes
 			rawRessourceKey, fallback
 		);
 
-	internal static Diagnostic UnnamedGenericParameter_001011(string fileName, int lineNumber, string rawRessourceKey, string parameterName) =>
+	internal static Diagnostic UnnamedGenericParameter_001011(string fileName, string rawRessourceKey, int lineNumber, string parameterName) =>
 		Diagnostic.Create(
 			new(id: "TYPEALIZR001011",
 				title: "UnnamedGenericParameter",
@@ -59,5 +59,25 @@ internal static class ErrorCodes
 				)
 			),
 			rawRessourceKey, parameterName
+		);
+
+	internal static Diagnostic UnrecognizedParameterType_001012(string fileName, string rawRessourceKey, int lineNumber, string parameterType) =>
+		Diagnostic.Create(
+			new(id: "TYPEALIZR001012",
+				title: "UnrecognizedParameterType",
+				messageFormat: "Ressource-key '{0}' uses unrecognized parameter-type '{1}'. Falling back to 'object'",
+				category: "Readability",
+				defaultSeverity: DiagnosticSeverity.Warning,
+				isEnabledByDefault: true,
+				description: "Encountered an unrecognized parameter-type"
+			),
+			Location.Create(fileName,
+				textSpan: new(rawRessourceKey.IndexOf(parameterType), parameterType.Length),
+				lineSpan: new(
+					start: new(line: lineNumber - 1, character: 0),
+					end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
+				)
+			),
+			rawRessourceKey, parameterType
 		);
 }

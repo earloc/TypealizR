@@ -65,7 +65,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 
 		var expected = new Diagnostic[]
         {
-			ErrorCodes.AmbigiousRessourceKey_001010(SomeFileName, 20, duplicateKey, $"{firstMethod.Name}1"),
+			ErrorCodes.AmbigiousRessourceKey_001010(SomeFileName, duplicateKey, 20, $"{firstMethod.Name}1"),
 		}
         .Select(x => x.ToString());
 
@@ -88,6 +88,27 @@ public class StringLocalizerExtensionClassBuilder_Tests
 		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
 
         sut.WithMethodFor(input, "some value", 30);
+
+		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+
+		var actual = extensionClass.Warnings.Select(x => x.GetMessage());
+
+		actual.Should().BeEquivalentTo(expectedWarnings);
+	}
+
+	[Theory]
+	[InlineData("Hello {name:xyz}",
+		"Ressource-key 'Hello {name:xyz}' uses unrecognized parameter-type 'xyz'. Falling back to 'object'"
+	)]
+	[InlineData("Hello {0:xyz}",
+		"Ressource-key 'Hello {0:xyz}' uses the generic format-parameter '{0:xyz}'. Consider to to use a more meaningful name, instead",
+		"Ressource-key 'Hello {0:xyz}' uses unrecognized parameter-type 'xyz'. Falling back to 'object'"
+	)]
+	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
+	{
+		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+
+		sut.WithMethodFor(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 

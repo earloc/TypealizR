@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
+using Microsoft.CodeAnalysis;
 using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
@@ -14,16 +15,14 @@ internal class ExtensionMethodParameterInfo
 	public readonly string DisplayName;
 	public readonly string Declaration;
 	public readonly bool IsGeneric;
+	public readonly string InvalidTypeExpression;
+	public bool HasUnrecognizedParameterTypeExpression => !string.IsNullOrEmpty(InvalidTypeExpression);
 
 	public ExtensionMethodParameterInfo(string token, string name, string expression)
     {
-        Token = token;
-        Type = "object";
+		Token = token;
 
-		if (!string.IsNullOrEmpty(expression))
-        {
-            Type = SanitizeType(expression);
-        }
+		(Type, InvalidTypeExpression) = TryDeriveTypeFrom(expression);
 
 		IsGeneric = int.TryParse(name, out var _);
 		Name = SanitizeName(name);
@@ -32,7 +31,23 @@ internal class ExtensionMethodParameterInfo
 		Declaration = $"{Type} {Name}";
 	}
 
-    private string SanitizeType(string type) => type switch
+	private (string, string) TryDeriveTypeFrom(string expression)
+	{
+		if (string.IsNullOrEmpty(expression))
+		{
+			return ("object", "");
+		}
+
+		var type = SanitizeType(expression);
+		if (type is not null)
+		{
+			return (type, "");
+		}
+
+		return ("object", expression);
+	}
+
+	private string? SanitizeType(string type) => type switch
     {
         "int" => "int",
 		"i" => "int",
@@ -46,7 +61,7 @@ internal class ExtensionMethodParameterInfo
 		"d" => "DateOnly",
 		"TimeOnly" => "TimeOnly",
 		"t" => "TimeOnly",
-		_ => "object"
+		_ => null
     };
 	
 	private string SanitizeName(string rawParameterName)
