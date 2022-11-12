@@ -11,6 +11,7 @@ namespace TypealizR.SourceGenerators.Tests;
 
 public class ParameterModel_Tests
 {
+
 	[Theory]
 	[InlineData("{0}", "object", false)]
 	[InlineData("{1}", "object", false)]
@@ -34,7 +35,7 @@ public class ParameterModel_Tests
 		var name = match.Groups["name"].Value;
 		var expression = match.Groups["expression"].Value;
 
-		var sut = new ParameterModel(token, name, expression);
+		var sut = new ParameterModel(token, name, expression, new ("Ressource1.resx", token, 10));
 
 		var actual = sut.Type;
 
@@ -42,7 +43,9 @@ public class ParameterModel_Tests
 
 		if (expectInvalidTypeExpression)
 		{
-			sut.InvalidTypeAnnotation.Should().NotBeNullOrEmpty();
+			var warnings = sut.Diagnostics.Select(x => x.Id);
+
+			warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Code });
 		}
 	
 	}

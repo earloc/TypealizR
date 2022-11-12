@@ -14,16 +14,16 @@ internal class MethodBuilder
 {
     private string key;
     private readonly string value;
-	private readonly int lineNumber;
+	private readonly DiagnosticsFactory diagnostics;
 
-	public MethodBuilder(string key, string value, int lineNumber)
+	public MethodBuilder(string key, string value, DiagnosticsFactory diagnostics)
     {
         this.key = key;
         this.value = value;
-		this.lineNumber = lineNumber;
+		this.diagnostics = diagnostics;
 	}
 
-    public MethodModel Build(TypeInfo target)
+    public MethodModel Build(TypeModel target)
     {
         var parameters = BuildParameters(key);
 
@@ -36,7 +36,7 @@ internal class MethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new MethodModel(target, key, value, compilableMethodName, lineNumber, parameters);
+        return new MethodModel(target, key, value, compilableMethodName, parameters, diagnostics);
     }
 
 
@@ -75,7 +75,7 @@ internal class MethodBuilder
 			var name = match.Groups["name"].Value;
 			var expression = match.Groups["expression"].Value;
 
-			parameters.Add(new(token, name, expression));
+			parameters.Add(new(token, name, expression, diagnostics));
         }
 
         return parameters

@@ -61,16 +61,12 @@ public class ClassBuilder_Tests
 
         var firstMethod = extensionClass.Methods.First();
 
-		var expected = new Diagnostic[]
-        {
-			ErrorCodes.AmbigiousRessourceKey_0002(SomeFileName, duplicateKey, 20, $"{firstMethod.Name}1"),
-		}
-        .Select(x => x.ToString());
+		var actual = extensionClass.Diagnostics
+            .Select(x => x.Id);
 
-		var actual = extensionClass.Warnings
-            .Select(x => x.ToString());
+		var expected = new[] { DiagnosticsFactory.TR0002.Code };
 
-        actual.Should().BeEquivalentTo(expected);
+		actual.Should().BeEquivalentTo(expected);
 	}
 
 	[Theory]
@@ -89,7 +85,7 @@ public class ClassBuilder_Tests
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.Id);
+		var actual = extensionClass.Diagnostics.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}
@@ -110,7 +106,7 @@ public class ClassBuilder_Tests
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.Id);
+		var actual = extensionClass.Diagnostics.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}

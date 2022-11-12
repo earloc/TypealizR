@@ -6,70 +6,45 @@ using System.Xml;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
-internal class TypeInfo
-{
-	public TypeInfo(string @namespace, string name)
-	{
-		Namespace = @namespace;
-		Name = name;
-	}
-
-    public string Namespace { get; }
-    public string Name { get; }
-
-	public string FullName => $"{Namespace}.{Name}";
-
-}
 internal class ClassBuilder
 {
-	public ClassBuilder(string fileName)
+	private readonly string filePath;
+	public ClassBuilder(string filePath)
 	{
-		this.fileName = fileName;
+		this.filePath = filePath;
 	}
 
 	private readonly List<MethodBuilder> methodBuilders = new();
-	private readonly string fileName;
-
 	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
 	{
-        methodBuilders.Add(new(key, value, lineNumber));
+		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber);
+        methodBuilders.Add(new(key, value, diagnosticsFactory));
 		return this;
 	}
 
-	public ClassModel Build(TypeInfo target)
+	public ClassModel Build(TypeModel target)
 	{
 		var methods = methodBuilders
 			.Select(x => x.Build(target))
 			.ToArray()
 		;
 
-		var deduplicated = Deduplicate(fileName, methods);
+		var distinctMethods = Deduplicate(filePath, methods);
 
-		var genericParameterWarnings = deduplicated
-			.Methods
+		var parameterDiagnostics = distinctMethods
 			.SelectMany(method =>
 				method.Parameters
-				.Where(parameter => parameter.IsGeneric)
-				.Select(parameter => ErrorCodes.UnnamedGenericParameter_0003(fileName, method.RawRessourceName, method.LineNumber, parameter.Token))
+				.SelectMany(parameter => parameter.Diagnostics)
 		);
 
-		var unrecognizedParameterTypeWarnings = deduplicated
-			.Methods
-			.SelectMany(method =>
-				method.Parameters
-				.Where(parameter => parameter.HasUnrecognizedParameterTypeAnnotation)
-				.Select(parameter => ErrorCodes.UnrecognizedParameterType_0004(fileName, method.RawRessourceName, method.LineNumber, parameter.InvalidTypeAnnotation))
-		);
-
-		var allWarnings = deduplicated.Warnings
-			.Concat(genericParameterWarnings)
-			.Concat(unrecognizedParameterTypeWarnings)
+		var allWarningsAndErrors = distinctMethods.SelectMany(x => x.Diagnostics)
+			.Concat(parameterDiagnostics)
 		;
 
-		return new(target, deduplicated.Methods, allWarnings);
+		return new(target, distinctMethods, allWarningsAndErrors);
     }
 
-	private (IEnumerable<MethodModel> Methods, IEnumerable<Diagnostic> Warnings) Deduplicate(string fileName, MethodModel[] methods)
+	private IEnumerable<MethodModel> Deduplicate(string fileName, MethodModel[] methods)
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Name);
 		var deduplicatedMethods = new List<MethodModel>(methods.Count());
@@ -87,13 +62,12 @@ internal class ClassBuilder
 			foreach (var duplicate in methodGroup.Skip(1))
 			{
 				duplicate.DeduplicateWith(discriminator++);
-				warnings.Add(ErrorCodes.AmbigiousRessourceKey_0002(fileName, duplicate.RawRessourceName, duplicate.LineNumber, duplicate.Name));
 			}
 
 			deduplicatedMethods.AddRange(methodGroup);
 		}
 
-		return (deduplicatedMethods, warnings);
+		return deduplicatedMethods;
 
 	}
 

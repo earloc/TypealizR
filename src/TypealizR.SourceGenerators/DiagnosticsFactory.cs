@@ -17,7 +17,7 @@ internal class DiagnosticsFactory
 		this.lineNumber = lineNumber;
 	}
 
-	static readonly DiagnosticsId TR0001 = new(nameof(TR0001), "TargetProjectRootDirectoryNotFound");
+	internal static readonly DiagnosticsId TR0001 = new(nameof(TR0001), "TargetProjectRootDirectoryNotFound");
 	internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
 		Diagnostic.Create(
 			new(id: TR0001.Code,
@@ -32,7 +32,7 @@ internal class DiagnosticsFactory
 			Location.None, DiagnosticsId.LinkToDocs(TR0001)
 		);
 
-	static readonly DiagnosticsId TR0002 = new(nameof(TR0002), "AmbigiousRessourceKey");
+	internal static readonly DiagnosticsId TR0002 = new(nameof(TR0002), "AmbigiousRessourceKey");
 	internal Diagnostic AmbigiousRessourceKey_0002(string fallback) =>
 		Diagnostic.Create(
 			new(id: TR0002.Code,
@@ -54,7 +54,7 @@ internal class DiagnosticsFactory
 			rawRessourceKey, fallback, DiagnosticsId.LinkToDocs(TR0002)
 		);
 
-	static readonly DiagnosticsId TR0003 = new(nameof(TR0003), "UnnamedGenericParameter");
+	internal static readonly DiagnosticsId TR0003 = new(nameof(TR0003), "UnnamedGenericParameter");
 	internal Diagnostic UnnamedGenericParameter_0003(string parameterName) =>
 		Diagnostic.Create(
 			new(id: TR0003.Code,
@@ -76,13 +76,13 @@ internal class DiagnosticsFactory
 			rawRessourceKey, parameterName, DiagnosticsId.LinkToDocs(TR0003)
 		);
 
-	static readonly DiagnosticsId TR0004 = new(nameof(TR0004), "UnrecognizedParameterType");
+	internal static readonly DiagnosticsId TR0004 = new(nameof(TR0004), "UnrecognizedParameterType");
 
-	internal Diagnostic UnrecognizedParameterType_0004(string parameterType) =>
+	internal Diagnostic UnrecognizedParameterType_0004(string parameterTypeAnnotation) =>
 		Diagnostic.Create(
 			new(id: TR0004.Code,
 				title: TR0004.Title,
-				messageFormat: "Ressource-key '{0}' uses unrecognized parameter-type '{1}'. Falling back to 'object'. See {2}",
+				messageFormat: "Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2}",
 				category: "Readability",
 				defaultSeverity: DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
@@ -90,12 +90,12 @@ internal class DiagnosticsFactory
 				helpLinkUri: DiagnosticsId.LinkToDocs(TR0004)
 			),
 			Location.Create(filePath,
-				textSpan: new(rawRessourceKey.IndexOf(parameterType), parameterType.Length),
+				textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation), parameterTypeAnnotation.Length),
 				lineSpan: new(
 					start: new(line: lineNumber - 1, character: 0),
 					end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
 				)
 			),
-			rawRessourceKey, parameterType, DiagnosticsId.LinkToDocs(TR0004)
+			rawRessourceKey, parameterTypeAnnotation, DiagnosticsId.LinkToDocs(TR0004)
 		);
 }

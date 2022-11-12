@@ -14,21 +14,31 @@ internal class ParameterModel
 	public readonly string Name;
 	public readonly string DisplayName;
 	public readonly string Declaration;
-	public readonly bool IsGeneric;
-	public readonly string InvalidTypeAnnotation;
-	public bool HasUnrecognizedParameterTypeAnnotation => !string.IsNullOrEmpty(InvalidTypeAnnotation);
+	public readonly IEnumerable<Diagnostic> Diagnostics;
 
-	public ParameterModel(string token, string name, string annotation)
+	public ParameterModel(string token, string name, string annotation, DiagnosticsFactory factory)
     {
 		Token = token;
 
-		(Type, InvalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
+		(Type, var invalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
 
-		IsGeneric = int.TryParse(name, out var _);
+		var diagnostics = new List<Diagnostic>();
+		if (!string.IsNullOrEmpty(invalidTypeAnnotation))
+		{
+			diagnostics.Add(factory.UnrecognizedParameterType_0004(invalidTypeAnnotation));
+		}
+
+		if (int.TryParse(name, out var _))
+		{
+			diagnostics.Add(factory.UnnamedGenericParameter_0003(name));
+		}
+
 		Name = SanitizeName(name);
 
         DisplayName = $"_{Name.Trim('_', ' ')}_";
 		Declaration = $"{Type} {Name}";
+
+		Diagnostics = diagnostics;
 	}
 
 	private (string, string) TryDeriveTypeFrom(string expression)
