@@ -60,11 +60,8 @@ public class StringLocalizerExtensionClassBuilderTests
 
 		var sut = new StringLocalizerExtensionClassBuilder();
 		
-		var firstLocation = new XmlLineInfo() { LineNumber = 10, LinePosition = 0 };
-		var duplicateLocation = new XmlLineInfo() { LineNumber = 20, LinePosition = 0 };
-
-		sut.WithMethodFor(firstKey, "SomeValue", firstLocation);
-		sut.WithMethodFor(duplicateKey, "SomeValue", duplicateLocation);
+		sut.WithMethodFor(firstKey, "SomeValue", new XmlLineInfo() { LineNumber = 10, LinePosition = 0 });
+		sut.WithMethodFor(duplicateKey, "SomeOtherValue", new XmlLineInfo() { LineNumber = 20, LinePosition = 0 });
 
         var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
@@ -72,8 +69,8 @@ public class StringLocalizerExtensionClassBuilderTests
 
 		var expected = new Diagnostic[]
         {
-            ErrorCodes.AmbigiousRessourceKey_001010(fileName, firstLocation.LineNumber, firstKey, firstMethod.Name),
-			ErrorCodes.AmbigiousRessourceKey_001010(fileName, duplicateLocation.LineNumber, duplicateKey, $"{firstMethod.Name}1"),
+            ErrorCodes.AmbigiousRessourceKey_001010(fileName, 10, firstKey, firstMethod.Name),
+			ErrorCodes.AmbigiousRessourceKey_001010(fileName, 20, duplicateKey, $"{firstMethod.Name}1"),
 		}
         .Select(x => x.ToString());
 
