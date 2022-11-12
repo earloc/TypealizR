@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.Text;
 using TypealizR.SourceGenerators.StringLocalizer;
 
 namespace TypealizR.SourceGenerators.Tests;
-public class StringLocalizerExtensionClassBuilderTests
+public class StringLocalizerExtensionClassBuilder_Tests
 {
 
     private const string SomeFileName = "Ressource1.resx";
