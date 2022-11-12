@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj" />
   </ItemGroup>
 
 </Project>
