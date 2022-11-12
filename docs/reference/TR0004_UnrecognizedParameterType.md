@@ -15,13 +15,13 @@ If no parameter-type was found, the generator just assumes to use `object`.
 When a value is found, it is matched against the following built-in data-types, in order to generate a stricter typed method-signature:
 
 |alias   | type            | example usage (alias) | example usage (type)  |
-|--------|-----------------|-----------------------|-----------------------|
+|-------|-----------------|-----------------------|-----------------------|
 | i      | int             | {count:i}             | {count:int}           |
 | s      | string          | {name:s}              | {name:string}         |
-| dt     | DateTime        | {name:dt}             | {name:DateTime}       |
-| dto    | DateTimeOffset  | {name:dto}            | {name:DateTimeOffset} |
-| d      | DateOnly        | {name:d}              | {name:DateOnly}       |
-| t      | TimeOnly        | {name:t}              | {name:TimeOnly}       |
+| dt     | DateTime        | {date:dt}             | {date:DateTime}       |
+| dto    | DateTimeOffset  | {date:dto}            | {date:DateTimeOffset} |
+| d      | DateOnly        | {date:d}              | {date:DateOnly}       |
+| t      | TimeOnly        | {time:t}              | {time:TimeOnly}       |
 
 When, however, the provided parameter-type could not be matched, the generator still falls back to using `object` as the parameter-type, but also generates this warning.
 
