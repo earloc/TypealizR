@@ -58,8 +58,8 @@ internal class StringLocalizerExtensionClassBuilder
 			.Methods
 			.SelectMany(method =>
 				method.Parameters
-				.Where(parameter => parameter.HasUnrecognizedParameterTypeExpression)
-				.Select(parameter => ErrorCodes.UnrecognizedParameterType_0004(fileName, method.RawRessourceName, method.LineNumber, parameter.InvalidTypeExpression))
+				.Where(parameter => parameter.HasUnrecognizedParameterTypeAnnotation)
+				.Select(parameter => ErrorCodes.UnrecognizedParameterType_0004(fileName, method.RawRessourceName, method.LineNumber, parameter.InvalidTypeAnnotation))
 		);
 
 		var allWarnings = deduplicated.Warnings

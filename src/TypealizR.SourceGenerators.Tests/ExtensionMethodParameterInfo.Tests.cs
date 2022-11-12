@@ -42,7 +42,7 @@ public class ExtensionMethodParameterInfo_Tests
 
 		if (expectInvalidTypeExpression)
 		{
-			sut.InvalidTypeExpression.Should().NotBeNullOrEmpty();
+			sut.InvalidTypeAnnotation.Should().NotBeNullOrEmpty();
 		}
 	
 	}

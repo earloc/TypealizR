@@ -15,14 +15,14 @@ internal class ExtensionMethodParameterInfo
 	public readonly string DisplayName;
 	public readonly string Declaration;
 	public readonly bool IsGeneric;
-	public readonly string InvalidTypeExpression;
-	public bool HasUnrecognizedParameterTypeExpression => !string.IsNullOrEmpty(InvalidTypeExpression);
+	public readonly string InvalidTypeAnnotation;
+	public bool HasUnrecognizedParameterTypeAnnotation => !string.IsNullOrEmpty(InvalidTypeAnnotation);
 
-	public ExtensionMethodParameterInfo(string token, string name, string expression)
+	public ExtensionMethodParameterInfo(string token, string name, string annotation)
     {
 		Token = token;
 
-		(Type, InvalidTypeExpression) = TryDeriveTypeFrom(expression);
+		(Type, InvalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
 
 		IsGeneric = int.TryParse(name, out var _);
 		Name = SanitizeName(name);

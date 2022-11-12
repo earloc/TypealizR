@@ -23,10 +23,10 @@ When a value is found, it is matched against the following built-in data-types, 
 | d      | DateOnly        | {date:d}              | {date:DateOnly}       |
 | t      | TimeOnly        | {time:t}              | {time:TimeOnly}       |
 
-When, however, the provided parameter-type could not be matched, the generator still falls back to using `object` as the parameter-type, but also generates this warning.
+However, when the provided parameter-annotation could not be matched, the generator still falls back to using `object` as the parameter-type within the generated method-signature and emits this warning, additionaly.
 
 ## How to fix violations
-Remove the type-annotation or use a valid value as shown in above table.
+Remove the type-annotation or use a valid one as shown in above table.
 
 ## When to suppress warnings
 If you don´t care that your code-base has an easy-to-fix issue.
