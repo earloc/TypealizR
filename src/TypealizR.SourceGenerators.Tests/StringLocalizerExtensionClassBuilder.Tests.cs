@@ -75,11 +75,11 @@ public class StringLocalizerExtensionClassBuilder_Tests
 
 	[Theory]
 	[InlineData("Hello {0}",
-		"Ressource-key 'Hello {0}' uses the generic format-parameter '{0}'. Consider to to use a more meaningful name, instead"
+		"TR0003"
 	)]
 	[InlineData("Hello {0}, today is {1}",
-		"Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '{0}'. Consider to to use a more meaningful name, instead",
-		"Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '{1}'. Consider to to use a more meaningful name, instead"
+		"TR0003",
+		"TR0003"
 	)]
 	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
 	{
@@ -89,18 +89,18 @@ public class StringLocalizerExtensionClassBuilder_Tests
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.GetMessage());
+		var actual = extensionClass.Warnings.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}
 
 	[Theory]
 	[InlineData("Hello {name:xyz}",
-		"Ressource-key 'Hello {name:xyz}' uses unrecognized parameter-type 'xyz'. Falling back to 'object'"
+		"TR0004"
 	)]
 	[InlineData("Hello {0:xyz}",
-		"Ressource-key 'Hello {0:xyz}' uses the generic format-parameter '{0:xyz}'. Consider to to use a more meaningful name, instead",
-		"Ressource-key 'Hello {0:xyz}' uses unrecognized parameter-type 'xyz'. Falling back to 'object'"
+		"TR0003",
+		"TR0004"
 	)]
 	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
 	{
@@ -110,7 +110,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.GetMessage());
+		var actual = extensionClass.Warnings.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}
