@@ -47,10 +47,10 @@ In order to fix this particular situation, just re-phrase the affected keys.
   <data name="Hello, World." xml:space="preserve"> <!-- will be derived to "Hello_World()" -->
     <value>Hello, World.</value>
   </data>
-  <data name="Warning_Hello, World!" xml:space="preserve"> <!-- will be derived to "Warning_Hello_World()" -->
+  <data name="Shout Hello, World!" xml:space="preserve"> <!-- will be derived to "Shout_Hello_World()" -->
     <value>Hello, World!</value>
   </data>
-  <data name="Ask_Hello, World?" xml:space="preserve"> <!-- will be derived to "Ask_Hello_World()" -->
+  <data name="Ask Hello, World?" xml:space="preserve"> <!-- will be derived to "Ask_Hello_World()" -->
     <value>Hello, World?</value>
   </data>
 </root>
