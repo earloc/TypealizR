@@ -9,7 +9,7 @@ using TypealizR.SourceGenerators.StringLocalizer;
 
 namespace TypealizR.SourceGenerators.Tests;
 
-public class ExtensionMethodParameterInfo_Tests
+public class ParameterModel_Tests
 {
 	[Theory]
 	[InlineData("{0}", "object", false)]

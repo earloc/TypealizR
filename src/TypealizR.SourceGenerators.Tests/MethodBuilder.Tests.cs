@@ -6,7 +6,7 @@ using TypealizR.SourceGenerators.StringLocalizer;
 
 namespace TypealizR.SourceGenerators.Tests;
 
-public class StringLocalizerExtensionMethodBuilder_Tests
+public class MethodBuilder_Tests
 {
 	private static TypeInfo targetType = new("Name.Space", "TypeName");
 
