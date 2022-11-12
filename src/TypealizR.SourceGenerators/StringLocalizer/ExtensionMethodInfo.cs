@@ -9,20 +9,27 @@ internal class ExtensionMethodInfo
 {
     public static string ThisParameterFor(TypeInfo T) => $"this IStringLocalizer<{T.FullName}> that";
 
-    private readonly string rawRessourceName;
+	internal void DeduplicateWith(int discriminator)
+	{
+        Name = $"{Name}{discriminator}";
+	}
+
+	public string RawRessourceName { get; }
     private readonly string defaultValue;
-    public readonly string Name;
+    public string Name;
     public readonly IEnumerable<ExtensionMethodParameterInfo> Parameters;
     public readonly string Signature;
     public readonly string Body;
     public readonly string ReturnType = "LocalizedString";
+    public int LineNumber { get; }
 
-    public ExtensionMethodInfo(TypeInfo t, string rawRessourceName, string defaultValue, string compilableMethodName, IEnumerable<ExtensionMethodParameterInfo>? parameters = null)
+    public ExtensionMethodInfo(TypeInfo t, string rawRessourceName, string defaultValue, string compilableMethodName, int lineNumber, IEnumerable<ExtensionMethodParameterInfo>? parameters = null)
     {
-        this.rawRessourceName = rawRessourceName;
+		RawRessourceName = rawRessourceName;
         this.defaultValue = defaultValue;
         Name = compilableMethodName;
-        Parameters = parameters ?? Enumerable.Empty<ExtensionMethodParameterInfo>();
+		LineNumber = lineNumber;
+		Parameters = parameters ?? Enumerable.Empty<ExtensionMethodParameterInfo>();
 
         Signature = $"({ThisParameterFor(t)})";
         Body = $@"that[""{rawRessourceName}""]";
@@ -39,7 +46,7 @@ internal class ExtensionMethodInfo
 
     public string Declaration => $@"  
   /// <summary>
-  /// Looks up a localized string similar to '{rawRessourceName}'
+  /// Looks up a localized string similar to '{RawRessourceName}'
   /// </summary>
   /// <returns>
   /// A localized version of the current default value of '{defaultValue.Replace("\r\n", " ").Replace("\n", " ")}'

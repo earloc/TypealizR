@@ -17,13 +17,14 @@ internal class ExtensionClassInfo
     private readonly string members;
 
     public IEnumerable<ExtensionMethodInfo> Methods { get; }
+	public IEnumerable<Diagnostic> Warnings { get; }
 
-    public ExtensionClassInfo(TypeInfo target, IEnumerable<ExtensionMethodInfo> methods)
+	public ExtensionClassInfo(TypeInfo target, IEnumerable<ExtensionMethodInfo> methods, IEnumerable<Diagnostic> warnings)
     {
         this.target = target;
         Methods = methods;
-
-        members = string.Join("\r", methods
+		Warnings = warnings;
+		members = string.Join("\r", methods
             .Select(x => x.Declaration)
             .ToArray()
         );
@@ -50,9 +51,4 @@ internal static partial class IStringLocalizerExtensions_{target.Name}
 }}
 ";
 
-    public IEnumerable<Diagnostic> Warnings { get; internal set; } = new Diagnostic[]
-    {
-			ErrorCodes.AmbigiousRessourceKey_001010("SomeRessource.resx", 10, "SomeKey", "SomeKey"),
-			ErrorCodes.AmbigiousRessourceKey_001010("SomeRessource.resx", 20, "SomeKey", "SomeKey1"),
-		};
 }

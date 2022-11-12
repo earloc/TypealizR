@@ -14,13 +14,13 @@ internal class StringLocalizerExtensionMethodBuilder
 {
     private string key;
     private readonly string value;
-	private readonly IXmlLineInfo line;
+	private readonly int lineNumber;
 
-	public StringLocalizerExtensionMethodBuilder(string key, string value, IXmlLineInfo line)
+	public StringLocalizerExtensionMethodBuilder(string key, string value, int lineNumber)
     {
         this.key = key;
         this.value = value;
-		this.line = line;
+		this.lineNumber = lineNumber;
 	}
 
     public ExtensionMethodInfo Build(TypeInfo target)
@@ -36,7 +36,7 @@ internal class StringLocalizerExtensionMethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new ExtensionMethodInfo(target, key, value, compilableMethodName, parameters);
+        return new ExtensionMethodInfo(target, key, value, compilableMethodName, lineNumber, parameters);
     }
 
 

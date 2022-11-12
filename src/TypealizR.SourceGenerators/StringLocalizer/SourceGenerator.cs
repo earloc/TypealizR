@@ -62,11 +62,11 @@ public class SourceGenerator : IIncrementalGenerator
 
 			foreach (var file in files)
             {
-                var builder = new StringLocalizerExtensionClassBuilder();
+                var builder = new StringLocalizerExtensionClassBuilder(file.FullPath);
 
                 foreach (var entry in file.Entries)
                 {
-                    builder.WithMethodFor(entry.Key, entry.Value, entry.Location);
+                    builder.WithMethodFor(entry.Key, entry.Value, entry.Location.LineNumber);
                 }
 
                 var targetTypeName = file.SimpleName;
