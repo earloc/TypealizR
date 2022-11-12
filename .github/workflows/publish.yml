@@ -50,7 +50,7 @@ jobs:
       with:
         sourceFile: './src/Version.props'
         placeholder: '@@@PackageVersion@@@'
-        replacement: '${{ steps.semver.outputs.full }}${{ github.run_number }}'
+        replacement: '${{ steps.semver.outputs.full }}.${{ github.run_number }}'
         
     - name: Replace InformationalVersion
       uses: alexrogalskiy/github-action-tag-replacer@master
