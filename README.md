@@ -74,7 +74,8 @@ where `HomePage.resx` looks like this:
 | key | value |
 |------|-------|
 | Title | Home |
-|Welcome back, {userName} | Welcome back, {0} |
+|Welcome back, {userName}, this is your {visitCount:i} visit | Welcome back, {0}, this is your {1} visit to the app |
+|Good bye, {userName:s} | See you later, {0} |
 
 TypealizR's source-generator emits the following class (comments, usings, etc. omitted):
 
@@ -82,10 +83,18 @@ TypealizR's source-generator emits the following class (comments, usings, etc. o
 
 internal static class IStringLocalizerExtensions_HomePage 
 {
-	public static string Title(this IStringLocalizer<HomePage> that) => that["Title"];
-	public static string Welcome_back__userName(this IStringLocalizer<HomePage> that, object userName) => that["Welcome back, {0}", userName];
+	public static string Title(this IStringLocalizer<HomePage> that) 
+		=> that["Title"];
+		
+	public static string Welcome_back__userName(this IStringLocalizer<HomePage> that, object userName, int visitCount) 
+		=> that["Welcome back, {0}, this is your {1} visit to the app", userName, visitCount];
+		
+	public static string Good_bye__userName(this IStringLocalizer<HomePage> that, string userName) 
+		=> that["See you later, {0}", userName];
 }
 
 ```
 
 which then can be used in favor of the lesser-typed default-syntax of IStringLocalizer&lt;T&gt;
+
+> note that the above samples (partially) require certain types (`int`, `string`) instead of just plain `object`s. This is done by leveraging the built-in `type-annotations`. [Tell me more about this!](docs/reference/TR0004_UnrecognizedParameterType.md#rule-description)
