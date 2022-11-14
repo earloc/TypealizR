@@ -9,14 +9,14 @@ using Microsoft.CodeAnalysis.Text;
 using TypealizR.SourceGenerators.StringLocalizer;
 
 namespace TypealizR.SourceGenerators.Tests;
-public class StringLocalizerExtensionClassBuilder_Tests
+public class ClassBuilder_Tests
 {
     private const string SomeFileName = "Ressource1.resx";
 
 	[Fact]
     public void Simple_Method_Can_Be_Generated ()
     {
-        var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+        var sut = new ClassBuilder(SomeFileName);
 
         sut.WithMethodFor("SomeKey", "SomeValue", 0);
 
@@ -52,7 +52,7 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	[InlineData("Hello, {planet}", "Hello, {planet}?")]
 	public void Keys_Ending_Up_To_Produce_Duplicate_MethodNames_Produce_Diagnostics(string firstKey, string duplicateKey)
     {
-		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName);
 		
 		sut.WithMethodFor(firstKey, "SomeValue", 10);
 		sut.WithMethodFor(duplicateKey, "SomeOtherValue", 20);
@@ -61,16 +61,12 @@ public class StringLocalizerExtensionClassBuilder_Tests
 
         var firstMethod = extensionClass.Methods.First();
 
-		var expected = new Diagnostic[]
-        {
-			ErrorCodes.AmbigiousRessourceKey_0002(SomeFileName, duplicateKey, 20, $"{firstMethod.Name}1"),
-		}
-        .Select(x => x.ToString());
+		var actual = extensionClass.Diagnostics
+            .Select(x => x.Id);
 
-		var actual = extensionClass.Warnings
-            .Select(x => x.ToString());
+		var expected = new[] { DiagnosticsFactory.TR0002.Code };
 
-        actual.Should().BeEquivalentTo(expected);
+		actual.Should().BeEquivalentTo(expected);
 	}
 
 	[Theory]
@@ -83,13 +79,13 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
 	{
-		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName);
 
         sut.WithMethodFor(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.Id);
+		var actual = extensionClass.Diagnostics.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}
@@ -104,13 +100,13 @@ public class StringLocalizerExtensionClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
 	{
-		var sut = new StringLocalizerExtensionClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName);
 
 		sut.WithMethodFor(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
 
-		var actual = extensionClass.Warnings.Select(x => x.Id);
+		var actual = extensionClass.Diagnostics.Select(x => x.Id);
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}

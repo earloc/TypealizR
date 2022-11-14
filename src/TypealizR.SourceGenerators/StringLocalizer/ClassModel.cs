@@ -7,23 +7,23 @@ using Microsoft.CodeAnalysis;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 
-internal class ExtensionClassInfo
+internal class ClassModel
 {
     private static string generatorName = typeof(SourceGenerator).FullName;
     private static Version generatorVersion = typeof(SourceGenerator).Assembly.GetName().Version;
 
-    private TypeInfo target;
+    private TypeModel target;
 
     private readonly string members;
 
-    public IEnumerable<ExtensionMethodInfo> Methods { get; }
-    public IEnumerable<Diagnostic> Warnings { get; }
+    public IEnumerable<MethodModel> Methods { get; }
+    public IEnumerable<Diagnostic> Diagnostics { get; }
 
-	public ExtensionClassInfo(TypeInfo target, IEnumerable<ExtensionMethodInfo> methods, IEnumerable<Diagnostic> warnings)
+	public ClassModel(TypeModel target, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
     {
         this.target = target;
         Methods = methods;
-		Warnings = warnings;
+		Diagnostics = warningsAndErrors;
 		members = string.Join("\r", methods
             .Select(x => x.Declaration)
             .ToArray()

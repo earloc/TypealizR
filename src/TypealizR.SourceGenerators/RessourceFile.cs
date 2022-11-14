@@ -11,7 +11,6 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.SourceGenerators;
 internal class RessourceFile
 {
-
     internal record struct Entry (string Key, string Value, IXmlLineInfo Location);
 
     public IEnumerable<Entry> Entries { get; }
