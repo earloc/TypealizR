@@ -17,8 +17,7 @@
       <Generator></Generator>
     </EmbeddedResource>
     <EmbeddedResource Update="Demo.resx">
-      <Generator>ResXFileCodeGenerator</Generator>
-      <LastGenOutput>Demo.Designer.cs</LastGenOutput>
+      <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
 
