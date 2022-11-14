@@ -61,7 +61,8 @@ where `HomePage.resx` looks like this:
 | key | value |
 |------|-------|
 | Title | Home |
-|Welcome back, {userName} | Welcome back, {0} |
+|Welcome back, {userName}, this is your {visitCount:i} visit | Welcome back, {0}, this is your {1} visit to the app |
+|Good bye, {userName:s} | See you later, {0} |
 
 TypealizR's source-generator emits the following class (comments, usings, etc. omitted):
 
@@ -69,8 +70,14 @@ TypealizR's source-generator emits the following class (comments, usings, etc. o
 
 internal static class IStringLocalizerExtensions_HomePage 
 {
-	public static string Title(this IStringLocalizer<HomePage> that) => that["Title"];
-	public static string Welcome_back__userName(this IStringLocalizer<HomePage> that, object userName) => that["Welcome back, {0}", userName];
+	public static string Title(this IStringLocalizer<HomePage> that) 
+		=> that["Title"];
+		
+	public static string Welcome_back__userName(this IStringLocalizer<HomePage> that, object userName, int visitCount) 
+		=> that["Welcome back, {0}, this is your {1} visit to the app", userName, visitCount];
+		
+	public static string Good_bye__userName(this IStringLocalizer<HomePage> that, string userName) 
+		=> that["See you later, {0}", userName];
 }
 
 ```

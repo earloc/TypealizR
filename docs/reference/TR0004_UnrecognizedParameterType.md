@@ -5,10 +5,10 @@ The processed Resx-file contains a key that uses a parameter with an unrecognize
 
 ## Rule description
 
-When extracting parameters for a method-signature, the source-generator tries to infer a better suitable parameter-type to be use when constructing the method-signature.
+When extracting parameters for a method-signature, the source-generator tries to infer a better suitable parameter-type to be used when constructing the method-signature.
 This is done by inspecting the parameter-token after the colon `:`, if present.
 
-> e.g. `xyz` as ín `hello {world:xyz}`
+> e.g. `xyz` as Ã­n `hello {world:xyz}`
 
 If no parameter-annotation was found, the generator just assumes to use `object`.
 
@@ -29,7 +29,7 @@ However, when the provided parameter-annotation could not be matched, the genera
 Remove the type-annotation or use a valid one as shown in above table.
 
 ## When to suppress warnings
-If you don´t care that your code-base has an easy-to-fix issue.
+If you donÂ´t care that your code-base has an easy-to-fix issue.
 
 ## Example of a violation
 
