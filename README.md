@@ -36,25 +36,12 @@ instead of this:
 
 ```
 
-## setup
-
-- install via nuget
-  `dotnet package add TypealizR`
-- modify target csproj
-```xml
-
-	<PropertyGroup>
-		<!-- Update the property to include all EmbeddedResource files -->
-		<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
-	</PropertyGroup>
-
-```
-- rebuild target csproj
-- start utilizing strongly typed ressources
-
 ## how it works
 
 TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on thy fly.
+
+![demo_typealize_translation_initial]
+
 
 given the following folder-structure:
 
@@ -89,3 +76,25 @@ internal static class IStringLocalizerExtensions_HomePage
 ```
 
 which then can be used in favor of the lesser-typed default-syntax of IStringLocalizer&lt;T&gt;
+
+
+## setup
+
+- install via nuget
+  `dotnet package add TypealizR`
+- modify target csproj
+```xml
+
+	<PropertyGroup>
+		<!-- Update the property to include all EmbeddedResource files -->
+		<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
+	</PropertyGroup>
+
+```
+- rebuild target csproj
+- start utilizing strongly typed ressources
+
+
+
+
+[demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif

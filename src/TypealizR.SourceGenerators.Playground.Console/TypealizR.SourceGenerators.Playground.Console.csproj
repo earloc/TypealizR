@@ -16,10 +16,22 @@
     <EmbeddedResource Update="App.resx">
       <Generator></Generator>
     </EmbeddedResource>
+    <EmbeddedResource Update="Demo.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Demo.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
   </ItemGroup>
 
 	<ItemGroup>
 		<ProjectReference Include="..\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Compile Update="Demo.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>Demo.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<PropertyGroup>
