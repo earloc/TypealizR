@@ -29,15 +29,4 @@ jobs:
       run: dotnet build --configuration Release --no-restore
     - name: Test
       run: dotnet test --configuration Release --no-build --verbosity normal --collect:"XPlat Code Coverage" -- DataCollectionRunSettings.DataCollectors.DataCollector.Configuration.Format=lcov
-    - name: Find files matching "**/coverage.info"
-      uses: jeertmans/filesfinder@v0.3.4
-      id: ff # Any id, to be used later to reference to files output
-      with:
-        args: "**/coverage.info"
-    - name: Print files
-      run: echo "${{ steps.ff.outputs.files }}"  
-    - name: Publish coverage report to coveralls.io   
-      uses: coverallsapp/github-action@master   
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }} 
-        path-to-lcov: ${{ steps.ff.outputs.files }}
+
