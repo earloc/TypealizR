@@ -38,7 +38,7 @@ instead of this:
 
 ## how it works
 
-TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on thy fly.
+TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on the fly.
 
 ![demo_typealize_translation_initial]
 
@@ -46,14 +46,12 @@ TypealizR parses ordinary Resx-files and generates extension-classes and -method
 given the following folder-structure:
 
 ```
-/projectDir
-  |
-  /Pages
-    |
-	/HomePage.razor
-	/HomePage.resx
-	/HomePage.en-EN.resx
-	/HomePage.de.resx
+root/
++---/Pages/
+     +---/HomePage.razor
+     +---/HomePage.resx
+     +---/HomePage.en-EN.resx
+     +---/HomePage.de.resx
 ```
 
 where `HomePage.resx` looks like this:
