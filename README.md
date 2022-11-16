@@ -85,21 +85,16 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 
 ## setup
 
-- install via nuget
-  `dotnet package add TypealizR`
-- modify target csproj
+- install via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR) (latest stable) or [![NuGet (unstable)](https://img.shields.io/nuget/vpre/TypealizR)]((https://www.nuget.org/packages/TypealizR)) (latest preview)
+- modify target csproj (where those precious ResX-files are ;P)
 ```xml
-
-	<PropertyGroup>
-		<!-- Update the property to include all EmbeddedResource files -->
-		<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
-	</PropertyGroup>
-
+<PropertyGroup>
+	<!-- Update the property to include all EmbeddedResource files -->
+	<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
+</PropertyGroup>
 ```
 - rebuild target csproj
+  > NOTE: visual-studio might need a fresh restart after installing (or updating) TypealizR in order to work as expected
 - start utilizing strongly typed ressources
-
-
-
 
 [demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif
