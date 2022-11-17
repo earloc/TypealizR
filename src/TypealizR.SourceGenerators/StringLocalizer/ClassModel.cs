@@ -39,16 +39,17 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 using {target.Namespace};
-namespace Microsoft.Extensions.Localization;
-[
-    GeneratedCode(""{generatorName}"", ""{generatorVersion}""),
-    DebuggerStepThrough,
-    ExcludeFromCodeCoverage(Justification = ""generated code"")
-]
-internal static partial class IStringLocalizerExtensions_{target.Name}
-{{
-{members}
-}}
-";
+namespace Microsoft.Extensions.Localization {{
+
+    [
+        GeneratedCode(""{generatorName}"", ""{generatorVersion}""),
+        DebuggerStepThrough,
+        ExcludeFromCodeCoverage(Justification = ""generated code"")
+    ]
+    internal static partial class IStringLocalizerExtensions_{target.Name}
+    {{
+    {members}
+    }}
+}}";
 
 }
