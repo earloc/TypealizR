@@ -38,7 +38,7 @@ instead of this:
 
 ## how it works
 
-TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on thy fly.
+TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on the fly.
 
 ![demo_typealize_translation_initial]
 
@@ -46,14 +46,12 @@ TypealizR parses ordinary Resx-files and generates extension-classes and -method
 given the following folder-structure:
 
 ```
-/projectDir
-  |
-  /Pages
-    |
-	/HomePage.razor
-	/HomePage.resx
-	/HomePage.en-EN.resx
-	/HomePage.de.resx
+root/
++---/Pages/
+     +---/HomePage.razor
+     +---/HomePage.resx
+     +---/HomePage.en-EN.resx
+     +---/HomePage.de.resx
 ```
 
 where `HomePage.resx` looks like this:
@@ -64,20 +62,23 @@ where `HomePage.resx` looks like this:
 |Welcome back, {userName}, this is your {visitCount:i} visit | Welcome back, {0}, this is your {1} visit to the app |
 |Good bye, {userName:s} | See you later, {0} |
 
-TypealizR's source-generator emits the following class (comments, usings, etc. omitted):
+TypealizR emits the following class (comments, usings, etc. omitted):
 
 ```csharp
 
-internal static class IStringLocalizerExtensions_HomePage 
+internal static class IStringLocalizerExtensions_Root_Pages_HomePage 
 {
-	public static string Title(this IStringLocalizer<HomePage> that) 
+	public static string Title(
+		this IStringLocalizer<Root.Pages.HomePage> that) 
 		=> that["Title"];
 		
-	public static string Welcome_back__userName(this IStringLocalizer<HomePage> that, object userName, int visitCount) 
-		=> that["Welcome back, {0}, this is your {1} visit to the app", userName, visitCount];
+	public static string Welcome_back__userName_this_is_your__visitCount__visit(
+		this IStringLocalizer<Root.Pages.HomePage> that, object userName, int visitCount) 
+			=> that["Welcome back, {0}, this is your {1} visit to the app", userName, visitCount];
 		
-	public static string Good_bye__userName(this IStringLocalizer<HomePage> that, string userName) 
-		=> that["See you later, {0}", userName];
+	public static string Good_bye__userName(
+		this IStringLocalizer<Root.Pages.HomePage> that, string userName) 
+			=> that["See you later, {0}", userName];
 }
 
 ```
@@ -87,21 +88,16 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 
 ## setup
 
-- install via nuget
-  `dotnet package add TypealizR`
-- modify target csproj
+- install via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR) (latest stable) or [![NuGet (unstable)](https://img.shields.io/nuget/vpre/TypealizR)]((https://www.nuget.org/packages/TypealizR)) (latest preview)
+- modify target csproj (where those precious ResX-files are ;P)
 ```xml
-
-	<PropertyGroup>
-		<!-- Update the property to include all EmbeddedResource files -->
-		<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
-	</PropertyGroup>
-
+<PropertyGroup>
+	<!-- Update the property to include all EmbeddedResource files -->
+	<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
+</PropertyGroup>
 ```
 - rebuild target csproj
+  > NOTE: visual-studio might need a fresh restart after installing (or updating) TypealizR in order to work as expected
 - start utilizing strongly typed ressources
-
-
-
 
 [demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif
