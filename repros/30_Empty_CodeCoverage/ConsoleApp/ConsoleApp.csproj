@@ -11,7 +11,7 @@
 		<PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.1" />
 		<PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0" />
 		<PackageReference Include="Microsoft.Extensions.Logging" Version="6.0.0" />
-		<PackageReference Include="TypealizR" Version="0.5.1">
+		<PackageReference Include="TypealizR" Version="0.5.1"> <!-- pinned, as this version introduced issue #30 - empty code-coverage when coverlet runs on project which refrences the nuget-package -->
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
