@@ -33,6 +33,7 @@ public class SourceGenerator : IIncrementalGenerator
             {
                 options.TryGetValue("build_property.projectdir", out projectDirectory);
 			}
+
             options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
 
             return new(
@@ -40,6 +41,7 @@ public class SourceGenerator : IIncrementalGenerator
 			);
         }
     }
+
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
