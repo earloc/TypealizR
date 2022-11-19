@@ -12,12 +12,12 @@ internal class DiagnosticsFactory
 	private readonly int lineNumber;
 	private readonly IDictionary<string, DiagnosticSeverity> severityMap;
 
-	public DiagnosticsFactory(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity> severityMap)
+	public DiagnosticsFactory(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity>? severityMap = null)
 	{
 		this.filePath = filePath;
 		this.rawRessourceKey = rawRessourceKey;
 		this.lineNumber = lineNumber;
-		this.severityMap = severityMap;
+		this.severityMap = severityMap ?? new Dictionary<string, DiagnosticSeverity>();
 	}
 
 	private DiagnosticSeverity? SeverityFor(string code) => severityMap.ContainsKey(code) ? severityMap[code] : default;
