@@ -9,15 +9,18 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ClassBuilder
 {
 	private readonly string filePath;
-	public ClassBuilder(string filePath)
+	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
+
+	public ClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
 		this.filePath = filePath;
+		this.severityConfig = severityConfig;
 	}
 
 	private readonly List<MethodBuilder> methodBuilders = new();
 	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
 	{
-		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, new Dictionary<string, DiagnosticSeverity>());
+		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
         methodBuilders.Add(new(key, value, diagnosticsFactory));
 		return this;
 	}

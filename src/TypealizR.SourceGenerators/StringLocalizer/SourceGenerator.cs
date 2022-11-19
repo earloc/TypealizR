@@ -43,8 +43,10 @@ public class SourceGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
+        var severityConfig = ReadSeverityOverrides();
 
-        var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
+
+		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
 
         var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
 
@@ -63,7 +65,7 @@ public class SourceGenerator : IIncrementalGenerator
 
 			foreach (var file in files)
             {
-                var builder = new ClassBuilder(file.FullPath);
+                var builder = new ClassBuilder(file.FullPath, severityConfig);
 
                 foreach (var entry in file.Entries)
                 {
@@ -85,7 +87,12 @@ public class SourceGenerator : IIncrementalGenerator
         });
     }
 
-    private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
+	private IDictionary<string, DiagnosticSeverity> ReadSeverityOverrides()
+	{
+        return new Dictionary<string, DiagnosticSeverity>();
+	}
+
+	private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
     {
         var nameSpace = resxFilePath.Replace(projectFullPath, "");
         nameSpace = nameSpace.Replace(Path.GetFileName(resxFilePath), "");
