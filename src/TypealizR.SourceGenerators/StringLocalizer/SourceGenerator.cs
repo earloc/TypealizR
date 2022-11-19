@@ -77,9 +77,9 @@ public class SourceGenerator : IIncrementalGenerator
 
 				ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
 
-                foreach (var warning in extensionClass.Diagnostics)
+                foreach (var diagnostic in extensionClass.Diagnostics)
                 {
-					ctxt.ReportDiagnostic(warning);
+					ctxt.ReportDiagnostic(diagnostic);
 				}
 			}
         });
