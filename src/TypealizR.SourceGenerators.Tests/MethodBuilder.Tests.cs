@@ -22,7 +22,7 @@ public class MethodBuilder_Tests
 	[InlineData("Hello {name:s}, today is {now:d}", "Hello__name__today_is__now")]
 	public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
+		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42, DiagnosticsFactory.DefaultSeverityMap));
 		var method = sut.Build(targetType);
 
 		var actual = method.Name;
@@ -65,7 +65,7 @@ public class MethodBuilder_Tests
 
 	public void Extracts_Parameters(string input, params string[] expected)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
+		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42, DiagnosticsFactory.DefaultSeverityMap));
 		var method = sut.Build(targetType);
 
 		var actual = method.Parameters.Select(x => x.Declaration).ToArray();
@@ -96,7 +96,7 @@ public class MethodBuilder_Tests
 	)]
 	public void Declares_Parameters_In_Signature(string input, string expectedPartialSignature)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
+		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42, DiagnosticsFactory.DefaultSeverityMap));
 		var method = sut.Build(targetType);
 
 		var actual = method.Signature;
@@ -132,7 +132,7 @@ public class MethodBuilder_Tests
 	)]
 	public void Passes_Parameters_In_Invocation(string input, string expectedInvocation)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
+		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42, DiagnosticsFactory.DefaultSeverityMap));
 		var method = sut.Build(targetType);
 
 		var actual = method.Body;

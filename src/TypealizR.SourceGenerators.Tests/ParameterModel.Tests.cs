@@ -35,7 +35,7 @@ public class ParameterModel_Tests
 		var name = match.Groups["name"].Value;
 		var expression = match.Groups["expression"].Value;
 
-		var sut = new ParameterModel(token, name, expression, new ("Ressource1.resx", token, 10));
+		var sut = new ParameterModel(token, name, expression, new ("Ressource1.resx", token, 10, DiagnosticsFactory.DefaultSeverityMap));
 
 		var actual = sut.Type;
 

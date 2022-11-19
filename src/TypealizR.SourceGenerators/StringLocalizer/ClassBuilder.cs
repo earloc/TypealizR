@@ -17,7 +17,7 @@ internal class ClassBuilder
 	private readonly List<MethodBuilder> methodBuilders = new();
 	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
 	{
-		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber);
+		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, new Dictionary<string, DiagnosticSeverity>());
         methodBuilders.Add(new(key, value, diagnosticsFactory));
 		return this;
 	}
