@@ -102,3 +102,35 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 - start utilizing strongly typed ressources
 
 [demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif
+
+
+## customize warnings
+
+During code-generation, the `code-generator` might emit one of [these diagnostics](https://github.com/earloc/TypealizR/tree/main/docs/reference).
+
+To modify the severity of each reported diagnostics, provide a `.globalconfig`-file in the root directory of the project which consumes `TypealizR`.
+
+### samples
+
+To ignore all diagnostics emitted by `TypealizR`, provide the following content to `.globalconfig`:
+```
+is_global = true
+dotnet_diagnostic_TR0002_severity = hidden
+dotnet_diagnostic_TR0003_severity = hidden
+dotnet_diagnostic_TR0004_severity = hidden
+```
+
+To treat all diagnostics emitted by `TypealizR` as a compiler-error, supply the following contents:
+```
+is_global = true
+dotnet_diagnostic_TR0002_severity = error
+dotnet_diagnostic_TR0003_severity = error
+dotnet_diagnostic_TR0004_severity = error
+```
+
+See 
+  - [global-analyzerconfig](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig) for further details about analyzer-configs.
+  - #12 for details about design-decisssions
+  - #35 for implementation-details
+
+
