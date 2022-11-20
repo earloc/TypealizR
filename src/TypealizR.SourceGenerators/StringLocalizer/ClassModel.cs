@@ -9,10 +9,10 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 
 internal class ClassModel
 {
-    private static string generatorName = typeof(SourceGenerator).FullName;
-    private static Version generatorVersion = typeof(SourceGenerator).Assembly.GetName().Version;
+    private static readonly string generatorName = typeof(SourceGenerator).FullName;
+    private static readonly Version generatorVersion = typeof(SourceGenerator).Assembly.GetName().Version;
 
-    private TypeModel target;
+    private readonly TypeModel target;
 
     private readonly string members;
 
