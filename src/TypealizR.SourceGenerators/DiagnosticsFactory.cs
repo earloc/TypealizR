@@ -20,7 +20,7 @@ internal class DiagnosticsFactory
 		this.severityMap = severityMap ?? new Dictionary<string, DiagnosticSeverity>();
 	}
 
-	private DiagnosticSeverity? SeverityFor(string code) => severityMap.ContainsKey(code) ? severityMap[code] : default;
+	private DiagnosticSeverity? SeverityFor(string code) => severityMap.ContainsKey(code) ? severityMap[code] : null;
 
 	internal static readonly DiagnosticsId TR0001 = new(nameof(TR0001), "TargetProjectRootDirectoryNotFound");
 	internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
@@ -44,7 +44,7 @@ internal class DiagnosticsFactory
 				title: TR0002.Title,
 				messageFormat: "Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}",
 				category: "Readability",
-				defaultSeverity: SeverityFor(TR0002.Code) ?? DiagnosticSeverity.Warning,
+				defaultSeverity: SeverityFor(TR0003.Code) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
 				description: "Encountered an ambigious ressource-key",
 				helpLinkUri: DiagnosticsId.LinkToDocs(TR0002)
