@@ -22,7 +22,7 @@ internal class DiagnosticsFactory
 
 	private DiagnosticSeverity? SeverityFor(string code) => severityMap.ContainsKey(code) ? severityMap[code] : null;
 
-	internal static readonly DiagnosticsId TR0001 = new(nameof(TR0001), "TargetProjectRootDirectoryNotFound");
+	internal static readonly DiagnosticsEntry TR0001 = new(nameof(TR0001), "TargetProjectRootDirectoryNotFound");
 	internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
 		Diagnostic.Create(
 			new(id: TR0001.Code,
@@ -32,12 +32,12 @@ internal class DiagnosticsFactory
 				defaultSeverity: DiagnosticSeverity.Error,
 				isEnabledByDefault: true,
 				description: "The code generator could not determine the projects root-directory",
-				helpLinkUri: DiagnosticsId.LinkToDocs(TR0001)
+				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0001)
 			),
-			Location.None, DiagnosticsId.LinkToDocs(TR0001)
+			Location.None, DiagnosticsEntry.LinkToDocs(TR0001)
 		);
 
-	internal static readonly DiagnosticsId TR0002 = new(nameof(TR0002), "AmbigiousRessourceKey");
+	internal static readonly DiagnosticsEntry TR0002 = new(nameof(TR0002), "AmbigiousRessourceKey");
 	internal Diagnostic AmbigiousRessourceKey_0002(string fallback) =>
 		Diagnostic.Create(
 			new(id: TR0002.Code,
@@ -47,7 +47,7 @@ internal class DiagnosticsFactory
 				defaultSeverity: SeverityFor(TR0002.Code) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
 				description: "Encountered an ambigious ressource-key",
-				helpLinkUri: DiagnosticsId.LinkToDocs(TR0002)
+				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0002)
 			),
 			Location.Create(filePath,
 				textSpan: new(),
@@ -56,10 +56,10 @@ internal class DiagnosticsFactory
 					end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
 				)
 			),
-			rawRessourceKey, fallback, DiagnosticsId.LinkToDocs(TR0002)
+			rawRessourceKey, fallback, DiagnosticsEntry.LinkToDocs(TR0002)
 		);
 
-	internal static readonly DiagnosticsId TR0003 = new(nameof(TR0003), "UnnamedGenericParameter");
+	internal static readonly DiagnosticsEntry TR0003 = new(nameof(TR0003), "UnnamedGenericParameter");
 	internal Diagnostic UnnamedGenericParameter_0003(string parameterName) =>
 		Diagnostic.Create(
 			new(id: TR0003.Code,
@@ -69,7 +69,7 @@ internal class DiagnosticsFactory
 				defaultSeverity: SeverityFor(TR0003.Code) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
 				description: "Encountered a generic parameter",
-				helpLinkUri: DiagnosticsId.LinkToDocs(TR0003)
+				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0003)
 			),
 			Location.Create(filePath,
 				textSpan: new(rawRessourceKey.IndexOf(parameterName), parameterName.Length),
@@ -78,10 +78,10 @@ internal class DiagnosticsFactory
 					end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
 				)
 			),
-			rawRessourceKey, parameterName, DiagnosticsId.LinkToDocs(TR0003)
+			rawRessourceKey, parameterName, DiagnosticsEntry.LinkToDocs(TR0003)
 		);
 
-	internal static readonly DiagnosticsId TR0004 = new(nameof(TR0004), "UnrecognizedParameterType");
+	internal static readonly DiagnosticsEntry TR0004 = new(nameof(TR0004), "UnrecognizedParameterType");
 
 	internal Diagnostic UnrecognizedParameterType_0004(string parameterTypeAnnotation) =>
 		Diagnostic.Create(
@@ -92,7 +92,7 @@ internal class DiagnosticsFactory
 				defaultSeverity: SeverityFor(TR0004.Code) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
 				description: "Encountered an unrecognized parameter-type",
-				helpLinkUri: DiagnosticsId.LinkToDocs(TR0004)
+				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0004)
 			),
 			Location.Create(filePath,
 				textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation), parameterTypeAnnotation.Length),
@@ -101,6 +101,6 @@ internal class DiagnosticsFactory
 					end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
 				)
 			),
-			rawRessourceKey, parameterTypeAnnotation, DiagnosticsId.LinkToDocs(TR0004)
+			rawRessourceKey, parameterTypeAnnotation, DiagnosticsEntry.LinkToDocs(TR0004)
 		);
 }
