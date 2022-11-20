@@ -12,8 +12,8 @@ namespace TypealizR.SourceGenerators.Tests;
 public class DiagnosticsFactoryTests
 {
 
-	private DiagnosticsFactory CreateSut(DiagnosticsEntry id, DiagnosticSeverity severity) 
-		=> new("someFile.resx", "someKey", 42, new Dictionary<string, DiagnosticSeverity>() { { id.Code, severity } });
+	private DiagnosticsFactory CreateSut(DiagnosticsEntry entryid, DiagnosticSeverity severity) 
+		=> new("someFile.resx", "someKey", 42, new Dictionary<string, DiagnosticSeverity>() { { entryid.Id.ToString(), severity } });
 	
 
 	[Theory]

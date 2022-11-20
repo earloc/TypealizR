@@ -65,7 +65,7 @@ public class ClassBuilder_Tests
 		var actual = extensionClass.Diagnostics
             .Select(x => x.Id);
 
-		var expected = new[] { DiagnosticsFactory.TR0002.Code };
+		var expected = new[] { DiagnosticsFactory.TR0002.Id.ToString() };
 
 		actual.Should().BeEquivalentTo(expected);
 	}

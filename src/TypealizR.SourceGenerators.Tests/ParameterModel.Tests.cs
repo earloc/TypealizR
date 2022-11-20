@@ -45,7 +45,7 @@ public class ParameterModel_Tests
 		{
 			var warnings = sut.Diagnostics.Select(x => x.Id);
 
-			warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Code });
+			warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
 		}
 	
 	}
