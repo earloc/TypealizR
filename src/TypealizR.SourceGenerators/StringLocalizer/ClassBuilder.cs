@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ClassBuilder
 {
-	private string filePath;
+	private readonly string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
 	public ClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
@@ -32,7 +32,7 @@ internal class ClassBuilder
 			.ToArray()
 		;
 
-		var distinctMethods = Deduplicate(filePath, methods);
+		var distinctMethods = Deduplicate(methods);
 
 		var parameterDiagnostics = distinctMethods
 			.SelectMany(method =>
@@ -47,7 +47,7 @@ internal class ClassBuilder
 		return new(target, distinctMethods, allWarningsAndErrors);
     }
 
-	private IEnumerable<MethodModel> Deduplicate(string fileName, MethodModel[] methods)
+	private IEnumerable<MethodModel> Deduplicate(MethodModel[] methods)
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Name);
 		var deduplicatedMethods = new List<MethodModel>(methods.Count());
