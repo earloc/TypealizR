@@ -38,13 +38,14 @@ public partial class SourceGenerator
 				severityConfig: severityConfig
 			);
 		}
-
 		private static IDictionary<string, DiagnosticSeverity> ReadSeverityConfig(AnalyzerConfigOptions options)
 		{
 			var severityConfig = new Dictionary<string, DiagnosticSeverity>();
 			foreach (var diagnosticId in new[] { "TR0001", "TR0002", "TR0003", "TR0004" }) //TODO: Do not violate open-closed-principle here
 			{
-				if (options.TryGetValue($"dotnet_diagnostic_{diagnosticId.ToLower()}_severity", out var rawValue))
+				var key = $"dotnet_diagnostic_{diagnosticId.ToLower()}_severity";
+
+				if (options.TryGetValue(key, out var rawValue))
 				{
 					if (Enum.TryParse<DiagnosticSeverity>(rawValue, true, out var severity))
 					{
@@ -52,7 +53,7 @@ public partial class SourceGenerator
 					}
 					else
 					{
-						//should we better error here?
+						throw new Exception($"'{key}' has invalid value '{rawValue}'");
 					}
 				}
 			}
