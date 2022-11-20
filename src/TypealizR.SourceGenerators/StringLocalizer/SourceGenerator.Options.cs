@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 
@@ -41,15 +42,21 @@ public partial class SourceGenerator
 		private static IDictionary<string, DiagnosticSeverity> ReadSeverityConfig(AnalyzerConfigOptions options)
 		{
 			var severityConfig = new Dictionary<string, DiagnosticSeverity>();
-			foreach (var diagnosticId in new[] { "TR0001", "TR0002", "TR0003", "TR0004" }) //TODO: Do not violate open-closed-principle here
+
+			var availableDiagnostics = Enum.GetValues(typeof(DiagnosticsId))
+				.OfType<DiagnosticsId>()
+				.Select(x => x.ToString()
+			);
+
+			foreach (var diagnostic in availableDiagnostics)
 			{
-				var key = $"dotnet_diagnostic_{diagnosticId.ToLower()}_severity";
+				var key = $"dotnet_diagnostic_{diagnostic.ToLower()}_severity";
 
 				if (options.TryGetValue(key, out var rawValue))
 				{
 					if (Enum.TryParse<DiagnosticSeverity>(rawValue, true, out var severity))
 					{
-						severityConfig[diagnosticId] = severity;
+						severityConfig[diagnostic] = severity;
 					}
 					else
 					{
