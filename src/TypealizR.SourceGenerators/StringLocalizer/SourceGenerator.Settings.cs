@@ -8,9 +8,9 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 
 public partial class SourceGenerator
 {
-	private class Settings
+	private class Options
     {
-        public Settings(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
+        public Options(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
         {
             RootNamespace = rootNamespace ?? "";
 			SeverityConfig = severityConfig;
@@ -21,7 +21,7 @@ public partial class SourceGenerator
         public string RootNamespace { get; }
 		public IDictionary<string, DiagnosticSeverity> SeverityConfig { get; }
 
-		public static Settings From(AnalyzerConfigOptions options)
+		public static Options From(AnalyzerConfigOptions options)
 		{
 			if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
 			{

@@ -14,7 +14,7 @@ public partial class SourceGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
+        var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Options.From(x.GlobalOptions));
 
 		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
 
