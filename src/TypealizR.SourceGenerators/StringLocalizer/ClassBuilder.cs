@@ -9,15 +9,18 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ClassBuilder
 {
 	private readonly string filePath;
-	public ClassBuilder(string filePath)
+	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
+
+	public ClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
 		this.filePath = filePath;
+		this.severityConfig = severityConfig;
 	}
 
 	private readonly List<MethodBuilder> methodBuilders = new();
 	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
 	{
-		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber);
+		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
         methodBuilders.Add(new(key, value, diagnosticsFactory));
 		return this;
 	}
@@ -29,7 +32,7 @@ internal class ClassBuilder
 			.ToArray()
 		;
 
-		var distinctMethods = Deduplicate(filePath, methods);
+		var distinctMethods = Deduplicate(methods);
 
 		var parameterDiagnostics = distinctMethods
 			.SelectMany(method =>
@@ -44,7 +47,7 @@ internal class ClassBuilder
 		return new(target, distinctMethods, allWarningsAndErrors);
     }
 
-	private IEnumerable<MethodModel> Deduplicate(string fileName, MethodModel[] methods)
+	private IEnumerable<MethodModel> Deduplicate(MethodModel[] methods)
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Name);
 		var deduplicatedMethods = new List<MethodModel>(methods.Count());

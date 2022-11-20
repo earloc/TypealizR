@@ -12,11 +12,12 @@ namespace TypealizR.SourceGenerators.Tests;
 public class ClassBuilder_Tests
 {
     private const string SomeFileName = "Ressource1.resx";
+	private readonly Dictionary<string, DiagnosticSeverity> severityOverrides = new();
 
 	[Fact]
     public void Simple_Method_Can_Be_Generated ()
     {
-        var sut = new ClassBuilder(SomeFileName);
+        var sut = new ClassBuilder(SomeFileName, severityOverrides);
 
         sut.WithMethodFor("SomeKey", "SomeValue", 0);
 
@@ -52,7 +53,7 @@ public class ClassBuilder_Tests
 	[InlineData("Hello, {planet}", "Hello, {planet}?")]
 	public void Keys_Ending_Up_To_Produce_Duplicate_MethodNames_Produce_Diagnostics(string firstKey, string duplicateKey)
     {
-		var sut = new ClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName, severityOverrides);
 		
 		sut.WithMethodFor(firstKey, "SomeValue", 10);
 		sut.WithMethodFor(duplicateKey, "SomeOtherValue", 20);
@@ -64,7 +65,7 @@ public class ClassBuilder_Tests
 		var actual = extensionClass.Diagnostics
             .Select(x => x.Id);
 
-		var expected = new[] { DiagnosticsFactory.TR0002.Code };
+		var expected = new[] { DiagnosticsFactory.TR0002.Id.ToString() };
 
 		actual.Should().BeEquivalentTo(expected);
 	}
@@ -79,7 +80,7 @@ public class ClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
 	{
-		var sut = new ClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName, severityOverrides);
 
         sut.WithMethodFor(input, "some value", 30);
 
@@ -100,7 +101,7 @@ public class ClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
 	{
-		var sut = new ClassBuilder(SomeFileName);
+		var sut = new ClassBuilder(SomeFileName, severityOverrides);
 
 		sut.WithMethodFor(input, "some value", 30);
 

@@ -1,50 +1,22 @@
-﻿using System;
-using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 
 [Generator]
-public class SourceGenerator : IIncrementalGenerator
+public partial class SourceGenerator : IIncrementalGenerator
 {
-    private class Settings
-    {
 
-
-        public Settings(string? projectDirectory, string? rootNamespace)
-        {
-            RootNamespace = rootNamespace ?? "";
-
-            ProjectDirectory = new DirectoryInfo(projectDirectory);
-        }
-
-        public DirectoryInfo ProjectDirectory { get; }
-        public string RootNamespace { get; }
-
-        public static Settings From(AnalyzerConfigOptions options)
-        {
-            if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
-            {
-                options.TryGetValue("build_property.projectdir", out projectDirectory);
-			}
-            options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
-
-            return new(
-                projectDirectory ?? Guid.NewGuid().ToString(), rootNamespace ?? Guid.NewGuid().ToString()
-			);
-        }
-    }
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
+        var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Options.From(x.GlobalOptions));
 
-        var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
+		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
 
         var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
 
@@ -63,7 +35,7 @@ public class SourceGenerator : IIncrementalGenerator
 
 			foreach (var file in files)
             {
-                var builder = new ClassBuilder(file.FullPath);
+                var builder = new ClassBuilder(file.FullPath, options.SeverityConfig);
 
                 foreach (var entry in file.Entries)
                 {
@@ -77,15 +49,15 @@ public class SourceGenerator : IIncrementalGenerator
 
 				ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
 
-                foreach (var warning in extensionClass.Diagnostics)
+                foreach (var diagnostic in extensionClass.Diagnostics)
                 {
-					ctxt.ReportDiagnostic(warning);
+					ctxt.ReportDiagnostic(diagnostic);
 				}
 			}
         });
     }
 
-    private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
+	private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
     {
         var nameSpace = resxFilePath.Replace(projectFullPath, "");
         nameSpace = nameSpace.Replace(Path.GetFileName(resxFilePath), "");

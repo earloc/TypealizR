@@ -1,0 +1,5 @@
+is_global = true
+
+dotnet_diagnostic_TR0002_severity = warning
+dotnet_diagnostic_TR0003_severity = warning
+dotnet_diagnostic_TR0004_severity = warning
