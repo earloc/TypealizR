@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
 
@@ -15,38 +16,60 @@ public class SourceGenerator : IIncrementalGenerator
 {
     private class Settings
     {
-
-
-        public Settings(string? projectDirectory, string? rootNamespace)
+        public Settings(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
         {
             RootNamespace = rootNamespace ?? "";
-
-            ProjectDirectory = new DirectoryInfo(projectDirectory);
+			SeverityConfig = severityConfig;
+			ProjectDirectory = new DirectoryInfo(projectDirectory);
         }
 
         public DirectoryInfo ProjectDirectory { get; }
         public string RootNamespace { get; }
+		public IDictionary<string, DiagnosticSeverity> SeverityConfig { get; }
 
-        public static Settings From(AnalyzerConfigOptions options)
-        {
-            if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
-            {
-                options.TryGetValue("build_property.projectdir", out projectDirectory);
+		public static Settings From(AnalyzerConfigOptions options)
+		{
+			if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
+			{
+				options.TryGetValue("build_property.projectdir", out projectDirectory);
 			}
 
-            options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
+			options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
 
-            return new(
-                projectDirectory ?? Guid.NewGuid().ToString(), rootNamespace ?? Guid.NewGuid().ToString()
+			var severityConfig = ReadSeverityConfig(options);
+
+			return new(
+				projectDirectory: projectDirectory ?? Guid.NewGuid().ToString(),
+				rootNamespace: rootNamespace ?? Guid.NewGuid().ToString(),
+				severityConfig: severityConfig
 			);
-        }
-    }
+		}
+
+		private static IDictionary<string, DiagnosticSeverity> ReadSeverityConfig(AnalyzerConfigOptions options)
+		{
+			var severityConfig = new Dictionary<string, DiagnosticSeverity>();
+			foreach (var diagnosticId in new[] { "TR0001", "TR0002", "TR0003", "TR0004" }) //TODO: Do not violate open-closed-principle here
+			{
+				if (options.TryGetValue($"dotnet_diagnostic_{diagnosticId.ToLower()}_severity", out var rawValue))
+				{
+					if (Enum.TryParse<DiagnosticSeverity>(rawValue, true, out var severity))
+					{
+						severityConfig[diagnosticId] = severity;
+					}
+					else
+					{
+						//should we better error here?
+					}
+				}
+			}
+
+            return severityConfig;
+		}
+	}
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Settings.From(x.GlobalOptions));
-        var severityConfig = ReadSeverityOverrides();
-
 
 		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
 
@@ -67,7 +90,7 @@ public class SourceGenerator : IIncrementalGenerator
 
 			foreach (var file in files)
             {
-                var builder = new ClassBuilder(file.FullPath, severityConfig);
+                var builder = new ClassBuilder(file.FullPath, options.SeverityConfig);
 
                 foreach (var entry in file.Entries)
                 {
@@ -88,11 +111,6 @@ public class SourceGenerator : IIncrementalGenerator
 			}
         });
     }
-
-	private IDictionary<string, DiagnosticSeverity> ReadSeverityOverrides()
-	{
-        return new Dictionary<string, DiagnosticSeverity>();
-	}
 
 	private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
     {

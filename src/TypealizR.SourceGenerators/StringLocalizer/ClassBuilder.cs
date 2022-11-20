@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ClassBuilder
 {
-	private readonly string filePath;
+	private string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
 	public ClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)

@@ -44,7 +44,7 @@ internal class DiagnosticsFactory
 				title: TR0002.Title,
 				messageFormat: "Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}",
 				category: "Readability",
-				defaultSeverity: SeverityFor(TR0003.Code) ?? DiagnosticSeverity.Warning,
+				defaultSeverity: SeverityFor(TR0002.Code) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
 				description: "Encountered an ambigious ressource-key",
 				helpLinkUri: DiagnosticsId.LinkToDocs(TR0002)
