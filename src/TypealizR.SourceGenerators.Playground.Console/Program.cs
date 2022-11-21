@@ -18,5 +18,3 @@ Console.WriteLine(localize.Hello__UserName(UserName: "Arthur"));
 var today = DateOnly.FromDateTime(DateTime.Now);
 
 Console.WriteLine(localize.Hello__name__today_is__now(name: "Arthur", now: today));
-
-Microsoft.Extensions.Localization.ResourceManagerStringLocalizer
