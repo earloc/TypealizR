@@ -3,6 +3,7 @@ using Microsoft.Extensions.Localization;
 using TypealizR.SourceGenerators.Playground.Console;
 
 var services = new ServiceCollection();
+services.AddLogging();
 services.AddLocalization();
 var provider = services.BuildServiceProvider();
 
@@ -17,3 +18,5 @@ Console.WriteLine(localize.Hello__UserName(UserName: "Arthur"));
 var today = DateOnly.FromDateTime(DateTime.Now);
 
 Console.WriteLine(localize.Hello__name__today_is__now(name: "Arthur", now: today));
+
+Microsoft.Extensions.Localization.ResourceManagerStringLocalizer
