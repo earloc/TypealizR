@@ -65,7 +65,7 @@ internal class DiagnosticsFactory
 		Diagnostic.Create(
 			new(id: TR0003.Id.ToString(),
 				title: TR0003.Title,
-				messageFormat: "Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to to use a more meaningful name, instead. See {2}",
+				messageFormat: "Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2}",
 				category: "Readability",
 				defaultSeverity: SeverityFor(TR0003.Id) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
