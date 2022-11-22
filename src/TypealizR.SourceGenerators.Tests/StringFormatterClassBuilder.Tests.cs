@@ -21,21 +21,17 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 
 namespace Some.Name.Space {{
-	{_.GeneratedCodeAttribute}
-	[DebuggerStepThrough]
-	internal static partial class TypealizR_StringFormatter
-	{{
+	internal static partial class {StringFormatterClassBuilder.TypeName} 
+    {{
 		public static partial string Format(this LocalizedString s, params object[] args);
 	}}
-
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
-	internal static partial class TypealizR_StringFormatter
-	{{
-		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(global::System.Globalization.CultureInfo.CurrentCulture, s, args)
+	internal static partial class {StringFormatterClassBuilder.TypeName} {{
+		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
 	}}
 }}
-".Trim().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
+".Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		actual.Should().BeEquivalentTo(expected);
 
@@ -54,9 +50,7 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 
 namespace Some.Name.Space {{
-	{_.GeneratedCodeAttribute}
-	[DebuggerStepThrough]
-	internal static partial class TypealizR_StringFormatter
+	internal static partial class {StringFormatterClassBuilder.TypeName}
 	{{
 		public static partial string Format(this LocalizedString s, params object[] args);
 	}}

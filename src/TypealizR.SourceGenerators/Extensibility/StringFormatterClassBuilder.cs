@@ -20,8 +20,6 @@ internal class StringFormatterClassBuilder
 
 	internal string Build()
 	{
-		
-
 		string stringFormatterStub = GenerateStub();
 
 		var defaultImplementation = default(string?);
@@ -54,20 +52,18 @@ using Microsoft.Extensions.Localization;
 	private string OpenNamespace(string rootNamespace) =>$@"namespace {rootNamespace} {{";
 
 	private string GenerateStub() => $@"
-	{_.GeneratedCodeAttribute}
-	[DebuggerStepThrough]
 	internal static partial class {TypeName}
 	{{
 		public static partial string Format(this LocalizedString s, params object[] args);
 	}}";
 
 	private static string GenerateDefaultImplementation() => $@"
-	{_.GeneratedCodeAttribute}
-	[DebuggerStepThrough]
-	internal static partial class {TypeName}
-	{{
-		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(global::System.Globalization.CultureInfo.CurrentCulture, s, args)
-	}}";
+		{_.GeneratedCodeAttribute}
+		[DebuggerStepThrough]
+		internal static partial class {TypeName} {{
+			public static partial string Format(this LocalizedString s, params object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+		}}
+";
 
 	private string CloseNamespace() => "}";
 }
