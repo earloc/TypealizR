@@ -17,7 +17,6 @@ internal class StringFormatterClassBuilder
 
 	internal string Build()
 	{
-
 		string stringFormatterStub = GenerateStub();
 
 		var defaultImplementation = default(string?);
@@ -39,8 +38,6 @@ internal class StringFormatterClassBuilder
 
 		return builder.ToString();
 	}
-
-
 
 	private string OpenNamespace(string rootNamespace) =>$@"namespace global::{rootNamespace} {{";
 
