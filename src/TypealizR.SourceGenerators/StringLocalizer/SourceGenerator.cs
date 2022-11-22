@@ -12,11 +12,12 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 [Generator]
 public partial class SourceGenerator : IIncrementalGenerator
 {
+	private const string ResXFileExtension = ".resx";
 
-    public void Initialize(IncrementalGeneratorInitializationContext context)
+	public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Options.From(x.GlobalOptions));
-		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
+		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(ResXFileExtension));
         var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
 		var stringFormatterProvided = context.CompilationProvider.Select((x, cancel) => !x.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type));
 
