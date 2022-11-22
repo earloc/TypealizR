@@ -17,12 +17,25 @@ internal class StringFormatterClassBuilder
 
 	internal string Build()
 	{
-		var stringFormatterStub = "a";
+		var stringFormatterStub = $@"
+namespace global::Some.Name.Space {{
+	{_.GeneratedCodeAttribute}
+	[DebuggerStepThrough]
+	internal static partial class TypealizR_StringFormatter
+	{{
+		public static partial string Format(this LocalizedString s, params object[] args);
+	}}";
 
 		var defaultImplementation = default(string?);
 		if (isUserModeImplementationProvided)
 		{
-			defaultImplementation = "b";
+			defaultImplementation = $@"
+	{_.GeneratedCodeAttribute}
+	[DebuggerStepThrough]
+	internal static partial class TypealizR_StringFormatter
+	{{
+		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(global::System.Globalization.CultureInfo.CurrentCulture, s, args)
+	}}";
 		}
 
 		var builder = new StringBuilder();
@@ -31,6 +44,7 @@ internal class StringFormatterClassBuilder
 		{
 			builder.AppendLine(defaultImplementation);
 		}
+		builder.AppendLine("}");
 
 		return builder.ToString();
 	}
