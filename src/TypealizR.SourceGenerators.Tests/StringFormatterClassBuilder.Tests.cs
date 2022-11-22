@@ -20,7 +20,7 @@ using System.Diagnostics;
 using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 
-namespace global::Some.Name.Space {{
+namespace Some.Name.Space {{
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
 	internal static partial class TypealizR_StringFormatter
@@ -53,7 +53,7 @@ using System.Diagnostics;
 using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 
-namespace global::Some.Name.Space {{
+namespace Some.Name.Space {{
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
 	internal static partial class TypealizR_StringFormatter

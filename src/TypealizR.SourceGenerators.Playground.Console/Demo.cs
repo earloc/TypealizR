@@ -4,8 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
-
-namespace TypealizR.SourceGenerators.Playground.Console;
+	namespace TypealizR.SourceGenerators.Playground.Console;
 internal class Demo
 {
 

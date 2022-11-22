@@ -49,7 +49,7 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 ";
 
-	private string OpenNamespace(string rootNamespace) =>$@"namespace global::{rootNamespace} {{";
+	private string OpenNamespace(string rootNamespace) =>$@"namespace {rootNamespace} {{";
 
 	private string GenerateStub() => $@"
 	{_.GeneratedCodeAttribute}
