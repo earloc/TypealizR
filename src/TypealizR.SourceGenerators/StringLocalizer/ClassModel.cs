@@ -9,9 +9,6 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 
 internal class ClassModel
 {
-    private static readonly string generatorName = typeof(SourceGenerator).FullName;
-    private static readonly Version generatorVersion = typeof(SourceGenerator).Assembly.GetName().Version;
-
     private readonly TypeModel target;
 
     private readonly string members;
@@ -41,11 +38,8 @@ using Microsoft.Extensions.Localization;
 using {target.Namespace};
 namespace Microsoft.Extensions.Localization {{
 
-    [
-        GeneratedCode(""{generatorName}"", ""{generatorVersion}""),
-        DebuggerStepThrough,
-        ExcludeFromCodeCoverage(Justification = ""generated code"")
-    ]
+    {_.GeneratedCodeAttribute}
+    [DebuggerStepThrough]
     internal static partial class IStringLocalizerExtensions_{target.Name}
     {{
     {members}
