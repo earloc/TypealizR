@@ -16,16 +16,14 @@ public partial class SourceGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Options.From(x.GlobalOptions));
-
 		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
-
         var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
+		var stringFormatterProvided = context.CompilationProvider.Select((x, cancel) => !x.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type));
 
-		var stringFormatterProvided = context.CompilationProvider.Select((x, cancel) => x.ContainsSymbolsWithName("", SymbolFilter.Type));
-
-		var input = monitoredFiles.Combine(settings).Combine(stringFormatterProvided);
-
-        context.RegisterSourceOutput(input, (ctxt, source) =>
+        context.RegisterSourceOutput(monitoredFiles
+            .Combine(settings)
+            .Combine(stringFormatterProvided), 
+            (ctxt, source) =>
         {
             //reads horrible, but hey, that´s THE WAY
             var files = source.Left.Left;
@@ -44,7 +42,7 @@ public partial class SourceGenerator : IIncrementalGenerator
                 stringFormatterBuilder.UserModeImplementationIsProvided();
             }
 
-            ctxt.AddSource("TypealizR_StringFormatter.g.cs", stringFormatterBuilder.Build());
+            ctxt.AddSource($"{StringFormatterClassBuilder.TypeName}.g.cs", stringFormatterBuilder.Build());
 
 			foreach (var file in files)
             {

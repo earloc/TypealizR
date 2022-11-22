@@ -6,6 +6,8 @@ using System.Text;
 namespace TypealizR.SourceGenerators.Extensibility;
 internal class StringFormatterClassBuilder
 {
+	public static string TypeName = "TypealizR_StringFormatter";
+
 	private string rootNamespace;
 
 	public StringFormatterClassBuilder(string rootNamespace)
@@ -54,7 +56,7 @@ using Microsoft.Extensions.Localization;
 	private string GenerateStub() => $@"
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
-	internal static partial class TypealizR_StringFormatter
+	internal static partial class {TypeName}
 	{{
 		public static partial string Format(this LocalizedString s, params object[] args);
 	}}";
@@ -62,7 +64,7 @@ using Microsoft.Extensions.Localization;
 	private static string GenerateDefaultImplementation() => $@"
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
-	internal static partial class TypealizR_StringFormatter
+	internal static partial class {TypeName}
 	{{
 		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(global::System.Globalization.CultureInfo.CurrentCulture, s, args)
 	}}";
