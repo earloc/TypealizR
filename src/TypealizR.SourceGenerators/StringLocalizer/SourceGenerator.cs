@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using TypealizR.SourceGenerators.Extensibility;
 using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
@@ -20,18 +21,30 @@ public partial class SourceGenerator : IIncrementalGenerator
 
         var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
 
-        var input = monitoredFiles.Combine(settings);
+		var stringFormatterProvided = context.CompilationProvider.Select((x, cancel) => x.ContainsSymbolsWithName("", SymbolFilter.Type));
+
+		var input = monitoredFiles.Combine(settings).Combine(stringFormatterProvided);
 
         context.RegisterSourceOutput(input, (ctxt, source) =>
         {
-            var files = source.Left;
-            var options = source.Right;
-
-            if (!options.ProjectDirectory.Exists)
+            //reads horrible, but hey, that´s THE WAY
+            var files = source.Left.Left;
+			var options = source.Left.Right;
+			var isStringFormatterProvided = source.Right;
+            
+			if (!options.ProjectDirectory.Exists)
             {
                 ctxt.ReportDiagnostic( DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
                 return;
             }
+
+            var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace);
+            if (isStringFormatterProvided)
+            {
+                stringFormatterBuilder.UserModeImplementationIsProvided();
+            }
+
+            ctxt.AddSource("TypealizR_StringFormatter.g.cs", stringFormatterBuilder.Build());
 
 			foreach (var file in files)
             {

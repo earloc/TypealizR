@@ -16,6 +16,10 @@ public class StringFormatterClassBuilder_Tests
 		var actual = sut.Build().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		var expected = $@"
+using System.Diagnostics;
+using System.CodeDom.Compiler;
+using Microsoft.Extensions.Localization;
+
 namespace global::Some.Name.Space {{
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
@@ -45,6 +49,10 @@ namespace global::Some.Name.Space {{
 		var actual = sut.Build().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		var expected = $@"
+using System.Diagnostics;
+using System.CodeDom.Compiler;
+using Microsoft.Extensions.Localization;
+
 namespace global::Some.Name.Space {{
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]

@@ -1,4 +1,5 @@
 ﻿using System;
+
 using System.Collections.Generic;
 using System.Text;
 
@@ -17,6 +18,8 @@ internal class StringFormatterClassBuilder
 
 	internal string Build()
 	{
+		
+
 		string stringFormatterStub = GenerateStub();
 
 		var defaultImplementation = default(string?);
@@ -26,6 +29,8 @@ internal class StringFormatterClassBuilder
 		}
 
 		var builder = new StringBuilder();
+
+		builder.Append(GenerateUsings());
 		builder.AppendLine(OpenNamespace(this.rootNamespace));
 		builder.AppendLine(stringFormatterStub);
 
@@ -35,9 +40,14 @@ internal class StringFormatterClassBuilder
 		}
 
 		builder.AppendLine(CloseNamespace());
-
 		return builder.ToString();
 	}
+
+	private string GenerateUsings() => $@"
+using System.Diagnostics;
+using System.CodeDom.Compiler;
+using Microsoft.Extensions.Localization;
+";
 
 	private string OpenNamespace(string rootNamespace) =>$@"namespace global::{rootNamespace} {{";
 
