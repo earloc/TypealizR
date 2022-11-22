@@ -13,7 +13,7 @@ public class StringFormatterClassBuilder_Tests
 		var sut = new StringFormatterClassBuilder("Some.Name.Space");
 		sut.UserModeImplementationIsProvided();
 
-		var actual = sut.Build().Trim().Split("\r\n"); ;
+		var actual = sut.Build().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		var expected = $@"
 namespace global::Some.Name.Space {{
@@ -31,7 +31,7 @@ namespace global::Some.Name.Space {{
 		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(global::System.Globalization.CultureInfo.CurrentCulture, s, args)
 	}}
 }}
-".Trim().Split("\r\n");
+".Trim().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		actual.Should().BeEquivalentTo(expected);
 
