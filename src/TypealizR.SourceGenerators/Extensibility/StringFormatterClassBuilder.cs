@@ -8,7 +8,7 @@ internal class StringFormatterClassBuilder
 {
 	public static string TypeName = "TypealizR_StringFormatter";
 
-	private string rootNamespace;
+	private readonly string rootNamespace;
 
 	public StringFormatterClassBuilder(string rootNamespace)
 	{
@@ -54,14 +54,17 @@ using Microsoft.Extensions.Localization;
 	private string GenerateStub() => $@"
 	internal static partial class {TypeName}
 	{{
-		public static partial string Format(this LocalizedString s, params object[] args);
+		public static partial LocalizedString Format(this LocalizedString that, params object[] args);
 	}}";
 
 	private static string GenerateDefaultImplementation() => $@"
 		{_.GeneratedCodeAttribute}
 		[DebuggerStepThrough]
 		internal static partial class {TypeName} {{
-			public static partial string Format(this LocalizedString s, params object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+			public static partial LocalizedString Format(this LocalizedString that, params object[] args) {{ 
+				var formattedValue = string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+				return new LocalizedString(that.Name, formattedValue, that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+			}}
 		}}
 ";
 

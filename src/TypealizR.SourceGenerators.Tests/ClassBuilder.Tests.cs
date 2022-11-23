@@ -33,7 +33,7 @@ public class ClassBuilder_Tests
             Name = "SomeKey",
             Signature = "(this IStringLocalizer<Name.Space.TypeName> that)",
             Body = @"that[""SomeKey""]"
-        };
+		};
 
         var actual = new
         {

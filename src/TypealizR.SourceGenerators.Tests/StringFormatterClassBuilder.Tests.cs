@@ -23,13 +23,16 @@ using Microsoft.Extensions.Localization;
 namespace Some.Name.Space {{
 	internal static partial class {StringFormatterClassBuilder.TypeName} 
     {{
-		public static partial string Format(this LocalizedString s, params object[] args);
+		public static partial LocalizedString Format(this LocalizedString that, params object[] args);
 	}}
 
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
 	internal static partial class {StringFormatterClassBuilder.TypeName} {{
-		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+		public static partial LocalizedString Format(this LocalizedString that, params object[] args) {{ 
+			var formattedValue = string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+			return new LocalizedString(that.Name, formattedValue, that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+		}}
 	}}
 }}
 ".Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -53,7 +56,7 @@ using Microsoft.Extensions.Localization;
 namespace Some.Name.Space {{
 	internal static partial class {StringFormatterClassBuilder.TypeName}
 	{{
-		public static partial string Format(this LocalizedString s, params object[] args);
+		public static partial LocalizedString Format(this LocalizedString that, params object[] args);
 	}}
 }}
 ".Trim().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
