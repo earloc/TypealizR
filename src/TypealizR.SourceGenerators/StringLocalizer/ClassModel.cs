@@ -10,16 +10,17 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 internal class ClassModel
 {
     private readonly TypeModel target;
-
-    private readonly string members;
+	private readonly string rootNamespace;
+	private readonly string members;
 
     public IEnumerable<MethodModel> Methods { get; }
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
-	public ClassModel(TypeModel target, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
+	public ClassModel(TypeModel target, string rootNamespace, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
     {
         this.target = target;
-        Methods = methods;
+		this.rootNamespace = rootNamespace;
+		Methods = methods;
 		Diagnostics = warningsAndErrors;
 		members = string.Join("\r", methods
             .Select(x => x.Declaration)
@@ -34,7 +35,7 @@ internal class ClassModel
 using System.CodeDom.Compiler;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
-using Microsoft.Extensions.Localization;
+using {rootNamespace};
 using {target.Namespace};
 namespace Microsoft.Extensions.Localization {{
 

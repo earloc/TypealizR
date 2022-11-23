@@ -21,7 +21,7 @@ public class ClassBuilder_Tests
 
         sut.WithMethodFor("SomeKey", "SomeValue", 0);
 
-        var classInfo = sut.Build(new("Name.Space", "TypeName"));
+        var classInfo = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
         classInfo.Methods.Should().HaveCount(1);
 
@@ -58,7 +58,7 @@ public class ClassBuilder_Tests
 		sut.WithMethodFor(firstKey, "SomeValue", 10);
 		sut.WithMethodFor(duplicateKey, "SomeOtherValue", 20);
 
-        var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+        var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
         var firstMethod = extensionClass.Methods.First();
 
@@ -84,7 +84,7 @@ public class ClassBuilder_Tests
 
         sut.WithMethodFor(input, "some value", 30);
 
-		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+		var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
 		var actual = extensionClass.Diagnostics.Select(x => x.Id);
 
@@ -105,7 +105,7 @@ public class ClassBuilder_Tests
 
 		sut.WithMethodFor(input, "some value", 30);
 
-		var extensionClass = sut.Build(new("Name.Space", "TypeName"));
+		var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
 		var actual = extensionClass.Diagnostics.Select(x => x.Id);
 
