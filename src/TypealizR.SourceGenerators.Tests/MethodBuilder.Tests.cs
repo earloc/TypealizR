@@ -136,7 +136,7 @@ public class MethodBuilder_Tests
 		var method = sut.Build(targetType);
 
 		var actual = method.Body;
-		var expected = $@"that[""{input}"", {expectedInvocation}]";
+		var expected = $@"that[""{input}""].Format({expectedInvocation})";
 
 		actual.Should().Be(expected);
 	}

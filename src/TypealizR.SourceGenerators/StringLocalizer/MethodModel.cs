@@ -46,7 +46,7 @@ internal class MethodModel
             Signature = $"({ThisParameterFor(t)}, {additionalParameterDeclarations})";
 
             var parameterCollection = string.Join(", ", Parameters.Select(x => x.Name));
-            Body = $@"that[""{rawRessourceName}"", {parameterCollection}]";
+            Body = Body = $@"that[""{rawRessourceName}""].Format({parameterCollection})";
         }
     }
 

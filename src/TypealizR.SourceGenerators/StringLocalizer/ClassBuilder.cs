@@ -25,7 +25,7 @@ internal class ClassBuilder
 		return this;
 	}
 
-	public ClassModel Build(TypeModel target)
+	public ClassModel Build(TypeModel target, string rootNamespace)
 	{
 		var methods = methodBuilders
 			.Select(x => x.Build(target))
@@ -44,7 +44,7 @@ internal class ClassBuilder
 			.Concat(parameterDiagnostics)
 		;
 
-		return new(target, distinctMethods, allWarningsAndErrors);
+		return new(target, rootNamespace, distinctMethods, allWarningsAndErrors);
     }
 
 	private IEnumerable<MethodModel> Deduplicate(MethodModel[] methods)

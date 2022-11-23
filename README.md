@@ -103,7 +103,30 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 
 [demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif
 
+# extensibilty
 
+## customize string formatting
+
+Starting with `v0.6.x`, TypealizR supports customizing the internal usage of `string.Format()`, which should enable developers to implement #16 with the technology / library / approach at their choice - Leaving TypelaziR un-opinionated about the actual approach to achieve this.
+
+To customize the formatting, just drop a custom implementation of `TypealizR_StringFormatter` anywhere in the project. The types `namespace` MUST match the project´s root-namespace.
+
+### example
+Given the root-namespace `TypealizR.Ockz` for the project consuming TypealizR, this partial-class declaration should be enough:
+
+```csharp
+namespace TypealizR.Ockz;
+internal static partial class TypealizR_StringFormatter
+{
+	internal static partial string Format(string s, object[] args) => 
+		new(string.Format(s, args).Reverse().ToArray());
+}
+```
+
+With this implementation, every localized string would be reversed. (Even if that doesn´t make any sense ;P)
+
+
+# configuration
 ## customize warnings
 
 During code-generation, the `code-generator` might emit one of [these diagnostics](https://github.com/earloc/TypealizR/tree/main/docs/reference).

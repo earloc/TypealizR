@@ -4,6 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
+using TypealizR.SourceGenerators.Extensibility;
 using TypealizR.SourceGenerators.Extensions;
 
 namespace TypealizR.SourceGenerators.StringLocalizer;
@@ -11,27 +12,38 @@ namespace TypealizR.SourceGenerators.StringLocalizer;
 [Generator]
 public partial class SourceGenerator : IIncrementalGenerator
 {
+	private const string ResXFileExtension = ".resx";
 
-    public void Initialize(IncrementalGeneratorInitializationContext context)
+	public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Options.From(x.GlobalOptions));
-
-		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
-
+		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(ResXFileExtension));
         var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
+		var stringFormatterProvided = context.CompilationProvider.Select((x, cancel) => !x.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type));
 
-        var input = monitoredFiles.Combine(settings);
-
-        context.RegisterSourceOutput(input, (ctxt, source) =>
+        context.RegisterSourceOutput(monitoredFiles
+            .Combine(settings)
+            .Combine(stringFormatterProvided), 
+            (ctxt, source) =>
         {
-            var files = source.Left;
-            var options = source.Right;
-
-            if (!options.ProjectDirectory.Exists)
+            //reads horrible, but hey, that´s THE WAY
+            var files = source.Left.Left;
+			var options = source.Left.Right;
+			var isStringFormatterProvided = source.Right;
+            
+			if (!options.ProjectDirectory.Exists)
             {
                 ctxt.ReportDiagnostic( DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
                 return;
             }
+
+            var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace);
+            if (isStringFormatterProvided)
+            {
+                stringFormatterBuilder.UserModeImplementationIsProvided();
+            }
+
+            ctxt.AddSource($"{StringFormatterClassBuilder.TypeName}.g.cs", stringFormatterBuilder.Build());
 
 			foreach (var file in files)
             {
@@ -45,7 +57,7 @@ public partial class SourceGenerator : IIncrementalGenerator
                 var targetTypeName = file.SimpleName;
 
                 var targetNamespace = FindNameSpaceOf(options.RootNamespace, file.FullPath, options.ProjectDirectory.FullName);
-                var extensionClass = builder.Build(new (targetNamespace, file.SimpleName));
+                var extensionClass = builder.Build(new(targetNamespace, file.SimpleName), options.RootNamespace);
 
 				ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
 
