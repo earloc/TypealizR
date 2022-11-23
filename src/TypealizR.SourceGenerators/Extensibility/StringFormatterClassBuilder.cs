@@ -54,17 +54,18 @@ using Microsoft.Extensions.Localization;
 	private string GenerateStub() => $@"
 	internal static partial class {TypeName}
 	{{
-		public static partial LocalizedString Format(this LocalizedString that, params object[] args);
+		internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
+			new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+
+		internal static partial string Format(string s, object[] args);
 	}}";
 
 	private static string GenerateDefaultImplementation() => $@"
 		{_.GeneratedCodeAttribute}
 		[DebuggerStepThrough]
 		internal static partial class {TypeName} {{
-			public static partial LocalizedString Format(this LocalizedString that, params object[] args) {{ 
-				var formattedValue = string.Format(System.Globalization.CultureInfo.CurrentCulture, that.Value, args);
-				return new LocalizedString(that.Name, formattedValue, that.ResourceNotFound, searchedLocation: that.SearchedLocation);
-			}}
+			internal static partial string Format(string s, object[] args) => 
+				string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
 		}}
 ";
 

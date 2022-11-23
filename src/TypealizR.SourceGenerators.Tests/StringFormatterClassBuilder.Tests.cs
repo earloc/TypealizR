@@ -21,18 +21,19 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 
 namespace Some.Name.Space {{
-	internal static partial class {StringFormatterClassBuilder.TypeName} 
-    {{
-		public static partial LocalizedString Format(this LocalizedString that, params object[] args);
+	internal static partial class {StringFormatterClassBuilder.TypeName}
+	{{
+		internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
+			new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+
+		internal static partial string Format(string s, object[] args);
 	}}
 
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
 	internal static partial class {StringFormatterClassBuilder.TypeName} {{
-		public static partial LocalizedString Format(this LocalizedString that, params object[] args) {{ 
-			var formattedValue = string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
-			return new LocalizedString(that.Name, formattedValue, that.ResourceNotFound, searchedLocation: that.SearchedLocation);
-		}}
+		internal static partial string Format(string s, object[] args) => 
+			string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
 	}}
 }}
 ".Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
@@ -56,7 +57,10 @@ using Microsoft.Extensions.Localization;
 namespace Some.Name.Space {{
 	internal static partial class {StringFormatterClassBuilder.TypeName}
 	{{
-		public static partial LocalizedString Format(this LocalizedString that, params object[] args);
+		internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
+			new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+
+		internal static partial string Format(string s, object[] args);
 	}}
 }}
 ".Trim().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
