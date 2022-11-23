@@ -63,7 +63,7 @@ namespace Some.Name.Space {{
 		internal static partial string Format(string s, object[] args);
 	}}
 }}
-".Trim().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
+".Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		actual.Should().BeEquivalentTo(expected);
 	}
