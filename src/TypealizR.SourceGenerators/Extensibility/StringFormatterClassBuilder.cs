@@ -62,7 +62,7 @@ using Microsoft.Extensions.Localization;
 		[DebuggerStepThrough]
 		internal static partial class {TypeName} {{
 			public static partial LocalizedString Format(this LocalizedString that, params object[] args) {{ 
-				var formattedValue = string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+				var formattedValue = string.Format(System.Globalization.CultureInfo.CurrentCulture, that.Value, args);
 				return new LocalizedString(that.Name, formattedValue, that.ResourceNotFound, searchedLocation: that.SearchedLocation);
 			}}
 		}}
