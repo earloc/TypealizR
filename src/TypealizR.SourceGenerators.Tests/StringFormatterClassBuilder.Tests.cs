@@ -13,7 +13,7 @@ public class StringFormatterClassBuilder_Tests
 		var sut = new StringFormatterClassBuilder("Some.Name.Space");
 		sut.UserModeImplementationIsProvided();
 
-		var actual = sut.Build().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
+		var actual = sut.Build().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 		var expected = $@"
 using System.Diagnostics;
@@ -25,13 +25,14 @@ namespace Some.Name.Space {{
     {{
 		public static partial string Format(this LocalizedString s, params object[] args);
 	}}
+
 	{_.GeneratedCodeAttribute}
 	[DebuggerStepThrough]
 	internal static partial class {StringFormatterClassBuilder.TypeName} {{
 		public static partial string Format(this LocalizedString s, params object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
 	}}
 }}
-".Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
+".Trim().Split(Environment.NewLine, StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.TrimEntries);
 
 		actual.Should().BeEquivalentTo(expected);
 
@@ -58,7 +59,5 @@ namespace Some.Name.Space {{
 ".Trim().Split("\r\n", StringSplitOptions.RemoveEmptyEntries | StringSplitOptions.RemoveEmptyEntries);
 
 		actual.Should().BeEquivalentTo(expected);
-
 	}
-
 }
