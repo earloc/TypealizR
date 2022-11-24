@@ -33,7 +33,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj" />
+		<ProjectReference Include="..\TypealizR.SourceGenerators\TypealizR.csproj" />
 	</ItemGroup>
 
 </Project>

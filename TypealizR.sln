@@ -3,9 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators", "src\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj", "{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR", "src\TypealizR.SourceGenerators\TypealizR.csproj", "{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators.Tests", "src\TypealizR.SourceGenerators.Tests\TypealizR.SourceGenerators.Tests.csproj", "{78916CDC-B1C6-404F-A074-1369ABA8DF2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.Tests", "src\TypealizR.SourceGenerators.Tests\TypealizR.Tests.csproj", "{78916CDC-B1C6-404F-A074-1369ABA8DF2E}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
