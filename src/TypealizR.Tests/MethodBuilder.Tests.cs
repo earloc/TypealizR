@@ -2,9 +2,9 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using TypealizR.SourceGenerators.StringLocalizer;
+using TypealizR.StringLocalizer;
 
-namespace TypealizR.SourceGenerators.Tests;
+namespace TypealizR.Tests;
 
 public class MethodBuilder_Tests
 {

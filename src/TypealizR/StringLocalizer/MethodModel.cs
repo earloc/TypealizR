@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.SourceGenerators.StringLocalizer;
+namespace TypealizR.StringLocalizer;
 internal class MethodModel
 {
     public static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.FullName}> that";

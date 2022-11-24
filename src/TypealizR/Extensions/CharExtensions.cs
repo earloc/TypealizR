@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.Text;
 
-namespace TypealizR.SourceGenerators.Extensions;
+namespace TypealizR.Extensions;
 internal static class CharExtensions
 {
     //thx https://stackoverflow.com/a/60820647/4136104

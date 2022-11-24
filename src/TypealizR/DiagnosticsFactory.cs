@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using id = TypealizR.SourceGenerators.DiagnosticsId;
+using id = TypealizR.DiagnosticsId;
 
-namespace TypealizR.SourceGenerators;
+namespace TypealizR;
 internal class DiagnosticsFactory
 {
 	private readonly string filePath;

@@ -6,9 +6,9 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
-using TypealizR.SourceGenerators.StringLocalizer;
+using TypealizR.StringLocalizer;
 
-namespace TypealizR.SourceGenerators.Tests;
+namespace TypealizR.Tests;
 public class ClassBuilder_Tests
 {
     private const string SomeFileName = "Ressource1.resx";

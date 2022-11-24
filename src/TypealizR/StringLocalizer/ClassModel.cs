@@ -5,7 +5,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Xml;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.SourceGenerators.StringLocalizer;
+namespace TypealizR.StringLocalizer;
 
 internal class ClassModel
 {

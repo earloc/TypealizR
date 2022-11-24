@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.SourceGenerators.StringLocalizer;
+namespace TypealizR.StringLocalizer;
 internal class ClassBuilder
 {
 	private readonly string filePath;

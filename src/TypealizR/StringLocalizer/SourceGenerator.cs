@@ -4,10 +4,10 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using TypealizR.SourceGenerators.Extensibility;
-using TypealizR.SourceGenerators.Extensions;
+using TypealizR.Extensibility;
+using TypealizR.Extensions;
 
-namespace TypealizR.SourceGenerators.StringLocalizer;
+namespace TypealizR.StringLocalizer;
 
 [Generator]
 public partial class SourceGenerator : IIncrementalGenerator

@@ -6,9 +6,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml;
-using TypealizR.SourceGenerators.Extensions;
+using TypealizR.Extensions;
 
-namespace TypealizR.SourceGenerators.StringLocalizer;
+namespace TypealizR.StringLocalizer;
 
 internal class MethodBuilder
 {

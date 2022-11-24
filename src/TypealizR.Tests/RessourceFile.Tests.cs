@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 
-namespace TypealizR.SourceGenerators.Tests;
+namespace TypealizR.Tests;
 public class RessourceFile_Tests
 {
 

@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.SourceGenerators;
+namespace TypealizR;
 internal static partial class ErrorCodes
 {
 	

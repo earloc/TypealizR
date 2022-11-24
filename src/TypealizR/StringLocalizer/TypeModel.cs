@@ -1,4 +1,4 @@
-﻿namespace TypealizR.SourceGenerators.StringLocalizer;
+﻿namespace TypealizR.StringLocalizer;
 
 internal class TypeModel
 {

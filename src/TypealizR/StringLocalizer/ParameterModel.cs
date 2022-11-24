@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
-using TypealizR.SourceGenerators.Extensions;
+using TypealizR.Extensions;
 
-namespace TypealizR.SourceGenerators.StringLocalizer;
+namespace TypealizR.StringLocalizer;
 internal class ParameterModel
 {
 	public readonly string Token;

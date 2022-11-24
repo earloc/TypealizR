@@ -8,7 +8,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.SourceGenerators;
+namespace TypealizR;
 internal class RessourceFile
 {
     internal record struct Entry (string Key, string Value, IXmlLineInfo Location);

@@ -3,11 +3,11 @@ using System.Collections.Generic;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
-using TypealizR.SourceGenerators.StringLocalizer;
+using TypealizR.StringLocalizer;
 
 [assembly: InternalsVisibleTo("TypealizR.Tests")]
 
-namespace TypealizR.SourceGenerators;
+namespace TypealizR;
 
 internal abstract class _
 {

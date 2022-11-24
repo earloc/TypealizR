@@ -7,7 +7,7 @@ using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
 
-namespace TypealizR.SourceGenerators.Tests;
+namespace TypealizR.Tests;
 
 public class DiagnosticsFactoryTests
 {

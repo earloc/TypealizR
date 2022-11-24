@@ -5,9 +5,9 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
-using TypealizR.SourceGenerators.StringLocalizer;
+using TypealizR.StringLocalizer;
 
-namespace TypealizR.SourceGenerators.Tests;
+namespace TypealizR.Tests;
 
 public class ParameterModel_Tests
 {

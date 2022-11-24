@@ -1,4 +1,4 @@
-﻿namespace TypealizR.SourceGenerators;
+﻿namespace TypealizR;
 
 internal enum DiagnosticsId
 {

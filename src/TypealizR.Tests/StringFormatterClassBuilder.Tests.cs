@@ -1,9 +1,9 @@
 ﻿
 using System.Globalization;
 using FluentAssertions;
-using TypealizR.SourceGenerators.Extensibility;
+using TypealizR.Extensibility;
 
-namespace TypealizR.SourceGenerators.Tests;
+namespace TypealizR.Tests;
 public class StringFormatterClassBuilder_Tests
 {
 

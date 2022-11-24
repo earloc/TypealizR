@@ -3,7 +3,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace TypealizR.SourceGenerators.Extensibility;
+namespace TypealizR.Extensibility;
 internal class StringFormatterClassBuilder
 {
 	public static string TypeName = "TypealizR_StringFormatter";
