@@ -152,8 +152,8 @@ dotnet_diagnostic_TR0004_severity = error
 ```
 
 See 
-[global-analyzerconfig](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig) for further details about analyzer-configs.
-#12 for details about design-decisssions
-#35 for implementation-details
+- [global-analyzerconfig](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig) for further details about analyzer-configs.
+- #12 for details about design-decisssions
+- #35 for implementation-details
 
 
