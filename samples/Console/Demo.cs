@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
-namespace Console;
+namespace ConsoleSTS;
 internal class Demo
 {
 
