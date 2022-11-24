@@ -1,6 +1,5 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using TypealizR.SourceGenerators.Playground.Console;
 
 var services = new ServiceCollection();
 services.AddLogging();

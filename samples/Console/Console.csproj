@@ -11,6 +11,10 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
+    <PackageReference Include="TypealizR" Version="0.6.0-preview">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
@@ -21,10 +25,6 @@
       <Generator></Generator>
     </EmbeddedResource>
   </ItemGroup>
-
-	<ItemGroup>
-		<ProjectReference Include="..\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-	</ItemGroup>
 
 	<ItemGroup>
 	  <Compile Update="Demo.Designer.cs">

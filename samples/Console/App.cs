@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace TypealizR.SourceGenerators.Playground.Console;
+namespace Console;
 internal class App
 {
 }

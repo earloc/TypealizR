@@ -1,6 +1,6 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
-using TypealizR.SourceGenerators.Playground.BlazorServer.Data;
+using BlazorServer.Data;
 
 var builder = WebApplication.CreateBuilder(args);
 

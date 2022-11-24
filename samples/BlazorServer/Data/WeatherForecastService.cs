@@ -1,4 +1,4 @@
-namespace TypealizR.SourceGenerators.Playground.BlazorServer.Data;
+namespace BlazorServer.Data;
 
 public class WeatherForecastService
 {

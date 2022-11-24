@@ -6,16 +6,18 @@
 		<ImplicitUsings>enable</ImplicitUsings>
 	</PropertyGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj"
-						  OutputItemType="Analyzer"
-						  ReferenceOutputAssembly="false"
-	/>
-	</ItemGroup>
-
 	<PropertyGroup>
 		<!-- Update the property to include all EmbeddedResource files -->
 		<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
 	</PropertyGroup>
 
+
+	<ItemGroup>
+		<PackageReference Include="TypealizR" Version="0.6.0-preview">
+			<PrivateAssets>all</PrivateAssets>
+			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+		</PackageReference>
+	</ItemGroup>
+
+	
 </Project>
