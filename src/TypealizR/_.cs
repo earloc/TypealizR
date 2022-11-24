@@ -5,7 +5,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using TypealizR.SourceGenerators.StringLocalizer;
 
-[assembly: InternalsVisibleTo("TypealizR.SourceGenerators.Tests")]
+[assembly: InternalsVisibleTo("TypealizR.Tests")]
 
 namespace TypealizR.SourceGenerators;
 
