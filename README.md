@@ -108,7 +108,7 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 
 ## customize string formatting
 
-Starting with `v0.6.x`, TypealizR supports customizing the internal usage of `string.Format()`, which should enable developers to implement [#16] with the technology / library / approach at their choice - Leaving TypelaziR un-opinionated about the actual approach to achieve this.
+Starting with `v0.6.x`, TypealizR supports customizing the internal usage of `string.Format()`, which should enable developers to implement [#16] with the technology / library / approach of their choice - Leaving TypelaziR un-opinionated about the actual approach to achieve this.
 
 To customize the formatting, just drop a custom implementation of `TypealizR_StringFormatter` anywhere in the project. The types `namespace` MUST match the project´s root-namespace.
 
