@@ -1,4 +1,5 @@
-[![.NET](https://github.com/earloc/TypealizR/actions/workflows/dotnet.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet.yml)
+[![.NET STS](https://github.com/earloc/TypealizR/actions/workflows/dotnet_sts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet_sts.yml)
+[![.NET LTS](https://github.com/earloc/TypealizR/actions/workflows/dotnet_lts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet_lts.yml)
 [![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main)](https://coveralls.io/github/earloc/TypealizR?branch=main)
 [![CodeQL](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml)
 [![Publish](https://github.com/earloc/TypealizR/actions/workflows/publish.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/publish.yml)
@@ -153,7 +154,7 @@ dotnet_diagnostic_TR0004_severity = error
 
 See 
 - [global-analyzerconfig](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig) for further details about analyzer-configs.
-- #12 for details about design-decisssions
-- #35 for implementation-details
+- [#12](https://github.com/earloc/TypealizR/issues/12) for details about design-decisssions
+- [#35](https://github.com/earloc/TypealizR/pull/35) for implementation-details
 
 
