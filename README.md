@@ -109,7 +109,7 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 
 Starting with `v0.6.x`, TypealizR supports customizing the internal usage of `string.Format()`, which should enable developers to implement #16 with the technology / library / approach at their choice - Leaving TypelaziR un-opinionated about the actual approach to achieve this.
 
-To customize the formatting, just drop a custom implementation of `TypealizR_StringFormatter` anywhere in the project. The types `namespace` MUST match the project´s root-namespace.
+To customize the formatting, just drop a custom implementation of `TypealizR_StringFormatter` anywhere in the project. The types `namespace` MUST match the projectÂ´s root-namespace.
 
 ### example
 Given the root-namespace `TypealizR.Ockz` for the project consuming TypealizR, this partial-class declaration should be enough:
@@ -123,7 +123,7 @@ internal static partial class TypealizR_StringFormatter
 }
 ```
 
-With this implementation, every localized string would be reversed. (Even if that doesn´t make any sense ;P)
+With this implementation, every localized string would be reversed. (Even if that doesnÂ´t make any sense ;P)
 
 
 # configuration
@@ -152,8 +152,8 @@ dotnet_diagnostic_TR0004_severity = error
 ```
 
 See 
-  - [global-analyzerconfig](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig) for further details about analyzer-configs.
-  - #12 for details about design-decisssions
-  - #35 for implementation-details
+[global-analyzerconfig](https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig) for further details about analyzer-configs.
+#12 for details about design-decisssions
+#35 for implementation-details
 
 
