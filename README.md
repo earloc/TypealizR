@@ -1,3 +1,5 @@
+
+[![build](https://github.com/earloc/TypealizR/actions/workflows/build.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/build.yml)
 [![.NET STS](https://github.com/earloc/TypealizR/actions/workflows/dotnet_sts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet_sts.yml)
 [![.NET LTS](https://github.com/earloc/TypealizR/actions/workflows/dotnet_lts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/dotnet_lts.yml)
 [![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main)](https://coveralls.io/github/earloc/TypealizR?branch=main)

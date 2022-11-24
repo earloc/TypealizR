@@ -21,13 +21,8 @@ jobs:
       with:
         dotnet-version: 7.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore samples/Samples.sln
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: dotnet build samples/Samples.sln --no-restore
     - name: Test
-      run: dotnet test -c Release --no-build
-    - name: Publish coverage report to coveralls.io
-      uses: coverallsapp/github-action@master   
-      with:
-        github-token: ${{ secrets.GITHUB_TOKEN }} 
-        path-to-lcov: src/TypealizR.SourceGenerators.Tests/coverage.info
+      run: dotnet test samples/Samples.sln --no-build

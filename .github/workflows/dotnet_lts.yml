@@ -6,8 +6,6 @@ name: .NET LTS
 on:
   push:
     branches: [ "main" ]
-  pull_request:
-    branches: [ "main" ]
 
 jobs:
   build:
@@ -21,8 +19,8 @@ jobs:
       with:
         dotnet-version: 6.0.x
     - name: Restore dependencies
-      run: dotnet restore
+      run: dotnet restore samples/Samples.sln
     - name: Build
-      run: dotnet build -c Release --no-restore
+      run: dotnet build samples/Samples.sln --no-restore
     - name: Test
-      run: dotnet test -c Release --no-build
+      run: dotnet test samples/Samples.sln --no-build
