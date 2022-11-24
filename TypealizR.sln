@@ -3,15 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.3.32929.385
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators", "src\TypealizR.SourceGenerators\TypealizR.SourceGenerators.csproj", "{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.Tests", "src\TypealizR.Tests\TypealizR.Tests.csproj", "{78916CDC-B1C6-404F-A074-1369ABA8DF2E}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators.Playground.BlazorServer", "src\TypealizR.SourceGenerators.Playground.BlazorServer\TypealizR.SourceGenerators.Playground.BlazorServer.csproj", "{71908EB2-AF97-42DF-8205-21A62E56C743}"
-EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{1BF2A702-C027-47A6-B85E-65648F9ADC00}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators.Playground.Console", "src\TypealizR.SourceGenerators.Playground.Console\TypealizR.SourceGenerators.Playground.Console.csproj", "{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}"
-EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.SourceGenerators.Tests", "src\TypealizR.SourceGenerators.Tests\TypealizR.SourceGenerators.Tests.csproj", "{78916CDC-B1C6-404F-A074-1369ABA8DF2E}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR", "src\TypealizR\TypealizR.csproj", "{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -19,29 +13,17 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E8BEC7BA-5CFC-44DC-991C-5D7DC48A6FAB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{71908EB2-AF97-42DF-8205-21A62E56C743}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{71908EB2-AF97-42DF-8205-21A62E56C743}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{71908EB2-AF97-42DF-8205-21A62E56C743}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{71908EB2-AF97-42DF-8205-21A62E56C743}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2}.Release|Any CPU.Build.0 = Release|Any CPU
 		{78916CDC-B1C6-404F-A074-1369ABA8DF2E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{78916CDC-B1C6-404F-A074-1369ABA8DF2E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{78916CDC-B1C6-404F-A074-1369ABA8DF2E}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{78916CDC-B1C6-404F-A074-1369ABA8DF2E}.Release|Any CPU.Build.0 = Release|Any CPU
+		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
-	EndGlobalSection
-	GlobalSection(NestedProjects) = preSolution
-		{71908EB2-AF97-42DF-8205-21A62E56C743} = {1BF2A702-C027-47A6-B85E-65648F9ADC00}
-		{F1633AB3-78C6-4407-AA2D-8223A2E5A8B2} = {1BF2A702-C027-47A6-B85E-65648F9ADC00}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {963536E5-E9EB-471B-9292-73125DAB4B08}
