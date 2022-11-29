@@ -52,7 +52,7 @@ internal class RessourceFile
 
     public static IEnumerable<RessourceFile> From(IEnumerable<string> filePaths)
     {
-        string TryGetFileContent(string filePath)
+		static string TryGetFileContent(string filePath)
         {
             if (File.Exists(filePath))
             {

@@ -12,7 +12,7 @@ namespace TypealizR.StringLocalizer;
 
 internal class MethodBuilder
 {
-    private string key;
+    private readonly string key;
     private readonly string value;
 	private readonly DiagnosticsFactory diagnostics;
 
