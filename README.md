@@ -3,6 +3,7 @@
 [![Samples STS](https://github.com/earloc/TypealizR/actions/workflows/samples_sts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/samples_sts.yml)
 [![Samples LTS](https://github.com/earloc/TypealizR/actions/workflows/samples_lts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/samples_lts.yml)
 [![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main)](https://coveralls.io/github/earloc/TypealizR?branch=main)
+[![Quality gate](https://sonarcloud.io/api/project_badges/quality_gate?project=earloc_TypealizR)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![CodeQL](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml)
 [![Publish](https://github.com/earloc/TypealizR/actions/workflows/publish.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/publish.yml)
 [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
