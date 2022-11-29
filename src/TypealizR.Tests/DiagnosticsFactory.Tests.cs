@@ -12,7 +12,7 @@ namespace TypealizR.Tests;
 public class DiagnosticsFactoryTests
 {
 
-	private DiagnosticsFactory CreateSut(DiagnosticsEntry entryid, DiagnosticSeverity severity) 
+	private static DiagnosticsFactory CreateSut(DiagnosticsEntry entryid, DiagnosticSeverity severity) 
 		=> new("someFile.resx", "someKey", 42, new Dictionary<string, DiagnosticSeverity>() { { entryid.Id.ToString(), severity } });
 	
 

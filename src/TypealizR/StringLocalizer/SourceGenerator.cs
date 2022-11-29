@@ -53,9 +53,7 @@ public partial class SourceGenerator : IIncrementalGenerator
                 {
                     builder.WithMethodFor(entry.Key, entry.Value, entry.Location.LineNumber);
                 }
-
-                var targetTypeName = file.SimpleName;
-
+                
                 var targetNamespace = FindNameSpaceOf(options.RootNamespace, file.FullPath, options.ProjectDirectory.FullName);
                 var extensionClass = builder.Build(new(targetNamespace, file.SimpleName), options.RootNamespace);
 

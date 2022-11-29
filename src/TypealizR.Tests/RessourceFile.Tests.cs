@@ -23,7 +23,7 @@ public class RessourceFile_Tests
     public void Parsing_Paths_Does_Not_Group_Files_With_Different_Names_And_Paths(int expected, params string[] paths)
     {
         var actual = RessourceFile.From(paths);
-        actual.Count().Should().Be(expected);
+        actual.Should().HaveCount(expected);
     }
 
     [Theory]
@@ -60,7 +60,7 @@ public class RessourceFile_Tests
     public void Parsing_Paths_Groups_Localizations_By_Path(int expected, params string[] paths)
     {
         var actual = RessourceFile.From(paths);
-        actual.Count().Should().Be(expected);
+        actual.Should().HaveCount(expected);
     }
 
     [Theory]

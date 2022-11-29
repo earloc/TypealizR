@@ -12,7 +12,7 @@ namespace TypealizR.StringLocalizer;
 
 internal class MethodBuilder
 {
-    private string key;
+    private readonly string key;
     private readonly string value;
 	private readonly DiagnosticsFactory diagnostics;
 
@@ -56,7 +56,7 @@ internal class MethodBuilder
     /// <summary>
     /// matches strings like {0}, {0:12}, {name} usable in format-strings
     /// </summary>
-    internal static Regex parameterExpression = new ("{(?<name>([0-9a-zA-Z]*))(:+(?<expression>[0-9a-zA-Z]*))?}");
+    internal static readonly Regex parameterExpression = new ("{(?<name>([0-9a-zA-Z]*))(:+(?<expression>[0-9a-zA-Z]*))?}");
 
     private IEnumerable<ParameterModel> BuildParameters(string rawValue)
     {

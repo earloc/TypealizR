@@ -9,7 +9,7 @@ namespace TypealizR.StringLocalizer;
 
 public partial class SourceGenerator
 {
-	private class Options
+	private sealed class Options
     {
         public Options(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
         {
@@ -60,7 +60,7 @@ public partial class SourceGenerator
 					}
 					else
 					{
-						throw new Exception($"'{key}' has invalid value '{rawValue}'");
+						throw new InvalidOperationException($"'{key}' has invalid value '{rawValue}'");
 					}
 				}
 			}

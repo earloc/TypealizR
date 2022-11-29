@@ -51,7 +51,6 @@ internal class ClassBuilder
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Name);
 		var deduplicatedMethods = new List<MethodModel>(methods.Count());
-		var warnings = new List<Diagnostic>(methods.Count());
 
 		foreach (var methodGroup in groupByMethodName)
 		{

@@ -13,20 +13,34 @@ jobs:
   build:
 
     runs-on: ubuntu-latest
-
+    env:
+      GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}  # Needed to get PR information, if any
+      SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
     steps:
     - uses: actions/checkout@v3
-    - name: Setup .NET
+      with:
+        depth: 0
+
+    - name: setup .NET
       uses: actions/setup-dotnet@v3
       with:
         dotnet-version: 7.0.x
-    - name: Restore dependencies
+    - name: restore dependencies
       run: dotnet restore
-    - name: Build
-      run: dotnet build -c Release --no-restore
-    - name: Test
+    - name: restore tools
+      run: dotnet tool restore
+    - name: Begin SQ-Analysis
+      run: dotnet tool run dotnet-sonarscanner begin /k:"earloc_TypealizR" /o:"earloc" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
+
+    - name: build
+      run: dotnet build -c Release --no-restore --no-incremental
+    - name: test
       run: dotnet test -c Release --no-build
-    - name: Publish coverage report to coveralls.io
+
+    - name: end SQ-Analysis
+      run: dotnet tool run dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
+
+    - name: publish coverage report to coveralls.io
       uses: coverallsapp/github-action@master   
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }} 

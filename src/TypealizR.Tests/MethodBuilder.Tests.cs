@@ -8,7 +8,7 @@ namespace TypealizR.Tests;
 
 public class MethodBuilder_Tests
 {
-	private static TypeModel targetType = new("Name.Space", "TypeName");
+	private static readonly TypeModel targetType = new("Name.Space", "TypeName");
 
 	[Theory]
 	[InlineData("Name", "Name")]
