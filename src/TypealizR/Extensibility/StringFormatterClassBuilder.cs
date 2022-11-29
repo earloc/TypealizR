@@ -6,7 +6,7 @@ using System.Text;
 namespace TypealizR.Extensibility;
 internal class StringFormatterClassBuilder
 {
-	public static string TypeName = "TypealizR_StringFormatter";
+	internal static readonly string TypeName = "TypealizR_StringFormatter";
 
 	private readonly string rootNamespace;
 
@@ -39,7 +39,7 @@ internal class StringFormatterClassBuilder
 			builder.AppendLine(defaultImplementation);
 		}
 
-		builder.AppendLine(CloseNamespace());
+		builder.AppendLine(CloseNamespace);
 		return builder.ToString();
 	}
 
@@ -69,6 +69,6 @@ using Microsoft.Extensions.Localization;
 		}}
 ";
 
-	private string CloseNamespace() => "}";
+	private const string CloseNamespace = "}";
 }
 
