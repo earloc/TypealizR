@@ -60,7 +60,7 @@ public partial class SourceGenerator
 					}
 					else
 					{
-						throw new ApplicationException($"'{key}' has invalid value '{rawValue}'");
+						throw new InvalidOperationException($"'{key}' has invalid value '{rawValue}'");
 					}
 				}
 			}
