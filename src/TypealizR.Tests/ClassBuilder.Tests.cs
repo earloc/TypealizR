@@ -111,4 +111,16 @@ public class ClassBuilder_Tests
 
 		actual.Should().BeEquivalentTo(expectedWarnings);
 	}
+
+	[Fact]
+	public void DoesNot_Use_Same_Namespace_Twice()
+	{
+		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+
+		var extensionClass = sut.Build(new("Duplicate.Name.Space", "TypeName"), "Duplicate.Name.Space");
+
+		var usings = extensionClass.Usings.GroupBy(x => x);
+
+		usings.Should().AllSatisfy(x => x.Should().HaveCount(1));
+	}
 }
