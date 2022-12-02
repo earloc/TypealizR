@@ -11,7 +11,6 @@ namespace TypealizR.StringLocalizer;
 internal class ClassModel
 {
     private readonly TypeModel target;
-	private readonly string rootNamespace;
 	private readonly string members;
 
     private readonly HashSet<string> usings = new()
@@ -30,7 +29,6 @@ internal class ClassModel
 	public ClassModel(TypeModel target, string rootNamespace, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
     {
         this.target = target;
-		this.rootNamespace = rootNamespace;
 		Methods = methods;
 		Diagnostics = warningsAndErrors;
 		members = string.Join("\r", methods
