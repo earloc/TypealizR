@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Xml;
@@ -24,7 +25,9 @@ internal class ClassModel
 	public IEnumerable<MethodModel> Methods { get; }
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
-    private readonly string usingDirectives;
+    public string Visibility => target.Visibility.ToString().ToLower();
+
+	private readonly string usingDirectives;
 
 	public ClassModel(TypeModel target, string rootNamespace, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
     {
@@ -51,7 +54,7 @@ namespace Microsoft.Extensions.Localization {{
 
     {_.GeneratedCodeAttribute}
     [DebuggerStepThrough]
-    internal static partial class IStringLocalizerExtensions_{target.Name}
+    {Visibility} static partial class IStringLocalizerExtensions_{target.Name}
     {{
     {members}
     }}
