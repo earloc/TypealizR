@@ -7,6 +7,7 @@ using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using TypealizR.StringLocalizer;
+using Xunit.Sdk;
 
 namespace TypealizR.Tests;
 public class ClassBuilder_Tests
@@ -122,5 +123,22 @@ public class ClassBuilder_Tests
 		var usings = extensionClass.Usings.GroupBy(x => x);
 
 		usings.Should().AllSatisfy(x => x.Should().HaveCount(1));
+	}
+
+	[Theory]
+	[InlineData(Visibility.Internal)]
+	[InlineData(Visibility.Public)]
+	public void Honors_Visibility(Visibility visibility)
+	{
+		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+
+		sut.WithMethodFor("some key", "some value", 30);
+
+		var extensionClass = sut.Build(new("Name.Space", "TypeName", visibility), "RootName.Space");
+
+		var actual = extensionClass.Visibility;
+		var expected = visibility.ToString().ToLower();
+
+		actual.Should().Be(expected);
 	}
 }

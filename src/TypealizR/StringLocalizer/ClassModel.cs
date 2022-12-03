@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Specialized;
+using System.IO;
 using System.Linq;
 using System.Runtime.InteropServices.ComTypes;
 using System.Xml;
@@ -11,7 +12,6 @@ namespace TypealizR.StringLocalizer;
 internal class ClassModel
 {
     private readonly TypeModel target;
-	private readonly string rootNamespace;
 	private readonly string members;
 
     private readonly HashSet<string> usings = new()
@@ -25,12 +25,13 @@ internal class ClassModel
 	public IEnumerable<MethodModel> Methods { get; }
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
-    private readonly string usingDirectives;
+    public string Visibility => target.Visibility.ToString().ToLower();
+
+	private readonly string usingDirectives;
 
 	public ClassModel(TypeModel target, string rootNamespace, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
     {
         this.target = target;
-		this.rootNamespace = rootNamespace;
 		Methods = methods;
 		Diagnostics = warningsAndErrors;
 		members = string.Join("\r", methods
@@ -53,7 +54,7 @@ namespace Microsoft.Extensions.Localization {{
 
     {_.GeneratedCodeAttribute}
     [DebuggerStepThrough]
-    internal static partial class IStringLocalizerExtensions_{target.Name}
+    {Visibility} static partial class IStringLocalizerExtensions_{target.FullNameForExtensionsClass}
     {{
     {members}
     }}
