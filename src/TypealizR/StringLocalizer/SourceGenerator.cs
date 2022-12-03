@@ -71,11 +71,6 @@ public partial class SourceGenerator : IIncrementalGenerator
 
 	private (string, Visibility) FindNameSpaceAndVisibilityOf(Compilation compilation, string rootNameSpace, RessourceFile resx, string projectFullPath)
     {
-        //if (!Debugger.IsAttached)
-        //{
-        //    Debugger.Launch();
-        //}
-
         var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
 		var nameSpace = resx.FullPath.Replace(projectFullPath, "");
 		nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
