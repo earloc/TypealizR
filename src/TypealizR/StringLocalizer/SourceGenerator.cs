@@ -23,14 +23,16 @@ public partial class SourceGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(monitoredFiles
             .Combine(settings)
-            .Combine(stringFormatterProvided), 
+            .Combine(stringFormatterProvided)
+            .Combine(context.CompilationProvider),
             (ctxt, source) =>
         {
             //reads horrible, but hey, that´s THE WAY
-            var files = source.Left.Left;
-			var options = source.Left.Right;
-			var isStringFormatterProvided = source.Right;
-            
+            var files = source.Left.Left.Left;
+			var isStringFormatterProvided = source.Left.Right;
+			var options = source.Left.Left.Right;
+            var compilation = source.Right;
+
 			if (!options.ProjectDirectory.Exists)
             {
                 ctxt.ReportDiagnostic( DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
@@ -54,8 +56,8 @@ public partial class SourceGenerator : IIncrementalGenerator
                     builder.WithMethodFor(entry.Key, entry.Value, entry.Location.LineNumber);
                 }
                 
-                var targetNamespace = FindNameSpaceOf(options.RootNamespace, file.FullPath, options.ProjectDirectory.FullName);
-                var extensionClass = builder.Build(new(targetNamespace, file.SimpleName), options.RootNamespace);
+                (var targetNamespace, var visibility) = FindNameSpaceAndVisibilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);
+                var extensionClass = builder.Build(new(targetNamespace, file.SimpleName, visibility), options.RootNamespace);
 
 				ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
 
@@ -67,17 +69,24 @@ public partial class SourceGenerator : IIncrementalGenerator
         });
     }
 
-	private string FindNameSpaceOf(string? rootNamespace, string resxFilePath, string projectFullPath)
+	private (string, Visibility) FindNameSpaceAndVisibilityOf(Compilation compilation, string rootNamespace, RessourceFile resx, string projectFullPath)
     {
-        var nameSpace = resxFilePath.Replace(projectFullPath, "");
-        nameSpace = nameSpace.Replace(Path.GetFileName(resxFilePath), "");
-        nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
+        var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
 
-        if (rootNamespace == null)
+        if (!possibleMarkerTypeSymbols.Any())
         {
-            return $"{rootNamespace}.{nameSpace}".Trim('.', ' ');
-        }
+			var nameSpace = resx.FullPath.Replace(projectFullPath, "");
+			nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
+			nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
 
-        return $"{rootNamespace}.{nameSpace}".Trim('.', ' ');
+			return ($"{rootNamespace}.{nameSpace}".Trim('.', ' '), Visibility.Internal);
+		}
+
+        var firstMatch = possibleMarkerTypeSymbols.First();
+        
+        var visibility = (firstMatch.DeclaredAccessibility == Accessibility.Public) ? Visibility.Public : Visibility.Internal;
+
+        return (firstMatch.ContainingNamespace.OriginalDefinition.ToDisplayString(), visibility);
+
     }
 }
