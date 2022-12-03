@@ -11,6 +11,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Shared", "src\Pl
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Playground.Console", "src\Playground.Console\Playground.Console.csproj", "{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -36,6 +38,10 @@ Global
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{D94E3949-302E-4211-B508-5791482D8997} = {38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}
+		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB} = {38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {963536E5-E9EB-471B-9292-73125DAB4B08}
