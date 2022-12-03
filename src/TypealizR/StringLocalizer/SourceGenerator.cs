@@ -72,21 +72,25 @@ public partial class SourceGenerator : IIncrementalGenerator
 	private (string, Visibility) FindNameSpaceAndVisibilityOf(Compilation compilation, string rootNamespace, RessourceFile resx, string projectFullPath)
     {
         var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
+		var nameSpace = resx.FullPath.Replace(projectFullPath, "");
+		nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
+		nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
 
-        if (!possibleMarkerTypeSymbols.Any())
+		if (!possibleMarkerTypeSymbols.Any())
         {
-			var nameSpace = resx.FullPath.Replace(projectFullPath, "");
-			nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
-			nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
-
 			return ($"{rootNamespace}.{nameSpace}".Trim('.', ' '), Visibility.Internal);
 		}
 
-        var firstMatch = possibleMarkerTypeSymbols.First();
-        
-        var visibility = (firstMatch.DeclaredAccessibility == Accessibility.Public) ? Visibility.Public : Visibility.Internal;
+        var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
-        return (firstMatch.ContainingNamespace.OriginalDefinition.ToDisplayString(), visibility);
+		if (matchingMarkerType is null)
+		{
+			return ($"{rootNamespace}.{nameSpace}".Trim('.', ' '), Visibility.Internal);
+		}
+
+		var visibility = (matchingMarkerType.DeclaredAccessibility == Accessibility.Public) ? Visibility.Public : Visibility.Internal;
+
+        return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), visibility);
 
     }
 }

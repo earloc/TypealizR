@@ -54,7 +54,7 @@ namespace Microsoft.Extensions.Localization {{
 
     {_.GeneratedCodeAttribute}
     [DebuggerStepThrough]
-    {Visibility} static partial class IStringLocalizerExtensions_{target.Name}
+    {Visibility} static partial class IStringLocalizerExtensions_{target.FullNameForExtensionsClass}
     {{
     {members}
     }}

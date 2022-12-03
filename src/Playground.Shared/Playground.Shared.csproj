@@ -20,6 +20,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<Compile Update="Duplicate\Greetings.Designer.cs">
+		  <DesignTime>True</DesignTime>
+		  <AutoGen>True</AutoGen>
+		  <DependentUpon>Greetings.resx</DependentUpon>
+		</Compile>
 		<Compile Update="Greetings.Designer.cs">
 			<DesignTime>True</DesignTime>
 			<AutoGen>True</AutoGen>
@@ -28,6 +33,10 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<EmbeddedResource Update="Duplicate\Greetings.resx">
+		  <Generator>PublicResXFileCodeGenerator</Generator>
+		  <LastGenOutput>Greetings.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Greetings.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Greetings.Designer.cs</LastGenOutput>

@@ -15,5 +15,7 @@ internal class TypeModel
 	public Visibility Visibility { get; }
 
 	public string FullName => $"{Namespace}.{Name}";
+	public string FullNameForExtensionsClass => FullName.Replace(".", "_");
+
 
 }
