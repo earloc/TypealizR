@@ -37,6 +37,9 @@
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Greetings.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+		<EmbeddedResource Update="Duplicate\Public.resx">
+		  <Generator></Generator>
+		</EmbeddedResource>
 		<EmbeddedResource Update="Greetings.resx">
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Greetings.Designer.cs</LastGenOutput>

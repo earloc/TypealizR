@@ -17,6 +17,7 @@ var provider = services.BuildServiceProvider();
 var greeter = provider.GetRequiredService<Greeter>();
 
 greeter.SayHello("Arthur");
+greeter.SayHelloPublic("Arthur");
 
 var internalLocalizable = provider.GetRequiredService<IStringLocalizer<Internal>>();
 Console.WriteLine(internalLocalizable.Hello__name("Arthur"));
