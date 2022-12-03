@@ -69,23 +69,32 @@ public partial class SourceGenerator : IIncrementalGenerator
         });
     }
 
-	private (string, Visibility) FindNameSpaceAndVisibilityOf(Compilation compilation, string rootNamespace, RessourceFile resx, string projectFullPath)
+	private (string, Visibility) FindNameSpaceAndVisibilityOf(Compilation compilation, string rootNameSpace, RessourceFile resx, string projectFullPath)
     {
+        //if (!Debugger.IsAttached)
+        //{
+        //    Debugger.Launch();
+        //}
+
         var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
 		var nameSpace = resx.FullPath.Replace(projectFullPath, "");
 		nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
 		nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
+        if (nameSpace != rootNameSpace)
+        {
+		    nameSpace = $"{rootNameSpace}.{nameSpace}";
+        }
 
 		if (!possibleMarkerTypeSymbols.Any())
         {
-			return ($"{rootNamespace}.{nameSpace}".Trim('.', ' '), Visibility.Internal);
+			return ($"{nameSpace}".Trim('.', ' '), Visibility.Internal);
 		}
 
         var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
 		if (matchingMarkerType is null)
 		{
-			return ($"{rootNamespace}.{nameSpace}".Trim('.', ' '), Visibility.Internal);
+			return ($"{nameSpace}".Trim('.', ' '), Visibility.Internal);
 		}
 
 		var visibility = (matchingMarkerType.DeclaredAccessibility == Accessibility.Public) ? Visibility.Public : Visibility.Internal;
