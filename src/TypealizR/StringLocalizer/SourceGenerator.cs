@@ -59,7 +59,9 @@ public partial class SourceGenerator : IIncrementalGenerator
                 (var targetNamespace, var visibility) = FindNameSpaceAndVisibilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);
                 var extensionClass = builder.Build(new(targetNamespace, file.SimpleName, visibility), options.RootNamespace);
 
-				ctxt.AddSource(extensionClass.FileName, extensionClass.Body);
+                var classWriter = new IStringLocalizerExtensionClassWriter(extensionClass);
+
+				ctxt.AddSource(classWriter.FileName, classWriter.ToCSharp());
 
                 foreach (var diagnostic in extensionClass.Diagnostics)
                 {

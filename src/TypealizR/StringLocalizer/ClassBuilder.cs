@@ -8,6 +8,9 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.StringLocalizer;
 internal class ClassBuilder
 {
+
+	private record struct MethodBuilderContext (MethodBuilder Builder, DiagnosticsCollector Diagnostics);
+
 	private readonly string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
@@ -17,18 +20,19 @@ internal class ClassBuilder
 		this.severityConfig = severityConfig;
 	}
 
-	private readonly List<MethodBuilder> methodBuilders = new();
+	private readonly List<MethodBuilderContext> methodContexts = new();
 	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-        methodBuilders.Add(new(key, value, diagnosticsFactory));
+
+		methodContexts.Add(new (Builder: new(key, value), Diagnostics: new(diagnosticsFactory)));
 		return this;
 	}
 
 	public ClassModel Build(TypeModel target, string rootNamespace)
 	{
-		var methods = methodBuilders
-			.Select(x => x.Build(target))
+		var methods = methodContexts
+			.Select(x => x.Builder.Build(target, x.Diagnostics))
 			.ToArray()
 		;
 
@@ -72,7 +76,4 @@ internal class ClassBuilder
 		return deduplicatedMethods;
 
 	}
-
-	public IEnumerable<MethodBuilder> Methods => methodBuilders;
-
 }

@@ -22,8 +22,8 @@ public class MethodBuilder_Tests
 	[InlineData("Hello {name:s}, today is {now:d}", "Hello__name__today_is__now")]
 	public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
-		var method = sut.Build(targetType);
+		var sut = new MethodBuilder(input, input);
+		var method = sut.Build(targetType, new(new("Ressource1.resx", input, 42)));
 
 		var actual = method.Name;
 		actual.Should().Be(expected);
@@ -65,8 +65,8 @@ public class MethodBuilder_Tests
 
 	public void Extracts_Parameters(string input, params string[] expected)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
-		var method = sut.Build(targetType);
+		var sut = new MethodBuilder(input, input);
+		var method = sut.Build(targetType, new(new("Ressource1.resx", input, 42)));
 
 		var actual = method.Parameters.Select(x => x.Declaration).ToArray();
 
@@ -96,11 +96,12 @@ public class MethodBuilder_Tests
 	)]
 	public void Declares_Parameters_In_Signature(string input, string expectedPartialSignature)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
-		var method = sut.Build(targetType);
+		var sut = new MethodBuilder(input, input);
+		var method = sut.Build(targetType, new (new("Ressource1.resx", input, 42)));
+		var writer = new IStringLocalizerExtensionMethodWriter(method);
 
-		var actual = method.Signature;
-		var expected = $"({MethodModel.ThisParameterFor(targetType)}, {expectedPartialSignature})";
+		var actual = writer.ToCSharp();
+		var expected = $"(this IStringLocalizer<{targetType.FullName}> that, {expectedPartialSignature})";
 
 		actual.Should().Be(expected);
 	}
@@ -130,15 +131,14 @@ public class MethodBuilder_Tests
 		"{0} {i:i} {s:s} {dt:dt} {dto:dto} {d:d} {t:t} {1}",
 		"_0, i, s, dt, dto, d, t, _1"
 	)]
-	public void Passes_Parameters_In_Invocation(string input, string expectedInvocation)
+	public void Passes_Parameters_In_Invocation(string input, string expected)
 	{
-		var sut = new MethodBuilder(input, input, new("Ressource1.resx", input, 42));
-		var method = sut.Build(targetType);
+		var sut = new ParameterBuilder(input);
+		var parameters = sut.Build(new(new("Ressource1.resx", input, 42)));
 
-		var actual = method.Body;
-		var expected = $@"that[""{input}""].Format({expectedInvocation})";
+		var actual = parameters.Select(x => x.Name).ToCommaDelimited();
 
-		actual.Should().Be(expected);
+		actual.Should().BeEquivalentTo(expected);
 	}
 
 }

@@ -31,11 +31,11 @@ public class ParameterModel_Tests
 	[InlineData("{now:wtf}", "object", true)]
 	public void Parameter_Gets_Typed_As(string token, string expected, bool expectInvalidTypeExpression)
 	{
-		var match = MethodBuilder.parameterExpression.Match(token);
-		var name = match.Groups["name"].Value;
-		var expression = match.Groups["expression"].Value;
+		var collector = new DiagnosticsCollector(new("Ressource1.resx", token, 10));
 
-		var sut = new ParameterModel(token, name, expression, new ("Ressource1.resx", token, 10));
+		var builder = new ParameterBuilder(token);
+
+		var sut = builder.Build(collector).Single();
 
 		var actual = sut.Type;
 

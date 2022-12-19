@@ -6,6 +6,22 @@ using Microsoft.CodeAnalysis;
 using id = TypealizR.DiagnosticsId;
 
 namespace TypealizR;
+
+
+internal class DiagnosticsCollector
+{
+	private readonly DiagnosticsFactory factory;
+
+	public DiagnosticsCollector(DiagnosticsFactory factory)
+	{
+		this.factory = factory;
+	}
+
+	private List<Diagnostic> diagnostics = new();
+
+	internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => diagnostics.Add(create(factory));
+}
+
 internal class DiagnosticsFactory
 {
 	private readonly string filePath;
