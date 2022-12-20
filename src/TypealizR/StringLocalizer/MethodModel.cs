@@ -48,15 +48,14 @@ internal class MethodModel
 			body = body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
 		}
 
-		return $@"  
+		return $@"
           /// <summary>
           /// Looks up a localized string similar to '{RawRessourceName}'
           /// </summary>
           /// <returns>
           /// A localized version of the current default value of '{RessourceDefaultValue}'
           /// </returns>
-          public static 
-		{ReturnType} {Name} {signature} => {body};
+          public static {ReturnType} {Name} {signature} => {body};
 		";
 
 	}
