@@ -19,6 +19,9 @@ public class Method_Tests
 	[InlineData("{0} Hello {0}", "Hello__0")]
 	[InlineData("Hello {name}", "Hello__name")]
 	[InlineData("Hello {name}, today is {now}", "Hello__name__today_is__now")]
+	[InlineData("{name} Hello {name}, today is {now}", "name__Hello__name__today_is__now")]
+	[InlineData("{now} Hello {name}, today is {now}", "now__Hello__name__today_is__now")]
+	[InlineData("{timestamp} Hello {name}, today is {now}", "timestamp__Hello__name__today_is__now")]
 	[InlineData("Hello {name:s}, today is {now:d}", "Hello__name__today_is__now")]
 	public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
 	{

@@ -78,7 +78,7 @@ public class Parameter_Tests
 
 	[InlineData(
 	"{date} Hello {name}, today is {date}",
-	"object name", "object date"
+	"object date", "object name"
 	)]
 
 	[InlineData(
@@ -93,7 +93,7 @@ public class Parameter_Tests
 
 	[InlineData(
 	"{name} Hello {date}, today is {name}",
-	"object date", "object name"
+	"object name", "object date"
 	)]
 
 	[InlineData(
@@ -103,7 +103,17 @@ public class Parameter_Tests
 
 	[InlineData(
 	"{date:d} Hello {name:s}, today is {date:d}",
-	"string name", "DateOnly date"
+	"DateOnly date", "string name"
+	)]
+
+	[InlineData(
+	"{date:d} Hello {name:s}, today is {date:s}",
+	"DateOnly date", "string name"
+	)]
+
+	[InlineData(
+	"{date:s} Hello {name:s}, today is {date:d}",
+	"string date", "string name"
 	)]
 
 	[InlineData(
