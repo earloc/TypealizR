@@ -12,11 +12,9 @@ internal class MethodModel
 	internal void DeduplicateWith(int discriminator)
 	{
         Name = $"{Name}{discriminator}";
-		diagnostics.Add(factory.AmbigiousRessourceKey_0002(Name));
 	}
 
     private readonly List<Diagnostic> diagnostics = new();
-    public IEnumerable<Diagnostic> Diagnostics => diagnostics;
 
 
 	public TypeModel ExtendedType { get; }

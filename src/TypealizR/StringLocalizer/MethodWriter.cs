@@ -25,10 +25,10 @@ internal class IStringLocalizerExtensionMethodWriter
 
 		if (model.Parameters.Any())
 		{
-			var additionalParameterDeclarations = string.Join(", ", model.Parameters.Select(x => x.Declaration));
+			var additionalParameterDeclarations = string.Join(", ", model.Parameters.Select(x => $"{x.Type} {x.DisplayName}"));
 			signature = $"({ThisParameterFor(model.ExtendedType)}, {additionalParameterDeclarations})";
 
-			var parameterCollection = model.Parameters.Select(x => x.Name).ToCommaDelimited();
+			var parameterCollection = model.Parameters.Select(x => x.DisplayName).ToCommaDelimited();
 			body = body = $@"that[""{model.RawRessourceName}""].Format({parameterCollection})";
 		}
 

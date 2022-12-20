@@ -17,9 +17,11 @@ internal class DiagnosticsCollector
 		this.factory = factory;
 	}
 
-	private List<Diagnostic> diagnostics = new();
+	private readonly List<Diagnostic> entries = new();
 
-	internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => diagnostics.Add(create(factory));
+	internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => entries.Add(create(factory));
+
+	public IEnumerable<Diagnostic> Entries => entries;
 }
 
 internal class DiagnosticsFactory

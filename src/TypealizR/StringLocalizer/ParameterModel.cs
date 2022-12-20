@@ -14,11 +14,16 @@ internal class ParameterModel
 	public readonly string Token;
 	public readonly string Type;
 	public readonly string Name;
+	public readonly string DisplayName;
 
-	public ParameterModel(string token, string name)
+
+	public ParameterModel(string token, string name, string type)
     {
 		Token = token;
-		Name = SanitizeName(name);
+        Type = type;
+        Name = name;
+		DisplayName = SanitizeName(name);
+
 	}
 
 	private string SanitizeName(string rawParameterName)

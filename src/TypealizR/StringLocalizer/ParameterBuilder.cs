@@ -43,7 +43,7 @@ internal class ParameterBuilder
 				diagnostics.Add(x => x.UnnamedGenericParameter_0003(name));
 			}
 
-			models.Add(new(token, name));
+			models.Add(new(token, name, type));
 		}
 
 		return models

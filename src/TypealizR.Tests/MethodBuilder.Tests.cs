@@ -68,7 +68,7 @@ public class MethodBuilder_Tests
 		var sut = new MethodBuilder(input, input);
 		var method = sut.Build(targetType, new(new("Ressource1.resx", input, 42)));
 
-		var actual = method.Parameters.Select(x => x.Declaration).ToArray();
+		var actual = method.Parameters.Select(x => $"{x.Type} {x.DisplayName}").ToArray();
 
 		actual.Should().BeEquivalentTo(expected);
 	}
@@ -136,7 +136,7 @@ public class MethodBuilder_Tests
 		var sut = new ParameterBuilder(input);
 		var parameters = sut.Build(new(new("Ressource1.resx", input, 42)));
 
-		var actual = parameters.Select(x => x.Name).ToCommaDelimited();
+		var actual = parameters.Select(x => x.DisplayName).ToCommaDelimited();
 
 		actual.Should().BeEquivalentTo(expected);
 	}

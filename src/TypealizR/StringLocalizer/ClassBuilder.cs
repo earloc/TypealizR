@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Xml;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.StringLocalizer;
@@ -10,6 +11,8 @@ internal class ClassBuilder
 {
 
 	private record struct MethodBuilderContext (MethodBuilder Builder, DiagnosticsCollector Diagnostics);
+	private record struct MethodModelContext(MethodModel Model, DiagnosticsCollector Diagnostics);
+
 
 	private readonly string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
@@ -32,29 +35,21 @@ internal class ClassBuilder
 	public ClassModel Build(TypeModel target, string rootNamespace)
 	{
 		var methods = methodContexts
-			.Select(x => x.Builder.Build(target, x.Diagnostics))
+			.Select(x => new MethodModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
 			.ToArray()
 		;
 
 		var distinctMethods = Deduplicate(methods);
 
-		var parameterDiagnostics = distinctMethods
-			.SelectMany(method =>
-				method.Parameters
-				.SelectMany(parameter => parameter.Diagnostics)
-		);
+		var allDiagnostics = methods.SelectMany(x => x.Diagnostics.Entries);
 
-		var allWarningsAndErrors = distinctMethods.SelectMany(x => x.Diagnostics)
-			.Concat(parameterDiagnostics)
-		;
-
-		return new(target, rootNamespace, distinctMethods, allWarningsAndErrors);
+		return new(target, rootNamespace, distinctMethods, allDiagnostics);
     }
 
-	private IEnumerable<MethodModel> Deduplicate(MethodModel[] methods)
+	private IEnumerable<MethodModel> Deduplicate(MethodModelContext[] methods)
 	{
-		var groupByMethodName = methods.GroupBy(x => x.Name);
-		var deduplicatedMethods = new List<MethodModel>(methods.Count());
+		var groupByMethodName = methods.GroupBy(x => x.Model.Name);
+		var deduplicatedMethods = new List<MethodModelContext>(methods.Count());
 
 		foreach (var methodGroup in groupByMethodName)
 		{
@@ -67,13 +62,16 @@ internal class ClassBuilder
 			int discriminator = 1;
 			foreach (var duplicate in methodGroup.Skip(1))
 			{
-				duplicate.DeduplicateWith(discriminator++);
+				duplicate.Diagnostics.Add(fac => fac.AmbigiousRessourceKey_0002(duplicate.Model.Name));
+				duplicate.Model.DeduplicateWith(discriminator++);
 			}
 
 			deduplicatedMethods.AddRange(methodGroup);
 		}
 
-		return deduplicatedMethods;
+		return deduplicatedMethods
+			.Select(x => x.Model)
+			.ToArray();
 
 	}
 }

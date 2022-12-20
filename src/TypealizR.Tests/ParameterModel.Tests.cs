@@ -43,7 +43,7 @@ public class ParameterModel_Tests
 
 		if (expectInvalidTypeExpression)
 		{
-			var warnings = sut.Diagnostics.Select(x => x.Id);
+			var warnings = collector.Entries.Select(x => x.Id);
 
 			warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
 		}

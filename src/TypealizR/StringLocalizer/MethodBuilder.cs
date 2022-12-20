@@ -33,7 +33,7 @@ internal class MethodBuilder
 
         foreach (var parameter in parameters)
         {
-            methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, parameter.Name);
+            methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
         }
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
