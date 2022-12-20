@@ -6,7 +6,7 @@ using TypealizR.StringLocalizer;
 
 namespace TypealizR.Tests;
 
-public class MethodBuilder_Tests
+public class Method_Tests
 {
 	private static readonly TypeModel targetType = new("Name.Space", "TypeName");
 
