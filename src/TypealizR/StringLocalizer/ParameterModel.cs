@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Reflection.Metadata;
 using System.Text;
 using Microsoft.CodeAnalysis;
@@ -41,4 +42,11 @@ internal class ParameterModel
 
         return parameterName;
     }
+}
+
+internal static class ParameterModelExtensions
+{
+	internal static string ToDeclarationCSharp(this IEnumerable<ParameterModel> that) => that
+        .Select(x => $"{x.Type} {x.DisplayName}")
+        .ToCommaDelimited();
 }

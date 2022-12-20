@@ -38,8 +38,8 @@ public class ClassBuilder_Tests
 		  public static LocalizedString SomeKey (this IStringLocalizer<Name.Space.TypeName> that) => that[""SomeKey""];
 		".TrimWrap();
 
-		var writer = new IStringLocalizerExtensionMethodWriter(method);
-		var actual = writer.ToCSharp().TrimWrap();
+
+		var actual = method.ToCSharp().TrimWrap();
 
         actual.Should().BeEquivalentTo(expected);
     }

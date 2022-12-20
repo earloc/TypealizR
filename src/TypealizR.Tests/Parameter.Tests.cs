@@ -129,9 +129,8 @@ public class Parameter_Tests
 	{
 		var sut = new ParameterBuilder(input);
 		var model = sut.Build(new(new("Ressource1.resx", input, 42)));
-		var writer = new ParameterDeclarationWriter(model);
 
-		var actual = writer.ToCSharp();
+		var actual = model.ToDeclarationCSharp();
 
 		actual.Should().BeEquivalentTo(expected.ToCommaDelimited());
 	}
@@ -161,9 +160,8 @@ public class Parameter_Tests
 	{
 		var sut = new ParameterBuilder(input);
 		var model = sut.Build(new(new("Ressource1.resx", input, 42)));
-		var writer = new ParameterDeclarationWriter(model);
 
-		var actual = writer.ToCSharp();
+		var actual = model.ToDeclarationCSharp();
 
 		actual.Should().Be(expected);
 	}
