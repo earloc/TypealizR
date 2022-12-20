@@ -72,12 +72,37 @@ public class Parameter_Tests
 	)]
 
 	[InlineData(
+	"Hello {date}, today is {name}",
+	"object date", "object name"
+	)]
+
+	[InlineData(
 	"{date} Hello {name}, today is {date}",
 	"object name", "object date"
 	)]
 
 	[InlineData(
+	"{name} Hello {name}, today is {date}",
+	"object name", "object date"
+	)]
+
+	[InlineData(
+	"{date} Hello {date}, today is {name}",
+	"object date", "object name"
+	)]
+
+	[InlineData(
+	"{name} Hello {date}, today is {name}",
+	"object date", "object name"
+	)]
+
+	[InlineData(
 	"Hello {name:s}, today is {date:d}",
+	"string name", "DateOnly date"
+	)]
+
+	[InlineData(
+	"{date:d} Hello {name:s}, today is {date:d}",
 	"string name", "DateOnly date"
 	)]
 
