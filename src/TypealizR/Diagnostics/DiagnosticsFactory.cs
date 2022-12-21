@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using Microsoft.CodeAnalysis;
-using id = TypealizR.DiagnosticsId;
+using id = TypealizR.Diagnostics.DiagnosticsId;
 
-namespace TypealizR;
+namespace TypealizR.Diagnostics;
 
 
 internal class DiagnosticsCollector

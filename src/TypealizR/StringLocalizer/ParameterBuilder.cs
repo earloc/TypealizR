@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
+using TypealizR.Diagnostics;
 
 namespace TypealizR.StringLocalizer;
 

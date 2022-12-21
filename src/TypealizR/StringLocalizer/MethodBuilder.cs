@@ -9,6 +9,7 @@ using System.Xml;
 using Microsoft.CodeAnalysis;
 using System.Xml.Linq;
 using TypealizR.Extensions;
+using TypealizR.Diagnostics;
 
 namespace TypealizR.StringLocalizer;
 

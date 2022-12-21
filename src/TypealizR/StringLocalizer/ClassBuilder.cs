@@ -5,6 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
+using TypealizR.Diagnostics;
 
 namespace TypealizR.StringLocalizer;
 internal class ClassBuilder

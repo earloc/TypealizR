@@ -1,6 +1,7 @@
 ﻿using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using TypealizR.Diagnostics;
 using TypealizR.Extensibility;
 
 namespace TypealizR.StringLocalizer;

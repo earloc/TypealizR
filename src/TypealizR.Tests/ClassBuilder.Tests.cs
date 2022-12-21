@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using TypealizR.Diagnostics;
 using TypealizR.StringLocalizer;
 using Xunit.Sdk;
 

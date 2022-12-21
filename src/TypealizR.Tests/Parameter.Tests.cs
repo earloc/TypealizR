@@ -5,6 +5,7 @@ using System.Linq.Expressions;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using TypealizR.Diagnostics;
 using TypealizR.StringLocalizer;
 
 namespace TypealizR.Tests;
