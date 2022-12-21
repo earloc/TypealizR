@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using TypealizR.Diagnostics;
 
-namespace TypealizR.StringLocalizer;
+namespace TypealizR;
 
 public partial class SourceGenerator
 {

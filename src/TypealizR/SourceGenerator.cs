@@ -3,8 +3,9 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 using TypealizR.Extensibility;
+using TypealizR.StringLocalizer;
 
-namespace TypealizR.StringLocalizer;
+namespace TypealizR;
 
 [Generator]
 public partial class SourceGenerator : IIncrementalGenerator
