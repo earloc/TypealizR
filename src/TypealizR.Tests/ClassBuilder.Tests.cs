@@ -28,15 +28,15 @@ public class ClassBuilder_Tests
 
         var method = classInfo.Methods.First();
 
-		var expected = $@"
-		  /// <summary>
-          /// Looks up a localized string similar to 'SomeKey'
-          /// </summary>
-          /// <returns>
-          /// A localized version of the current default value of 'SomeValue'
-          /// </returns>
-		  public static LocalizedString SomeKey (this IStringLocalizer<Name.Space.TypeName> that) => that[""SomeKey""];
-		".TrimWrap();
+		var expected = $"""
+			/// <summary>
+			/// Looks up a localized string similar to 'SomeKey'
+			/// </summary>
+			/// <returns>
+			/// A localized version of the current default value of 'SomeValue'
+			/// </returns>
+			public static LocalizedString SomeKey (this IStringLocalizer<Name.Space.TypeName> that) => that["SomeKey"];
+		""".TrimWrap();
 
 
 		var actual = method.ToCSharp().TrimWrap();
