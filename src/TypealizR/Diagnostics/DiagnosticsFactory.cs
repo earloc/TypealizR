@@ -68,7 +68,7 @@ internal class DiagnosticsFactory
 				description: "Encountered an ambigious ressource-key",
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0002)
 			),
-			Location.Create(filePath,
+			Location.Create(filePath.Replace("\\", "/"),
 				textSpan: new(),
 				lineSpan: new(
 					start: new(line: lineNumber - 1, character: 0),
@@ -90,7 +90,7 @@ internal class DiagnosticsFactory
 				description: "Encountered a generic parameter",
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0003)
 			),
-			Location.Create(filePath,
+			Location.Create(filePath.Replace("\\", "/"),
 				textSpan: new(rawRessourceKey.IndexOf(parameterName), parameterName.Length),
 				lineSpan: new(
 					start: new(line: lineNumber - 1, character: 0),
@@ -113,7 +113,7 @@ internal class DiagnosticsFactory
 				description: "Encountered an unrecognized parameter-type",
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0004)
 			),
-			Location.Create(filePath,
+			Location.Create(filePath.Replace("\\", "/"),
 				textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation), parameterTypeAnnotation.Length),
 				lineSpan: new(
 					start: new(line: lineNumber - 1, character: 0),
