@@ -352,3 +352,4 @@ MigrationBackup/
 **/coverage.info
 **/coverage.opencover.xml
 **/*.g.received.cs
+/src/TypealizR.Tests/Snapshots/.snapshots/SourceGenerator_Tests.Generates_Warning_TR0001.received.txt
