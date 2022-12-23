@@ -12,7 +12,7 @@ namespace TypealizR.Tests;
 public class SourceGenerator_Tests
 {
 	[Fact]
-	public async Task Generates_StringFormatter_Only_For_Empty_NoCode_Resx()
+	public async Task Generates_StringFormatter_WithDefaultImplementation_For_Empty_NoCode_Resx()
 	{
 		await GeneratorTesterBuilder
 			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
@@ -20,4 +20,6 @@ public class SourceGenerator_Tests
 			.Build()
 			.Verify();
 	}
+
+	
 }
