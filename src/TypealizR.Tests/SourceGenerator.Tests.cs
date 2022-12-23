@@ -38,6 +38,17 @@ public class SourceGenerator_Tests
 	}
 
 	[Fact]
+	public async Task Generates_Warning_TR0003()
+	{
+		await GeneratorTesterBuilder
+			.Create(BaseDirectory, RootNamespace)
+			.WithResxFile("TR0003_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+	}
+
+	[Fact]
 	public async Task Generates_StringFormatter_WithDefaultImplementation_For_Empty_NoCode_Resx()
 	{
 		await GeneratorTesterBuilder
