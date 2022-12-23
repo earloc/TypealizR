@@ -15,7 +15,7 @@ public class SourceGenerator_Tests
 	private const string RootNamespace = "Some.Root.Namespace";
 
 	[Fact]
-	public async Task Generates_Warning_TR0001_When_Project_Directory_Cannot_Be_Determined()
+	public async Task Generates_Warning_TR0001()
 	{
 		await GeneratorTesterBuilder
 			.Create(BaseDirectory, RootNamespace)
