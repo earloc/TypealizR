@@ -27,7 +27,7 @@ internal class MethodModel
 		RawRessourceName = rawRessourceName;
 		RessourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
 		Name = compilableMethodName;
-		Parameters = parameters ?? Enumerable.Empty<ParameterModel>();
+		Parameters = parameters;
 	}
 
 	public string ToCSharp()
