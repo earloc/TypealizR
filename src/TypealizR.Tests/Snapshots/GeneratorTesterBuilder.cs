@@ -27,10 +27,15 @@ internal class GeneratorTesterBuilder
 		this.rootNamespace = rootNamespace ?? "TypealizR.Tests";
 	}
 
-    private bool withoutProjectDirectory = false;
-    public GeneratorTesterBuilder WithoutProjectDirectory()
+    private bool withoutMsBuildProjectDirectory = false;
+    private DirectoryInfo? projectDir = null;
+	public GeneratorTesterBuilder WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
     {
-        withoutProjectDirectory = true;
+        withoutMsBuildProjectDirectory = true;
+        if (butWithProjectDir is not null)
+        {
+            this.projectDir = new DirectoryInfo(butWithProjectDir);
+        }
 		return this;
     }
 
@@ -82,7 +87,7 @@ internal class GeneratorTesterBuilder
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutProjectDirectory ? default : baseDirectory, rootNamespace)
+                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutMsBuildProjectDirectory ? null: baseDirectory, projectDir, rootNamespace)
             )
         ;
 
@@ -95,12 +100,18 @@ internal class GeneratorTesterBuilder
 	{
 		internal class Options : AnalyzerConfigOptions
 		{
-            public Options(DirectoryInfo? baseDirectory, string rootNamespace)
+            public Options(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string rootNamespace)
             {
                 if (baseDirectory is not null)
                 {
                     options.Add(SourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
                 }
+                if (alternativeProjectDirectory is not null)
+                {
+					options.Add(SourceGenerator.Options.PROJECT_DIR, alternativeProjectDirectory.FullName);
+
+				}
+
 				options.Add(SourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);
 			}
 
@@ -110,9 +121,9 @@ internal class GeneratorTesterBuilder
 		}
 
 
-		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, string rootNamespace)
+		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string rootNamespace)
         {
-            globalOptions = new Options(baseDirectory, rootNamespace);
+            globalOptions = new Options(baseDirectory, alternativeProjectDirectory, rootNamespace);
 		}
 
         private readonly AnalyzerConfigOptions globalOptions;

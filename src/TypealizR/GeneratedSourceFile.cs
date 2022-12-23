@@ -3,6 +3,16 @@ using Microsoft.CodeAnalysis;
 
 namespace TypealizR;
 
-internal record struct GeneratedSourceFile(string FileName, string Content, IEnumerable<Diagnostic> Diagnostics)
+internal class GeneratedSourceFile
 {
+	public GeneratedSourceFile(string fileName, string content, IEnumerable<Diagnostic> diagnostics)
+	{
+		FileName = fileName;
+		Content = content;
+		Diagnostics = diagnostics;
+	}
+
+	public string FileName { get; }
+	public string Content { get; }
+	public IEnumerable<Diagnostic> Diagnostics { get; }
 }

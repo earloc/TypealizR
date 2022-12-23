@@ -8,11 +8,8 @@ using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.StringLocalizer;
-internal class ClassBuilder
+internal partial class ClassBuilder
 {
-
-	private record struct MethodBuilderContext (MethodBuilder Builder, DiagnosticsCollector Diagnostics);
-	private record struct MethodModelContext(MethodModel Model, DiagnosticsCollector Diagnostics);
 
 
 	private readonly string filePath;
@@ -29,7 +26,7 @@ internal class ClassBuilder
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 
-		methodContexts.Add(new (Builder: new(key, value), Diagnostics: new(diagnosticsFactory)));
+		methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));
 		return this;
 	}
 

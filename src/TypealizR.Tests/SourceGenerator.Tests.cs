@@ -19,7 +19,19 @@ public class SourceGenerator_Tests
 	{
 		await GeneratorTesterBuilder
 			.Create(BaseDirectory, RootNamespace)
-			.WithoutProjectDirectory()
+			.WithoutMsBuildProjectDirectory()
+			.WithResxFile("Empty_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+	}
+
+	[Fact]
+	public async Task DoesNotGenerates_Warning_TR0001_When_Using_ProjectDir()
+	{
+		await GeneratorTesterBuilder
+			.Create(BaseDirectory, RootNamespace)
+			.WithoutMsBuildProjectDirectory(butWithProjectDir: BaseDirectory)
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
 			.Verify()

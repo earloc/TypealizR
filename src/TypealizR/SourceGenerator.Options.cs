@@ -16,9 +16,9 @@ public partial class SourceGenerator
 		public const string PROJECT_DIR = "build_property.projectdir";
 		public const string ROOT_NAMESPACE = "build_property.rootnamespace";
 
-		public Options(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
+		public Options(string? projectDirectory, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
         {
-            RootNamespace = rootNamespace ?? "";
+            RootNamespace = rootNamespace;
 			SeverityConfig = severityConfig;
 			ProjectDirectory = new DirectoryInfo(projectDirectory);
         }
@@ -39,7 +39,7 @@ public partial class SourceGenerator
 			var severityConfig = ReadSeverityConfig(options);
 
 			return new(
-				projectDirectory: projectDirectory ?? Guid.NewGuid().ToString(),
+				projectDirectory: projectDirectory,
 				rootNamespace: rootNamespace ?? Guid.NewGuid().ToString(),
 				severityConfig: severityConfig
 			);
