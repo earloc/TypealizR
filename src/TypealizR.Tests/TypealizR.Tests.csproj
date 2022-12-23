@@ -53,6 +53,9 @@
 	  <EmbeddedResource Update="SourceGenerator.Tests\Empty_NoCode.resx">
 	    <Generator></Generator>
 	  </EmbeddedResource>
+	  <EmbeddedResource Update="SourceGenerator.Tests\NoWarnings_NoCode.resx">
+	    <Generator></Generator>
+	  </EmbeddedResource>
 	</ItemGroup>
 
 </Project>

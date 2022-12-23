@@ -31,4 +31,15 @@ public class SourceGenerator_Tests
 			.Build()
 			.Verify();
 	}
+
+	[Fact]
+	public async Task Generates_ExtensionMethods_WithoutWarnings_For_NoCode_Resx()
+	{
+		await GeneratorTesterBuilder
+			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
+			.WithSourceFile("StringFormatter.cs")
+			.WithResxFile("NoWarnings_NoCode.resx")
+			.Build()
+			.Verify();
+	}
 }

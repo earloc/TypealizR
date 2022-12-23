@@ -53,7 +53,8 @@ internal class MethodModel
 			/// <returns>
 			/// A localized version of the current default value of '{RessourceDefaultValue}'
 			/// </returns>
-			public static LocalizedString {Name} {signature} => {body};
-		""";
+			public static LocalizedString {Name} {signature} 
+				=> {body};
+	""";
 	}
 }

@@ -16,35 +16,6 @@ public class ClassBuilder_Tests
     private const string SomeFileName = "Ressource1.resx";
 	private readonly Dictionary<string, DiagnosticSeverity> severityOverrides = new();
 
-	[Fact]
-    public void Simple_Method_Can_Be_Generated ()
-    {
-        var sut = new ClassBuilder(SomeFileName, severityOverrides);
-
-        sut.WithMethodFor("SomeKey", "SomeValue", 0);
-
-        var classInfo = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
-
-        classInfo.Methods.Should().HaveCount(1);
-
-        var method = classInfo.Methods.First();
-
-		var expected = $"""
-			/// <summary>
-			/// Looks up a localized string similar to 'SomeKey'
-			/// </summary>
-			/// <returns>
-			/// A localized version of the current default value of 'SomeValue'
-			/// </returns>
-			public static LocalizedString SomeKey (this IStringLocalizer<Name.Space.TypeName> that) => that["SomeKey"];
-		""".TrimWrap();
-
-
-		var actual = method.ToCSharp().TrimWrap();
-
-        actual.Should().BeEquivalentTo(expected);
-    }
-
     [Theory]
     [InlineData("SomeKey", "SomeKey")]
 	[InlineData("Hello, World", "Hello, World!")]
