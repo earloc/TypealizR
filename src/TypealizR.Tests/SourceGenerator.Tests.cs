@@ -21,5 +21,14 @@ public class SourceGenerator_Tests
 			.Verify();
 	}
 
-	
+	[Fact]
+	public async Task Generates_StringFormatter_BaseOnly_For_Empty_NoCode_Resx()
+	{
+		await GeneratorTesterBuilder
+			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
+			.WithSourceFile("StringFormatter.cs")
+			.WithResxFile("Empty_NoCode.resx")
+			.Build()
+			.Verify();
+	}
 }
