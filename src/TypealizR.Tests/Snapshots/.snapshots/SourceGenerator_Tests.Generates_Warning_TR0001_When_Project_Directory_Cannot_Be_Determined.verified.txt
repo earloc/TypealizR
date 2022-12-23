@@ -1,0 +1,16 @@
+﻿{
+  Diagnostics: [
+    {
+      Id: TR0001,
+      Title: TargetProjectRootDirectoryNotFound,
+      Severity: Error,
+      WarningLevel: 0,
+      Location: : (0,0)-(0,0),
+      Description: The code generator could not determine the projects root-directory,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0001_TargetProjectRootDirectoryNotFound.md,
+      MessageFormat: The code generator could not determine the projects root-directory. See {0},
+      Message: The code generator could not determine the projects root-directory. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0001_TargetProjectRootDirectoryNotFound.md,
+      Category: Project
+    }
+  ]
+}

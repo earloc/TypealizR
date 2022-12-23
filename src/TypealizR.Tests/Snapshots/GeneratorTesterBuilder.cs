@@ -27,6 +27,13 @@ internal class GeneratorTesterBuilder
 		this.rootNamespace = rootNamespace ?? "TypealizR.Tests";
 	}
 
+    private bool withoutProjectDirectory = false;
+    public GeneratorTesterBuilder WithoutProjectDirectory()
+    {
+        withoutProjectDirectory = true;
+		return this;
+    }
+
 	public GeneratorTesterBuilder WithSourceFile(string fileName)
     {
         var path = Path.Combine(baseDirectory.FullName, fileName);
@@ -74,7 +81,7 @@ internal class GeneratorTesterBuilder
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterAnalyzerConfigOptionsProvider(baseDirectory, rootNamespace)
+                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutProjectDirectory ? default : baseDirectory, rootNamespace)
             );
 
         var generatorDriver = driver.RunGenerators(compilation);
@@ -87,9 +94,12 @@ internal class GeneratorTesterBuilder
 
 		internal class Options : AnalyzerConfigOptions
 		{
-            public Options(DirectoryInfo baseDirectory, string rootNamespace)
+            public Options(DirectoryInfo? baseDirectory, string rootNamespace)
             {
-                options.Add(SourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
+                if (baseDirectory is not null)
+                {
+                    options.Add(SourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
+                }
 				options.Add(SourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);
 			}
 
@@ -99,11 +109,11 @@ internal class GeneratorTesterBuilder
 		}
 
 
-		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo baseDirectory, string rootNamespace)
+		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, string rootNamespace)
         {
             globalOptions = new Options(baseDirectory, rootNamespace);
-
 		}
+
         private readonly AnalyzerConfigOptions globalOptions;
 		public override AnalyzerConfigOptions GlobalOptions => globalOptions;
 

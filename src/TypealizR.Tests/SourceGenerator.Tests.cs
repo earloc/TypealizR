@@ -11,11 +11,25 @@ namespace TypealizR.Tests;
 [UsesVerify]
 public class SourceGenerator_Tests
 {
+	private const string BaseDirectory = "../../../SourceGenerator.Tests";
+	private const string RootNamespace = "Some.Root.Namespace";
+
+	[Fact]
+	public async Task Generates_Warning_TR0001_When_Project_Directory_Cannot_Be_Determined()
+	{
+		await GeneratorTesterBuilder
+			.Create(BaseDirectory, RootNamespace)
+			.WithoutProjectDirectory()
+			.WithResxFile("Empty_NoCode.resx")
+			.Build()
+			.Verify();
+	}
+
 	[Fact]
 	public async Task Generates_StringFormatter_WithDefaultImplementation_For_Empty_NoCode_Resx()
 	{
 		await GeneratorTesterBuilder
-			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
+			.Create(BaseDirectory, RootNamespace)
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
 			.Verify();
@@ -25,7 +39,7 @@ public class SourceGenerator_Tests
 	public async Task Generates_StringFormatter_BaseOnly_For_Empty_NoCode_Resx()
 	{
 		await GeneratorTesterBuilder
-			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
+			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
@@ -36,7 +50,7 @@ public class SourceGenerator_Tests
 	public async Task Generates_ExtensionMethods_WithoutWarnings_For_NoCode_Resx()
 	{
 		await GeneratorTesterBuilder
-			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
+			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("NoWarnings_NoCode.resx")
 			.Build()
