@@ -4,7 +4,7 @@ using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 namespace Some.Root.Namespace {
 
-	[GeneratedCode("TypealizR.SourceGenerator", "1.0.0.0")]
+	[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
 	internal static partial class TypealizR_StringFormatter
 	{
 		[DebuggerStepThrough]

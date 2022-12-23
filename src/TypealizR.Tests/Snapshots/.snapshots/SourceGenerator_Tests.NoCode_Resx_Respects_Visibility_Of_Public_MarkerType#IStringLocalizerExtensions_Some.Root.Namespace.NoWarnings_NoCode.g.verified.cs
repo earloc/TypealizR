@@ -10,7 +10,7 @@ using Some.Root.Namespace;
 namespace Microsoft.Extensions.Localization 
 {
 
-    [GeneratedCode("TypealizR.SourceGenerator", "1.0.0.0")]
+    [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
     [DebuggerStepThrough]
     public static partial class IStringLocalizerExtensions_Some_Root_Namespace_NoWarnings_NoCode 
     {
