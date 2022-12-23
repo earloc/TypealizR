@@ -15,10 +15,16 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="SourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
+	  <Compile Remove="SourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
+	  <Compile Remove="SourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
 	  <Compile Remove="SourceGenerator.Tests\StringFormatter.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="SourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
+	  <None Include="SourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
+	  <None Include="SourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
 	  <None Include="SourceGenerator.Tests\StringFormatter.cs" />
 	</ItemGroup>
 

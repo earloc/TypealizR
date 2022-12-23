@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
@@ -31,7 +32,7 @@ public partial class SourceGenerator : IIncrementalGenerator
 				var options = source.Left.Left.Right;
 				var compilation = source.Right;
 
-				if (!options.ProjectDirectory.Exists)
+				if (!(options.ProjectDirectory?.Exists).GetValueOrDefault())
 				{
 					ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
 					return;
@@ -63,7 +64,7 @@ public partial class SourceGenerator : IIncrementalGenerator
 		{
 			return;
 		}
-		var generatedClass = GenerateExtensionClassFor_IStringLocalizer(options, compilation, file);
+		var generatedClass = GenerateExtensionClassFor_IStringLocalizer(options.ProjectDirectory, options.RootNamespace, compilation, file, options.SeverityConfig);
 
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);
 		foreach (var diagnostic in generatedClass.Diagnostics)
@@ -72,17 +73,17 @@ public partial class SourceGenerator : IIncrementalGenerator
 		}
 	}
 
-	private GeneratedSourceFile GenerateExtensionClassFor_IStringLocalizer(Options options, Compilation compilation, RessourceFile file)
+	private GeneratedSourceFile GenerateExtensionClassFor_IStringLocalizer(DirectoryInfo projectDir, string rootNamepsace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
-		var builder = new ClassBuilder(file.FullPath, options.SeverityConfig);
+		var builder = new ClassBuilder(file.FullPath, severityConfig);
 
 		foreach (var entry in file.Entries)
 		{
 			builder.WithMethodFor(entry.Key, entry.Value, entry.Location.LineNumber);
 		}
 
-		(var targetNamespace, var visibility) = FindNameSpaceAndVisibilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);
-		var extensionClass = builder.Build(new(targetNamespace, file.SimpleName, visibility), options.RootNamespace);
+		(var targetNamespace, var visibility) = FindNameSpaceAndVisibilityOf(compilation, rootNamepsace, file, projectDir.FullName);
+		var extensionClass = builder.Build(new(targetNamespace, file.SimpleName, visibility), rootNamepsace);
 
 		return new(extensionClass.FileName, extensionClass.ToCSharp(), extensionClass.Diagnostics);
 	}
@@ -95,7 +96,7 @@ public partial class SourceGenerator : IIncrementalGenerator
 		nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
 		if (nameSpace != rootNameSpace)
 		{
-			nameSpace = $"{rootNameSpace}.{nameSpace}";
+			nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
 		}
 
 		if (!possibleMarkerTypeSymbols.Any())

@@ -109,7 +109,6 @@ internal class GeneratorTesterBuilder
                 if (alternativeProjectDirectory is not null)
                 {
 					options.Add(SourceGenerator.Options.PROJECT_DIR, alternativeProjectDirectory.FullName);
-
 				}
 
 				options.Add(SourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);

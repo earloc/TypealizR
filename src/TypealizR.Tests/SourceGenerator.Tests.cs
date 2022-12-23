@@ -105,4 +105,42 @@ public class SourceGenerator_Tests
 			.Verify()
 		;
 	}
+	[Fact]
+	public async Task NoCode_Resx_Respects_Visibility_Of_Internal_MarkerType()
+	{
+		await GeneratorTesterBuilder
+			.Create(BaseDirectory, RootNamespace)
+			.WithSourceFile("StringFormatter.cs")
+			.WithSourceFile($"NoWarnings_NoCode_Internal.cs")
+			.WithResxFile($"NoWarnings_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+	}
+
+	[Fact]
+	public async Task NoCode_Resx_Respects_Visibility_Of_Public_MarkerType()
+	{
+		await GeneratorTesterBuilder
+			.Create(BaseDirectory, RootNamespace)
+			.WithSourceFile("StringFormatter.cs")
+			.WithSourceFile($"NoWarnings_NoCode_Public.cs")
+			.WithResxFile($"NoWarnings_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+	}
+
+	[Fact]
+	public async Task NoCode_Resx_Falls_Back_To_Inferred_MarkerType_When_Found_Ones_Namespace_Does_Not_Match()
+	{
+		await GeneratorTesterBuilder
+			.Create(BaseDirectory, RootNamespace)
+			.WithSourceFile("StringFormatter.cs")
+			.WithSourceFile($"NoWarnings_NoCode_NamespaceMismatch.cs")
+			.WithResxFile($"NoWarnings_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+	}
 }

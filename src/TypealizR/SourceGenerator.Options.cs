@@ -20,10 +20,13 @@ public partial class SourceGenerator
         {
             RootNamespace = rootNamespace;
 			SeverityConfig = severityConfig;
-			ProjectDirectory = new DirectoryInfo(projectDirectory);
+			if (projectDirectory is not null)
+			{
+				ProjectDirectory = new DirectoryInfo(projectDirectory);
+			}
         }
 
-        public DirectoryInfo ProjectDirectory { get; }
+        public DirectoryInfo? ProjectDirectory { get; }
         public string RootNamespace { get; }
 		public IDictionary<string, DiagnosticSeverity> SeverityConfig { get; }
 
