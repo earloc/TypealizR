@@ -10,8 +10,6 @@ using TypealizR.Diagnostics;
 namespace TypealizR.StringLocalizer;
 internal partial class ClassBuilder
 {
-
-
 	private readonly string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
