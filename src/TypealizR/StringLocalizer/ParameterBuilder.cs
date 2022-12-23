@@ -87,10 +87,6 @@ internal class ParameterBuilder
 		_ => null
 	};
 
-
-	
-			
-
 	/// <summary>
 	/// matches strings like {0}, {0:12}, {name} usable in format-strings
 	/// </summary>

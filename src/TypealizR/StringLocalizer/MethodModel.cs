@@ -43,7 +43,7 @@ internal class MethodModel
 			signature = $"({ThisParameterFor(ExtendedType)}, {additionalParameterDeclarations})";
 
 			var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
-			body = body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
+			body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
 		}
 
 		return $"""
