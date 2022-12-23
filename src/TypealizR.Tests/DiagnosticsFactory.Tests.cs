@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.VisualStudio.TestPlatform.ObjectModel.Utilities;
+using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests;
 

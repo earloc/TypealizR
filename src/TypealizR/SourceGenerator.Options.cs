@@ -4,14 +4,19 @@ using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.Diagnostics;
 
-namespace TypealizR.StringLocalizer;
+namespace TypealizR;
 
 public partial class SourceGenerator
 {
-	private sealed class Options
+	internal sealed class Options
     {
-        public Options(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
+		public const string MSBUILD_PROJECT_DIRECTORY = "build_property.msbuildprojectdirectory";
+		public const string PROJECT_DIR = "build_property.projectdir";
+		public const string ROOT_NAMESPACE = "build_property.rootnamespace";
+
+		public Options(string? projectDirectory, string? rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
         {
             RootNamespace = rootNamespace ?? "";
 			SeverityConfig = severityConfig;
@@ -24,12 +29,12 @@ public partial class SourceGenerator
 
 		public static Options From(AnalyzerConfigOptions options)
 		{
-			if (!options.TryGetValue("build_property.msbuildprojectdirectory", out var projectDirectory))
+			if (!options.TryGetValue(MSBUILD_PROJECT_DIRECTORY, out var projectDirectory))
 			{
-				options.TryGetValue("build_property.projectdir", out projectDirectory);
+				options.TryGetValue(PROJECT_DIR, out projectDirectory);
 			}
 
-			options.TryGetValue("build_property.rootnamespace", out var rootNamespace);
+			options.TryGetValue(ROOT_NAMESPACE, out var rootNamespace);
 
 			var severityConfig = ReadSeverityConfig(options);
 

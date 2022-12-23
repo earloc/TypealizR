@@ -32,42 +32,50 @@ internal class StringFormatterClassBuilder
 
 		builder.Append(GenerateUsings());
 		builder.AppendLine(OpenNamespace(this.rootNamespace));
+
+		builder.AppendLine();
 		builder.AppendLine(stringFormatterStub);
 
 		if (!string.IsNullOrEmpty(defaultImplementation))
 		{
+			builder.AppendLine();
 			builder.AppendLine(defaultImplementation);
 		}
 
 		builder.AppendLine(CloseNamespace);
+		builder.AppendLine();
+
 		return builder.ToString();
 	}
 
-	private string GenerateUsings() => $@"
-using System.Diagnostics;
-using System.CodeDom.Compiler;
-using Microsoft.Extensions.Localization;
-";
+	private string GenerateUsings() => $"""
+		using System.Diagnostics;
+		using System.CodeDom.Compiler;
+		using Microsoft.Extensions.Localization;
+
+		""";
 
 	private string OpenNamespace(string rootNamespace) =>$@"namespace {rootNamespace} {{";
 
-	private string GenerateStub() => $@"
-	internal static partial class {TypeName}
-	{{
-		internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
-			new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+	private string GenerateStub() => $$"""
+		{{_.GeneratedCodeAttribute}}
+		internal static partial class {{TypeName}}
+		{
+			[DebuggerStepThrough]
+			internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
+				new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
 
-		internal static partial string Format(string s, object[] args);
-	}}";
+			internal static partial string Format(string s, object[] args);
+		}
+	""";
 
-	private static string GenerateDefaultImplementation() => $@"
-		{_.GeneratedCodeAttribute}
-		[DebuggerStepThrough]
-		internal static partial class {TypeName} {{
+	private static string GenerateDefaultImplementation() => $$"""
+		internal static partial class {{TypeName}} {
+			[DebuggerStepThrough]
 			internal static partial string Format(string s, object[] args) => 
 				string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
-		}}
-";
+		}
+	""";
 
 	private const string CloseNamespace = "}";
 }

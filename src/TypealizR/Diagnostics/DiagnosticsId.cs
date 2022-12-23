@@ -1,4 +1,4 @@
-﻿namespace TypealizR;
+﻿namespace TypealizR.Diagnostics;
 
 internal enum DiagnosticsId
 {

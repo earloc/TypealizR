@@ -1,79 +1,32 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
+using System.Reflection.Metadata;
 using System.Text;
-using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using TypealizR.Extensions;
 
 namespace TypealizR.StringLocalizer;
+
+
 internal class ParameterModel
 {
 	public readonly string Token;
 	public readonly string Type;
 	public readonly string Name;
 	public readonly string DisplayName;
-	public readonly string Declaration;
-	public readonly IEnumerable<Diagnostic> Diagnostics;
 
-	public ParameterModel(string token, string name, string annotation, DiagnosticsFactory factory)
+
+	public ParameterModel(string token, string name, string type)
     {
 		Token = token;
+        Type = type;
+        Name = name;
+		DisplayName = SanitizeName(name);
 
-		(Type, var invalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
-
-		var diagnostics = new List<Diagnostic>();
-		if (!string.IsNullOrEmpty(invalidTypeAnnotation))
-		{
-			diagnostics.Add(factory.UnrecognizedParameterType_0004(invalidTypeAnnotation));
-		}
-
-		if (int.TryParse(name, out var _))
-		{
-			diagnostics.Add(factory.UnnamedGenericParameter_0003(name));
-		}
-
-		Name = SanitizeName(name);
-
-        DisplayName = $"_{Name.Trim('_', ' ')}_";
-		Declaration = $"{Type} {Name}";
-
-		Diagnostics = diagnostics;
 	}
 
-	private (string, string) TryDeriveTypeFrom(string expression)
-	{
-		if (string.IsNullOrEmpty(expression))
-		{
-			return ("object", "");
-		}
-
-		var type = SanitizeType(expression);
-		if (type is not null)
-		{
-			return (type, "");
-		}
-
-		return ("object", expression);
-	}
-
-	private string? SanitizeType(string type) => type switch
-    {
-        "int" => "int",
-		"i" => "int",
-		"string" => "string",
-		"s" => "string",
-		"DateTime" => "DateTime",
-		"dt" => "DateTime",
-		"DateTimeOffset" => "DateTimeOffset",
-		"dto" => "DateTimeOffset",
-		"DateOnly" => "DateOnly",
-		"d" => "DateOnly",
-		"TimeOnly" => "TimeOnly",
-		"t" => "TimeOnly",
-		_ => null
-    };
-	
 	private string SanitizeName(string rawParameterName)
     {
         var parameterName = new string(
@@ -89,4 +42,11 @@ internal class ParameterModel
 
         return parameterName;
     }
+}
+
+internal static class ParameterModelExtensions
+{
+	internal static string ToDeclarationCSharp(this IEnumerable<ParameterModel> that) => that
+        .Select(x => $"{x.Type} {x.DisplayName}")
+        .ToCommaDelimited();
 }

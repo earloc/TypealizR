@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
+using TypealizR.Diagnostics;
 using TypealizR.StringLocalizer;
 using Xunit.Sdk;
 
@@ -14,37 +15,6 @@ public class ClassBuilder_Tests
 {
     private const string SomeFileName = "Ressource1.resx";
 	private readonly Dictionary<string, DiagnosticSeverity> severityOverrides = new();
-
-	[Fact]
-    public void Simple_Method_Can_Be_Generated ()
-    {
-        var sut = new ClassBuilder(SomeFileName, severityOverrides);
-
-        sut.WithMethodFor("SomeKey", "SomeValue", 0);
-
-        var classInfo = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
-
-        classInfo.Methods.Should().HaveCount(1);
-
-        var method = classInfo.Methods.First();
-
-
-        var expected = new
-        {
-            Name = "SomeKey",
-            Signature = "(this IStringLocalizer<Name.Space.TypeName> that)",
-            Body = @"that[""SomeKey""]"
-		};
-
-        var actual = new
-        {
-            method.Name,
-            method.Signature,
-            method.Body
-        };
-
-        actual.Should().BeEquivalentTo(expected);
-    }
 
     [Theory]
     [InlineData("SomeKey", "SomeKey")]

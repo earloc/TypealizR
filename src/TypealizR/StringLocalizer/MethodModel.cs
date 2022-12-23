@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
@@ -8,56 +9,52 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.StringLocalizer;
 internal class MethodModel
 {
-    public static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.FullName}> that";
-
 	internal void DeduplicateWith(int discriminator)
 	{
-        Name = $"{Name}{discriminator}";
-		diagnostics.Add(factory.AmbigiousRessourceKey_0002(Name));
+		Name = $"{Name}{discriminator}";
 	}
 
-    private readonly List<Diagnostic> diagnostics = new();
-    public IEnumerable<Diagnostic> Diagnostics => diagnostics;
-
-    private readonly DiagnosticsFactory factory;
-
+	public TypeModel ExtendedType { get; }
 	public string RawRessourceName { get; }
-    private readonly string defaultValue;
-    public string Name;
-    public readonly IEnumerable<ParameterModel> Parameters;
-	
-	public readonly string Signature;
-    public readonly string Body;
-    public readonly string ReturnType = "LocalizedString";
+	public readonly string RessourceDefaultValue;
+	public string Name { get; private set; }
 
-    public MethodModel(TypeModel t, string rawRessourceName, string defaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters, DiagnosticsFactory factory)
-    {
+	public readonly IEnumerable<ParameterModel> Parameters;
+
+	public MethodModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters)
+	{
+		ExtendedType = extendedType;
 		RawRessourceName = rawRessourceName;
-        this.defaultValue = defaultValue;
-        Name = compilableMethodName;
-		Parameters = parameters ?? Enumerable.Empty<ParameterModel>();
-		this.factory = factory;
-		Signature = $"({ThisParameterFor(t)})";
-        Body = $@"that[""{rawRessourceName}""]";
+		RessourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
+		Name = compilableMethodName;
+		Parameters = parameters;
+	}
 
-        if (Parameters.Any())
-        {
-			var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => x.Declaration));
-            Signature = $"({ThisParameterFor(t)}, {additionalParameterDeclarations})";
+	public string ToCSharp()
+	{
+		static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.FullName}> that";
 
-            var parameterCollection = string.Join(", ", Parameters.Select(x => x.Name));
-            Body = Body = $@"that[""{rawRessourceName}""].Format({parameterCollection})";
-        }
-    }
+		var signature = $"({ThisParameterFor(ExtendedType)})";
+		var body = $@"that[""{RawRessourceName}""]";
 
-    public string Declaration => $@"  
-          /// <summary>
-          /// Looks up a localized string similar to '{RawRessourceName}'
-          /// </summary>
-          /// <returns>
-          /// A localized version of the current default value of '{defaultValue.Replace("\r\n", " ").Replace("\n", " ")}'
-          /// </returns>
-          public static {ReturnType} {Name}{Signature} => {Body};
-";
+		if (Parameters.Any())
+		{
+			var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => $"{x.Type} {x.DisplayName}"));
+			signature = $"({ThisParameterFor(ExtendedType)}, {additionalParameterDeclarations})";
 
+			var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
+			body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
+		}
+
+		return $"""
+			/// <summary>
+			/// Looks up a localized string similar to '{RawRessourceName}'
+			/// </summary>
+			/// <returns>
+			/// A localized version of the current default value of '{RessourceDefaultValue}'
+			/// </returns>
+			public static LocalizedString {Name} {signature} 
+				=> {body};
+	""";
+	}
 }
