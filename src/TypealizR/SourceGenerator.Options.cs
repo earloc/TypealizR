@@ -8,7 +8,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
-public partial class SourceGenerator
+public partial class StringLocalizerSourceGenerator
 {
 	internal sealed class Options
     {

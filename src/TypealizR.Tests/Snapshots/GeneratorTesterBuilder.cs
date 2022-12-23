@@ -83,7 +83,7 @@ internal class GeneratorTesterBuilder
             .ToArray()
         ;
 
-        var generator = new TypealizR.SourceGenerator();
+        var generator = new TypealizR.StringLocalizerSourceGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
@@ -104,14 +104,14 @@ internal class GeneratorTesterBuilder
             {
                 if (baseDirectory is not null)
                 {
-                    options.Add(SourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
+                    options.Add(StringLocalizerSourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
                 }
                 if (alternativeProjectDirectory is not null)
                 {
-					options.Add(SourceGenerator.Options.PROJECT_DIR, alternativeProjectDirectory.FullName);
+					options.Add(StringLocalizerSourceGenerator.Options.PROJECT_DIR, alternativeProjectDirectory.FullName);
 				}
 
-				options.Add(SourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);
+				options.Add(StringLocalizerSourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);
 			}
 
             private readonly Dictionary<string, string> options = new ();

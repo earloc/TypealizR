@@ -9,7 +9,7 @@ using TypealizR.StringLocalizer;
 namespace TypealizR;
 
 [Generator]
-public partial class SourceGenerator : IIncrementalGenerator
+public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 {
 	private const string ResXFileExtension = ".resx";
 
