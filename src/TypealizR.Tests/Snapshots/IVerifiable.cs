@@ -2,5 +2,5 @@
 
 internal interface IVerifiable
 {
-    void Verify();
+    Task Verify();
 }

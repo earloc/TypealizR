@@ -351,3 +351,4 @@ MigrationBackup/
 
 **/coverage.info
 **/coverage.opencover.xml
+**/*.g.received.cs

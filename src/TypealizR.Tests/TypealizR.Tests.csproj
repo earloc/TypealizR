@@ -41,4 +41,10 @@
 		<ProjectReference Include="..\TypealizR\TypealizR.csproj" />
 	</ItemGroup>
 
+	<ItemGroup>
+	  <EmbeddedResource Update="SourceGenerator.Tests\Empty_NoCode.resx">
+	    <Generator></Generator>
+	  </EmbeddedResource>
+	</ItemGroup>
+
 </Project>

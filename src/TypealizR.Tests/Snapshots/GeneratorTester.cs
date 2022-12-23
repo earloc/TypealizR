@@ -10,5 +10,5 @@ internal class GeneratorTester : IVerifiable
         this.driver = driver;
     }
 
-    public void Verify() => Verifier.Verify(driver).UseDirectory("Snapshots");
+    public Task Verify() => Verifier.Verify(driver).UseDirectory(".snapshots");
 }

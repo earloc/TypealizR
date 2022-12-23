@@ -59,7 +59,12 @@ public partial class SourceGenerator : IIncrementalGenerator
 
 	private void AddExtensionClassFor_IStringLocalizer(SourceProductionContext ctxt, Options options, Compilation compilation, RessourceFile file)
 	{
+		if (!file.Entries.Any())
+		{
+			return;
+		}
 		var generatedClass = GenerateExtensionClassFor_IStringLocalizer(options, compilation, file);
+
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);
 		foreach (var diagnostic in generatedClass.Diagnostics)
 		{

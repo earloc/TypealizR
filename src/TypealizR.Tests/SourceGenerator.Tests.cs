@@ -4,11 +4,20 @@ using System.Linq;
 using System.Reflection.Emit;
 using System.Text;
 using System.Threading.Tasks;
+using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
 
 [UsesVerify]
 public class SourceGenerator_Tests
 {
-
+	[Fact]
+	public async Task Generates_StringFormatter_Only_For_Empty_NoCode_Resx()
+	{
+		await GeneratorTesterBuilder
+			.Create("../../../SourceGenerator.Tests", "Some.Root.Namespace")
+			.WithResxFile("Empty_NoCode.resx")
+			.Build()
+			.Verify();
+	}
 }
