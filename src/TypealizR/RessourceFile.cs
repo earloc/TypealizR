@@ -45,9 +45,8 @@ internal class RessourceFile
 
     public string SimpleName { get; }
     public string FullPath { get; }
-
     public bool IsDefaultLocale { get; }
-
+    
     public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalText> source) => From(source.Select(x => x.Path));
 
     public static IEnumerable<RessourceFile> From(IEnumerable<string> filePaths)
