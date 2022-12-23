@@ -16,22 +16,22 @@ namespace Microsoft.Extensions.Localization
     {
 
         /// <summary>
-		/// Looks up a localized string similar to 'Greetings {0}, today is {1}'
+		/// Looks up a localized string similar to 'Greetings {name:s}, today is {date:d}'
 		/// </summary>
 		/// <returns>
 		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
 		/// </returns>
-		public static LocalizedString Greetings__0__today_is__1 (this IStringLocalizer<Some.Root.Namespace.TR0002_NoCode> that, object _0, object _1) 
-			=> that["Greetings {0}, today is {1}"].Format(_0, _1);
+		public static LocalizedString Greetings__name__today_is__date (this IStringLocalizer<Some.Root.Namespace.TR0002_NoCode> that, string name, DateOnly date) 
+			=> that["Greetings {name:s}, today is {date:d}"].Format(name, date);
 
 		/// <summary>
-		/// Looks up a localized string similar to 'Hello {0}, today is {1}'
+		/// Looks up a localized string similar to 'Greetings {name}, today is {date}'
 		/// </summary>
 		/// <returns>
-		/// A localized version of the current default value of 'Hello {0}, today is {1}'
+		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
 		/// </returns>
-		public static LocalizedString Hello__0__today_is__1 (this IStringLocalizer<Some.Root.Namespace.TR0002_NoCode> that, object _0, object _1) 
-			=> that["Hello {0}, today is {1}"].Format(_0, _1);
+		public static LocalizedString Greetings__name__today_is__date1 (this IStringLocalizer<Some.Root.Namespace.TR0002_NoCode> that, object name, object date) 
+			=> that["Greetings {name}, today is {date}"].Format(name, date);
 
     }
 }

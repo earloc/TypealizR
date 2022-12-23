@@ -59,9 +59,9 @@ internal class StringFormatterClassBuilder
 
 	private string GenerateStub() => $$"""
 		{{_.GeneratedCodeAttribute}}
-		[DebuggerStepThrough]
 		internal static partial class {{TypeName}}
 		{
+			[DebuggerStepThrough]
 			internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
 				new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
 
@@ -71,6 +71,7 @@ internal class StringFormatterClassBuilder
 
 	private static string GenerateDefaultImplementation() => $$"""
 		internal static partial class {{TypeName}} {
+			[DebuggerStepThrough]
 			internal static partial string Format(string s, object[] args) => 
 				string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
 		}

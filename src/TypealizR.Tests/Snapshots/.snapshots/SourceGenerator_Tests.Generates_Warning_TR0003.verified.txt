@@ -1,15 +1,51 @@
 ﻿{
   Diagnostics: [
     {
-      Id: TR0002,
-      Title: AmbigiousRessourceKey,
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
       Severity: Warning,
       WarningLevel: 1,
-      Location: {ProjectDirectory}SourceGenerator.Tests\TR0003_NoCode.resx: (122,0)-(122,32),
-      Description: Encountered an ambigious ressource-key,
-      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
-      MessageFormat: Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2},
-      Message: Ressource contains the key 'Greetings {name}, today is {date}' that would end up as a duplicate method-name. Using 'Greetings__name__today_is__date' as derived name for this key. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
+      Location: {ProjectDirectory}SourceGenerator.Tests\TR0003_NoCode.resx: (119,0)-(119,26),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Greetings {0}, today is {1}' uses the generic format-parameter '0'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    },
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}SourceGenerator.Tests\TR0003_NoCode.resx: (119,0)-(119,26),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Greetings {0}, today is {1}' uses the generic format-parameter '1'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    },
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}SourceGenerator.Tests\TR0003_NoCode.resx: (122,0)-(122,22),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '0'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    },
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}SourceGenerator.Tests\TR0003_NoCode.resx: (122,0)-(122,22),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '1'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
       Category: Readability
     }
   ]
