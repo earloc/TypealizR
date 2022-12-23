@@ -22,7 +22,8 @@ public class SourceGenerator_Tests
 			.WithoutProjectDirectory()
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
-			.Verify();
+			.Verify()
+		;
 	}
 
 	[Fact]
@@ -32,7 +33,8 @@ public class SourceGenerator_Tests
 			.Create(BaseDirectory, RootNamespace)
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
-			.Verify();
+			.Verify()
+		;
 	}
 
 	[Fact]
@@ -43,7 +45,8 @@ public class SourceGenerator_Tests
 			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
-			.Verify();
+			.Verify()
+		;
 	}
 
 	[Fact]
@@ -54,6 +57,7 @@ public class SourceGenerator_Tests
 			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("NoWarnings_NoCode.resx")
 			.Build()
-			.Verify();
+			.Verify()
+		;
 	}
 }

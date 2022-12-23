@@ -75,14 +75,16 @@ internal class GeneratorTesterBuilder
 
         var additionalTexts = resxFiles
             .Select(x => new ResxFile(x.FullName) as AdditionalText)
-            .ToArray();
+            .ToArray()
+        ;
 
         var generator = new TypealizR.SourceGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
                 new GeneratorTesterAnalyzerConfigOptionsProvider(withoutProjectDirectory ? default : baseDirectory, rootNamespace)
-            );
+            )
+        ;
 
         var generatorDriver = driver.RunGenerators(compilation);
 
@@ -91,7 +93,6 @@ internal class GeneratorTesterBuilder
 
 	class GeneratorTesterAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
 	{
-
 		internal class Options : AnalyzerConfigOptions
 		{
             public Options(DirectoryInfo? baseDirectory, string rootNamespace)
