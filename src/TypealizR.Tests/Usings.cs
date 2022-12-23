@@ -1,5 +1,8 @@
 global using Xunit;
+
 using System.Runtime.CompilerServices;
+
+namespace TypealizR.Tests;
 
 public static class ModuleInitializer
 {
