@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using FluentAssertions;
-using TypealizR.StringLocalizer;
+using TypealizR.Builder;
 
 namespace TypealizR.Tests;
 

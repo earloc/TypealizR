@@ -1,6 +1,6 @@
 ﻿using TypealizR.Diagnostics;
 
-namespace TypealizR.StringLocalizer;
+namespace TypealizR.Builder;
 internal partial class ClassBuilder
 {
 	private class MethodBuilderContext

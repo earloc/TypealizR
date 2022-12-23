@@ -6,7 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
 using TypealizR.Diagnostics;
-using TypealizR.StringLocalizer;
+using TypealizR.Builder;
 
 namespace TypealizR.Tests;
 

@@ -6,7 +6,7 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.StringLocalizer;
+namespace TypealizR.Builder;
 internal class MethodModel
 {
 	internal void DeduplicateWith(int discriminator)

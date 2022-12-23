@@ -7,7 +7,7 @@ using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using TypealizR.Diagnostics;
-using TypealizR.StringLocalizer;
+using TypealizR.Builder;
 using Xunit.Sdk;
 
 namespace TypealizR.Tests;

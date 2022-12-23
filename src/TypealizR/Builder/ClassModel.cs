@@ -8,8 +8,7 @@ using System.Runtime.InteropServices.ComTypes;
 using System.Xml;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR.StringLocalizer;
-
+namespace TypealizR.Builder;
 internal class ClassModel
 {
     public IEnumerable<string> Usings => usings;

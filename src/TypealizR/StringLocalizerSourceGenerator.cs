@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 using TypealizR.Extensibility;
-using TypealizR.StringLocalizer;
+using TypealizR.Builder;
 
 namespace TypealizR;
 
@@ -32,11 +32,7 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 				var options = source.Left.Left.Right;
 				var compilation = source.Right;
 
-				if (!(options.ProjectDirectory?.Exists).GetValueOrDefault())
-				{
-					ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
-					return;
-				}
+				
 
 				AddStringFormatterExtensionPoint(ctxt, options, isStringFormatterProvided);
 
@@ -64,6 +60,12 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 		{
 			return;
 		}
+		if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
+		{
+			ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
+			return;
+		}
+
 		var generatedClass = GenerateExtensionClassFor_IStringLocalizer(options.ProjectDirectory, options.RootNamespace, compilation, file, options.SeverityConfig);
 
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);

@@ -1,5 +1,4 @@
-﻿namespace TypealizR.StringLocalizer;
-
+﻿namespace TypealizR.Builder;
 internal class TypeModel
 {
 	public TypeModel(string @namespace, string name, Visibility visibility = Visibility.Internal)

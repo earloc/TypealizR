@@ -11,8 +11,7 @@ using System.Xml.Linq;
 using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 
-namespace TypealizR.StringLocalizer;
-
+namespace TypealizR.Builder;
 internal class MethodBuilder
 {
     private readonly string key;
