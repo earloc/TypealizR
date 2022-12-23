@@ -70,8 +70,6 @@ internal class StringFormatterClassBuilder
 	""";
 
 	private static string GenerateDefaultImplementation() => $$"""
-		{{_.GeneratedCodeAttribute}}
-		[DebuggerStepThrough]
 		internal static partial class {{TypeName}} {
 			internal static partial string Format(string s, object[] args) => 
 				string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
