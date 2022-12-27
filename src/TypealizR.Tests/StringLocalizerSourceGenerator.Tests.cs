@@ -204,4 +204,15 @@ public class StringLocalizerSourceGenerator_Tests
 			.Verify()
 		;
 	}
+
+	[Fact]
+	public async Task NoCode_Resx_Groups_Are_Honored_In_Generated_Code()
+	{
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
+			.Create(BaseDirectory, RootNamespace)
+			.WithResxFile($"Groupings_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+	}
 }
