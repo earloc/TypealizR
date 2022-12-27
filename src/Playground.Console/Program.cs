@@ -25,3 +25,14 @@ Console.WriteLine(internalLocalizable.Hello__name("Arthur"));
 
 var publicLocalizable = provider.GetRequiredService<IStringLocalizer<Public>>();
 Console.WriteLine(publicLocalizable.Hello__name("Arthur"));
+
+
+var localize = internalLocalizable;
+
+
+
+
+var userName = "Arthur";
+var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
+
+localize.Hello__user__it_is__today(userName, today);

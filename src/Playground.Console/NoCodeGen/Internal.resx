@@ -120,4 +120,7 @@
   <data name="Hello {name}" xml:space="preserve">
     <value>Hello {0} w/o code-gen internal</value>
   </data>
+  <data name="Hello {user:s}, it is {today:d}" xml:space="preserve">
+    <value>Hello {0}, today is {1}</value>
+  </data>
 </root>
