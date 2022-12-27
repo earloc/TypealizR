@@ -1,0 +1,16 @@
+﻿{
+  Diagnostics: [
+    {
+      Id: TR0004,
+      Title: UnrecognizedParameterType,
+      Severity: Error,
+      WarningLevel: 0,
+      Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0004_NoCode.resx: (119,0)-(119,19),
+      Description: Encountered an unrecognized parameter-type,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0004_UnrecognizedParameterType.md,
+      MessageFormat: Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2},
+      Message: Ressource-key 'Greetings {name:wtf}' uses unrecognized parameter-annotation 'wtf'. Falling back to 'object'. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0004_UnrecognizedParameterType.md,
+      Category: Readability
+    }
+  ]
+}

@@ -1,0 +1,52 @@
+﻿{
+  Diagnostics: [
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0003_NoCode.resx: (119,0)-(119,26),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Greetings {0}, today is {1}' uses the generic format-parameter '0'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    },
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0003_NoCode.resx: (119,0)-(119,26),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Greetings {0}, today is {1}' uses the generic format-parameter '1'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    },
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0003_NoCode.resx: (122,0)-(122,22),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '0'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    },
+    {
+      Id: TR0003,
+      Title: UnnamedGenericParameter,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0003_NoCode.resx: (122,0)-(122,22),
+      Description: Encountered a generic parameter,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      MessageFormat: Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2},
+      Message: Ressource-key 'Hello {0}, today is {1}' uses the generic format-parameter '1'. Consider to use a more meaningful name, instead. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0003_UnnamedGenericParameter.md,
+      Category: Readability
+    }
+  ]
+}

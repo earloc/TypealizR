@@ -3,17 +3,18 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterBuilder
+internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
-    internal static GeneratorTesterBuilder Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
+    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = new();
     private readonly List<FileInfo> resxFiles = new();
-	private readonly string rootNamespace;
+	private readonly string? rootNamespace;
 
 	public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null)
 	{
@@ -24,17 +25,22 @@ internal class GeneratorTesterBuilder
             throw new ArgumentException($"the specified directory {this.baseDirectory.FullName} does not exist", nameof(baseDirectory));
         }
 
-		this.rootNamespace = rootNamespace ?? "TypealizR.Tests";
+		this.rootNamespace = rootNamespace;
 	}
 
-    private bool withoutProjectDirectory = false;
-    public GeneratorTesterBuilder WithoutProjectDirectory()
+    private bool withoutMsBuildProjectDirectory = false;
+    private DirectoryInfo? projectDir = null;
+	public GeneratorTesterBuilder<TGenerator> WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
     {
-        withoutProjectDirectory = true;
+        withoutMsBuildProjectDirectory = true;
+        if (butWithProjectDir is not null)
+        {
+            this.projectDir = new DirectoryInfo(butWithProjectDir);
+        }
 		return this;
     }
 
-	public GeneratorTesterBuilder WithSourceFile(string fileName)
+	public GeneratorTesterBuilder<TGenerator> WithSourceFile(string fileName)
     {
         var path = Path.Combine(baseDirectory.FullName, fileName);
 
@@ -48,7 +54,7 @@ internal class GeneratorTesterBuilder
         return this;
     }
 
-    public GeneratorTesterBuilder WithResxFile(string fileName)
+    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName)
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);
 		var fileInfo = new FileInfo(path);
@@ -78,31 +84,56 @@ internal class GeneratorTesterBuilder
             .ToArray()
         ;
 
-        var generator = new TypealizR.SourceGenerator();
+        var generator = new TGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutProjectDirectory ? default : baseDirectory, rootNamespace)
+                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutMsBuildProjectDirectory ? null: baseDirectory, projectDir, rootNamespace, severityConfig)
             )
         ;
 
         var generatorDriver = driver.RunGenerators(compilation);
 
-        return new GeneratorTester(generatorDriver);
+        return new GeneratorTester(generatorDriver, Path.Combine(baseDirectory.FullName, ".snapshots"));
     }
+
+    private readonly Dictionary<DiagnosticsId, string> severityConfig = new();
+
+    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity) 
+        => WithSeverityConfig(id, severity.ToString());
+
+	internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, string severity)
+	{
+		severityConfig[id] = severity;
+		return this;
+	}
 
 	class GeneratorTesterAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
 	{
 		internal class Options : AnalyzerConfigOptions
 		{
-            public Options(DirectoryInfo? baseDirectory, string rootNamespace)
+            public Options(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string? rootNamespace, Dictionary<DiagnosticsId, string> severityConfig)
             {
                 if (baseDirectory is not null)
                 {
-                    options.Add(SourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
+                    options.Add(GeneratorOptions.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
                 }
-				options.Add(SourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);
+                if (alternativeProjectDirectory is not null)
+                {
+					options.Add(GeneratorOptions.PROJECT_DIR, alternativeProjectDirectory.FullName);
+				}
+
+                if (rootNamespace is not null)
+                {
+				    options.Add(GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
+                }
+
+                foreach(var severityOverride in severityConfig)
+                {
+                    options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLower()}_severity", severityOverride.Value.ToLower());
+                }
 			}
+
 
             private readonly Dictionary<string, string> options = new ();
 
@@ -110,9 +141,9 @@ internal class GeneratorTesterBuilder
 		}
 
 
-		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, string rootNamespace)
+		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string? rootNamespace, Dictionary<DiagnosticsId, string> severityConfig)
         {
-            globalOptions = new Options(baseDirectory, rootNamespace);
+            globalOptions = new Options(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig);
 		}
 
         private readonly AnalyzerConfigOptions globalOptions;

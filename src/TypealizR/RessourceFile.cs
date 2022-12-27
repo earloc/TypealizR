@@ -4,15 +4,12 @@ using System.Collections.Immutable;
 using System.IO;
 using System.Linq;
 using System.Text;
-using System.Xml;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR;
-internal class RessourceFile
+internal partial class RessourceFile
 {
-    internal record struct Entry (string Key, string Value, IXmlLineInfo Location);
-
     public IEnumerable<Entry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content)
@@ -36,9 +33,9 @@ internal class RessourceFile
                 .Descendants()
                 .Where(x => x.Name == "data")
                 .Select(x => new Entry(
-                    Key: x.Attribute("name").Value,
-                    Value: x.Descendants("value").FirstOrDefault().Value,
-					Location: x.Attribute("name")
+                    key: x.Attribute("name").Value,
+                    value: x.Descendants("value").FirstOrDefault().Value,
+					location: x.Attribute("name")
 				));
         }
     }
