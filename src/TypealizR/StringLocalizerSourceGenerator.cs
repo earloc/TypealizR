@@ -10,7 +10,7 @@ namespace TypealizR;
 [Generator]
 public class StringLocalizerSourceGenerator : ResxFileSourceGeneratorBase
 {
-	protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDir, string rootNamepsace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
+	protected override GeneratedSourceFile? GenerateSourceFileFor(DirectoryInfo projectDir, string rootNamepsace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
 		var builder = new ClassBuilder(file.FullPath, severityConfig);
 
