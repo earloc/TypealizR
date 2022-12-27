@@ -16,7 +16,7 @@ Strongly typed i18n support for the .NET - ecosystem
 
 ## usage
 
-use this:
+### DO this:
 
 ```csharp
 
@@ -28,7 +28,7 @@ use this:
 
 ```
 
-instead of this:
+### DON´t do that:
 
 
 ```csharp
@@ -89,6 +89,61 @@ internal static class IStringLocalizerExtensions_Root_Pages_HomePage
 ```
 
 which then can be used in favor of the lesser-typed default-syntax of IStringLocalizer&lt;T&gt;
+
+## [type-annotations] ftw
+TypealizR assists in spotting translations where specified arguments may mismatch by type / order.
+
+### DO this:
+
+Consider the following call, which might have been wrong right from the start or just became wrong over time.
+
+When applying [type-annotations] to the parameters, these kind of bugs can be prevented and addressed at compile-time when combined with `TypealizR`s generated extension methods!
+
+> some.resx
+> 
+>	```xml
+>	<data name="Hello {user:s}, it is {today:d}" xml:space="preserve">
+>		<value>Hello {0}, today is {1}</value>
+>	</data>
+>	```
+
+> somecode.cs
+> 	```csharp
+> 	var userName = "Arthur";
+> 	var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
+> 
+> 	localize.Hello__user__it_is__today(today, userName); 
+>    // wrong ordering, which would result in the translated string "Hello 2022-01-01, today is Arthur"
+>
+>    // equivalent of localize["Hello {user:s}, it is {today:d}", today, userName]; 
+> ```
+
+With applied [type-annotations], this will generate tho following compile-time errors:
+> - CS1503	Argument 2: cannot convert from 'System.DateOnly' to 'string'
+> - CS1503	Argument 3: cannot convert from 'string' to 'System.DateOnly'
+
+
+![demo_typed_parameters](docs/assets/demo_typed_parameters.gif)
+
+### DON´t do that:
+There's no way the default usage of `IStringLocalizer` would discover such things this early in the dev-cycle!
+
+> some.resx
+> 
+>	```xml
+>	<data name="Hello {user}, it is {today}" xml:space="preserve">
+>		<value>Hello {0}, today is {1}</value>
+>	</data>
+>	```
+
+> somecode.cs
+> 	```csharp
+> 	var userName = "Arthur";
+> 	var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
+> 
+> 	localize["Hello {user}, it is {today}", today, userName]; 
+> 	// wrong parameter-ordering, which would result in the translated string "Hello 2022-01-01, today is Arthur"
+> ```
 
 
 ## setup
@@ -168,3 +223,5 @@ See
 [#35]:https://github.com/earloc/TypealizR/pull/35
 
 [global-analyzerconfig]:https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
+
+[type-annotations]:docs/reference/TR0004_UnrecognizedParameterType.md
