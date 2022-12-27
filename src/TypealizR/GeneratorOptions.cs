@@ -8,13 +8,13 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
-internal sealed class Options
+internal sealed class GeneratorOptions
 {
 	public const string MSBUILD_PROJECT_DIRECTORY = "build_property.msbuildprojectdirectory";
 	public const string PROJECT_DIR = "build_property.projectdir";
 	public const string ROOT_NAMESPACE = "build_property.rootnamespace";
 
-	public Options(string? projectDirectory, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
+	public GeneratorOptions(string? projectDirectory, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
 		RootNamespace = rootNamespace;
 		SeverityConfig = severityConfig;
@@ -28,7 +28,7 @@ internal sealed class Options
 	public string RootNamespace { get; }
 	public IDictionary<string, DiagnosticSeverity> SeverityConfig { get; }
 
-	public static Options From(AnalyzerConfigOptions options)
+	public static GeneratorOptions From(AnalyzerConfigOptions options)
 	{
 		if (!options.TryGetValue(MSBUILD_PROJECT_DIRECTORY, out var projectDirectory))
 		{
