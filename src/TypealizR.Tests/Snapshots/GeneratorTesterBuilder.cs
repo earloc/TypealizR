@@ -104,14 +104,14 @@ internal class GeneratorTesterBuilder
             {
                 if (baseDirectory is not null)
                 {
-                    options.Add(StringLocalizerSourceGenerator.Options.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
+                    options.Add(StringLocalizerSourceGenerator.GeneratorOptions.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
                 }
                 if (alternativeProjectDirectory is not null)
                 {
-					options.Add(StringLocalizerSourceGenerator.Options.PROJECT_DIR, alternativeProjectDirectory.FullName);
+					options.Add(StringLocalizerSourceGenerator.GeneratorOptions.PROJECT_DIR, alternativeProjectDirectory.FullName);
 				}
 
-				options.Add(StringLocalizerSourceGenerator.Options.ROOT_NAMESPACE, rootNamespace);
+				options.Add(StringLocalizerSourceGenerator.GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
 			}
 
             private readonly Dictionary<string, string> options = new ();

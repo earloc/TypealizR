@@ -15,7 +15,7 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
-		var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => Options.From(x.GlobalOptions));
+		var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
 		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(ResXFileExtension));
 		var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
 		var stringFormatterProvided = context.CompilationProvider.Select((x, cancel) => !x.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type));
@@ -32,8 +32,6 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 				var options = source.Left.Left.Right;
 				var compilation = source.Right;
 
-				
-
 				AddStringFormatterExtensionPoint(ctxt, options, isStringFormatterProvided);
 
 				foreach (var file in files)
@@ -43,7 +41,7 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 			});
 	}
 
-	private void AddStringFormatterExtensionPoint(SourceProductionContext ctxt, Options options, bool isStringFormatterProvided)
+	private void AddStringFormatterExtensionPoint(SourceProductionContext ctxt, GeneratorOptions options, bool isStringFormatterProvided)
 	{
 		var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace);
 		if (isStringFormatterProvided)
@@ -54,7 +52,7 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 		ctxt.AddSource($"{StringFormatterClassBuilder.TypeName}.g.cs", stringFormatterBuilder.Build());
 	}
 
-	private void AddExtensionClassFor_IStringLocalizer(SourceProductionContext ctxt, Options options, Compilation compilation, RessourceFile file)
+	private void AddExtensionClassFor_IStringLocalizer(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
 	{
 		if (!file.Entries.Any())
 		{
