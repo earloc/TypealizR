@@ -79,7 +79,7 @@ namespace TypealizR.Diagnostics {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Encountered an ambigious ressource-key.
+        ///   Looks up a localized string similar to Encountered an ambigious resource-key.
         /// </summary>
         internal static string TR0002_Description {
             get {
@@ -88,7 +88,7 @@ namespace TypealizR.Diagnostics {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ressource contains the key &apos;{0}&apos; that would end up as a duplicate method-name. Using &apos;{1}&apos; as derived name for this key. See {2}.
+        ///   Looks up a localized string similar to Resource-key &apos;{0}&apos; would end up as a duplicate method-name. Using &apos;{1}&apos; as derived name for this key. See {2}.
         /// </summary>
         internal static string TR0002_MessageFormat {
             get {
@@ -106,7 +106,7 @@ namespace TypealizR.Diagnostics {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Ressource-key &apos;{0}&apos; uses the generic format-parameter &apos;{1}&apos;. Consider to use a more meaningful name, instead. See {2}.
+        ///   Looks up a localized string similar to Resource-key &apos;{0}&apos; uses the generic format-parameter &apos;{1}&apos;. Consider to use a more meaningful name, instead. See {2}.
         /// </summary>
         internal static string TR0003_MessageFormat {
             get {

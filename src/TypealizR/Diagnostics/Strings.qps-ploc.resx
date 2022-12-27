@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TR0001_Description" xml:space="preserve">
+    <value>[07EC4][!!_Τħê čòðę ģêйéѓãťòř ĉóúłď ηóţ ðęτęŗмîиę ťĥę ρřõјêčťš ŗõòт-đìŕéċτõřÿ_!!]</value>
+  </data>
+  <data name="TR0001_MessageFormat" xml:space="preserve">
+    <value>[5EB18][!!_Τĥè ćóďè ģęиèѓàťôŗ ċòûľđ ηôţ ďêτèŗмíηè ţђê рѓõĵéĉţŝ ŗôôť-đìŕęćţõѓў. Śêè {0}_!!]</value>
+  </data>
+  <data name="TR0002_Description" xml:space="preserve">
+    <value>[70DF3][!!_Ęήčõùиτêѓéð àи àmБìģîóùś řêśşòúřĉé-ĸèŷ_!!]</value>
+  </data>
+  <data name="TR0002_MessageFormat" xml:space="preserve">
+    <value>[F9DD5][!!_Ŕêśšõúѓćê ćôητâįηś тħę ķèў '{0}' τħâт ẁôûľď ęηð µρ áŝ â ďµþļíćàţę męтђôď-ήâmè. Ùšíηğ '{1}' âš đêŕíνèđ ήãмê ƒôŕ ťђìś ķęŷ. Śèę {2}_!!]</value>
+  </data>
+  <data name="TR0003_Description" xml:space="preserve">
+    <value>[FE13A][!!_Èήčôûйтèѓęð á ĝèиêřìč þáѓáмèťéŕ_!!]</value>
+  </data>
+  <data name="TR0003_MessageFormat" xml:space="preserve">
+    <value>[ADA6E][!!_Řęşşóúŗĉê-ķęŷ '{0}' úşêş тħê ģęήéŗįċ ƒôѓмãτ-þãŗàмêťèѓ '{1}'. Ĉôήşìďéř ţõ úśê â môŕê méàйîηģƒûľ иâmé, íиŝťéàď. Şéę {2}_!!]</value>
+  </data>
+  <data name="TR0004_Description" xml:space="preserve">
+    <value>[6B944][!!_Ęиĉôúηťęŗéď ãи ûиѓęćôğήîźéð рářáмèτèř-ťÿρè_!!]</value>
+  </data>
+  <data name="TR0004_MessageFormat" xml:space="preserve">
+    <value>[B562B][!!_Řêşśóûŗĉê-ķèў '{0}' µŝéş ûйѓęĉòġйìźêð ρáѓáмęţêŕ-áйиòťãťîõи '{1}'. ₣âļľįиĝ ьáĉķ ţó 'òБĵèčτ'. Šęę {2}_!!]</value>
+  </data>
+</root>

@@ -53,7 +53,8 @@ internal class DiagnosticsFactory
 				description: Strings.TR0001_Description,
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0001)
 			),
-			Location.None, DiagnosticsEntry.LinkToDocs(TR0001)
+			Location.None, 
+			DiagnosticsEntry.LinkToDocs(TR0001)
 		);
 
 	internal static readonly DiagnosticsEntry TR0002 = new(id.TR0002, "AmbigiousRessourceKey");

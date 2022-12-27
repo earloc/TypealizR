@@ -124,16 +124,16 @@
     <value>The code generator could not determine the projects root-directory. See {0}</value>
   </data>
   <data name="TR0002_Description" xml:space="preserve">
-    <value>Encountered an ambigious ressource-key</value>
+    <value>Encountered an ambigious resource-key</value>
   </data>
   <data name="TR0002_MessageFormat" xml:space="preserve">
-    <value>Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}</value>
+    <value>Resource-key '{0}' would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}</value>
   </data>
   <data name="TR0003_Description" xml:space="preserve">
     <value>Encountered a generic parameter</value>
   </data>
   <data name="TR0003_MessageFormat" xml:space="preserve">
-    <value>Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2}</value>
+    <value>Resource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2}</value>
   </data>
   <data name="TR0004_Description" xml:space="preserve">
     <value>Encountered an unrecognized parameter-type</value>
