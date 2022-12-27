@@ -65,8 +65,6 @@ jobs:
       run: dotnet restore        
     - name: Build
       run: dotnet build --configuration Release --no-restore /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} /p:InformationalVersion=${{ steps.gitversion.outputs.Sha }}
-    - name: Test
-      run: dotnet test --configuration Release --no-build --verbosity normal
     - name: Pack
       run: dotnet pack ./src/TypealizR/TypealizR.csproj --configuration Release --no-build --verbosity normal /p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
