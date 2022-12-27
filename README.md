@@ -16,7 +16,7 @@ Strongly typed i18n support for the .NET - ecosystem
 
 ## usage
 
-### DO this:
+### **DO** this:
 
 ```csharp
 
@@ -28,7 +28,7 @@ Strongly typed i18n support for the .NET - ecosystem
 
 ```
 
-### DON´t do that:
+### **DON´T** do that:
 
 
 ```csharp
@@ -93,7 +93,7 @@ which then can be used in favor of the lesser-typed default-syntax of IStringLoc
 ## [type-annotations] ftw
 TypealizR assists in spotting translations where specified arguments may mismatch by type / order.
 
-### DO this:
+### **DO** this:
 
 Consider the following call, which might have been wrong right from the start or just became wrong over time.
 
@@ -125,7 +125,7 @@ With applied [type-annotations], this will generate tho following compile-time e
 
 ![demo_typed_parameters](docs/assets/demo_typed_parameters.gif)
 
-### DON´t do that:
+### **DON´T** do that:
 There's no way the default usage of `IStringLocalizer` would discover such things this early in the dev-cycle!
 
 > some.resx

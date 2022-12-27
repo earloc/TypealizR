@@ -30,8 +30,6 @@ Console.WriteLine(publicLocalizable.Hello__name("Arthur"));
 var localize = internalLocalizable;
 
 
-
-
 var userName = "Arthur";
 var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
 

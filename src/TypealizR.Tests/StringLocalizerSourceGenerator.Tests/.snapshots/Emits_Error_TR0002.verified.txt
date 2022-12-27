@@ -6,10 +6,10 @@
       Severity: Error,
       WarningLevel: 0,
       Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0002_NoCode.resx: (122,0)-(122,32),
-      Description: Encountered an ambigious ressource-key,
+      Description: Encountered an ambigious resource-key,
       HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
-      MessageFormat: Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2},
-      Message: Ressource contains the key 'Greetings {name}, today is {date}' that would end up as a duplicate method-name. Using 'Greetings__name__today_is__date' as derived name for this key. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
+      MessageFormat: Resource-key '{0}' would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2},
+      Message: Resource-key 'Greetings {name}, today is {date}' would end up as a duplicate method-name. Using 'Greetings__name__today_is__date' as derived name for this key. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
       Category: Readability
     }
   ]

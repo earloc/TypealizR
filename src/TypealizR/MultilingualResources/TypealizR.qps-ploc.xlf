@@ -1,0 +1,44 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<xliff version="1.2" xmlns="urn:oasis:names:tc:xliff:document:1.2" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="urn:oasis:names:tc:xliff:document:1.2 xliff-core-1.2-transitional.xsd">
+  <file datatype="xml" source-language="en" target-language="qps-ploc" original="TYPEALIZR/DIAGNOSTICS/STRINGS.RESX" tool-id="MultilingualAppToolkit" product-name="n/a" product-version="n/a" build-num="n/a">
+    <header>
+      <tool tool-id="MultilingualAppToolkit" tool-name="Multilingual App Toolkit" tool-version="1.0.0.0" tool-company="Microsoft" />
+    </header>
+    <body>
+      <group id="TYPEALIZR/DIAGNOSTICS/STRINGS.RESX" datatype="resx">
+        <trans-unit id="TR0001_Description" translate="yes" xml:space="preserve">
+          <source>The code generator could not determine the projects root-directory</source>
+          <target state="translated" state-qualifier="mt-suggestion">[07EC4][!!_Τħê čòðę ģêйéѓãťòř ĉóúłď ηóţ ðęτęŗмîиę ťĥę ρřõјêčťš ŗõòт-đìŕéċτõřÿ_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0001_MessageFormat" translate="yes" xml:space="preserve">
+          <source>The code generator could not determine the projects root-directory. See {0}</source>
+          <target state="translated" state-qualifier="mt-suggestion">[5EB18][!!_Τĥè ćóďè ģęиèѓàťôŗ ċòûľđ ηôţ ďêτèŗмíηè ţђê рѓõĵéĉţŝ ŗôôť-đìŕęćţõѓў. Śêè {0}_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0002_Description" translate="yes" xml:space="preserve">
+          <source>Encountered an ambigious resource-key</source>
+          <target state="translated" state-qualifier="mt-suggestion">[70DF3][!!_Ęήčõùиτêѓéð àи àmБìģîóùś řêśşòúřĉé-ĸèŷ_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0002_MessageFormat" translate="yes" xml:space="preserve">
+          <source>Resource-key '{0}' would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}</source>
+          <target state="translated" state-qualifier="mt-suggestion">[F9DD5][!!_Ŕêśšõúѓćê ćôητâįηś тħę ķèў '{0}' τħâт ẁôûľď ęηð µρ áŝ â ďµþļíćàţę męтђôď-ήâmè. Ùšíηğ '{1}' âš đêŕíνèđ ήãмê ƒôŕ ťђìś ķęŷ. Śèę {2}_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0003_Description" translate="yes" xml:space="preserve">
+          <source>Encountered a generic parameter</source>
+          <target state="translated" state-qualifier="mt-suggestion">[FE13A][!!_Èήčôûйтèѓęð á ĝèиêřìč þáѓáмèťéŕ_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0003_MessageFormat" translate="yes" xml:space="preserve">
+          <source>Resource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2}</source>
+          <target state="translated" state-qualifier="mt-suggestion">[ADA6E][!!_Řęşşóúŗĉê-ķęŷ '{0}' úşêş тħê ģęήéŗįċ ƒôѓмãτ-þãŗàмêťèѓ '{1}'. Ĉôήşìďéř ţõ úśê â môŕê méàйîηģƒûľ иâmé, íиŝťéàď. Şéę {2}_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0004_Description" translate="yes" xml:space="preserve">
+          <source>Encountered an unrecognized parameter-type</source>
+          <target state="translated" state-qualifier="mt-suggestion">[6B944][!!_Ęиĉôúηťęŗéď ãи ûиѓęćôğήîźéð рářáмèτèř-ťÿρè_!!]</target>
+        </trans-unit>
+        <trans-unit id="TR0004_MessageFormat" translate="yes" xml:space="preserve">
+          <source>Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2}</source>
+          <target state="translated" state-qualifier="mt-suggestion">[B562B][!!_Řêşśóûŗĉê-ķèў '{0}' µŝéş ûйѓęĉòġйìźêð ρáѓáмęţêŕ-áйиòťãťîõи '{1}'. ₣âļľįиĝ ьáĉķ ţó 'òБĵèčτ'. Šęę {2}_!!]</target>
+        </trans-unit>
+      </group>
+    </body>
+  </file>
+</xliff>

@@ -73,6 +73,23 @@ public class StringLocalizerSourceGenerator_Tests
 	}
 
 	[Fact]
+	public async Task Emits_Error_TR0001_Localized()
+	{
+		var previous = Thread.CurrentThread.CurrentCulture;
+
+		Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de");
+
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
+			.Create(BaseDirectory, RootNamespace)
+			.WithoutMsBuildProjectDirectory()
+			.WithResxFile("Empty_NoCode.resx")
+			.Build()
+			.Verify()
+		;
+		Thread.CurrentThread.CurrentUICulture = previous;
+	}
+
+	[Fact]
 	public async Task Emits_Warning_TR0002()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>

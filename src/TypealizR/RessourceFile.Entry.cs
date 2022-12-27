@@ -1,9 +1,9 @@
 ﻿using System.Xml;
 
 namespace TypealizR;
-internal partial class RessourceFile
+public partial class RessourceFile
 {
-	internal class Entry
+	public class Entry
     {
         public Entry(string key, string value, IXmlLineInfo location)
         {

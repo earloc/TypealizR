@@ -24,11 +24,11 @@ public partial class StringFormatterSourceGenerator : IIncrementalGenerator
 				var stringFormatterExists = source.Right;
 				var options = source.Left;
 
-				AddStringFormatterExtensionPoint(ctxt, options, stringFormatterExists);
+				AddStringFormatterClass(ctxt, options, stringFormatterExists);
 			});
 	}
 
-	private void AddStringFormatterExtensionPoint(SourceProductionContext ctxt, GeneratorOptions options, bool stringFormatterExists)
+	private void AddStringFormatterClass(SourceProductionContext ctxt, GeneratorOptions options, bool stringFormatterExists)
 	{
 		var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace);
 		if (stringFormatterExists)

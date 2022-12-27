@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="TR0001_Description" xml:space="preserve">
+    <value>Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden</value>
+  </data>
+  <data name="TR0001_MessageFormat" xml:space="preserve">
+    <value>Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden. Siehe {0}</value>
+  </data>
+  <data name="TR0002_Description" xml:space="preserve">
+    <value>Nicht eineindeutiger Schlüssel gefunden</value>
+  </data>
+  <data name="TR0002_MessageFormat" xml:space="preserve">
+    <value>Die Ressource enthält den Schlüssel '{0}', welcher in einem doppelten Methodenname resultieren würde. Stattdessen wird '{1}' verwendet. Siehe {2}</value>
+  </data>
+  <data name="TR0003_Description" xml:space="preserve">
+    <value>Generischer Paremtername gefunden</value>
+  </data>
+  <data name="TR0003_MessageFormat" xml:space="preserve">
+    <value>Die Ressource '{0}' verwendet den generischen Parameter '{1}'. Hier sollte die Verwendung eines sinnvolleren Namens in Betracht gezogen werden. Siehe {2}</value>
+  </data>
+  <data name="TR0004_Description" xml:space="preserve">
+    <value>Unbekannter Parametertyp gefunden</value>
+  </data>
+  <data name="TR0004_MessageFormat" xml:space="preserve">
+    <value>Die Ressource '{0}' verwendet die unbekannte Parametertyp-Annotation '{1}'. Stattdessen wird 'object' verwendet. Siehe {2}</value>
+  </data>
+</root>

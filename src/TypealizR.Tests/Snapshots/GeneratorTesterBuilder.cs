@@ -54,7 +54,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         return this;
     }
 
-    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName)
+    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName, bool andDesignerFile = false)
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);
 		var fileInfo = new FileInfo(path);
@@ -64,14 +64,20 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
             throw new FileNotFoundException($"{fileInfo.FullName} not found", fileInfo.FullName);
         }
         resxFiles.Add(fileInfo);
+
+        if (andDesignerFile)
+        {
+            WithSourceFile(fileName.Replace(".resx", ".Designer.cs"));
+        }
+
         return this;
     }
 
     public IVerifiable Build()
     {
         var syntaxTrees = sourceFiles
-            .Select(x => File.ReadAllText(x.FullName))
-            .Select(x => CSharpSyntaxTree.ParseText(x))
+            .Select(x => new { Path = x.FullName, Content = File.ReadAllText(x.FullName) })
+            .Select(x => CSharpSyntaxTree.ParseText(x.Content, path: x.Path))
             .ToArray();
 
         var compilation = CSharpCompilation.Create(
