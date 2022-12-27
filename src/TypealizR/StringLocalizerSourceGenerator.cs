@@ -84,14 +84,14 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 
 		if (!possibleMarkerTypeSymbols.Any())
 		{
-			return ($"{nameSpace}".Trim('.', ' '), Visibility.Internal);
+			return (nameSpace.Trim('.', ' '), Visibility.Internal);
 		}
 
 		var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
 		if (matchingMarkerType is null)
 		{
-			return ($"{nameSpace}".Trim('.', ' '), Visibility.Internal);
+			return (nameSpace.Trim('.', ' '), Visibility.Internal);
 		}
 
 		var visibility = (matchingMarkerType.DeclaredAccessibility == Accessibility.Public) ? Visibility.Public : Visibility.Internal;
