@@ -9,7 +9,7 @@ using TypealizR.Tests.Snapshots;
 namespace TypealizR.Tests;
 
 [UsesVerify]
-public class StringLocalizerSourceGenerator_Tests
+public class StringFormatterSourceGenerator_Tests
 {
 	private const string BaseDirectory = "../../../SourceGenerator.Tests";
 	private const string RootNamespace = "Some.Root.Namespace";
