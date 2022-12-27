@@ -11,11 +11,11 @@ namespace TypealizR.Tests;
 [UsesVerify]
 public class StringLocalizerSourceGenerator_Tests
 {
-	private const string BaseDirectory = "../../../SourceGenerator.Tests";
+	private const string BaseDirectory = "../../../StringLocalizerSourceGenerator.Tests";
 	private const string RootNamespace = "Some.Root.Namespace";
 
 	[Fact]
-	public async Task Generates_Warning_TR0001()
+	public async Task Emits_Warning_TR0001()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
@@ -24,10 +24,11 @@ public class StringLocalizerSourceGenerator_Tests
 			.Build()
 			.Verify()
 		;
+		Assert.Fail("this one here is a false positive");
 	}
 
 	[Fact]
-	public async Task DoesNotGenerates_Warning_TR0001_When_Using_ProjectDir()
+	public async Task DoesNot_Emit_Warning_TR0001_When_Using_ProjectDir()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
@@ -36,10 +37,12 @@ public class StringLocalizerSourceGenerator_Tests
 			.Build()
 			.Verify()
 		;
+		Assert.Fail("this one here is a false positive");
+
 	}
 
 	[Fact]
-	public async Task Generates_Warning_TR0002()
+	public async Task Emits_Warning_TR0002()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
@@ -50,7 +53,7 @@ public class StringLocalizerSourceGenerator_Tests
 	}
 
 	[Fact]
-	public async Task Generates_Warning_TR0003()
+	public async Task Emits_Warning_TR0003()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
@@ -61,7 +64,7 @@ public class StringLocalizerSourceGenerator_Tests
 	}
 
 	[Fact]
-	public async Task Generates_Warning_TR0004()
+	public async Task Emits_Warning_TR0004()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
@@ -72,45 +75,21 @@ public class StringLocalizerSourceGenerator_Tests
 	}
 
 	[Fact]
-	public async Task Generates_StringFormatter_WithDefaultImplementation_For_Empty_NoCode_Resx()
+	public async Task NoCode_Resx()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
-			.WithResxFile("Empty_NoCode.resx")
-			.Build()
-			.Verify()
-		;
-	}
-
-	[Fact]
-	public async Task Generates_StringFormatter_BaseOnly_For_Empty_NoCode_Resx()
-	{
-		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
-			.Create(BaseDirectory, RootNamespace)
-			.WithSourceFile("StringFormatter.cs")
-			.WithResxFile("Empty_NoCode.resx")
-			.Build()
-			.Verify()
-		;
-	}
-
-	[Fact]
-	public async Task Generates_ExtensionMethods_WithoutWarnings_For_NoCode_Resx()
-	{
-		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
-			.Create(BaseDirectory, RootNamespace)
-			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("NoWarnings_NoCode.resx")
 			.Build()
 			.Verify()
 		;
 	}
+
 	[Fact]
-	public async Task NoCode_Resx_Respects_Visibility_Of_Internal_MarkerType()
+	public async Task NoCode_Resx_Honors_Internal_MarkerType()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
-			.WithSourceFile("StringFormatter.cs")
 			.WithSourceFile($"NoWarnings_NoCode_Internal.cs")
 			.WithResxFile($"NoWarnings_NoCode.resx")
 			.Build()
@@ -119,11 +98,10 @@ public class StringLocalizerSourceGenerator_Tests
 	}
 
 	[Fact]
-	public async Task NoCode_Resx_Respects_Visibility_Of_Public_MarkerType()
+	public async Task NoCode_Resx_Honors_Public_MarkerType()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
-			.WithSourceFile("StringFormatter.cs")
 			.WithSourceFile($"NoWarnings_NoCode_Public.cs")
 			.WithResxFile($"NoWarnings_NoCode.resx")
 			.Build()
@@ -132,11 +110,10 @@ public class StringLocalizerSourceGenerator_Tests
 	}
 
 	[Fact]
-	public async Task NoCode_Resx_Falls_Back_To_Inferred_MarkerType_When_Found_Ones_Namespace_Does_Not_Match()
+	public async Task NoCode_Resx_MarkerType_Fallback()
 	{
 		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
-			.WithSourceFile("StringFormatter.cs")
 			.WithSourceFile($"NoWarnings_NoCode_NamespaceMismatch.cs")
 			.WithResxFile($"NoWarnings_NoCode.resx")
 			.Build()

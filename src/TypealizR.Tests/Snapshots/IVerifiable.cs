@@ -1,6 +1,8 @@
-﻿namespace TypealizR.Tests.Snapshots;
+﻿using System.Runtime.CompilerServices;
+
+namespace TypealizR.Tests.Snapshots;
 
 internal interface IVerifiable
 {
-    Task Verify();
+    Task Verify([CallerMemberName] string caller = "");
 }

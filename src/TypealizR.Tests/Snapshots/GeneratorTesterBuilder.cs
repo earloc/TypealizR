@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterBuilder<TGenerator>
+internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
     internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
 
@@ -83,7 +83,7 @@ internal class GeneratorTesterBuilder<TGenerator>
             .ToArray()
         ;
 
-        var generator = new TypealizR.StringLocalizerSourceGenerator();
+        var generator = new TGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
@@ -93,7 +93,7 @@ internal class GeneratorTesterBuilder<TGenerator>
 
         var generatorDriver = driver.RunGenerators(compilation);
 
-        return new GeneratorTester(generatorDriver);
+        return new GeneratorTester(generatorDriver, Path.Combine(baseDirectory.FullName, ".snapshots"));
     }
 
 	class GeneratorTesterAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
