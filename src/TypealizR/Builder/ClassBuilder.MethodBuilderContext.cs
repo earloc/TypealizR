@@ -3,7 +3,7 @@
 namespace TypealizR.Builder;
 internal partial class ClassBuilder
 {
-	private class MethodBuilderContext
+	private sealed class MethodBuilderContext
 	{
 		public MethodBuilderContext(MethodBuilder builder, DiagnosticsCollector diagnostics)
 		{
