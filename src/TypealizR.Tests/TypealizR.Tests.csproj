@@ -57,10 +57,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="StronglyTypedResourceBuilderSourceGenerator.Tests\NoWarnings_WithCode_Internal.resx">
-	    <Generator>ResXFileCodeGenerator</Generator>
-	    <LastGenOutput>NoWarnings_WithCode_Internal.Designer.cs</LastGenOutput>
-	  </EmbeddedResource>
 	  <EmbeddedResource Update="StringLocalizerSourceGenerator.Tests\Empty_NoCode.resx">
 	    <Generator></Generator>
 	  </EmbeddedResource>
@@ -72,15 +68,6 @@
 	<ItemGroup>
 	  <Folder Include="StringFormatterSourceGenerator.Tests\.snapshots\" />
 	  <Folder Include="StringLocalizerSourceGenerator.Tests\.snapshots\" />
-	  <Folder Include="StronglyTypedResourceBuilderSourceGenerator.Tests\.snapshots\" />
-	</ItemGroup>
-
-	<ItemGroup>
-	  <Compile Update="StronglyTypedResourceBuilderSourceGenerator.Tests\NoWarnings_WithCode_Internal.Designer.cs">
-	    <DesignTime>True</DesignTime>
-	    <AutoGen>True</AutoGen>
-	    <DependentUpon>NoWarnings_WithCode_Internal.resx</DependentUpon>
-	  </Compile>
 	</ItemGroup>
 
 </Project>

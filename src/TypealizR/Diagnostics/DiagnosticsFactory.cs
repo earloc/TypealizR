@@ -46,11 +46,11 @@ internal class DiagnosticsFactory
 		Diagnostic.Create(
 			new(id: TR0001.Id.ToString(),
 				title: TR0001.Title,
-				messageFormat: "The code generator could not determine the projects root-directory. See {0}",
+				messageFormat: Strings.TR0001_MessageFormat,
 				category: "Project",
 				defaultSeverity: DiagnosticSeverity.Error,
 				isEnabledByDefault: true,
-				description: "The code generator could not determine the projects root-directory",
+				description: Strings.TR0001_Description,
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0001)
 			),
 			Location.None, DiagnosticsEntry.LinkToDocs(TR0001)
@@ -61,11 +61,11 @@ internal class DiagnosticsFactory
 		Diagnostic.Create(
 			new(id: TR0002.Id.ToString(),
 				title: TR0002.Title,
-				messageFormat: "Ressource contains the key '{0}' that would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}",
+				messageFormat: Strings.TR0002_MessageFormat,
 				category: "Readability",
 				defaultSeverity: SeverityFor(TR0002.Id) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
-				description: "Encountered an ambigious ressource-key",
+				description: Strings.TR0002_Description,
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0002)
 			),
 			Location.Create(filePath.Replace("\\", "/"),
@@ -83,11 +83,11 @@ internal class DiagnosticsFactory
 		Diagnostic.Create(
 			new(id: TR0003.Id.ToString(),
 				title: TR0003.Title,
-				messageFormat: "Ressource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2}",
+				messageFormat: Strings.TR0003_MessageFormat,
 				category: "Readability",
 				defaultSeverity: SeverityFor(TR0003.Id) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
-				description: "Encountered a generic parameter",
+				description: Strings.TR0003_Description,
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0003)
 			),
 			Location.Create(filePath.Replace("\\", "/"),
@@ -106,11 +106,11 @@ internal class DiagnosticsFactory
 		Diagnostic.Create(
 			new(id: TR0004.Id.ToString(),
 				title: TR0004.Title,
-				messageFormat: "Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2}",
+				messageFormat: Strings.TR0004_MessageFormat,
 				category: "Readability",
 				defaultSeverity: SeverityFor(TR0004.Id) ?? DiagnosticSeverity.Warning,
 				isEnabledByDefault: true,
-				description: "Encountered an unrecognized parameter-type",
+				description: Strings.TR0004_Description,
 				helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0004)
 			),
 			Location.Create(filePath.Replace("\\", "/"),
