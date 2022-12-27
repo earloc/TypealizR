@@ -11,16 +11,14 @@ namespace TypealizR;
 [Generator]
 public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 {
-	private const string ResXFileExtension = ".resx";
-
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
-		var settings = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
-		var allResxFiles = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(ResXFileExtension));
-		var monitoredFiles = allResxFiles.Collect().Select((x, cancel) => RessourceFile.From(x));
+		var optionsProvider = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
+		var resxFilesProvider = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
+		var monitoredFiles = resxFilesProvider.Collect().Select((x, cancel) => RessourceFile.From(x));
 		
 		context.RegisterSourceOutput(monitoredFiles
-			.Combine(settings)
+			.Combine(optionsProvider)
 			.Combine(context.CompilationProvider),
 			(ctxt, source) =>
 			{
@@ -38,13 +36,14 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 
 	private void AddExtensionClassFor_IStringLocalizer(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
 	{
-		if (!file.Entries.Any())
-		{
-			return;
-		}
 		if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
 		{
 			ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
+			return;
+		}
+
+		if (!file.Entries.Any())
+		{
 			return;
 		}
 

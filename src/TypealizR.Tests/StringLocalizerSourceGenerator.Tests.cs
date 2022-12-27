@@ -24,7 +24,6 @@ public class StringLocalizerSourceGenerator_Tests
 			.Build()
 			.Verify()
 		;
-		Assert.Fail("this one here is a false positive");
 	}
 
 	[Fact]
@@ -37,7 +36,6 @@ public class StringLocalizerSourceGenerator_Tests
 			.Build()
 			.Verify()
 		;
-		Assert.Fail("this one here is a false positive");
 
 	}
 
