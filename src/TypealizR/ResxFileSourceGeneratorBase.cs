@@ -44,10 +44,6 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 		}
 
 		var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, compilation, file, options.SeverityConfig);
-		if (generatedClass is null)
-		{
-			return;
-		}
 
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);
 		foreach (var diagnostic in generatedClass.Diagnostics)
@@ -56,5 +52,5 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 		}
 	}
 
-	protected abstract GeneratedSourceFile? GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig);
+	protected abstract GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig);
 }
