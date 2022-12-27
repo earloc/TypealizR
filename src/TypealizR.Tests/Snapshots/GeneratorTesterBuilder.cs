@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
@@ -13,7 +14,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = new();
     private readonly List<FileInfo> resxFiles = new();
-	private readonly string rootNamespace;
+	private readonly string? rootNamespace;
 
 	public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null)
 	{
@@ -24,7 +25,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
             throw new ArgumentException($"the specified directory {this.baseDirectory.FullName} does not exist", nameof(baseDirectory));
         }
 
-		this.rootNamespace = rootNamespace ?? "TypealizR.Tests";
+		this.rootNamespace = rootNamespace;
 	}
 
     private bool withoutMsBuildProjectDirectory = false;
@@ -87,7 +88,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutMsBuildProjectDirectory ? null: baseDirectory, projectDir, rootNamespace)
+                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutMsBuildProjectDirectory ? null: baseDirectory, projectDir, rootNamespace, severityConfig)
             )
         ;
 
@@ -96,11 +97,22 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         return new GeneratorTester(generatorDriver, Path.Combine(baseDirectory.FullName, ".snapshots"));
     }
 
+    private readonly Dictionary<DiagnosticsId, string> severityConfig = new();
+
+    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity) 
+        => WithSeverityConfig(id, severity.ToString());
+
+	internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, string severity)
+	{
+		severityConfig[id] = severity;
+		return this;
+	}
+
 	class GeneratorTesterAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
 	{
 		internal class Options : AnalyzerConfigOptions
 		{
-            public Options(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string rootNamespace)
+            public Options(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string? rootNamespace, Dictionary<DiagnosticsId, string> severityConfig)
             {
                 if (baseDirectory is not null)
                 {
@@ -111,8 +123,17 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 					options.Add(GeneratorOptions.PROJECT_DIR, alternativeProjectDirectory.FullName);
 				}
 
-				options.Add(GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
+                if (rootNamespace is not null)
+                {
+				    options.Add(GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
+                }
+
+                foreach(var severityOverride in severityConfig)
+                {
+                    options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLower()}_severity", severityOverride.Value.ToLower());
+                }
 			}
+
 
             private readonly Dictionary<string, string> options = new ();
 
@@ -120,9 +141,9 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 		}
 
 
-		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string rootNamespace)
+		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string? rootNamespace, Dictionary<DiagnosticsId, string> severityConfig)
         {
-            globalOptions = new Options(baseDirectory, alternativeProjectDirectory, rootNamespace);
+            globalOptions = new Options(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig);
 		}
 
         private readonly AnalyzerConfigOptions globalOptions;

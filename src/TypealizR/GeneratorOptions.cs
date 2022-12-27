@@ -41,7 +41,7 @@ internal sealed class GeneratorOptions
 
 		return new(
 			projectDirectory: projectDirectory,
-			rootNamespace: rootNamespace ?? Guid.NewGuid().ToString(),
+			rootNamespace: rootNamespace ?? "",
 			severityConfig: severityConfig
 		);
 	}
