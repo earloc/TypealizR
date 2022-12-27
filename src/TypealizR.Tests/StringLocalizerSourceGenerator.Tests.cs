@@ -17,7 +17,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_Warning_TR0001()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithoutMsBuildProjectDirectory()
 			.WithResxFile("Empty_NoCode.resx")
@@ -29,7 +29,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task DoesNotGenerates_Warning_TR0001_When_Using_ProjectDir()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithoutMsBuildProjectDirectory(butWithProjectDir: BaseDirectory)
 			.WithResxFile("Empty_NoCode.resx")
@@ -41,7 +41,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_Warning_TR0002()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithResxFile("TR0002_NoCode.resx")
 			.Build()
@@ -52,7 +52,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_Warning_TR0003()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithResxFile("TR0003_NoCode.resx")
 			.Build()
@@ -63,7 +63,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_Warning_TR0004()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithResxFile("TR0004_NoCode.resx")
 			.Build()
@@ -74,7 +74,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_StringFormatter_WithDefaultImplementation_For_Empty_NoCode_Resx()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithResxFile("Empty_NoCode.resx")
 			.Build()
@@ -85,7 +85,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_StringFormatter_BaseOnly_For_Empty_NoCode_Resx()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("Empty_NoCode.resx")
@@ -97,7 +97,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task Generates_ExtensionMethods_WithoutWarnings_For_NoCode_Resx()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithResxFile("NoWarnings_NoCode.resx")
@@ -108,7 +108,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task NoCode_Resx_Respects_Visibility_Of_Internal_MarkerType()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithSourceFile($"NoWarnings_NoCode_Internal.cs")
@@ -121,7 +121,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task NoCode_Resx_Respects_Visibility_Of_Public_MarkerType()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithSourceFile($"NoWarnings_NoCode_Public.cs")
@@ -134,7 +134,7 @@ public class SourceGenerator_Tests
 	[Fact]
 	public async Task NoCode_Resx_Falls_Back_To_Inferred_MarkerType_When_Found_Ones_Namespace_Does_Not_Match()
 	{
-		await GeneratorTesterBuilder
+		await GeneratorTesterBuilder<StringLocalizerSourceGenerator>
 			.Create(BaseDirectory, RootNamespace)
 			.WithSourceFile("StringFormatter.cs")
 			.WithSourceFile($"NoWarnings_NoCode_NamespaceMismatch.cs")

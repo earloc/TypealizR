@@ -11,8 +11,4 @@ namespace TypealizR;
 
 internal abstract class _
 {
-	private static readonly string generatorName = typeof(StringLocalizerSourceGenerator).FullName;
-	private static readonly Version generatorVersion = typeof(StringLocalizerSourceGenerator).Assembly.GetName().Version;
-
-	public static readonly string GeneratedCodeAttribute = $@"[GeneratedCode(""{generatorName}"", ""{generatorVersion}"")]";
 }

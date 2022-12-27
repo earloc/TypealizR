@@ -2,6 +2,7 @@
 
 using System.Collections.Generic;
 using System.Text;
+using TypealizR.Extensions;
 
 namespace TypealizR.Extensibility;
 internal class StringFormatterClassBuilder
@@ -18,9 +19,9 @@ internal class StringFormatterClassBuilder
 	private bool isUserModeImplementationProvided = false;
 	internal void UserModeImplementationIsProvided() => isUserModeImplementationProvided = true;
 
-	internal string Build()
+	internal string Build(Type generatorType)
 	{
-		string stringFormatterStub = GenerateStub();
+		string stringFormatterStub = GenerateStub(generatorType);
 
 		var defaultImplementation = default(string?);
 		if (isUserModeImplementationProvided)
@@ -55,10 +56,10 @@ internal class StringFormatterClassBuilder
 
 		""";
 
-	private string OpenNamespace(string rootNamespace) =>$@"namespace {rootNamespace} {{";
+	private string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
 
-	private string GenerateStub() => $$"""
-		{{_.GeneratedCodeAttribute}}
+	private string GenerateStub(Type generatorType) => $$"""
+		{{generatorType.GeneratedCodeAttribute()}}
 		internal static partial class {{TypeName}}
 		{
 			[DebuggerStepThrough]

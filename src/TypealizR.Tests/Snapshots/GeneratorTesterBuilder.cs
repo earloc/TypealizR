@@ -6,9 +6,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterBuilder
+internal class GeneratorTesterBuilder<TGenerator>
 {
-    internal static GeneratorTesterBuilder Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
+    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = new();
@@ -29,7 +29,7 @@ internal class GeneratorTesterBuilder
 
     private bool withoutMsBuildProjectDirectory = false;
     private DirectoryInfo? projectDir = null;
-	public GeneratorTesterBuilder WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
+	public GeneratorTesterBuilder<TGenerator> WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
     {
         withoutMsBuildProjectDirectory = true;
         if (butWithProjectDir is not null)
@@ -39,7 +39,7 @@ internal class GeneratorTesterBuilder
 		return this;
     }
 
-	public GeneratorTesterBuilder WithSourceFile(string fileName)
+	public GeneratorTesterBuilder<TGenerator> WithSourceFile(string fileName)
     {
         var path = Path.Combine(baseDirectory.FullName, fileName);
 
@@ -53,7 +53,7 @@ internal class GeneratorTesterBuilder
         return this;
     }
 
-    public GeneratorTesterBuilder WithResxFile(string fileName)
+    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName)
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);
 		var fileInfo = new FileInfo(path);
@@ -104,14 +104,14 @@ internal class GeneratorTesterBuilder
             {
                 if (baseDirectory is not null)
                 {
-                    options.Add(StringLocalizerSourceGenerator.GeneratorOptions.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
+                    options.Add(GeneratorOptions.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
                 }
                 if (alternativeProjectDirectory is not null)
                 {
-					options.Add(StringLocalizerSourceGenerator.GeneratorOptions.PROJECT_DIR, alternativeProjectDirectory.FullName);
+					options.Add(GeneratorOptions.PROJECT_DIR, alternativeProjectDirectory.FullName);
 				}
 
-				options.Add(StringLocalizerSourceGenerator.GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
+				options.Add(GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
 			}
 
             private readonly Dictionary<string, string> options = new ();
