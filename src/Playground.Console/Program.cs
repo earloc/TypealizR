@@ -35,4 +35,4 @@ var localize = internalLocalizable;
 var userName = "Arthur";
 var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
 
-localize.Hello__user__it_is__today(today, userName);
+localize.Hello__user__it_is__today(userName, today);
