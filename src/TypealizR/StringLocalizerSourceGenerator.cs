@@ -22,19 +22,18 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 			.Combine(context.CompilationProvider),
 			(ctxt, source) =>
 			{
-				//reads horrible, but hey, that´s THE WAY
 				var files = source.Left.Left;
 				var options = source.Left.Right;
 				var compilation = source.Right;
 
 				foreach (var file in files)
 				{
-					AddExtensionClassFor_IStringLocalizer(ctxt, options, compilation, file);
+					AddExtensionClassFor(ctxt, options, compilation, file);
 				}
 			});
 	}
 
-	private void AddExtensionClassFor_IStringLocalizer(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
+	private void AddExtensionClassFor(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
 	{
 		if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
 		{
@@ -47,7 +46,7 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 			return;
 		}
 
-		var generatedClass = GenerateExtensionClassFor_IStringLocalizer(options.ProjectDirectory, options.RootNamespace, compilation, file, options.SeverityConfig);
+		var generatedClass = GenerateExtensionClassFor(options.ProjectDirectory, options.RootNamespace, compilation, file, options.SeverityConfig);
 
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);
 		foreach (var diagnostic in generatedClass.Diagnostics)
@@ -56,7 +55,7 @@ public partial class StringLocalizerSourceGenerator : IIncrementalGenerator
 		}
 	}
 
-	private GeneratedSourceFile GenerateExtensionClassFor_IStringLocalizer(DirectoryInfo projectDir, string rootNamepsace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
+	private GeneratedSourceFile GenerateExtensionClassFor(DirectoryInfo projectDir, string rootNamepsace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
 		var builder = new ClassBuilder(file.FullPath, severityConfig);
 
