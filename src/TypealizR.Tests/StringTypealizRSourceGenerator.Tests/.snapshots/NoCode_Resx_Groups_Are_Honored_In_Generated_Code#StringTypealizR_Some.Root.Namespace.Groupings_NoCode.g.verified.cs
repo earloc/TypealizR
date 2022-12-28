@@ -8,6 +8,16 @@ namespace Some.Root.Namespace.TypealizR
     [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
     internal partial class StringTypealizR_Some_Root_Namespace_Groupings_NoCode : IStringTypealizR<Groupings_NoCode>
     {
+
+        private readonly IStringLocalizer<Groupings_NoCode> localizer;
+        public StringTypealizR_Some_Root_Namespace_Groupings_NoCode(IStringLocalizer<Groupings_NoCode> localizer)
+        {
+            this.localizer = localizer;
+            Log = new LogGroup(localizer);
+            Question = new QuestionGroup(localizer);
+            Warning = new WarningGroup(localizer);
+        }
+
         /// <summary>
         /// Looks up a localized string similar to 'Greetings {name}, today is {date}'
         /// </summary>
@@ -39,14 +49,7 @@ namespace Some.Root.Namespace.TypealizR
         public QuestionGroup Question { get; }
         public WarningGroup Warning { get; }
 
-        private readonly IStringLocalizer<Groupings_NoCode> localizer;
-        public Some_Root_Namespace_Groupings_NoCode(IStringLocalizer<Groupings_NoCode> localizer)
-        {
-            this.localizer = localizer;
-            Question = new LogGroup(localizer);
-            Log = new QuestionGroup(localizer);
-            Warning = new WarningGroup(localizer);
-        }
+        
 
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class LogGroup

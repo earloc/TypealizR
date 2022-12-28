@@ -41,18 +41,18 @@ internal class StringTypealizRClassModel
             {{generatorType.GeneratedCodeAttribute()}}
             {{Visibility}} partial class {{TypeName}} : IStringTypealizR<{{Target.Name}}>
             {
-                {{Members.Select(x => x.ToCSharp()).ToMultiline()}}
-
-                {{groups.Select(x => $"public {x}Group {x} {{ get; }}").ToMultiline("        ", appendNewLineAfterEach: false)}}
 
                 private readonly IStringLocalizer<{{Target.Name}}> localizer;
                 public {{TypeName}}(IStringLocalizer<{{Target.Name}}> localizer)
                 {
                     this.localizer = localizer;
-                    Question = new LogGroup(localizer);
-                    Log = new QuestionGroup(localizer);
-                    Warning = new WarningGroup(localizer);
+                    {{groups.Select(x => $"{x} = new {x}Group(localizer);").ToMultiline("            ", appendNewLineAfterEach: false)}}
                 }
+
+                {{Members.Select(x => x.ToCSharp()).ToMultiline()}}
+
+                {{groups.Select(x => $"public {x}Group {x} {{ get; }}").ToMultiline("        ", appendNewLineAfterEach: false)}}
+
             }
         }
 
