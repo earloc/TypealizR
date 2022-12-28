@@ -135,6 +135,9 @@
   <data name="[Log.Warning] Unknown error" xml:space="preserve">
     <value>Encountered an unknown error during the operation</value>
   </data>
+  <data name="[Question] Abort ?" xml:space="preserve">
+    <value>Abort?</value>
+  </data>
   <data name="[Question] Continue to delete {UserName:s}?" xml:space="preserve">
     <value>Continue to delete {0}?</value>
   </data>

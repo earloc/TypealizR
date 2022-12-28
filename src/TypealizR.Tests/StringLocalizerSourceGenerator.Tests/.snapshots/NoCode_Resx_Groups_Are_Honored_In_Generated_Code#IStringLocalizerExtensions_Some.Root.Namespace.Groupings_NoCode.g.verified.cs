@@ -125,6 +125,15 @@ namespace Microsoft.Extensions.Localization
 			[DebuggerStepThrough]
 			public static LocalizedString UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
 				=> that["[Warning] {UserName:s} will be deleted!"].Format(UserName);
+
+			/// <summary>
+			/// Looks up a localized string similar to 'Abort?'
+			/// </summary>
+			/// <returns>
+			/// A localized version of the current default value of 'Abort?'
+			/// </returns>
+			public LocalizedString Abort
+				=> that["[Question] Abort ?"];
 		}
 
 		public Some_Root_Namespace_Groupings_NoCode_WithGroups(IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
@@ -140,6 +149,33 @@ namespace Microsoft.Extensions.Localization
 		public LogGroup Log { get; }
 
 		public WarningGroup Warning { get; }
+
+		/// <summary>
+		/// Looks up a localized string similar to 'Hello'
+		/// </summary>
+		/// <returns>
+		/// A localized version of the current default value of 'Hello'
+		/// </returns>
+		public LocalizedString Hello 
+			=> that["Hello"];
+
+		/// <summary>
+		/// Looks up a localized string similar to 'Greetings {name}, today is {date}'
+		/// </summary>
+		/// <returns>
+		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
+		/// </returns>
+		public LocalizedString Greetings__name__today_is__date(object name, object date)
+			=> that["Greetings {name}, today is {date}"].Format(name, date);
+
+		/// <summary>
+		/// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
+		/// </summary>
+		/// <returns>
+		/// A localized version of the current default value of 'Hello {0}, today is {1}'
+		/// </returns>
+		public LocalizedString Hello__name__today_is__date(string name, DateOnly date)
+			=> that["Hello {name:s}, today is {date:d}"].Format(name, date);
 	}
 }
 
