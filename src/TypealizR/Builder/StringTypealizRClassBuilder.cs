@@ -19,11 +19,11 @@ internal partial class StringTypealizRClassBuilder
 		this.severityConfig = severityConfig;
 	}
 
-	private readonly List<MemberBuilderContext<InstanceMemberBuilder>> methodContexts = new();
+	private readonly List<MemberBuilderContext<InstanceMemberBuilder>> memberContexts = new();
 	public StringTypealizRClassBuilder WithMember(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-		methodContexts.Add(new (builder: new (key, value), diagnostics: new(diagnosticsFactory)));
+		memberContexts.Add(new (builder: new (key, value), diagnostics: new(diagnosticsFactory)));
 		return this;
 	}
 
@@ -43,7 +43,7 @@ internal partial class StringTypealizRClassBuilder
 
 	public StringTypealizRClassModel Build(TypeModel target, string rootNamespace)
 	{
-		var members = methodContexts
+		var members = memberContexts
 			.Select(x => new MemberModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
 			.ToArray()
 		;
