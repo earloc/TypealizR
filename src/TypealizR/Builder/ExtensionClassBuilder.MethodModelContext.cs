@@ -5,13 +5,13 @@ internal partial class ExtensionClassBuilder
 {
 	private sealed class MethodModelContext
 	{
-		public MethodModelContext(MethodModel model, DiagnosticsCollector diagnostics)
+		public MethodModelContext(ExtensionMethodModel model, DiagnosticsCollector diagnostics)
 		{
 			Model = model;
 			Diagnostics = diagnostics;
 		}
 
-		public MethodModel Model { get; }
+		public ExtensionMethodModel Model { get; }
 		public DiagnosticsCollector Diagnostics { get; }
 	}
 }

@@ -12,20 +12,20 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal class MethodBuilder
+internal class ExtensionMethodBuilder
 {
     private readonly string key;
     private readonly string value;
 	private readonly ParameterBuilder parameterBuilder;
 
-	public MethodBuilder(string key, string value)
+	public ExtensionMethodBuilder(string key, string value)
     {
         this.key = key;
         this.value = value;
 		parameterBuilder = new (key);
 	}
 
-    public MethodModel Build(TypeModel target, DiagnosticsCollector diagnostics)
+    public ExtensionMethodModel Build(TypeModel target, DiagnosticsCollector diagnostics)
     {
 		var parameters = parameterBuilder.Build(diagnostics);
 
@@ -38,7 +38,7 @@ internal class MethodBuilder
 
         string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new MethodModel(target, key, value, compilableMethodName, parameters);
+        return new ExtensionMethodModel(target, key, value, compilableMethodName, parameters);
     }
 
 

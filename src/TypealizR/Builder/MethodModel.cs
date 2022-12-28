@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.Builder;
-internal class MethodModel
+internal class ExtensionMethodModel
 {
 	internal void DeduplicateWith(int discriminator)
 	{
@@ -21,7 +21,7 @@ internal class MethodModel
 
 	public readonly IEnumerable<ParameterModel> Parameters;
 
-	public MethodModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters)
+	public ExtensionMethodModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters)
 	{
 		ExtendedType = extendedType;
 		RawRessourceName = rawRessourceName;

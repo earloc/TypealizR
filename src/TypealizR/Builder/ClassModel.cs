@@ -10,13 +10,13 @@ using Microsoft.CodeAnalysis;
 using TypealizR.Extensions;
 
 namespace TypealizR.Builder;
-internal class ClassModel
+internal class ExtensionClassModel
 {
     public IEnumerable<string> Usings => usings;
     public string Visibility => Target.Visibility.ToString().ToLower();
 	public string TypeName => $"IStringLocalizerExtensions_{Target.FullNameForExtensionsClass}";
 
-	public IEnumerable<MethodModel> Methods { get; }
+	public IEnumerable<ExtensionMethodModel> Methods { get; }
 
     public readonly TypeModel Target;
 
@@ -30,7 +30,7 @@ internal class ClassModel
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
 
-	public ClassModel(TypeModel target, string rootNamespace, IEnumerable<MethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
+	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<ExtensionMethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
     {
 		Target = target;
 		Methods = methods;

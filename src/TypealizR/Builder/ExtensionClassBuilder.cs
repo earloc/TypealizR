@@ -28,7 +28,7 @@ internal partial class ExtensionClassBuilder
 		return this;
 	}
 
-	public ClassModel Build(TypeModel target, string rootNamespace)
+	public ExtensionClassModel Build(TypeModel target, string rootNamespace)
 	{
 		var methods = methodContexts
 			.Select(x => new MethodModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
@@ -42,7 +42,7 @@ internal partial class ExtensionClassBuilder
 		return new(target, rootNamespace, distinctMethods, allDiagnostics);
     }
 
-	private IEnumerable<MethodModel> Deduplicate(MethodModelContext[] methods)
+	private IEnumerable<ExtensionMethodModel> Deduplicate(MethodModelContext[] methods)
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Model.Name);
 		var deduplicatedMethods = new List<MethodModelContext>(methods.Count());
