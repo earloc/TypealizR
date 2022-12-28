@@ -151,5 +151,33 @@ namespace Microsoft.Extensions.Localization
 		[DebuggerStepThrough]
 		public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode_WithGroups WithGroups(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
 			=> new(that);
+
+		/// <summary>
+		/// Looks up a localized string similar to 'Hello'
+		/// </summary>
+		/// <returns>
+		/// A localized version of the current default value of 'Hello'
+		/// </returns>
+		[DebuggerStepThrough]
+		public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that)
+			=> that["Hello"];
+
+		/// <summary>
+		/// Looks up a localized string similar to 'Greetings {name}, today is {date}'
+		/// </summary>
+		/// <returns>
+		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
+		/// </returns>
+		public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date)
+			=> that["Greetings {name}, today is {date}"].Format(name, date);
+
+		/// <summary>
+		/// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
+		/// </summary>
+		/// <returns>
+		/// A localized version of the current default value of 'Hello {0}, today is {1}'
+		/// </returns>
+		public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date)
+			=> that["Hello {name:s}, today is {date:d}"].Format(name, date);
 	}
 }
