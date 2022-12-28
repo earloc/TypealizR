@@ -23,7 +23,6 @@ internal partial class ExtensionClassBuilder
 	public ExtensionClassBuilder Add(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-
 		methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));
 		return this;
 	}

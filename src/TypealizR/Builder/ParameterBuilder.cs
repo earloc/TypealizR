@@ -89,6 +89,5 @@ internal class ParameterBuilder
 	/// <summary>
 	/// matches strings like {0}, {0:12}, {name} usable in format-strings
 	/// </summary>
-	internal static readonly Regex parameterExpression = new("{(?<name>([0-9a-zA-Z]*))(:+(?<annotation>[0-9a-zA-Z]*))?}", RegexOptions.None
-		, TimeSpan.FromMilliseconds(100));
+	internal static readonly Regex parameterExpression = new("{(?<name>([0-9a-zA-Z]*))(:+(?<annotation>[0-9a-zA-Z]*))?}", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 }
