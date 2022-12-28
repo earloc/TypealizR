@@ -53,6 +53,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\TypealizR.Abstractions\TypealizR.Abstractions.csproj" />
 		<ProjectReference Include="..\TypealizR\TypealizR.csproj" />
 	</ItemGroup>
 
