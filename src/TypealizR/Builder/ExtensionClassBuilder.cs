@@ -34,39 +34,10 @@ internal partial class ExtensionClassBuilder
 			.ToArray()
 		;
 
-		var distinctMethods = Deduplicate(methods);
+		var distinctMethods = methods.Deduplicate();
 
 		var allDiagnostics = methods.SelectMany(x => x.Diagnostics.Entries);
 
 		return new(target, rootNamespace, distinctMethods, allDiagnostics);
     }
-
-	private IEnumerable<IMethodModel> Deduplicate(MethodModelContext[] methods)
-	{
-		var groupByMethodName = methods.GroupBy(x => x.Model.Name);
-		var deduplicatedMethods = new List<MethodModelContext>(methods.Count());
-
-		foreach (var methodGroup in groupByMethodName)
-		{
-			if (methodGroup.Count() == 1)
-			{
-				deduplicatedMethods.Add(methodGroup.Single());
-				continue;
-			}
-
-			int discriminator = 1;
-			foreach (var duplicate in methodGroup.Skip(1))
-			{
-				duplicate.Diagnostics.Add(fac => fac.AmbigiousRessourceKey_0002(duplicate.Model.Name));
-				duplicate.Model.DeduplicateWith(discriminator++);
-			}
-
-			deduplicatedMethods.AddRange(methodGroup);
-		}
-
-		return deduplicatedMethods
-			.Select(x => x.Model)
-			.ToArray();
-
-	}
 }

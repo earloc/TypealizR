@@ -12,13 +12,13 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal class InstanceMethodBuilder : IMethodBuilder
+internal class InstanceMemberBuilder : IMethodBuilder
 {
 	private readonly string key;
 	private readonly string value;
 	private readonly ParameterBuilder parameterBuilder;
 
-	public InstanceMethodBuilder(string key, string value)
+	public InstanceMemberBuilder(string key, string value)
 	{
 		this.key = key;
 		this.value = value;
@@ -38,7 +38,7 @@ internal class InstanceMethodBuilder : IMethodBuilder
 
 		string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-		return new ExtensionMethodModel(target, key, value, compilableMethodName, parameters);
+		return new InstanceMemberModel(target, key, value, compilableMethodName, parameters);
 	}
 
 

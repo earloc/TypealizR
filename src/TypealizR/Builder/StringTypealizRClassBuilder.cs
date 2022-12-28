@@ -19,7 +19,7 @@ internal partial class StringTypealizRClassBuilder
 		this.severityConfig = severityConfig;
 	}
 
-	private readonly List<MethodBuilderContext<InstanceMethodBuilder>> methodContexts = new();
+	private readonly List<MethodBuilderContext<InstanceMemberBuilder>> methodContexts = new();
 	public StringTypealizRClassBuilder Add(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
@@ -34,39 +34,12 @@ internal partial class StringTypealizRClassBuilder
 			.ToArray()
 		;
 
-		//var distinctMethods = Deduplicate(methods);
+		var distinctMethods = methods.Deduplicate();
 
-		//var allDiagnostics = methods.SelectMany(x => x.Diagnostics.Entries);
+		var allDiagnostics = methods.SelectMany(x => x.Diagnostics.Entries);
 
-		return new(target, rootNamespace);
+		return new(target, rootNamespace, distinctMethods, allDiagnostics);
     }
 
-	//private IEnumerable<ExtensionMethodModel> Deduplicate(MethodModelContext[] methods)
-	//{
-	//	var groupByMethodName = methods.GroupBy(x => x.Model.Name);
-	//	var deduplicatedMethods = new List<MethodModelContext>(methods.Count());
-
-	//	foreach (var methodGroup in groupByMethodName)
-	//	{
-	//		if (methodGroup.Count() == 1)
-	//		{
-	//			deduplicatedMethods.Add(methodGroup.Single());
-	//			continue;
-	//		}
-
-	//		int discriminator = 1;
-	//		foreach (var duplicate in methodGroup.Skip(1))
-	//		{
-	//			duplicate.Diagnostics.Add(fac => fac.AmbigiousRessourceKey_0002(duplicate.Model.Name));
-	//			duplicate.Model.DeduplicateWith(discriminator++);
-	//		}
-
-	//		deduplicatedMethods.AddRange(methodGroup);
-	//	}
-
-	//	return deduplicatedMethods
-	//		.Select(x => x.Model)
-	//		.ToArray();
-
-	//}
+	
 }

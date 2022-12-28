@@ -10,8 +10,9 @@ internal class StringTypealizRClassModel
     public IEnumerable<string> Usings => usings;
     public string Visibility => Target.Visibility.ToString().ToLower();
 	public string TypeName => $"StringTypealizR_{Target.FullNameForClassName}";
+	public IEnumerable<IMethodModel> Methods { get; }
 
-    public readonly TypeModel Target;
+	public readonly TypeModel Target;
 
     private readonly HashSet<string> usings = new()
     {
@@ -20,12 +21,12 @@ internal class StringTypealizRClassModel
 
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
-	public StringTypealizRClassModel(TypeModel target, string rootNamespace)
+	public StringTypealizRClassModel(TypeModel target, string rootNamespace, IEnumerable<IMethodModel> methods, IEnumerable<Diagnostic> diagnostics)
     {
 		Target = target;
         usings.Add(rootNamespace);
-
-        Diagnostics = Enumerable.Empty<Diagnostic>();
+		Methods = methods;
+		Diagnostics = diagnostics;
     }
 
 	public string FileName => $"StringTypealizR_{Target.FullName}.g.cs";
@@ -40,6 +41,8 @@ internal class StringTypealizRClassModel
             {{Visibility}} partial class {{TypeName}} : IStringTypealizR<{{Target.Name}}>
             {
                 private readonly IStringLocalizer<{{Target.Name}}> that;
+
+                {{Methods.Select(x => x.ToCSharp()).ToMultiline()}}
             }
         }
         """;

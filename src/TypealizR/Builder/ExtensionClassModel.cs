@@ -16,7 +16,7 @@ internal class ExtensionClassModel
     public string Visibility => Target.Visibility.ToString().ToLower();
 	public string TypeName => $"IStringLocalizerExtensions_{Target.FullNameForClassName}";
 
-	public IEnumerable<ExtensionMethodModel> Methods { get; }
+	public IEnumerable<IMethodModel> Methods { get; }
 
     public readonly TypeModel Target;
 
@@ -28,16 +28,13 @@ internal class ExtensionClassModel
     };
 
     public IEnumerable<Diagnostic> Diagnostics { get; }
-
-
-	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<ExtensionMethodModel> methods, IEnumerable<Diagnostic> diagnostics)
+	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<IMethodModel> methods, IEnumerable<Diagnostic> diagnostics)
     {
 		Target = target;
-		Methods = methods;
-		Diagnostics = diagnostics;
-
         usings.Add(rootNamespace);
 		usings.Add(target.Namespace);
+		Methods = methods;
+		Diagnostics = diagnostics;
     }
 
 	public string FileName => $"IStringLocalizerExtensions_{Target.FullName}.g.cs";
