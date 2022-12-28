@@ -8,7 +8,7 @@ using TypealizR.Core;
 namespace TypealizR;
 
 [Generator]
-public sealed class StringLocalizerSourceGenerator : ResxFileSourceGeneratorBase
+public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGeneratorBase
 {
 	protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
