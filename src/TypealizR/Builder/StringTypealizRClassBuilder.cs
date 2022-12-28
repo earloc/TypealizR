@@ -20,25 +20,39 @@ internal partial class StringTypealizRClassBuilder
 	}
 
 	private readonly List<MemberBuilderContext<InstanceMemberBuilder>> methodContexts = new();
-	public StringTypealizRClassBuilder Add(string key, string value, int lineNumber)
+	public StringTypealizRClassBuilder AddMember(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 		methodContexts.Add(new (builder: new (key, value), diagnostics: new(diagnosticsFactory)));
 		return this;
 	}
 
+	private readonly List<string> groups = new();
+
+	public StringTypealizRClassBuilder AddGroupMember(string key, string value, int lineNumber)
+	{
+		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
+
+		if (!groups.Contains(key))
+		{
+			groups.Add(key);
+		}
+
+		return this;
+	}
+
 	public StringTypealizRClassModel Build(TypeModel target, string rootNamespace)
 	{
-		var methods = methodContexts
+		var members = methodContexts
 			.Select(x => new MemberModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
 			.ToArray()
 		;
 
-		var distinctMethods = methods.Deduplicate();
+		var distinctMembers = members.Deduplicate();
 
-		var allDiagnostics = methods.SelectMany(x => x.Diagnostics.Entries);
+		var allDiagnostics = members.SelectMany(x => x.Diagnostics.Entries);
 
-		return new(target, rootNamespace, distinctMethods, allDiagnostics);
+		return new(target, rootNamespace, distinctMembers, groups, allDiagnostics);
     }
 
 	

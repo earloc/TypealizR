@@ -8,8 +8,6 @@ namespace Some.Root.Namespace.TypealizR
     [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
     internal partial class StringTypealizR_Some_Root_Namespace_Groupings_NoCode : IStringTypealizR<Groupings_NoCode>
     {
-        private readonly IStringLocalizer<Groupings_NoCode> that;
-
         /// <summary>
         /// Looks up a localized string similar to 'Greetings {name}, today is {date}'
         /// </summary>
@@ -17,7 +15,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         public LocalizedString Greetings__name__today_is__date(object name, object date)
-            => that["Greetings {name}, today is {date}"].Format(name, date);
+            => localizer["Greetings {name}, today is {date}"].Format(name, date);
 
         /// <summary>
         /// Looks up a localized string similar to 'Hello'
@@ -26,7 +24,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Hello'
         /// </returns>
         public LocalizedString Hello
-            => that["Hello"];
+            => localizer["Hello"];
 
         /// <summary>
         /// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
@@ -35,7 +33,20 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         public LocalizedString Hello__name__today_is__date(string name, DateOnly date)
-            => that["Hello {name:s}, today is {date:d}"].Format(name, date);
+            => localizer["Hello {name:s}, today is {date:d}"].Format(name, date);
+
+        public LogGroup Log { get; }
+        public QuestionGroup Question { get; }
+        public WarningGroup Warning { get; }
+
+        private readonly IStringLocalizer<Groupings_NoCode> localizer;
+        public Some_Root_Namespace_Groupings_NoCode(IStringLocalizer<Groupings_NoCode> localizer)
+        {
+            this.localizer = localizer;
+            Question = new LogGroup(localizer);
+            Log = new QuestionGroup(localizer);
+            Warning = new WarningGroup(localizer);
+        }
 
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class LogGroup
@@ -161,19 +172,7 @@ namespace Some.Root.Namespace.TypealizR
                 => that["[Question] Abort ?"];
         }
 
-        public Some_Root_Namespace_Groupings_NoCode_WithGroups(IStringLocalizer<Groupings_NoCode> that)
-        {
-            this.that = that;
-            Question = new(that);
-            Log = new(that);
-            Warning = new(that);
-        }
-
-        public QuestionGroup Question { get; }
-
-        public LogGroup Log { get; }
-
-        public WarningGroup Warning { get; }
+        
 
     }
 }

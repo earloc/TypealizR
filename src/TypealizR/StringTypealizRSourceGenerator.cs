@@ -16,7 +16,14 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
 
 		foreach (var entry in file.Entries)
 		{
-			builder.Add(entry.Key, entry.Value, entry.Location.LineNumber);
+			if (!entry.Groups.Any())
+			{
+				builder.AddMember(entry.Key, entry.Value, entry.Location.LineNumber);
+			}
+			else
+			{
+				builder.AddGroupMember(entry.Groups.First(), entry.Value, entry.Location.LineNumber);
+			}
 		}
 
 		var extensionClass = builder.Build(new(rootNamespace, file.SimpleName, Visibility.Internal), rootNamespace);

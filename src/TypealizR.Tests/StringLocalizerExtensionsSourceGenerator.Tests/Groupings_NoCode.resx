@@ -126,22 +126,22 @@
   <data name="Hello {name:s}, today is {date:d}" xml:space="preserve">
     <value>Hello {0}, today is {1}</value>
   </data>
-  <data name="[Log.Critical] Failed to delete {UserName:s}" xml:space="preserve">
+  <data name="[Log.Critical]: Failed to delete {UserName:s}" xml:space="preserve">
     <value>Failed to delete {0}</value>
   </data>
-  <data name="[Log.Warning] Could not find {UserName:s}" xml:space="preserve">
+  <data name="[Log.Warning]: Could not find {UserName:s}" xml:space="preserve">
     <value>Could not find {0}</value>
   </data>
-  <data name="[Log.Warning] Unknown error" xml:space="preserve">
+  <data name="[Log.Warning]: Unknown error" xml:space="preserve">
     <value>Encountered an unknown error during the operation</value>
   </data>
-  <data name="[Question] Abort ?" xml:space="preserve">
+  <data name="[Question]: Abort ?" xml:space="preserve">
     <value>Abort?</value>
   </data>
-  <data name="[Question] Continue to delete {UserName:s}?" xml:space="preserve">
+  <data name="[Question]: Continue to delete {UserName:s}?" xml:space="preserve">
     <value>Continue to delete {0}?</value>
   </data>
-  <data name="[Warning] {UserName:s} will be deleted!" xml:space="preserve">
+  <data name="[Warning]: {UserName:s} will be deleted!" xml:space="preserve">
     <value>{0} will be deleted</value>
   </data>
 </root>

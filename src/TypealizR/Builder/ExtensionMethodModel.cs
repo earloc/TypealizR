@@ -45,14 +45,10 @@ internal class ExtensionMethodModel : IMemberModel
 			var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
 			body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
 		}
+		var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
 
 		return $"""
-			/// <summary>
-			/// Looks up a localized string similar to '{RawRessourceName}'
-			/// </summary>
-			/// <returns>
-			/// A localized version of the current default value of '{RessourceDefaultValue}'
-			/// </returns>
+	{comment.ToCSharp()}
 			public static LocalizedString {Name}{signature}
 				=> {body};
 	""";

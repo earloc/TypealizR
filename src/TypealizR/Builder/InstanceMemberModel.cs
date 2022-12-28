@@ -32,8 +32,8 @@ internal class InstanceMemberModel : IMemberModel
 
 	public string ToCSharp()
 	{
-		var signature = $"()";
-		var body = $@"that[""{RawRessourceName}""]";
+		var signature = "";
+		var body = $@"localizer[""{RawRessourceName}""]";
 
 		if (Parameters.Any())
 		{
@@ -41,16 +41,13 @@ internal class InstanceMemberModel : IMemberModel
 			signature = $"({additionalParameterDeclarations})";
 
 			var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
-			body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
+			body = $@"localizer[""{RawRessourceName}""].Format({parameterCollection})";
 		}
 
+		var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
+
 		return $"""
-			/// <summary>
-			/// Looks up a localized string similar to '{RawRessourceName}'
-			/// </summary>
-			/// <returns>
-			/// A localized version of the current default value of '{RessourceDefaultValue}'
-			/// </returns>
+	{comment.ToCSharp()}
 			public LocalizedString {Name}{signature}
 				=> {body};
 	""";
