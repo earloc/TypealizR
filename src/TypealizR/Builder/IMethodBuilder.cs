@@ -1,7 +1,7 @@
 ﻿using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal interface IMethodBuilder
+internal interface IMemberBuilder
 {
-	IMethodModel Build(TypeModel target, DiagnosticsCollector diagnostics);
+	IMemberModel Build(TypeModel target, DiagnosticsCollector diagnostics);
 }

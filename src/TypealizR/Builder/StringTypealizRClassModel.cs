@@ -10,7 +10,7 @@ internal class StringTypealizRClassModel
     public IEnumerable<string> Usings => usings;
     public string Visibility => Target.Visibility.ToString().ToLower();
 	public string TypeName => $"StringTypealizR_{Target.FullNameForClassName}";
-	public IEnumerable<IMethodModel> Methods { get; }
+	public IEnumerable<IMemberModel> Methods { get; }
 
 	public readonly TypeModel Target;
 
@@ -21,7 +21,7 @@ internal class StringTypealizRClassModel
 
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
-	public StringTypealizRClassModel(TypeModel target, string rootNamespace, IEnumerable<IMethodModel> methods, IEnumerable<Diagnostic> diagnostics)
+	public StringTypealizRClassModel(TypeModel target, string rootNamespace, IEnumerable<IMemberModel> methods, IEnumerable<Diagnostic> diagnostics)
     {
 		Target = target;
         usings.Add(rootNamespace);

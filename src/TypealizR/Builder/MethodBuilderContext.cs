@@ -3,7 +3,7 @@ using System.Linq;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal sealed class MethodBuilderContext<TBuilder> where TBuilder : IMethodBuilder
+internal sealed class MethodBuilderContext<TBuilder> where TBuilder : IMemberBuilder
 {
 	public MethodBuilderContext(TBuilder builder, DiagnosticsCollector diagnostics)
 	{
@@ -17,7 +17,7 @@ internal sealed class MethodBuilderContext<TBuilder> where TBuilder : IMethodBui
 
 internal static class MethodModelContextExtensions
 {
-	internal static IEnumerable<IMethodModel> Deduplicate(this MethodModelContext[] that)
+	internal static IEnumerable<IMemberModel> Deduplicate(this MethodModelContext[] that)
 	{
 		var groupByMethodName = that.GroupBy(x => x.Model.Name);
 		var deduplicatedMethods = new List<MethodModelContext>(that.Count());

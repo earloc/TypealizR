@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.Builder;
-internal class InstanceMemberModel : IMethodModel
+internal class InstanceMemberModel : IMemberModel
 {
 	public void DeduplicateWith(int discriminator)
 	{

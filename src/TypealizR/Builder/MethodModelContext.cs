@@ -4,12 +4,12 @@ namespace TypealizR.Builder;
 
 internal sealed class MethodModelContext
 {
-	public MethodModelContext(IMethodModel model, DiagnosticsCollector diagnostics)
+	public MethodModelContext(IMemberModel model, DiagnosticsCollector diagnostics)
 	{
 		Model = model;
 		Diagnostics = diagnostics;
 	}
 
-	public IMethodModel Model { get; }
+	public IMemberModel Model { get; }
 	public DiagnosticsCollector Diagnostics { get; }
 }

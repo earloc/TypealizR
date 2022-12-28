@@ -1,6 +1,6 @@
 ﻿namespace TypealizR.Builder;
 
-internal interface IMethodModel
+internal interface IMemberModel
 {
 	TypeModel ExtendedType { get; }
 	string Name { get; }
