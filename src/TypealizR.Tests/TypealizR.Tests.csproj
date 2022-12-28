@@ -57,6 +57,12 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Groupings_NoCode.resx">
+	    <SubType>Designer</SubType>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="StringTypealizRSourceGenerator.Tests\Groupings_NoCode.resx">
+	    <SubType>Designer</SubType>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Empty_NoCode.resx">
 	    <Generator></Generator>
 	  </EmbeddedResource>
@@ -67,6 +73,14 @@
 
 	<ItemGroup>
 	  <Folder Include="StringFormatterSourceGenerator.Tests\.snapshots\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="StringTypealizRSourceGenerator.Tests\.snapshots\NoCode_Resx_Groups_Are_Honored_In_Generated_Code#IStringLocalizerExtensions_Some.Root.Namespace.Groupings_NoCode.g.verified.cs">
+	    <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+	    <ParentExtension>$(MSBuildProjectExtension.Replace('proj', ''))</ParentExtension>
+	    <DependentUpon>%(ParentFile)%(ParentExtension)</DependentUpon>
+	  </None>
 	</ItemGroup>
 
 </Project>
