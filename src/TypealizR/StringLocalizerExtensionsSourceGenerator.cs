@@ -7,7 +7,7 @@ using TypealizR.Core;
 
 namespace TypealizR;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGeneratorBase
 {
 	protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)

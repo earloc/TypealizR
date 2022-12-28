@@ -10,7 +10,7 @@ using TypealizR.Core;
 
 namespace TypealizR;
 
-[Generator]
+[Generator(LanguageNames.CSharp)]
 public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
