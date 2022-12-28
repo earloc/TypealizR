@@ -10,6 +10,7 @@ Console.WriteLine("Hello, World!");
 var services = new ServiceCollection();
 services.AddLogging();
 services.AddLocalization();
+
 services.AddSingleton<Greeter, Greeter>();
 
 var provider = services.BuildServiceProvider();

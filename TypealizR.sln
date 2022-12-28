@@ -13,8 +13,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Console", "src\P
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypealizR.Abstractions", "src\TypealizR.Abstractions\TypealizR.Abstractions.csproj", "{59B1B582-F31D-46B8-869E-DF86ABEA5021}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -37,10 +35,6 @@ Global
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}.Release|Any CPU.Build.0 = Release|Any CPU
-		{59B1B582-F31D-46B8-869E-DF86ABEA5021}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{59B1B582-F31D-46B8-869E-DF86ABEA5021}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{59B1B582-F31D-46B8-869E-DF86ABEA5021}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{59B1B582-F31D-46B8-869E-DF86ABEA5021}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
