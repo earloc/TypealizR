@@ -53,7 +53,7 @@ internal class ExtensionMethodModel
 			/// <returns>
 			/// A localized version of the current default value of '{RessourceDefaultValue}'
 			/// </returns>
-			public static LocalizedString {Name} {signature} 
+			public static LocalizedString {Name}{signature}
 				=> {body};
 	""";
 	}

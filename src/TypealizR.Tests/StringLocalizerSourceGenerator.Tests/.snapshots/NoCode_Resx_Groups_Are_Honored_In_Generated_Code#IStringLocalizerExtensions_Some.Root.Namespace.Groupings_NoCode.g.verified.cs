@@ -7,213 +7,267 @@ using TypealizR.Abstractions;
 
 namespace Microsoft.Extensions.Localization
 {
-	[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-	internal class GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode_WithGroups : IGroupedStringLocalizer<Some.Root.Namespace.Groupings_NoCode>
-	{
-		private readonly IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that;
+    [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+    internal static partial class IStringLocalizerExtensions_Some_Root_Namespace_Groupings_NoCode
+    {
+        /// <summary>
+        /// Looks up a localized string similar to 'Greetings {name}, today is {date}'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Greetings {0}, today is {1}'
+        /// </returns>
+        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, object name, object date)
+            => that["Greetings {name}, today is {date}"].Format(name, date);
 
-		[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-		internal partial class LogGroup
-		{
-			private readonly IStringLocalizer that;
+        /// <summary>
+        /// Looks up a localized string similar to 'Hello'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Hello'
+        /// </returns>
+        public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+            => that["Hello"];
 
-			private readonly Lazy<CriticalGroup> _Critical;
-			private readonly Lazy<CriticalGroup> _Warning;
+        /// <summary>
+        /// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Hello {0}, today is {1}'
+        /// </returns>
+        public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string name, DateOnly date)
+            => that["Hello {name:s}, today is {date:d}"].Format(name, date);
 
-			[DebuggerStepThrough]
-			public LogGroup(IStringLocalizer that)
-			{
-				this.that = that;
-				_Critical = new(() => new(that));
-				_Warning = new(() => new(that));
-			}
+        /// <summary>
+        /// Looks up a localized string similar to '[Log.Critical] Failed to delete {UserName:s}'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Failed to delete {0}'
+        /// </returns>
+        public static LocalizedString LogCritical_Failed_to_delete__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
+            => that["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
 
-			[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-			internal class CriticalGroup
-			{
-				private readonly IStringLocalizer that;
+        /// <summary>
+        /// Looks up a localized string similar to '[Log.Warning] Could not find {UserName:s}'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Could not find {0}'
+        /// </returns>
+        public static LocalizedString LogWarning_Could_not_find__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
+            => that["[Log.Warning] Could not find {UserName:s}"].Format(UserName);
 
-				[DebuggerStepThrough]
-				public CriticalGroup(IStringLocalizer that)
-				{
-					this.that = that;
-				}
+        /// <summary>
+        /// Looks up a localized string similar to '[Log.Warning] Unknown error'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Encountered an unknown error during the operation'
+        /// </returns>
+        public static LocalizedString LogWarning_Unknown_error(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+            => that["[Log.Warning] Unknown error"];
 
-				/// <summary>
-				/// Looks up a localized string similar to 'Failed to delete {UserName:s}'
-				/// </summary>
-				/// <returns>
-				/// A localized version of the current default value of 'Failed to delete {0}'
-				/// </returns>
-				[DebuggerStepThrough]
-				public LocalizedString Failed_to_delete__UserName(string UserName)
-					=> that["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
-			}
+        /// <summary>
+        /// Looks up a localized string similar to '[Question] Abort ?'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Abort?'
+        /// </returns>
+        public static LocalizedString Question_Abort(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+            => that["[Question] Abort ?"];
 
-			[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-			internal class Warning
-			{
-				private readonly IStringLocalizer that;
+        /// <summary>
+        /// Looks up a localized string similar to '[Question] Continue to delete {UserName:s}?'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Continue to delete {0}?'
+        /// </returns>
+        public static LocalizedString Question_Continue_to_delete__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
+            => that["[Question] Continue to delete {UserName:s}?"].Format(UserName);
 
-				[DebuggerStepThrough]
-				public Warning(IStringLocalizer that)
-				{
-					this.that = that;
-				}
+        /// <summary>
+        /// Looks up a localized string similar to '[Warning] {UserName:s} will be deleted!'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of '{0} will be deleted'
+        /// </returns>
+        public static LocalizedString Warning__UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
+            => that["[Warning] {UserName:s} will be deleted!"].Format(UserName);
 
-				/// <summary>
-				/// Looks up a localized string similar to 'Could not find {UserName:s}'
-				/// </summary>
-				/// <returns>
-				/// A localized version of the current default value of 'Could not find {0}'
-				/// </returns>
-				[DebuggerStepThrough]
-				public LocalizedString Could_not_find__UserName(string UserName)
-					=> that["[Log.Warning] Could not find {UserName:s}"].Format(UserName);
-
-				/// <summary>
-				/// Looks up a localized string similar to 'Unknown error'
-				/// </summary>
-				/// <returns>
-				/// A localized version of the current default value of 'Encountered an unknown error during the operation'
-				/// </returns>
-				[DebuggerStepThrough]
-				public LocalizedString Unknown_error(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
-					=> that["[Log.Warning] Unknown error"];
-			}
-		}
-
-		[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-		internal partial class QuestionGroup
-		{
-			private readonly IStringLocalizer that;
-
-			[DebuggerStepThrough]
-			public QuestionGroup(IStringLocalizer that)
-			{
-				this.that = that;
-			}
-
-			/// <summary>
-			/// Looks up a localized string similar to 'Continue to delete {UserName:s}?'
-			/// </summary>
-			/// <returns>
-			/// A localized version of the current default value of 'Continue to delete {0}?'
-			/// </returns>
-			[DebuggerStepThrough]
-			public LocalizedString Continue_to_delete__UserName(string UserName)
-			=> that["[Question] Continue to delete {UserName:s}?"].Format(UserName);
-		}
-
-		[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-		internal partial class WarningGroup
-		{
-			private readonly IStringLocalizer that;
-
-			[DebuggerStepThrough]
-			public WarningGroup(IStringLocalizer that)
-			{
-				this.that = that;
-			}
-
-			/// <summary>
-			/// Looks up a localized string similar to '{UserName:s} will be deleted!'
-			/// </summary>
-			/// <returns>
-			/// A localized version of the current default value of '{0} will be deleted'
-			/// </returns>
-			[DebuggerStepThrough]
-			public static LocalizedString UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
-				=> that["[Warning] {UserName:s} will be deleted!"].Format(UserName);
-
-			/// <summary>
-			/// Looks up a localized string similar to 'Abort?'
-			/// </summary>
-			/// <returns>
-			/// A localized version of the current default value of 'Abort?'
-			/// </returns>
-			public LocalizedString Abort
-				=> that["[Question] Abort ?"];
-		}
-
-		public Some_Root_Namespace_Groupings_NoCode_WithGroups(IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
-		{
-			this.that = that;
-			Question = new(that);
-			Log = new(that);
-			Warning = new(that);
-		}
-
-		public QuestionGroup Question { get; }
-
-		public LogGroup Log { get; }
-
-		public WarningGroup Warning { get; }
-
-		/// <summary>
-		/// Looks up a localized string similar to 'Hello'
-		/// </summary>
-		/// <returns>
-		/// A localized version of the current default value of 'Hello'
-		/// </returns>
-		public LocalizedString Hello 
-			=> that["Hello"];
-
-		/// <summary>
-		/// Looks up a localized string similar to 'Greetings {name}, today is {date}'
-		/// </summary>
-		/// <returns>
-		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
-		/// </returns>
-		public LocalizedString Greetings__name__today_is__date(object name, object date)
-			=> that["Greetings {name}, today is {date}"].Format(name, date);
-
-		/// <summary>
-		/// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
-		/// </summary>
-		/// <returns>
-		/// A localized version of the current default value of 'Hello {0}, today is {1}'
-		/// </returns>
-		public LocalizedString Hello__name__today_is__date(string name, DateOnly date)
-			=> that["Hello {name:s}, today is {date:d}"].Format(name, date);
-	}
+        [DebuggerStepThrough]
+        public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode_WithGroups WithGroups(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+            => new(that);
+    }
 }
 
 namespace Microsoft.Extensions.Localization
 {
-	[GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-	internal static partial class IStringLocalizerExtensions_Some_Root_Namespace_Groupings_NoCode_WithGroups
-	{
-		[DebuggerStepThrough]
-		public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode_WithGroups WithGroups(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
-			=> new(that);
+    [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+    internal class GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode_WithGroups : IGroupedStringLocalizer<Some.Root.Namespace.Groupings_NoCode>
+    {
+        private readonly IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that;
 
-		/// <summary>
-		/// Looks up a localized string similar to 'Hello'
-		/// </summary>
-		/// <returns>
-		/// A localized version of the current default value of 'Hello'
-		/// </returns>
-		[DebuggerStepThrough]
-		public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that)
-			=> that["Hello"];
+        [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+        internal partial class LogGroup
+        {
+            private readonly IStringLocalizer that;
 
-		/// <summary>
-		/// Looks up a localized string similar to 'Greetings {name}, today is {date}'
-		/// </summary>
-		/// <returns>
-		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
-		/// </returns>
-		public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date)
-			=> that["Greetings {name}, today is {date}"].Format(name, date);
+            private readonly Lazy<CriticalGroup> _Critical;
+            private readonly Lazy<CriticalGroup> _Warning;
 
-		/// <summary>
-		/// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
-		/// </summary>
-		/// <returns>
-		/// A localized version of the current default value of 'Hello {0}, today is {1}'
-		/// </returns>
-		public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date)
-			=> that["Hello {name:s}, today is {date:d}"].Format(name, date);
-	}
+            [DebuggerStepThrough]
+            public LogGroup(IStringLocalizer that)
+            {
+                this.that = that;
+                _Critical = new(() => new(that));
+                _Warning = new(() => new(that));
+            }
+
+            [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+            internal class CriticalGroup
+            {
+                private readonly IStringLocalizer that;
+
+                [DebuggerStepThrough]
+                public CriticalGroup(IStringLocalizer that)
+                {
+                    this.that = that;
+                }
+
+                /// <summary>
+                /// Looks up a localized string similar to 'Failed to delete {UserName:s}'
+                /// </summary>
+                /// <returns>
+                /// A localized version of the current default value of 'Failed to delete {0}'
+                /// </returns>
+                [DebuggerStepThrough]
+                public LocalizedString Failed_to_delete__UserName(string UserName)
+                    => that["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
+            }
+
+            [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+            internal class Warning
+            {
+                private readonly IStringLocalizer that;
+
+                [DebuggerStepThrough]
+                public Warning(IStringLocalizer that)
+                {
+                    this.that = that;
+                }
+
+                /// <summary>
+                /// Looks up a localized string similar to 'Could not find {UserName:s}'
+                /// </summary>
+                /// <returns>
+                /// A localized version of the current default value of 'Could not find {0}'
+                /// </returns>
+                [DebuggerStepThrough]
+                public LocalizedString Could_not_find__UserName(string UserName)
+                    => that["[Log.Warning] Could not find {UserName:s}"].Format(UserName);
+
+                /// <summary>
+                /// Looks up a localized string similar to 'Unknown error'
+                /// </summary>
+                /// <returns>
+                /// A localized version of the current default value of 'Encountered an unknown error during the operation'
+                /// </returns>
+                [DebuggerStepThrough]
+                public LocalizedString Unknown_error(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+                    => that["[Log.Warning] Unknown error"];
+            }
+        }
+
+        [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+        internal partial class QuestionGroup
+        {
+            private readonly IStringLocalizer that;
+
+            [DebuggerStepThrough]
+            public QuestionGroup(IStringLocalizer that)
+            {
+                this.that = that;
+            }
+
+            /// <summary>
+            /// Looks up a localized string similar to 'Continue to delete {UserName:s}?'
+            /// </summary>
+            /// <returns>
+            /// A localized version of the current default value of 'Continue to delete {0}?'
+            /// </returns>
+            [DebuggerStepThrough]
+            public LocalizedString Continue_to_delete__UserName(string UserName)
+            => that["[Question] Continue to delete {UserName:s}?"].Format(UserName);
+        }
+
+        [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
+        internal partial class WarningGroup
+        {
+            private readonly IStringLocalizer that;
+
+            [DebuggerStepThrough]
+            public WarningGroup(IStringLocalizer that)
+            {
+                this.that = that;
+            }
+
+            /// <summary>
+            /// Looks up a localized string similar to '{UserName:s} will be deleted!'
+            /// </summary>
+            /// <returns>
+            /// A localized version of the current default value of '{0} will be deleted'
+            /// </returns>
+            [DebuggerStepThrough]
+            public static LocalizedString UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
+                => that["[Warning] {UserName:s} will be deleted!"].Format(UserName);
+
+            /// <summary>
+            /// Looks up a localized string similar to 'Abort?'
+            /// </summary>
+            /// <returns>
+            /// A localized version of the current default value of 'Abort?'
+            /// </returns>
+            public LocalizedString Abort
+                => that["[Question] Abort ?"];
+        }
+
+        public Some_Root_Namespace_Groupings_NoCode_WithGroups(IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+        {
+            this.that = that;
+            Question = new(that);
+            Log = new(that);
+            Warning = new(that);
+        }
+
+        public QuestionGroup Question { get; }
+
+        public LogGroup Log { get; }
+
+        public WarningGroup Warning { get; }
+
+        /// <summary>
+        /// Looks up a localized string similar to 'Hello'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Hello'
+        /// </returns>
+        public LocalizedString Hello 
+            => that["Hello"];
+
+        /// <summary>
+        /// Looks up a localized string similar to 'Greetings {name}, today is {date}'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Greetings {0}, today is {1}'
+        /// </returns>
+        public LocalizedString Greetings__name__today_is__date(object name, object date)
+            => that["Greetings {name}, today is {date}"].Format(name, date);
+
+        /// <summary>
+        /// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
+        /// </summary>
+        /// <returns>
+        /// A localized version of the current default value of 'Hello {0}, today is {1}'
+        /// </returns>
+        public LocalizedString Hello__name__today_is__date(string name, DateOnly date)
+            => that["Hello {name:s}, today is {date:d}"].Format(name, date);
+    }
 }
+
