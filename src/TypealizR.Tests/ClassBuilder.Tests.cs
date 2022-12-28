@@ -11,7 +11,7 @@ using TypealizR.Builder;
 using Xunit.Sdk;
 
 namespace TypealizR.Tests;
-public class ClassBuilder_Tests
+public class ExtensionClassBuilder_Tests
 {
     private const string SomeFileName = "Ressource1.resx";
 	private readonly Dictionary<string, DiagnosticSeverity> severityOverrides = new();
