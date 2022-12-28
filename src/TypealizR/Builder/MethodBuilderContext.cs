@@ -3,12 +3,12 @@
 namespace TypealizR.Builder;
 internal sealed class MethodBuilderContext
 {
-	public MethodBuilderContext(ExtensionMethodBuilder builder, DiagnosticsCollector diagnostics)
+	public MethodBuilderContext(IMethodBuilder builder, DiagnosticsCollector diagnostics)
 	{
 		Builder = builder;
 		Diagnostics = diagnostics;
 	}
 
-	public ExtensionMethodBuilder Builder { get; }
+	public IMethodBuilder Builder { get; }
 	public DiagnosticsCollector Diagnostics { get; }
 }

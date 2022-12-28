@@ -39,6 +39,7 @@ internal class StringTypealizRClassModel
             {{generatorType.GeneratedCodeAttribute()}}
             {{Visibility}} partial class {{TypeName}} : IStringTypealizR<{{Target.Name}}>
             {
+                private readonly IStringLocalizer<{{Target.Name}}> that;
             }
         }
         """;

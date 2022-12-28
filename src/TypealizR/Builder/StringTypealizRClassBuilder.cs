@@ -19,11 +19,11 @@ internal partial class StringTypealizRClassBuilder
 		this.severityConfig = severityConfig;
 	}
 
-	//private readonly List<MethodBuilderContext> methodContexts = new();
+	private readonly List<MethodBuilderContext> methodContexts = new();
 	public StringTypealizRClassBuilder Add(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-		//methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));
+		methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));
 		return this;
 	}
 

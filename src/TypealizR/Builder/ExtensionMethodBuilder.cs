@@ -12,46 +12,46 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal class ExtensionMethodBuilder
+internal class ExtensionMethodBuilder : IMethodBuilder
 {
-    private readonly string key;
-    private readonly string value;
+	private readonly string key;
+	private readonly string value;
 	private readonly ParameterBuilder parameterBuilder;
 
 	public ExtensionMethodBuilder(string key, string value)
-    {
-        this.key = key;
-        this.value = value;
-		parameterBuilder = new (key);
+	{
+		this.key = key;
+		this.value = value;
+		parameterBuilder = new(key);
 	}
 
-    public ExtensionMethodModel Build(TypeModel target, DiagnosticsCollector diagnostics)
-    {
+	public IMethodModel Build(TypeModel target, DiagnosticsCollector diagnostics)
+	{
 		var parameters = parameterBuilder.Build(diagnostics);
 
 		var methodNameWithoutParameters = key;
 
-        foreach (var parameter in parameters)
-        {
-            methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
-        }
+		foreach (var parameter in parameters)
+		{
+			methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
+		}
 
-        string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
+		string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-        return new ExtensionMethodModel(target, key, value, compilableMethodName, parameters);
-    }
+		return new ExtensionMethodModel(target, key, value, compilableMethodName, parameters);
+	}
 
 
-    private string SanitizeMethodName(string rawMethodName)
-    {
-        return new string(
-            rawMethodName
-                .Replace(" ", "_")
-                .Trim('_')
-                .Select((x, i) => x.IsValidInIdentifier(i == 0) ? x : ' ')
-                .ToArray()
-        )
-        .Replace(" ", "")
-        .Trim('_');
-    }
+	private string SanitizeMethodName(string rawMethodName)
+	{
+		return new string(
+			rawMethodName
+				.Replace(" ", "_")
+				.Trim('_')
+				.Select((x, i) => x.IsValidInIdentifier(i == 0) ? x : ' ')
+				.ToArray()
+		)
+		.Replace(" ", "")
+		.Trim('_');
+	}
 }

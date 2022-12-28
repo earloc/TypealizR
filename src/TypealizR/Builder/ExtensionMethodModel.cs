@@ -7,7 +7,7 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.Builder;
-internal class ExtensionMethodModel
+internal class ExtensionMethodModel : IMethodModel
 {
 	internal void DeduplicateWith(int discriminator)
 	{
