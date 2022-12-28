@@ -30,11 +30,11 @@ internal class ExtensionClassModel
     public IEnumerable<Diagnostic> Diagnostics { get; }
 
 
-	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<ExtensionMethodModel> methods, IEnumerable<Diagnostic> warningsAndErrors)
+	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<ExtensionMethodModel> methods, IEnumerable<Diagnostic> diagnostics)
     {
 		Target = target;
 		Methods = methods;
-		Diagnostics = warningsAndErrors;
+		Diagnostics = diagnostics;
 
         usings.Add(rootNamespace);
 		usings.Add(target.Namespace);
