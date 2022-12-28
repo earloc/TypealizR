@@ -96,10 +96,12 @@ public class ClassBuilder_Tests
 	}
 
 	[Theory]
-	[InlineData(Visibility.Internal)]
-	[InlineData(Visibility.Public)]
-	public void Honors_Visibility(Visibility visibility)
+	[InlineData(Accessibility.Internal)]
+	[InlineData(Accessibility.Public)]
+	public void Honors_Visibility(Accessibility accessibility)
 	{
+		var visibility = accessibility.ToVisibilty();
+
 		var sut = new ClassBuilder(SomeFileName, severityOverrides);
 
 		sut.WithMethodFor("some key", "some value", 30);

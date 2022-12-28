@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace TypealizR;
 
-public class GeneratedSourceFile
+internal class GeneratedSourceFile
 {
 	public GeneratedSourceFile(string fileName, string content, IEnumerable<Diagnostic> diagnostics)
 	{

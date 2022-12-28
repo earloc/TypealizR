@@ -8,7 +8,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
-public sealed class GeneratorOptions
+internal sealed class GeneratorOptions
 {
 	public const string MSBUILD_PROJECT_DIRECTORY = "build_property.msbuildprojectdirectory";
 	public const string PROJECT_DIR = "build_property.projectdir";

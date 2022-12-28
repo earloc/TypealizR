@@ -10,7 +10,7 @@ using System;
 namespace TypealizR;
 
 [Generator]
-public partial class StringFormatterSourceGenerator : IIncrementalGenerator
+public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{

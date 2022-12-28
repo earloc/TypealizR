@@ -8,7 +8,7 @@ using TypealizR.Builder;
 namespace TypealizR;
 
 [Generator]
-public class StringLocalizerSourceGenerator : ResxFileSourceGeneratorBase
+public sealed class StringLocalizerSourceGenerator : ResxFileSourceGeneratorBase
 {
 	protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
@@ -48,9 +48,7 @@ public class StringLocalizerSourceGenerator : ResxFileSourceGeneratorBase
 			return (nameSpace.Trim('.', ' '), Visibility.Internal);
 		}
 
-		var visibility = (matchingMarkerType.DeclaredAccessibility == Accessibility.Public) ? Visibility.Public : Visibility.Internal;
-
-		return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), visibility);
+		return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility.ToVisibilty());
 
 	}
 }

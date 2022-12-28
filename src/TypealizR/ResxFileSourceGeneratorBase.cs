@@ -6,7 +6,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
-public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
+internal abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{

@@ -1,7 +1,7 @@
 ﻿using System.Xml;
 
 namespace TypealizR;
-public partial class RessourceFile
+internal partial class RessourceFile
 {
 	public class Entry
     {
