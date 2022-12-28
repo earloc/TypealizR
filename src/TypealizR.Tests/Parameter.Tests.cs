@@ -10,7 +10,7 @@ using TypealizR.Builder;
 
 namespace TypealizR.Tests;
 
-public class Parameter_Tests
+public class ParameterBuilder_Tests
 {
 
 	[Theory]

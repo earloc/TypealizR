@@ -6,7 +6,7 @@ using TypealizR.Builder;
 
 namespace TypealizR.Tests;
 
-public class Method_Tests
+public class ExtensionMethodBuilder_Tests
 {
 	private static readonly TypeModel targetType = new("Name.Space", "TypeName");
 
