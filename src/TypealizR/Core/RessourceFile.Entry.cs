@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
@@ -33,10 +34,10 @@ public partial class RessourceFile
 				Key = key;
 			}
 
-			GroupKey = Sanitize(rawGroupKey);
+			Groups = Sanitize(rawGroupKey);
 		}
 
-		private string? Sanitize(string rawGroupKey)
+		private IEnumerable<string> Sanitize(string rawGroupKey)
 		{
 			var parts = rawGroupKey
 				.Split('.')
@@ -45,14 +46,14 @@ public partial class RessourceFile
 				.ToArray()
 			;
 
-			return string.Join(".", parts);
+			return parts;
 		}
 
 		public string Key { get; }
 		public string RawKey { get; }
 		public string Value { get; }
 
-		public string? GroupKey { get; }
+		public IEnumerable<string> Groups { get; } = Enumerable.Empty<string>();
 
 		public IXmlLineInfo Location { get; }
 	}

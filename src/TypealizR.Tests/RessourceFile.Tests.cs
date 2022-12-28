@@ -91,29 +91,16 @@ public class RessourceFile_Tests
         actual.Should().Be(expected);
     }
 
-    [Theory]
-    [InlineData("Hello")]
-	[InlineData("Hello [world]")]
-	[InlineData("Hello [world]:")]
-	[InlineData("[Hello] world")]
-	[InlineData("[Hello]world")]
-	[InlineData("[]: Hello")]
-	public void Entry_Has_No_Group(string input)
-	{
-        var sut = new RessourceFile.Entry(input, input, new LineInfo());
-        sut.GroupKey.Should().BeNull();
-	}
-
 	[Theory]
-	[InlineData("Hello", null, "Hello")]
-	[InlineData("Hello [world]", null, "Hello [world]")]
-	[InlineData("Hello [world]:", null, "Hello [world]:")]
-	[InlineData("[world]:", null, "[world]:")]
+	[InlineData("Hello", "", "Hello")]
+	[InlineData("Hello [world]", "", "Hello [world]")]
+	[InlineData("Hello [world]:", "", "Hello [world]:")]
+	[InlineData("[world]:", "", "[world]:")]
 	[InlineData("[world]: ", "world", "[world]: ")]
 	[InlineData("[world]:  ", "world", "[world]:  ")]
-	[InlineData("[Hello] world", null, "[Hello] world")]
-	[InlineData("[Hello]world", null, "[Hello]world")]
-	[InlineData("[]: Hello", null, "[]: Hello")]
+	[InlineData("[Hello] world", "", "[Hello] world")]
+	[InlineData("[Hello]world", "", "[Hello]world")]
+	[InlineData("[]: Hello", "", "[]: Hello")]
 	[InlineData("[logs]: Hello [world]", "logs", "Hello [world]")]
 	[InlineData("[message.info]: Hello [world]:", "message.info", "Hello [world]:")]
 	[InlineData("[Hello]: world","Hello", "world")]
@@ -135,10 +122,12 @@ public class RessourceFile_Tests
 	[InlineData("[ Hello . World ]:world", "Hello.World", "world")]
 	[InlineData("[ Hello .World.]:world", "Hello.World", "world")]
 	[InlineData("[ Hello .World. ]:world", "Hello.World", "world")]
-	public void Entry_Extracts_GroupKey(string input, string expectedGroupKey, string expectedKey)
+	public void Entry_Extracts_Groups(string input, string expectedGroupKey, string expectedKey)
 	{
 		var sut = new RessourceFile.Entry(input, input, new LineInfo());
-        sut.GroupKey.Should().Be(expectedGroupKey);
+        var actualGroupKey = string.Join('.', sut.Groups);
+		actualGroupKey.Should().Be(expectedGroupKey);
+
 		sut.Key.Should().Be(expectedKey);
 	}
 }
