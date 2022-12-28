@@ -1,7 +1,7 @@
 ﻿using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal partial class ClassBuilder
+internal partial class ExtensionClassBuilder
 {
 	private sealed class MethodBuilderContext
 	{

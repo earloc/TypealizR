@@ -8,19 +8,19 @@ using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal partial class ClassBuilder
+internal partial class ExtensionClassBuilder
 {
 	private readonly string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
-	public ClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
+	public ExtensionClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
 		this.filePath = filePath;
 		this.severityConfig = severityConfig;
 	}
 
 	private readonly List<MethodBuilderContext> methodContexts = new();
-	public ClassBuilder WithMethodFor(string key, string value, int lineNumber)
+	public ExtensionClassBuilder Add(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 

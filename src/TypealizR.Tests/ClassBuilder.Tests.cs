@@ -24,10 +24,10 @@ public class ClassBuilder_Tests
 	[InlineData("Hello, {planet}", "Hello, {planet}?")]
 	public void Keys_Ending_Up_To_Produce_Duplicate_MethodNames_Produce_Diagnostics(string firstKey, string duplicateKey)
     {
-		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 		
-		sut.WithMethodFor(firstKey, "SomeValue", 10);
-		sut.WithMethodFor(duplicateKey, "SomeOtherValue", 20);
+		sut.Add(firstKey, "SomeValue", 10);
+		sut.Add(duplicateKey, "SomeOtherValue", 20);
 
         var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
@@ -51,9 +51,9 @@ public class ClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Generic_Parameter_Names(string input, params string[] expectedWarnings)
 	{
-		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
-        sut.WithMethodFor(input, "some value", 30);
+        sut.Add(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
@@ -72,9 +72,9 @@ public class ClassBuilder_Tests
 	)]
 	public void Emits_Warning_For_Unrecognized_Parameter_Type(string input, params string[] expectedWarnings)
 	{
-		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
-		sut.WithMethodFor(input, "some value", 30);
+		sut.Add(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
@@ -86,7 +86,7 @@ public class ClassBuilder_Tests
 	[Fact]
 	public void DoesNot_Use_Same_Namespace_Twice()
 	{
-		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
 		var extensionClass = sut.Build(new("Duplicate.Name.Space", "TypeName"), "Duplicate.Name.Space");
 
@@ -102,9 +102,9 @@ public class ClassBuilder_Tests
 	{
 		var visibility = accessibility.ToVisibilty();
 
-		var sut = new ClassBuilder(SomeFileName, severityOverrides);
+		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
-		sut.WithMethodFor("some key", "some value", 30);
+		sut.Add("some key", "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName", visibility), "RootName.Space");
 
