@@ -19,7 +19,7 @@ internal partial class ExtensionClassBuilder
 		this.severityConfig = severityConfig;
 	}
 
-	private readonly List<MethodBuilderContext> methodContexts = new();
+	private readonly List<MethodBuilderContext<ExtensionMethodBuilder>> methodContexts = new();
 	public ExtensionClassBuilder Add(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);

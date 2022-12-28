@@ -19,20 +19,20 @@ internal partial class StringTypealizRClassBuilder
 		this.severityConfig = severityConfig;
 	}
 
-	private readonly List<MethodBuilderContext> methodContexts = new();
+	private readonly List<MethodBuilderContext<InstanceMethodBuilder>> methodContexts = new();
 	public StringTypealizRClassBuilder Add(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-		methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));
+		methodContexts.Add(new (builder: new (key, value), diagnostics: new(diagnosticsFactory)));
 		return this;
 	}
 
 	public StringTypealizRClassModel Build(TypeModel target, string rootNamespace)
 	{
-		//var methods = methodContexts
-		//	.Select(x => new MethodModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
-		//	.ToArray()
-		//;
+		var methods = methodContexts
+			.Select(x => new MethodModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
+			.ToArray()
+		;
 
 		//var distinctMethods = Deduplicate(methods);
 
