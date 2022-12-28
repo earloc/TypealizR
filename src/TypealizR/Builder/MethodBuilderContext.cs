@@ -3,9 +3,9 @@ using System.Linq;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal sealed class MethodBuilderContext<TBuilder> where TBuilder : IMemberBuilder
+internal sealed class MemberBuilderContext<TBuilder> where TBuilder : IMemberBuilder
 {
-	public MethodBuilderContext(TBuilder builder, DiagnosticsCollector diagnostics)
+	public MemberBuilderContext(TBuilder builder, DiagnosticsCollector diagnostics)
 	{
 		Builder = builder;
 		Diagnostics = diagnostics;
@@ -17,10 +17,10 @@ internal sealed class MethodBuilderContext<TBuilder> where TBuilder : IMemberBui
 
 internal static class MethodModelContextExtensions
 {
-	internal static IEnumerable<IMemberModel> Deduplicate(this MethodModelContext[] that)
+	internal static IEnumerable<IMemberModel> Deduplicate(this MemberModelContext[] that)
 	{
 		var groupByMethodName = that.GroupBy(x => x.Model.Name);
-		var deduplicatedMethods = new List<MethodModelContext>(that.Count());
+		var deduplicatedMethods = new List<MemberModelContext>(that.Count());
 
 		foreach (var methodGroup in groupByMethodName)
 		{

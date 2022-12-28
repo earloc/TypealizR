@@ -2,9 +2,9 @@
 
 namespace TypealizR.Builder;
 
-internal sealed class MethodModelContext
+internal sealed class MemberModelContext
 {
-	public MethodModelContext(IMemberModel model, DiagnosticsCollector diagnostics)
+	public MemberModelContext(IMemberModel model, DiagnosticsCollector diagnostics)
 	{
 		Model = model;
 		Diagnostics = diagnostics;
