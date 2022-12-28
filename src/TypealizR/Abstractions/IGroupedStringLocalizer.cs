@@ -1,5 +1,7 @@
-﻿namespace TypealizR.Abstractions;
+﻿using Microsoft.Extensions.Localization;
 
-public interface IGroupedStringLocalizer<T>
+namespace TypealizR.Abstractions;
+
+public interface IStringTypealizR<T> : IStringLocalizer<T>
 {
 }

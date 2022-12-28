@@ -49,6 +49,7 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.1" PrivateAssets="all" GeneratePathProperty="true"/>
 	</ItemGroup>
 	<ItemGroup>
 		<XliffResource Include="MultilingualResources\TypealizR.de.xlf" />
