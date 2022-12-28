@@ -141,7 +141,6 @@ namespace Microsoft.Extensions.Localization
 
 		public WarningGroup Warning { get; }
 	}
-
 }
 
 namespace Microsoft.Extensions.Localization
