@@ -41,7 +41,7 @@ internal partial class ExtensionClassBuilder
 		return new(target, rootNamespace, distinctMethods, allDiagnostics);
     }
 
-	private IEnumerable<ExtensionMethodModel> Deduplicate(MethodModelContext[] methods)
+	private IEnumerable<IMethodModel> Deduplicate(MethodModelContext[] methods)
 	{
 		var groupByMethodName = methods.GroupBy(x => x.Model.Name);
 		var deduplicatedMethods = new List<MethodModelContext>(methods.Count());

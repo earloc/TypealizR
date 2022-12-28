@@ -6,5 +6,7 @@ internal interface IMethodModel
 	string Name { get; }
 	string RawRessourceName { get; }
 
+	void DeduplicateWith(int discriminator);
+
 	string ToCSharp();
 }

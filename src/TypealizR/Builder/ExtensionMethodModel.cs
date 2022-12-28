@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis;
 namespace TypealizR.Builder;
 internal class ExtensionMethodModel : IMethodModel
 {
-	internal void DeduplicateWith(int discriminator)
+	public void DeduplicateWith(int discriminator)
 	{
 		Name = $"{Name}{discriminator}";
 	}
