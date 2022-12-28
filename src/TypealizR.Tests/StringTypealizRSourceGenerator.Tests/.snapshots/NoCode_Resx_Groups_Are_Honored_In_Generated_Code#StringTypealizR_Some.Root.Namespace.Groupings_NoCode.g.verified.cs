@@ -49,33 +49,30 @@ namespace Some.Root.Namespace.TypealizR
         public QuestionGroup Question { get; }
         public WarningGroup Warning { get; }
 
-        
-
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class LogGroup
         {
-            private readonly IStringLocalizer that;
 
-            private readonly Lazy<CriticalGroup> _Critical;
-            private readonly Lazy<CriticalGroup> _Warning;
-
+            private readonly IStringLocalizer localizer;
             [DebuggerStepThrough]
-            public LogGroup(IStringLocalizer that)
+            public LogGroup(IStringLocalizer localizer)
             {
-                this.that = that;
-                _Critical = new(() => new(that));
-                _Warning = new(() => new(that));
+                this.localizer = localizer;
+                Critical = new CriticalGroup(localizer);
+                Warning = new WarningGroup(localizer);
             }
+
+            public CriticalGroup Critical;
+            public WarningGroup Warning;
 
             [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
             internal class CriticalGroup
             {
-                private readonly IStringLocalizer that;
-
+                private readonly IStringLocalizer localizer;
                 [DebuggerStepThrough]
-                public CriticalGroup(IStringLocalizer that)
+                public CriticalGroup(IStringLocalizer localizer)
                 {
-                    this.that = that;
+                    this.localizer = localizer;
                 }
 
                 /// <summary>
@@ -86,18 +83,17 @@ namespace Some.Root.Namespace.TypealizR
                 /// </returns>
                 [DebuggerStepThrough]
                 public LocalizedString Failed_to_delete__UserName(string UserName)
-                    => that["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
+                    => localizer["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
             }
 
             [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
             internal class Warning
             {
-                private readonly IStringLocalizer that;
-
+                private readonly IStringLocalizer localizer;
                 [DebuggerStepThrough]
-                public Warning(IStringLocalizer that)
+                public Warning(IStringLocalizer localizer)
                 {
-                    this.that = that;
+                    this.localizer = localizer;
                 }
 
                 /// <summary>
@@ -108,7 +104,7 @@ namespace Some.Root.Namespace.TypealizR
                 /// </returns>
                 [DebuggerStepThrough]
                 public LocalizedString Could_not_find__UserName(string UserName)
-                    => that["[Log.Warning] Could not find {UserName:s}"].Format(UserName);
+                    => localizer["[Log.Warning] Could not find {UserName:s}"].Format(UserName);
 
                 /// <summary>
                 /// Looks up a localized string similar to 'Unknown error'
@@ -117,20 +113,19 @@ namespace Some.Root.Namespace.TypealizR
                 /// A localized version of the current default value of 'Encountered an unknown error during the operation'
                 /// </returns>
                 [DebuggerStepThrough]
-                public LocalizedString Unknown_error(this IStringLocalizer<Groupings_NoCode> that)
-                    => that["[Log.Warning] Unknown error"];
+                public LocalizedString Unknown_error()
+                    => localizer["[Log.Warning] Unknown error"];
             }
         }
 
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class QuestionGroup
         {
-            private readonly IStringLocalizer that;
-
+            private readonly IStringLocalizer localizer;
             [DebuggerStepThrough]
-            public QuestionGroup(IStringLocalizer that)
+            public QuestionGroup(IStringLocalizer localizer)
             {
-                this.that = that;
+                this.localizer = localizer;
             }
 
             /// <summary>
@@ -141,18 +136,17 @@ namespace Some.Root.Namespace.TypealizR
             /// </returns>
             [DebuggerStepThrough]
             public LocalizedString Continue_to_delete__UserName(string UserName)
-            => that["[Question] Continue to delete {UserName:s}?"].Format(UserName);
+                => localizer["[Question] Continue to delete {UserName:s}?"].Format(UserName);
         }
 
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class WarningGroup
         {
-            private readonly IStringLocalizer that;
-
+            private readonly IStringLocalizer localizer;
             [DebuggerStepThrough]
-            public WarningGroup(IStringLocalizer that)
+            public WarningGroup(IStringLocalizer localizer)
             {
-                this.that = that;
+                this.localizer = localizer;
             }
 
             /// <summary>
@@ -162,8 +156,8 @@ namespace Some.Root.Namespace.TypealizR
             /// A localized version of the current default value of '{0} will be deleted'
             /// </returns>
             [DebuggerStepThrough]
-            public static LocalizedString UserName__will_be_deleted(this IStringLocalizer<Groupings_NoCode> that, string UserName)
-                => that["[Warning] {UserName:s} will be deleted!"].Format(UserName);
+            public static LocalizedString UserName__will_be_deleted(string UserName)
+                => localizer["[Warning] {UserName:s} will be deleted!"].Format(UserName);
 
             /// <summary>
             /// Looks up a localized string similar to 'Abort?'
@@ -172,11 +166,7 @@ namespace Some.Root.Namespace.TypealizR
             /// A localized version of the current default value of 'Abort?'
             /// </returns>
             public LocalizedString Abort
-                => that["[Question] Abort ?"];
+                => localizer["[Question] Abort ?"];
         }
-
-        
-
     }
 }
-
