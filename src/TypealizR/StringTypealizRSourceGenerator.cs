@@ -12,7 +12,9 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
 {
 	protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
-		var builder = new StringTypealizRClassBuilder(file.FullPath, severityConfig);
+		var targetType = new TypeModel (rootNamespace, file.SimpleName, Visibility.Internal);
+
+		var builder = new StringTypealizRClassBuilder($"StringTypealizR_{targetType.FullNameForClassName}", file.FullPath, severityConfig);
 
 		foreach (var entry in file.Entries)
 		{
@@ -22,11 +24,11 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
 			}
 			else
 			{
-				builder.WithGroup(entry.Groups.First(), entry.Value, entry.Location.LineNumber);
+				builder.WithGroups(entry.Key, entry.Groups, entry.Value, entry.Location.LineNumber);
 			}
 		}
 
-		var extensionClass = builder.Build(new(rootNamespace, file.SimpleName, Visibility.Internal), rootNamespace);
+		var extensionClass = builder.Build(targetType, rootNamespace);
 
 		return new(extensionClass.FileName, extensionClass.ToCSharp(GetType()), extensionClass.Diagnostics);
 	}

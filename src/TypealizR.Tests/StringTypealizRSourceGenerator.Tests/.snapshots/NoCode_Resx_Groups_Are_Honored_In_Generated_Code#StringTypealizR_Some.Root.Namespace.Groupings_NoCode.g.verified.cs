@@ -53,24 +53,24 @@ namespace Some.Root.Namespace.TypealizR
         internal partial class LogGroup
         {
 
-            private readonly IStringLocalizer localizer;
+            private readonly IStringLocalizer<Groupings_NoCode> localizer;
             [DebuggerStepThrough]
-            public LogGroup(IStringLocalizer localizer)
+            public LogGroup(IStringLocalizer<Groupings_NoCode> localizer)
             {
                 this.localizer = localizer;
                 Critical = new CriticalGroup(localizer);
                 Warning = new WarningGroup(localizer);
             }
 
-            public CriticalGroup Critical;
-            public WarningGroup Warning;
+            public CriticalGroup Critical { get; }
+            public WarningGroup Warning { get; }
 
             [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
-            internal class CriticalGroup
+            internal partial class CriticalGroup
             {
-                private readonly IStringLocalizer localizer;
+                private readonly IStringLocalizer<Groupings_NoCode> localizer;
                 [DebuggerStepThrough]
-                public CriticalGroup(IStringLocalizer localizer)
+                public CriticalGroup(IStringLocalizer<Groupings_NoCode> localizer)
                 {
                     this.localizer = localizer;
                 }
@@ -81,17 +81,16 @@ namespace Some.Root.Namespace.TypealizR
                 /// <returns>
                 /// A localized version of the current default value of 'Failed to delete {0}'
                 /// </returns>
-                [DebuggerStepThrough]
                 public LocalizedString Failed_to_delete__UserName(string UserName)
                     => localizer["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
             }
 
             [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
-            internal class Warning
+            internal partial class WarningGroup
             {
-                private readonly IStringLocalizer localizer;
+                private readonly IStringLocalizer<Groupings_NoCode> localizer;
                 [DebuggerStepThrough]
-                public Warning(IStringLocalizer localizer)
+                public WarningGroup(IStringLocalizer<Groupings_NoCode> localizer)
                 {
                     this.localizer = localizer;
                 }
@@ -121,9 +120,9 @@ namespace Some.Root.Namespace.TypealizR
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class QuestionGroup
         {
-            private readonly IStringLocalizer localizer;
+            private readonly IStringLocalizer<Groupings_NoCode> localizer;
             [DebuggerStepThrough]
-            public QuestionGroup(IStringLocalizer localizer)
+            public QuestionGroup(IStringLocalizer<Groupings_NoCode> localizer)
             {
                 this.localizer = localizer;
             }
@@ -142,9 +141,9 @@ namespace Some.Root.Namespace.TypealizR
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class WarningGroup
         {
-            private readonly IStringLocalizer localizer;
+            private readonly IStringLocalizer<Groupings_NoCode> localizer;
             [DebuggerStepThrough]
-            public WarningGroup(IStringLocalizer localizer)
+            public WarningGroup(IStringLocalizer<Groupings_NoCode> localizer)
             {
                 this.localizer = localizer;
             }

@@ -10,11 +10,13 @@ using TypealizR.Diagnostics;
 namespace TypealizR.Builder;
 internal partial class StringTypealizRClassBuilder
 {
+	private readonly string name;
 	private readonly string filePath;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
-	public StringTypealizRClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
+	public StringTypealizRClassBuilder(string name, string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
+		this.name = name;
 		this.filePath = filePath;
 		this.severityConfig = severityConfig;
 	}
@@ -27,16 +29,26 @@ internal partial class StringTypealizRClassBuilder
 		return this;
 	}
 
-	private readonly List<string> groups = new();
+	private readonly Dictionary<string, StringTypealizRClassBuilder> nestedTypes = new();
 
-	public StringTypealizRClassBuilder WithGroup(string key, string value, int lineNumber)
+	public StringTypealizRClassBuilder WithGroups(string key, IEnumerable<string> groupKeys, string value, int lineNumber)
 	{
-		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
+		//var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 
-		if (!groups.Contains(key))
+		if (!groupKeys.Any())
 		{
-			groups.Add(key);
+			WithMember(key, value, lineNumber);
+			return this;
 		}
+
+		var firstLevel = groupKeys.First();
+
+		if (!nestedTypes.ContainsKey(firstLevel))
+		{
+			nestedTypes[firstLevel] = new StringTypealizRClassBuilder($"{firstLevel}", filePath, severityConfig);
+		}
+
+		nestedTypes[firstLevel].WithGroups(key, groupKeys.Skip(1), value, lineNumber);
 
 		return this;
 	}
@@ -52,7 +64,9 @@ internal partial class StringTypealizRClassBuilder
 
 		var allDiagnostics = members.SelectMany(x => x.Diagnostics.Entries);
 
-		return new(target, rootNamespace, distinctMembers, groups, allDiagnostics);
+		var nested = nestedTypes.Values.Select(x => x.Build(target, rootNamespace)).ToArray();
+
+		return new(name, target, rootNamespace, distinctMembers, nested, allDiagnostics);
     }
 
 	
