@@ -14,7 +14,7 @@ internal class ExtensionClassModel
 {
     public IEnumerable<string> Usings => usings;
     public string Visibility => Target.Visibility.ToString().ToLower();
-	public string TypeName => $"IStringLocalizerExtensions_{Target.FullNameForExtensionsClass}";
+	public string TypeName => $"IStringLocalizerExtensions_{Target.FullNameForClassName}";
 
 	public IEnumerable<ExtensionMethodModel> Methods { get; }
 
