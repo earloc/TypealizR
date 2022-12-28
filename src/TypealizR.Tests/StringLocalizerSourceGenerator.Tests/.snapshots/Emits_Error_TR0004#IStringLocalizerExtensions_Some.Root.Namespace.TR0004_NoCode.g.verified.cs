@@ -7,12 +7,11 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using Some.Root.Namespace;
-namespace Microsoft.Extensions.Localization 
+namespace Microsoft.Extensions.Localization
 {
 
     [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-    [DebuggerStepThrough]
-    internal static partial class IStringLocalizerExtensions_Some_Root_Namespace_TR0004_NoCode 
+    internal static partial class IStringLocalizerExtensions_Some_Root_Namespace_TR0004_NoCode
     {
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace Microsoft.Extensions.Localization
 		/// <returns>
 		/// A localized version of the current default value of 'Greetings {0}'
 		/// </returns>
-		public static LocalizedString Greetings__name (this IStringLocalizer<Some.Root.Namespace.TR0004_NoCode> that, object name) 
+		public static LocalizedString Greetings__name(this IStringLocalizer<Some.Root.Namespace.TR0004_NoCode> that, object name)
 			=> that["Greetings {name:wtf}"].Format(name);
 
     }

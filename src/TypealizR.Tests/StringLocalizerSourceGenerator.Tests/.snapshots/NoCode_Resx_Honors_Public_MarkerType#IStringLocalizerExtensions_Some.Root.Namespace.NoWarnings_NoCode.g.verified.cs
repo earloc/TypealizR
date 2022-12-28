@@ -7,12 +7,11 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 
 using Some.Root.Namespace;
-namespace Microsoft.Extensions.Localization 
+namespace Microsoft.Extensions.Localization
 {
 
     [GeneratedCode("TypealizR.StringLocalizerSourceGenerator", "1.0.0.0")]
-    [DebuggerStepThrough]
-    public static partial class IStringLocalizerExtensions_Some_Root_Namespace_NoWarnings_NoCode 
+    public static partial class IStringLocalizerExtensions_Some_Root_Namespace_NoWarnings_NoCode
     {
 
         /// <summary>
@@ -21,7 +20,7 @@ namespace Microsoft.Extensions.Localization
 		/// <returns>
 		/// A localized version of the current default value of 'Greetings {0}, today is {1}'
 		/// </returns>
-		public static LocalizedString Greetings__name__today_is__date (this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date) 
+		public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date)
 			=> that["Greetings {name}, today is {date}"].Format(name, date);
 
 		/// <summary>
@@ -30,7 +29,7 @@ namespace Microsoft.Extensions.Localization
 		/// <returns>
 		/// A localized version of the current default value of 'Hello'
 		/// </returns>
-		public static LocalizedString Hello (this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that) 
+		public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that)
 			=> that["Hello"];
 
 		/// <summary>
@@ -39,7 +38,7 @@ namespace Microsoft.Extensions.Localization
 		/// <returns>
 		/// A localized version of the current default value of 'Hello {0}, today is {1}'
 		/// </returns>
-		public static LocalizedString Hello__name__today_is__date (this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date) 
+		public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date)
 			=> that["Hello {name:s}, today is {date:d}"].Format(name, date);
 
     }
