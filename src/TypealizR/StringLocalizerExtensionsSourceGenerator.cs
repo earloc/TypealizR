@@ -16,7 +16,7 @@ public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGen
 
 		foreach (var entry in file.Entries)
 		{
-			builder.Add(entry.Key, entry.Value, entry.Location.LineNumber);
+			builder.WithExtensionMethod(entry.Key, entry.Value, entry.Location.LineNumber);
 		}
 
 		(var targetNamespace, var visibility) = FindNameSpaceAndVisibilityOf(compilation, rootNamespace, file, projectDirectory.FullName);

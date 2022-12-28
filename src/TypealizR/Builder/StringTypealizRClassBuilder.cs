@@ -20,7 +20,7 @@ internal partial class StringTypealizRClassBuilder
 	}
 
 	private readonly List<MemberBuilderContext<InstanceMemberBuilder>> methodContexts = new();
-	public StringTypealizRClassBuilder AddMember(string key, string value, int lineNumber)
+	public StringTypealizRClassBuilder WithMember(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 		methodContexts.Add(new (builder: new (key, value), diagnostics: new(diagnosticsFactory)));
@@ -29,7 +29,7 @@ internal partial class StringTypealizRClassBuilder
 
 	private readonly List<string> groups = new();
 
-	public StringTypealizRClassBuilder AddGroupMember(string key, string value, int lineNumber)
+	public StringTypealizRClassBuilder WithGroup(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 

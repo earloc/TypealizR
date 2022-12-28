@@ -20,7 +20,7 @@ internal partial class ExtensionClassBuilder
 	}
 
 	private readonly List<MemberBuilderContext<ExtensionMethodBuilder>> methodContexts = new();
-	public ExtensionClassBuilder Add(string key, string value, int lineNumber)
+	public ExtensionClassBuilder WithExtensionMethod(string key, string value, int lineNumber)
 	{
 		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
 		methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));

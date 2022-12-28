@@ -18,11 +18,11 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
 		{
 			if (!entry.Groups.Any())
 			{
-				builder.AddMember(entry.Key, entry.Value, entry.Location.LineNumber);
+				builder.WithMember(entry.Key, entry.Value, entry.Location.LineNumber);
 			}
 			else
 			{
-				builder.AddGroupMember(entry.Groups.First(), entry.Value, entry.Location.LineNumber);
+				builder.WithGroup(entry.Groups.First(), entry.Value, entry.Location.LineNumber);
 			}
 		}
 

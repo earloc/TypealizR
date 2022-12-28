@@ -26,8 +26,8 @@ public class ExtensionClassBuilder_Tests
     {
 		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 		
-		sut.Add(firstKey, "SomeValue", 10);
-		sut.Add(duplicateKey, "SomeOtherValue", 20);
+		sut.WithExtensionMethod(firstKey, "SomeValue", 10);
+		sut.WithExtensionMethod(duplicateKey, "SomeOtherValue", 20);
 
         var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
@@ -53,7 +53,7 @@ public class ExtensionClassBuilder_Tests
 	{
 		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
-        sut.Add(input, "some value", 30);
+        sut.WithExtensionMethod(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
@@ -74,7 +74,7 @@ public class ExtensionClassBuilder_Tests
 	{
 		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
-		sut.Add(input, "some value", 30);
+		sut.WithExtensionMethod(input, "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName"), "RootName.Space");
 
@@ -104,7 +104,7 @@ public class ExtensionClassBuilder_Tests
 
 		var sut = new ExtensionClassBuilder(SomeFileName, severityOverrides);
 
-		sut.Add("some key", "some value", 30);
+		sut.WithExtensionMethod("some key", "some value", 30);
 
 		var extensionClass = sut.Build(new("Name.Space", "TypeName", visibility), "RootName.Space");
 
