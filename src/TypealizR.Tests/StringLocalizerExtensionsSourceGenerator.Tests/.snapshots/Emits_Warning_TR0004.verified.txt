@@ -5,7 +5,7 @@
       Title: UnrecognizedParameterType,
       Severity: Warning,
       WarningLevel: 1,
-      Location: {ProjectDirectory}StringLocalizerSourceGenerator.Tests/TR0004_NoCode.resx: (119,0)-(119,19),
+      Location: {ProjectDirectory}StringLocalizerExtensionsSourceGenerator.Tests/TR0004_NoCode.resx: (119,0)-(119,19),
       Description: Encountered an unrecognized parameter-type,
       HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0004_UnrecognizedParameterType.md,
       MessageFormat: Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2},
