@@ -12,9 +12,9 @@ using TypealizR.Tests.Snapshots;
 namespace TypealizR.Tests;
 
 [UsesVerify]
-public class StringLocalizerSourceGenerator_Tests
+public class StringLocalizerExtensionsSourceGenerator_Tests
 {
-	private const string BaseDirectory = "../../../StringLocalizerSourceGenerator.Tests";
+	private const string BaseDirectory = "../../../StringLocalizerExtensionsSourceGenerator.Tests";
 	private const string RootNamespace = "Some.Root.Namespace";
 
 
