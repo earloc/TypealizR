@@ -6,6 +6,7 @@ using TypealizR.Diagnostics;
 using TypealizR.Extensibility;
 using TypealizR.Builder;
 using System;
+using TypealizR.Core;
 
 namespace TypealizR;
 

@@ -7,8 +7,8 @@ using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR;
-internal partial class RessourceFile
+namespace TypealizR.Core;
+public partial class RessourceFile
 {
     public IEnumerable<Entry> Entries { get; }
 

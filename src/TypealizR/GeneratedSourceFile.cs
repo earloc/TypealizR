@@ -1,9 +1,9 @@
 ﻿using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR;
+namespace TypealizR.Core;
 
-internal class GeneratedSourceFile
+public class GeneratedSourceFile
 {
 	public GeneratedSourceFile(string fileName, string content, IEnumerable<Diagnostic> diagnostics)
 	{

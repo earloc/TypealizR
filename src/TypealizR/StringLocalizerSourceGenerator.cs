@@ -2,8 +2,8 @@
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Extensibility;
 using TypealizR.Builder;
+using TypealizR.Core;
 
 namespace TypealizR;
 

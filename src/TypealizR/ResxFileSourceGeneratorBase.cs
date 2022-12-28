@@ -2,11 +2,12 @@
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
+using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
-internal abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
+public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
