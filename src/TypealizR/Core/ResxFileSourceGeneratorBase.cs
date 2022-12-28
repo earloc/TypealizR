@@ -5,7 +5,7 @@ using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
 
-namespace TypealizR;
+namespace TypealizR.Core;
 
 public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 {

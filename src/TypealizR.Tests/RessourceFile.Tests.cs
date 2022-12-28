@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using TypealizR.Core;
 
 namespace TypealizR.Tests;
 public class RessourceFile_Tests
