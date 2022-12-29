@@ -4,6 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Builder;
 using TypealizR.Core;
+using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
@@ -12,25 +13,31 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
 {
 	protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
-		var targetType = new TypeModel (rootNamespace, file.SimpleName, Visibility.Internal);
+		var markerType = new TypeModel (rootNamespace, file.SimpleName, Visibility.Internal);
 
-		var builder = new StringTypealizRClassBuilder($"StringTypealizR_{targetType.FullNameForClassName}", file.FullPath, severityConfig);
+		var builder = new StringTypealizRClassBuilder(markerType, $"StringTypealizR_{markerType.FullNameForClassName}", rootNamespace, severityConfig);
+
+		var diagnostics = new List<Diagnostic>();
 
 		foreach (var entry in file.Entries)
 		{
+			var collector = new DiagnosticsCollector(file.FullPath, entry.RawKey, entry.Location.LineNumber, severityConfig);
+
 			if (!entry.Groups.Any())
 			{
-				builder.WithMember(entry.Key, entry.Value, entry.Location.LineNumber);
+				builder.WithMember(entry.Key, entry.Value, collector);
 			}
 			else
 			{
-				builder.WithGroups(entry.Key, entry.Groups, entry.Value, entry.Location.LineNumber);
+				builder.WithGroups(entry.Key, entry.Groups, entry.Value, collector);
 			}
+
+			diagnostics.AddRange(collector.Diagnostics);
 		}
 
-		var extensionClass = builder.Build(targetType, rootNamespace);
+		var extensionClass = builder.Build();
 
-		return new(extensionClass.FileName, extensionClass.ToCSharp(GetType()), extensionClass.Diagnostics);
+		return new(extensionClass.FileName, extensionClass.ToCSharp(GetType()), diagnostics);
 	}
 
 }

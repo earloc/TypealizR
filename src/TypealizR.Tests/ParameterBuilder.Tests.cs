@@ -32,7 +32,7 @@ public class ParameterBuilder_Tests
 	[InlineData("{now:wtf}", "object", true)]
 	public void Parameter_Gets_Typed_As(string token, string expected, bool expectInvalidTypeExpression)
 	{
-		var collector = new DiagnosticsCollector(new("Ressource1.resx", token, 10));
+		var collector = new DiagnosticsCollector("Ressource1.resx", token, 10);
 
 		var builder = new ParameterBuilder(token);
 
@@ -44,7 +44,7 @@ public class ParameterBuilder_Tests
 
 		if (expectInvalidTypeExpression)
 		{
-			var warnings = collector.Entries.Select(x => x.Id);
+			var warnings = collector.Diagnostics.Select(x => x.Id);
 
 			warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
 		}
@@ -129,7 +129,7 @@ public class ParameterBuilder_Tests
 	public void Extracts_Parameters(string input, params string[] expected)
 	{
 		var sut = new ParameterBuilder(input);
-		var model = sut.Build(new(new("Ressource1.resx", input, 42)));
+		var model = sut.Build(new("Ressource1.resx", input, 42));
 
 		var actual = model.ToDeclarationCSharp();
 
@@ -160,7 +160,7 @@ public class ParameterBuilder_Tests
 	public void Declares_Parameters_In_Signature(string input, string expected)
 	{
 		var sut = new ParameterBuilder(input);
-		var model = sut.Build(new(new("Ressource1.resx", input, 42)));
+		var model = sut.Build(new("Ressource1.resx", input, 42));
 
 		var actual = model.ToDeclarationCSharp();
 
@@ -195,7 +195,7 @@ public class ParameterBuilder_Tests
 	public void Passes_Parameters_In_Invocation(string input, string expected)
 	{
 		var sut = new ParameterBuilder(input);
-		var parameters = sut.Build(new(new("Ressource1.resx", input, 42)));
+		var parameters = sut.Build(new("Ressource1.resx", input, 42));
 
 		var actual = parameters.Select(x => x.DisplayName).ToCommaDelimited();
 

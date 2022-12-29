@@ -10,34 +10,40 @@ using TypealizR.Diagnostics;
 namespace TypealizR.Builder;
 internal partial class ExtensionClassBuilder
 {
-	private readonly string filePath;
-	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
+	private readonly TypeModel markerType;
+	private readonly string rootNamespace;
 
-	public ExtensionClassBuilder(string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
+	public ExtensionClassBuilder(TypeModel markerType, string rootNamespace)
 	{
-		this.filePath = filePath;
-		this.severityConfig = severityConfig;
+		this.markerType = markerType;
+		this.rootNamespace = rootNamespace;
 	}
 
-	private readonly List<MemberBuilderContext<ExtensionMethodBuilder>> methodContexts = new();
-	public ExtensionClassBuilder WithExtensionMethod(string key, string value, int lineNumber)
+	private Dictionary<string, ExtensionMethodModel> methods = new();
+	private Dictionary<string, int> duplicates = new();
+
+	public ExtensionClassBuilder WithExtensionMethod(string key, string value, DiagnosticsCollector diagnostics)
 	{
-		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-		methodContexts.Add(new (builder: new(key, value), diagnostics: new(diagnosticsFactory)));
+		var builder = new ExtensionMethodBuilder(markerType, key, value, diagnostics);
+		var model = builder.Build();
+
+		if (!duplicates.ContainsKey(model.Name))
+		{
+			duplicates[model.Name] = 1;
+		}
+		else
+		{
+			var discriminator = duplicates[model.Name]++;
+			model.DeduplicateWith(discriminator);
+			diagnostics.Add(fac => fac.AmbigiousRessourceKey_0002(model.Name));
+		}
+
+		methods[model.Name] = model;
 		return this;
 	}
 
-	public ExtensionClassModel Build(TypeModel target, string rootNamespace)
+	public ExtensionClassModel Build()
 	{
-		var methods = methodContexts
-			.Select(x => new MemberModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
-			.ToArray()
-		;
-
-		var distinctMethods = methods.Deduplicate();
-
-		var allDiagnostics = methods.SelectMany(x => x.Diagnostics.Entries);
-
-		return new(target, rootNamespace, distinctMethods, allDiagnostics);
+		return new(markerType, rootNamespace, methods.Values);
     }
 }

@@ -12,7 +12,7 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal class InstanceMemberBuilder : IMemberBuilder
+internal class InstanceMemberBuilder
 {
 	private readonly string key;
 	private readonly string value;
@@ -25,7 +25,7 @@ internal class InstanceMemberBuilder : IMemberBuilder
 		parameterBuilder = new(key);
 	}
 
-	public IMemberModel Build(TypeModel target, DiagnosticsCollector diagnostics)
+	public InstanceMemberModel Build(DiagnosticsCollector diagnostics)
 	{
 		var parameters = parameterBuilder.Build(diagnostics);
 
@@ -38,7 +38,7 @@ internal class InstanceMemberBuilder : IMemberBuilder
 
 		string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-		return new InstanceMemberModel(target, key, value, compilableMethodName, parameters);
+		return new InstanceMemberModel(key, value, compilableMethodName, parameters);
 	}
 
 

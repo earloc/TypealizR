@@ -13,28 +13,23 @@ namespace TypealizR.Builder;
 internal class ExtensionClassModel
 {
     public IEnumerable<string> Usings => usings;
-    public string Visibility => Target.Visibility.ToString().ToLower();
-	public string TypeName => $"IStringLocalizerExtensions_{Target.FullNameForClassName}";
-
-	public IEnumerable<IMemberModel> Methods { get; }
 
     public readonly TypeModel Target;
-
-    private readonly HashSet<string> usings = new()
+	private readonly IEnumerable<ExtensionMethodModel> methods;
+	private readonly HashSet<string> usings = new()
     {
         "System.CodeDom.Compiler",
         "System.Diagnostics",
         "System.Diagnostics.CodeAnalysis"
     };
 
-    public IEnumerable<Diagnostic> Diagnostics { get; }
-	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<IMemberModel> methods, IEnumerable<Diagnostic> diagnostics)
+	public ExtensionClassModel(TypeModel target, string rootNamespace, IEnumerable<ExtensionMethodModel> methods)
     {
 		Target = target;
-        usings.Add(rootNamespace);
+		this.methods = methods;
+		usings.Add(rootNamespace);
 		usings.Add(target.Namespace);
-		Methods = methods;
-		Diagnostics = diagnostics;
+		this.methods = methods;
     }
 
 	public string FileName => $"IStringLocalizerExtensions_{Target.FullName}.g.cs";
@@ -46,10 +41,10 @@ internal class ExtensionClassModel
         {
 
             {{generatorType.GeneratedCodeAttribute()}}
-            {{Visibility}} static partial class {{TypeName}}
+            {{Target.Visibility.ToString().ToLower()}} static partial class IStringLocalizerExtensions_{{Target.FullNameForClassName}}
             {
 
-                {{Methods.Select(x => x.ToCSharp()).ToMultiline()}}
+                {{methods.Select(x => x.ToCSharp()).ToMultiline()}}
 
             }
         }

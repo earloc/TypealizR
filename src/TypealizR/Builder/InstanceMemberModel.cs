@@ -7,44 +7,44 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.Builder;
-internal class InstanceMemberModel : IMemberModel
+internal class InstanceMemberModel
 {
 	public void DeduplicateWith(int discriminator)
 	{
 		Name = $"{Name}{discriminator}";
 	}
 
-	public TypeModel ExtendedType { get; }
-	public string RawRessourceName { get; }
-	public readonly string RessourceDefaultValue;
+
+	private readonly string rawRessourceName;
+	private readonly string ressourceDefaultValue;
+	private readonly IEnumerable<ParameterModel> parameters;
+
+	public InstanceMemberModel(string rawRessourceName, string ressourceDefaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters)
+	{
+		this.rawRessourceName = rawRessourceName;
+		this.ressourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
+		this.Name = compilableMethodName;
+		this.parameters = parameters;
+	}
+
 	public string Name { get; private set; }
 
-	public readonly IEnumerable<ParameterModel> Parameters;
-
-	public InstanceMemberModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters)
-	{
-		ExtendedType = extendedType;
-		RawRessourceName = rawRessourceName;
-		RessourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
-		Name = compilableMethodName;
-		Parameters = parameters;
-	}
 
 	public string ToCSharp()
 	{
 		var signature = "";
-		var body = $@"localizer[""{RawRessourceName}""]";
+		var body = $@"localizer[""{rawRessourceName}""]";
 
-		if (Parameters.Any())
+		if (parameters.Any())
 		{
-			var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => $"{x.Type} {x.DisplayName}"));
+			var additionalParameterDeclarations = string.Join(", ", parameters.Select(x => $"{x.Type} {x.DisplayName}"));
 			signature = $"({additionalParameterDeclarations})";
 
-			var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
-			body = $@"localizer[""{RawRessourceName}""].Format({parameterCollection})";
+			var parameterCollection = parameters.Select(x => x.DisplayName).ToCommaDelimited();
+			body = $@"localizer[""{rawRessourceName}""].Format({parameterCollection})";
 		}
 
-		var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
+		var comment = new CommentModel(rawRessourceName, ressourceDefaultValue);
 
 		return $"""
 	{comment.ToCSharp()}

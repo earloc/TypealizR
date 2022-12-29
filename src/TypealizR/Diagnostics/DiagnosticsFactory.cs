@@ -7,21 +7,20 @@ using id = TypealizR.Diagnostics.DiagnosticsId;
 
 namespace TypealizR.Diagnostics;
 
-
 internal class DiagnosticsCollector
 {
 	private readonly DiagnosticsFactory factory;
 
-	public DiagnosticsCollector(DiagnosticsFactory factory)
+	public DiagnosticsCollector(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity>? severityConfig = null)
 	{
-		this.factory = factory;
+		this.factory = new(filePath, rawRessourceKey, lineNumber, severityConfig);
 	}
 
-	private readonly List<Diagnostic> entries = new();
+	private readonly List<Diagnostic> diagnostics = new();
 
-	internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => entries.Add(create(factory));
+	internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => diagnostics.Add(create(factory));
 
-	public IEnumerable<Diagnostic> Entries => entries;
+	public IEnumerable<Diagnostic> Diagnostics => diagnostics;
 }
 
 internal class DiagnosticsFactory
@@ -29,17 +28,17 @@ internal class DiagnosticsFactory
 	private readonly string filePath;
 	private readonly string rawRessourceKey;
 	private readonly int lineNumber;
-	private readonly IDictionary<string, DiagnosticSeverity> severityMap;
+	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
-	public DiagnosticsFactory(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity>? severityMap = null)
+	public DiagnosticsFactory(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity>? severityConfig = null)
 	{
 		this.filePath = filePath;
 		this.rawRessourceKey = rawRessourceKey;
 		this.lineNumber = lineNumber;
-		this.severityMap = severityMap ?? new Dictionary<string, DiagnosticSeverity>();
+		this.severityConfig = severityConfig ?? new Dictionary<string, DiagnosticSeverity>();
 	}
 
-	private DiagnosticSeverity? SeverityFor(DiagnosticsId id) => severityMap.ContainsKey(id.ToString()) ? severityMap[id.ToString()] : null;
+	private DiagnosticSeverity? SeverityFor(DiagnosticsId id) => severityConfig.ContainsKey(id.ToString()) ? severityConfig[id.ToString()] : null;
 
 	internal static readonly DiagnosticsEntry TR0001 = new(id.TR0001, "TargetProjectRootDirectoryNotFound");
 	internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>

@@ -25,8 +25,8 @@ public class ExtensionMethodBuilder_Tests
 	[InlineData("Hello {name:s}, today is {now:d}", "Hello__name__today_is__now")]
 	public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
 	{
-		var sut = new ExtensionMethodBuilder(input, input);
-		var method = sut.Build(targetType, new(new("Ressource1.resx", input, 42)));
+		var sut = new ExtensionMethodBuilder(targetType, input, input, new("Ressource1.resx", input, 42));
+		var method = sut.Build();
 
 		var actual = method.Name;
 		actual.Should().Be(expected);

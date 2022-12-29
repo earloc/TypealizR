@@ -10,34 +10,38 @@ using TypealizR.Diagnostics;
 namespace TypealizR.Builder;
 internal partial class StringTypealizRClassBuilder
 {
+	private readonly TypeModel markerType;
 	private readonly string name;
-	private readonly string filePath;
+	private readonly string rootNamespace;
 	private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
-	public StringTypealizRClassBuilder(string name, string filePath, IDictionary<string, DiagnosticSeverity> severityConfig)
+	public StringTypealizRClassBuilder(TypeModel markerType, string name, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
+		this.markerType = markerType;
 		this.name = name;
-		this.filePath = filePath;
+		this.rootNamespace = rootNamespace;
 		this.severityConfig = severityConfig;
 	}
 
-	private readonly List<MemberBuilderContext<InstanceMemberBuilder>> memberContexts = new();
-	public StringTypealizRClassBuilder WithMember(string key, string value, int lineNumber)
+	private readonly List<InstanceMemberModel> members = new();
+
+	public StringTypealizRClassBuilder WithMember(string key, string value, DiagnosticsCollector diagnostics)
 	{
-		var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-		memberContexts.Add(new (builder: new (key, value), diagnostics: new(diagnosticsFactory)));
+		var builder = new InstanceMemberBuilder(key, value);
+		var model = builder.Build(diagnostics);
+
+		members.Add(model);
+
 		return this;
 	}
 
 	private readonly Dictionary<string, StringTypealizRClassBuilder> nestedTypes = new();
 
-	public StringTypealizRClassBuilder WithGroups(string key, IEnumerable<string> groupKeys, string value, int lineNumber)
+	public StringTypealizRClassBuilder WithGroups(string key, IEnumerable<string> groupKeys, string value, DiagnosticsCollector diagnostics)
 	{
-		//var diagnosticsFactory = new DiagnosticsFactory(filePath, key, lineNumber, severityConfig);
-
 		if (!groupKeys.Any())
 		{
-			WithMember(key, value, lineNumber);
+			WithMember(key, value, diagnostics);
 			return this;
 		}
 
@@ -45,28 +49,23 @@ internal partial class StringTypealizRClassBuilder
 
 		if (!nestedTypes.ContainsKey(firstLevel))
 		{
-			nestedTypes[firstLevel] = new StringTypealizRClassBuilder($"{firstLevel}", filePath, severityConfig);
+			nestedTypes[firstLevel] = new StringTypealizRClassBuilder(markerType, $"{firstLevel}", rootNamespace, severityConfig);
 		}
 
-		nestedTypes[firstLevel].WithGroups(key, groupKeys.Skip(1), value, lineNumber);
+		nestedTypes[firstLevel].WithGroups(key, groupKeys.Skip(1), value, diagnostics);
 
 		return this;
 	}
 
-	public StringTypealizRClassModel Build(TypeModel target, string rootNamespace)
+	public StringTypealizRClassModel Build()
 	{
-		var members = memberContexts
-			.Select(x => new MemberModelContext(x.Builder.Build(target, x.Diagnostics), x.Diagnostics))
+		var nested = nestedTypes
+			.Values
+			.Select(x => x.Build())
 			.ToArray()
 		;
 
-		var distinctMembers = members.Deduplicate();
-
-		var allDiagnostics = members.SelectMany(x => x.Diagnostics.Entries);
-
-		var nested = nestedTypes.Values.Select(x => x.Build(target, rootNamespace)).ToArray();
-
-		return new(name, target, rootNamespace, distinctMembers, nested, allDiagnostics);
+		return new(name, markerType, rootNamespace, members, nested);
     }
 
 	

@@ -12,20 +12,24 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
-internal class ExtensionMethodBuilder : IMemberBuilder
+internal class ExtensionMethodBuilder
 {
+	private readonly TypeModel markerType;
 	private readonly string key;
 	private readonly string value;
+	private readonly DiagnosticsCollector diagnostics;
 	private readonly ParameterBuilder parameterBuilder;
 
-	public ExtensionMethodBuilder(string key, string value)
+	public ExtensionMethodBuilder(TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics)
 	{
+		this.markerType = markerType;
 		this.key = key;
 		this.value = value;
+		this.diagnostics = diagnostics;
 		parameterBuilder = new(key);
 	}
 
-	public IMemberModel Build(TypeModel target, DiagnosticsCollector diagnostics)
+	public ExtensionMethodModel Build()
 	{
 		var parameters = parameterBuilder.Build(diagnostics);
 
@@ -38,9 +42,8 @@ internal class ExtensionMethodBuilder : IMemberBuilder
 
 		string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-		return new ExtensionMethodModel(target, key, value, compilableMethodName, parameters);
+		return new ExtensionMethodModel(markerType, key, value, compilableMethodName, parameters);
 	}
-
 
 	private string SanitizeMethodName(string rawMethodName)
 	{
