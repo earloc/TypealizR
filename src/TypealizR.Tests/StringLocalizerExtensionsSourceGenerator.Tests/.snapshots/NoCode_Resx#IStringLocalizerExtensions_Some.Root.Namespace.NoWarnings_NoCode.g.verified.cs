@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<NoWarnings_NoCode> that, object name, object date)
             => that["Greetings {name}, today is {date}"].Format(name, date);
 
-                /// <summary>
+        /// <summary>
         /// Looks up a localized string similar to 'Hello'
         /// </summary>
         /// <returns>
@@ -32,7 +32,7 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Hello(this IStringLocalizer<NoWarnings_NoCode> that)
             => that["Hello"];
 
-                /// <summary>
+        /// <summary>
         /// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
         /// </summary>
         /// <returns>

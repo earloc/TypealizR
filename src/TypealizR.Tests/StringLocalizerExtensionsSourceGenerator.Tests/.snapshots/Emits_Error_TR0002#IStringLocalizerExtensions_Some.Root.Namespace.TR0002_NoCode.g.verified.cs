@@ -22,7 +22,7 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<TR0002_NoCode> that, string name, DateOnly date)
             => that["Greetings {name:s}, today is {date:d}"].Format(name, date);
 
-                /// <summary>
+        /// <summary>
         /// Looks up a localized string similar to 'Greetings {name}, today is {date}'
         /// </summary>
         /// <returns>
