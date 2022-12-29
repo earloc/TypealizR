@@ -38,10 +38,12 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date)
             => that["Hello {name:s}, today is {date:d}"].Format(name, date);
         /// <summary>
-        /// wraps the specified <see cref="IStringLocalizer&ltGroupings_NoCode&gt"/> into a generated type providing properties to access groups
+        /// wraps the specified <see cref="IStringLocalizer&ltSome.Root.Namespace.NoWarnings_NoCode&gt"/> into a generated type providing properties to access [Some.Nested.Group]: via properties
+        /// IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> localize = ...
+        /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode WithGroups(this IStringLocalizer<Groupings_NoCode> that)
-            => new GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode(that);
+        public static StringTypealizR_Some_Root_Namespace_NoWarnings_NoCode WithGroups(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that)
+            => new StringTypealizR_Some_Root_Namespace_NoWarnings_NoCode(that);
     }
 }

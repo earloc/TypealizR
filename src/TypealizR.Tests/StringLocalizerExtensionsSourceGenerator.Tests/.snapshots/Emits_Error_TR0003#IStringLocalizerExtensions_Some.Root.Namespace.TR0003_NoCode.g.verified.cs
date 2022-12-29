@@ -29,10 +29,12 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Hello__0__today_is__1(this IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1)
             => that["Hello {0}, today is {1}"].Format(_0, _1);
         /// <summary>
-        /// wraps the specified <see cref="IStringLocalizer&ltGroupings_NoCode&gt"/> into a generated type providing properties to access groups
+        /// wraps the specified <see cref="IStringLocalizer&ltSome.Root.Namespace.TR0003_NoCode&gt"/> into a generated type providing properties to access [Some.Nested.Group]: via properties
+        /// IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> localize = ...
+        /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode WithGroups(this IStringLocalizer<Groupings_NoCode> that)
-            => new GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode(that);
+        public static StringTypealizR_Some_Root_Namespace_TR0003_NoCode WithGroups(this IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> that)
+            => new StringTypealizR_Some_Root_Namespace_TR0003_NoCode(that);
     }
 }

@@ -92,10 +92,12 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Warning__UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Warning]: {UserName:s} will be deleted!"].Format(UserName);
         /// <summary>
-        /// wraps the specified <see cref="IStringLocalizer&ltGroupings_NoCode&gt"/> into a generated type providing properties to access groups
+        /// wraps the specified <see cref="IStringLocalizer&ltSome.Root.Namespace.Groupings_NoCode&gt"/> into a generated type providing properties to access [Some.Nested.Group]: via properties
+        /// IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> localize = ...
+        /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode WithGroups(this IStringLocalizer<Groupings_NoCode> that)
-            => new GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode(that);
+        public static StringTypealizR_Some_Root_Namespace_Groupings_NoCode WithGroups(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
+            => new StringTypealizR_Some_Root_Namespace_Groupings_NoCode(that);
     }
 }

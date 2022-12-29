@@ -36,9 +36,11 @@ var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
 
 localize.Hello__user__it_is__today(userName, today);
 
-var groups = provider.GetRequiredService<IStringLocalizer<Groups>>();
+var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 
-var g = new Playground.Shared.Groups.TypealizR.StringTypealizR_Playground_Shared_Groups_Groups(groups);
+
+groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca");
+var g = groups.WithGroups();
 
 Console.WriteLine(
 	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.It

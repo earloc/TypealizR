@@ -30,10 +30,10 @@
 			<AutoGen>True</AutoGen>
 			<DependentUpon>Greetings.resx</DependentUpon>
 		</Compile>
-		<Compile Update="Groups\Groups.Designer.cs">
+		<Compile Update="Groups\Ressources.Designer.cs">
 		  <DesignTime>True</DesignTime>
 		  <AutoGen>True</AutoGen>
-		  <DependentUpon>Groups.resx</DependentUpon>
+		  <DependentUpon>Ressources.resx</DependentUpon>
 		</Compile>
 	</ItemGroup>
 
@@ -49,9 +49,9 @@
 			<Generator>PublicResXFileCodeGenerator</Generator>
 			<LastGenOutput>Greetings.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
-		<EmbeddedResource Update="Groups\Groups.resx">
+		<EmbeddedResource Update="Groups\Ressources.resx">
 		  <Generator>PublicResXFileCodeGenerator</Generator>
-		  <LastGenOutput>Groups.Designer.cs</LastGenOutput>
+		  <LastGenOutput>Ressources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 

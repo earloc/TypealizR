@@ -20,10 +20,12 @@ namespace Microsoft.Extensions.Localization
         public static LocalizedString Greetings__name(this IStringLocalizer<Some.Root.Namespace.TR0004_NoCode> that, object name)
             => that["Greetings {name:wtf}"].Format(name);
         /// <summary>
-        /// wraps the specified <see cref="IStringLocalizer&ltGroupings_NoCode&gt"/> into a generated type providing properties to access groups
+        /// wraps the specified <see cref="IStringLocalizer&ltSome.Root.Namespace.TR0004_NoCode&gt"/> into a generated type providing properties to access [Some.Nested.Group]: via properties
+        /// IStringLocalizer<Some.Root.Namespace.TR0004_NoCode> localize = ...
+        /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode WithGroups(this IStringLocalizer<Groupings_NoCode> that)
-            => new GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode(that);
+        public static StringTypealizR_Some_Root_Namespace_TR0004_NoCode WithGroups(this IStringLocalizer<Some.Root.Namespace.TR0004_NoCode> that)
+            => new StringTypealizR_Some_Root_Namespace_TR0004_NoCode(that);
     }
 }
