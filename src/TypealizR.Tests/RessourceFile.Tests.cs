@@ -17,7 +17,6 @@ public class RessourceFile_Tests
         bool IXmlLineInfo.HasLineInfo() => HasLineInfo;
 	}
 
-
 	[Theory]
     [InlineData(3, 
         "Ressource1.resx",
@@ -122,6 +121,10 @@ public class RessourceFile_Tests
 	[InlineData("[ Hello . World ]:world", "Hello.World", "world")]
 	[InlineData("[ Hello .World.]:world", "Hello.World", "world")]
 	[InlineData("[ Hello .World. ]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello:?!§$&%\/.World. ]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello?!§$&%\/:?!§$&%\/.World. ]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello?!§$&%\/:?!§$&%\/.World?!§$&%\/:?!§$&%\/]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello?_World]:world", "Hello_World", "world")]
 	public void Entry_Extracts_Groups(string input, string expectedGroupKey, string expectedKey)
 	{
 		var sut = new RessourceFile.Entry(input, input, new LineInfo());

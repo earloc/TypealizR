@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
-
-namespace TypealizR.Core;
+using TypealizR.Values;namespace TypealizR.Core;
 public partial class RessourceFile
 {
 	public class Entry
@@ -37,7 +36,7 @@ public partial class RessourceFile
 			Groups = Sanitize(rawGroupKey);
 		}
 
-		private IEnumerable<string> Sanitize(string rawGroupKey)
+		private IEnumerable<MemberName> Sanitize(string rawGroupKey)
 		{
 			var parts = rawGroupKey
 				.Split('.')
@@ -46,14 +45,14 @@ public partial class RessourceFile
 				.ToArray()
 			;
 
-			return parts;
+			return parts.Select(x => new MemberName(x));
 		}
 
 		public string Key { get; }
 		public string RawKey { get; }
 		public string Value { get; }
 
-		public IEnumerable<string> Groups { get; } = Enumerable.Empty<string>();
+		internal IEnumerable<MemberName> Groups { get; } = Enumerable.Empty<MemberName>();
 
 		public IXmlLineInfo Location { get; }
 	}

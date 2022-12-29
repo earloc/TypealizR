@@ -28,7 +28,7 @@ public class ExtensionMethodBuilder_Tests
 		var sut = new ExtensionMethodBuilder(targetType, input, input, new("Ressource1.resx", input, 42));
 		var method = sut.Build();
 
-		var actual = method.Name;
+		var actual = method.Name.ToString();
 		actual.Should().Be(expected);
 	}
 

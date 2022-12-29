@@ -6,8 +6,7 @@ using System.Xml;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
-
-namespace TypealizR.Builder;
+using TypealizR.Values;namespace TypealizR.Builder;
 internal partial class StringTypealizRClassBuilder
 {
 	private readonly TypeModel markerType;
@@ -37,22 +36,22 @@ internal partial class StringTypealizRClassBuilder
 
 	private readonly Dictionary<string, StringTypealizRClassBuilder> nestedTypes = new();
 
-	public StringTypealizRClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<string> groupKeys, DiagnosticsCollector diagnostics)
+	public StringTypealizRClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<MemberName> groups, DiagnosticsCollector diagnostics)
 	{
-		if (!groupKeys.Any())
+		if (!groups.Any())
 		{
 			WithMember(key, rawKey, value, diagnostics);
 			return this;
 		}
 
-		var firstLevel = groupKeys.First();
+		var firstLevel = groups.First();
 
 		if (!nestedTypes.ContainsKey(firstLevel))
 		{
 			nestedTypes[firstLevel] = new StringTypealizRClassBuilder(markerType, $"{firstLevel}", rootNamespace, severityConfig);
 		}
 
-		nestedTypes[firstLevel].WithGroups(key, rawKey, value, groupKeys.Skip(1), diagnostics);
+		nestedTypes[firstLevel].WithGroups(key, rawKey, value, groups.Skip(1), diagnostics);
 
 		return this;
 	}

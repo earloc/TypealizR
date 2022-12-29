@@ -10,8 +10,7 @@ using Microsoft.CodeAnalysis;
 using System.Xml.Linq;
 using TypealizR.Extensions;
 using TypealizR.Diagnostics;
-
-namespace TypealizR.Builder;
+using TypealizR.Values;namespace TypealizR.Builder;
 internal class ExtensionMethodBuilder
 {
 	private readonly TypeModel markerType;
@@ -40,21 +39,8 @@ internal class ExtensionMethodBuilder
 			methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
 		}
 
-		string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
+		var name = new MemberName(methodNameWithoutParameters.Trim());
 
-		return new ExtensionMethodModel(markerType, key, value, compilableMethodName, parameters);
+		return new ExtensionMethodModel(markerType, key, value, name, parameters);
 	}
-
-	private string SanitizeMethodName(string rawMethodName)
-	{
-		return new string(
-			rawMethodName
-				.Replace(" ", "_")
-				.Trim('_')
-				.Select((x, i) => x.IsValidInIdentifier(i == 0) ? x : ' ')
-				.ToArray()
-		)
-		.Replace(" ", "")
-		.Trim('_');
-	}
-}
+}

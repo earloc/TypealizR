@@ -5,28 +5,27 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-
-namespace TypealizR.Builder;
+using TypealizR.Values;namespace TypealizR.Builder;
 internal class ExtensionMethodModel
 {
     public void DeduplicateWith(int discriminator)
     {
-        Name = $"{Name}{discriminator}";
+        Name = new MemberName($"{Name}{discriminator}");
     }
 
     public TypeModel ExtendedType { get; }
     public string RawRessourceName { get; }
     public readonly string RessourceDefaultValue;
-    public string Name { get; private set; }
+    public MemberName Name { get; private set; }
 
     public readonly IEnumerable<ParameterModel> Parameters;
 
-    public ExtensionMethodModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, string compilableMethodName, IEnumerable<ParameterModel> parameters)
+    public ExtensionMethodModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, MemberName name, IEnumerable<ParameterModel> parameters)
     {
         ExtendedType = extendedType;
         RawRessourceName = rawRessourceName;
         RessourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
-        Name = compilableMethodName;
+        Name = name;
         Parameters = parameters;
     }
 
