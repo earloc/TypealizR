@@ -25,9 +25,9 @@ internal partial class StringTypealizRClassBuilder
 
 	private readonly List<InstanceMemberModel> members = new();
 
-	public StringTypealizRClassBuilder WithMember(string key, string value, DiagnosticsCollector diagnostics)
+	public StringTypealizRClassBuilder WithMember(string key, string rawKey, string value, DiagnosticsCollector diagnostics)
 	{
-		var builder = new InstanceMemberBuilder(key, value);
+		var builder = new InstanceMemberBuilder(key, rawKey, value);
 		var model = builder.Build(diagnostics);
 
 		members.Add(model);
@@ -37,11 +37,11 @@ internal partial class StringTypealizRClassBuilder
 
 	private readonly Dictionary<string, StringTypealizRClassBuilder> nestedTypes = new();
 
-	public StringTypealizRClassBuilder WithGroups(string key, IEnumerable<string> groupKeys, string value, DiagnosticsCollector diagnostics)
+	public StringTypealizRClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<string> groupKeys, DiagnosticsCollector diagnostics)
 	{
 		if (!groupKeys.Any())
 		{
-			WithMember(key, value, diagnostics);
+			WithMember(key, rawKey, value, diagnostics);
 			return this;
 		}
 
@@ -52,7 +52,7 @@ internal partial class StringTypealizRClassBuilder
 			nestedTypes[firstLevel] = new StringTypealizRClassBuilder(markerType, $"{firstLevel}", rootNamespace, severityConfig);
 		}
 
-		nestedTypes[firstLevel].WithGroups(key, groupKeys.Skip(1), value, diagnostics);
+		nestedTypes[firstLevel].WithGroups(key, rawKey, value, groupKeys.Skip(1), diagnostics);
 
 		return this;
 	}

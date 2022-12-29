@@ -44,7 +44,7 @@ namespace Some.Root.Namespace.TypealizR
         /// </returns>
         public LocalizedString Hello__name__today_is__date(string name, DateOnly date)
             => localizer["Hello {name:s}, today is {date:d}"].Format(name, date);
-
+        
         public LogGroup Log { get; }
         public QuestionGroup Question { get; }
         public WarningGroup Warning { get; }
@@ -62,110 +62,128 @@ namespace Some.Root.Namespace.TypealizR
                 Warning = new WarningGroup(localizer);
             }
 
+        
             public CriticalGroup Critical { get; }
             public WarningGroup Warning { get; }
 
             [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
             internal partial class CriticalGroup
             {
+
                 private readonly IStringLocalizer<Groupings_NoCode> localizer;
                 [DebuggerStepThrough]
                 public CriticalGroup(IStringLocalizer<Groupings_NoCode> localizer)
                 {
                     this.localizer = localizer;
+            
                 }
 
                 /// <summary>
-                /// Looks up a localized string similar to 'Failed to delete {UserName:s}'
+                 /// Looks up a localized string similar to '[Log.Critical]: Failed to delete {UserName:s}'
                 /// </summary>
                 /// <returns>
                 /// A localized version of the current default value of 'Failed to delete {0}'
                 /// </returns>
                 public LocalizedString Failed_to_delete__UserName(string UserName)
-                    => localizer["[Log.Critical] Failed to delete {UserName:s}"].Format(UserName);
-            }
+                    => localizer["[Log.Critical]: Failed to delete {UserName:s}"].Format(UserName);
+            
 
+            
+            }
+            
             [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
             internal partial class WarningGroup
             {
+
                 private readonly IStringLocalizer<Groupings_NoCode> localizer;
                 [DebuggerStepThrough]
                 public WarningGroup(IStringLocalizer<Groupings_NoCode> localizer)
                 {
                     this.localizer = localizer;
+                
                 }
 
                 /// <summary>
-                /// Looks up a localized string similar to 'Could not find {UserName:s}'
+                /// Looks up a localized string similar to '[Log.Warning]: Could not find {UserName:s}'
                 /// </summary>
                 /// <returns>
                 /// A localized version of the current default value of 'Could not find {0}'
                 /// </returns>
-                [DebuggerStepThrough]
                 public LocalizedString Could_not_find__UserName(string UserName)
-                    => localizer["[Log.Warning] Could not find {UserName:s}"].Format(UserName);
+                    => localizer["[Log.Warning]: Could not find {UserName:s}"].Format(UserName);
 
                 /// <summary>
-                /// Looks up a localized string similar to 'Unknown error'
+                /// Looks up a localized string similar to '[Log.Warning]: Unknown error'
                 /// </summary>
                 /// <returns>
                 /// A localized version of the current default value of 'Encountered an unknown error during the operation'
                 /// </returns>
-                [DebuggerStepThrough]
-                public LocalizedString Unknown_error()
-                    => localizer["[Log.Warning] Unknown error"];
+                public LocalizedString Unknown_error
+                    => localizer["[Log.Warning]: Unknown error"];
+            
+
+            
             }
         }
-
+        
         [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
         internal partial class QuestionGroup
         {
+
             private readonly IStringLocalizer<Groupings_NoCode> localizer;
             [DebuggerStepThrough]
             public QuestionGroup(IStringLocalizer<Groupings_NoCode> localizer)
             {
                 this.localizer = localizer;
+                
             }
 
             /// <summary>
-            /// Looks up a localized string similar to 'Continue to delete {UserName:s}?'
-            /// </summary>
-            /// <returns>
-            /// A localized version of the current default value of 'Continue to delete {0}?'
-            /// </returns>
-            [DebuggerStepThrough]
-            public LocalizedString Continue_to_delete__UserName(string UserName)
-                => localizer["[Question] Continue to delete {UserName:s}?"].Format(UserName);
-        }
-
-        [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
-        internal partial class WarningGroup
-        {
-            private readonly IStringLocalizer<Groupings_NoCode> localizer;
-            [DebuggerStepThrough]
-            public WarningGroup(IStringLocalizer<Groupings_NoCode> localizer)
-            {
-                this.localizer = localizer;
-            }
-
-            /// <summary>
-            /// Looks up a localized string similar to '{UserName:s} will be deleted!'
-            /// </summary>
-            /// <returns>
-            /// A localized version of the current default value of '{0} will be deleted'
-            /// </returns>
-            [DebuggerStepThrough]
-            public static LocalizedString UserName__will_be_deleted(string UserName)
-                => localizer["[Warning] {UserName:s} will be deleted!"].Format(UserName);
-
-            /// <summary>
-            /// Looks up a localized string similar to 'Abort?'
+            /// Looks up a localized string similar to '[Question]: Abort ?'
             /// </summary>
             /// <returns>
             /// A localized version of the current default value of 'Abort?'
             /// </returns>
             public LocalizedString Abort
-                => localizer["[Question] Abort ?"];
+                => localizer["[Question]: Abort ?"];
+
+            /// <summary>
+            /// Looks up a localized string similar to '[Question]: Continue to delete {UserName:s}?'
+            /// </summary>
+            /// <returns>
+            /// A localized version of the current default value of 'Continue to delete {0}?'
+            /// </returns>
+            public LocalizedString Continue_to_delete__UserName(string UserName)
+                => localizer["[Question]: Continue to delete {UserName:s}?"].Format(UserName);
+        
+
+        
         }
+        
+        [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+        internal partial class WarningGroup
+        {
+
+            private readonly IStringLocalizer<Groupings_NoCode> localizer;
+            [DebuggerStepThrough]
+            public WarningGroup(IStringLocalizer<Groupings_NoCode> localizer)
+            {
+                this.localizer = localizer;
+                
+            }
+
+            /// <summary>
+            /// Looks up a localized string similar to '[Warning]: {UserName:s} will be deleted!'
+            /// </summary>
+            /// <returns>
+            /// A localized version of the current default value of '{0} will be deleted'
+            /// </returns>
+            public LocalizedString UserName__will_be_deleted(string UserName)
+                => localizer["[Warning]: {UserName:s} will be deleted!"].Format(UserName);
+        
+
+        
+        }
+
     }
 }

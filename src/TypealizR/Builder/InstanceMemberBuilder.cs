@@ -14,14 +14,12 @@ using TypealizR.Diagnostics;
 namespace TypealizR.Builder;
 internal class InstanceMemberBuilder
 {
-	private readonly string key;
-	private readonly string value;
+	private readonly string key;    private readonly string rawKey;    private readonly string value;
 	private readonly ParameterBuilder parameterBuilder;
 
-	public InstanceMemberBuilder(string key, string value)
+	public InstanceMemberBuilder(string key, string rawKey, string value)
 	{
-		this.key = key;
-		this.value = value;
+		this.key = key;        this.rawKey = rawKey;        this.value = value;
 		parameterBuilder = new(key);
 	}
 
@@ -36,9 +34,9 @@ internal class InstanceMemberBuilder
 			methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
 		}
 
-		string compilableMethodName = SanitizeMethodName(methodNameWithoutParameters.Trim());
+		string sanitizedMemberName = SanitizeMethodName(methodNameWithoutParameters.Trim());
 
-		return new InstanceMemberModel(key, value, compilableMethodName, parameters);
+		return new InstanceMemberModel(rawKey, value, sanitizedMemberName, parameters);
 	}
 
 

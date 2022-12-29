@@ -25,11 +25,11 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
 
 			if (!entry.Groups.Any())
 			{
-				builder.WithMember(entry.Key, entry.Value, collector);
+				builder.WithMember(entry.Key, entry.RawKey, entry.Value, collector);
 			}
 			else
 			{
-				builder.WithGroups(entry.Key, entry.Groups, entry.Value, collector);
+				builder.WithGroups(entry.Key, entry.RawKey, entry.Value, entry.Groups, collector);
 			}
 
 			diagnostics.AddRange(collector.Diagnostics);

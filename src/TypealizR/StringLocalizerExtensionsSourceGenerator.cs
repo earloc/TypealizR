@@ -23,7 +23,7 @@ public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGen
 		foreach (var entry in file.Entries)
 		{
 			var collector = new DiagnosticsCollector(file.FullPath, entry.RawKey, entry.Location.LineNumber, severityConfig);
-			builder.WithExtensionMethod(entry.Key, entry.Value, collector);
+			builder.WithExtensionMethod(entry.RawKey, entry.Value, collector);
 			diagnostics.AddRange(collector.Diagnostics);
 		}
 		
