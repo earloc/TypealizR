@@ -1,24 +1,25 @@
 
 [![build](https://github.com/earloc/TypealizR/actions/workflows/build.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/build.yml)
-[![Samples STS](https://github.com/earloc/TypealizR/actions/workflows/samples_sts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/samples_sts.yml)
-[![Samples LTS](https://github.com/earloc/TypealizR/actions/workflows/samples_lts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/samples_lts.yml)
 [![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main)](https://coveralls.io/github/earloc/TypealizR?branch=main)
 [![CodeQL](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml)
 [![Publish](https://github.com/earloc/TypealizR/actions/workflows/publish.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/publish.yml)
-[![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
-[![NuGet (preview)](https://img.shields.io/nuget/vpre/TypealizR)]((https://www.nuget.org/packages/TypealizR))
 
 [![Quality Gate Status](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=alert_status)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
+[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
+[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Code Smells](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=code_smells)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Maintainability Rating](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=sqale_rating)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Security Rating](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=security_rating)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Bugs](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=bugs)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Vulnerabilities](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=vulnerabilities)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
-[![Duplicated Lines (%)](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=duplicated_lines_density)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Reliability Rating](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=reliability_rating)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 [![Technical Debt](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=sqale_index)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
-[![Lines of Code](https://sonarcloud.io/api/project_badges/measure?project=earloc_TypealizR&metric=ncloc)](https://sonarcloud.io/summary/new_code?id=earloc_TypealizR)
 
+[![Samples STS](https://github.com/earloc/TypealizR/actions/workflows/samples_sts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/samples_sts.yml)
+[![Samples LTS](https://github.com/earloc/TypealizR/actions/workflows/samples_lts.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/samples_lts.yml)
+
+[![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+[![NuGet (preview)](https://img.shields.io/nuget/vpre/TypealizR)]((https://www.nuget.org/packages/TypealizR))
 # TypealizR
 > The **type**d internation**aliz**e**R**
 
