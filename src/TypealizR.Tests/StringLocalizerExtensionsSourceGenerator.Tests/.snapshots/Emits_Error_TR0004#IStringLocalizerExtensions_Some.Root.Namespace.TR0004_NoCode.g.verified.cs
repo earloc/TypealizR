@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Some.Root.Namespace;
 using Some.Root.Namespace.TypealizR;
+
 namespace Microsoft.Extensions.Localization
 {
 
@@ -19,8 +20,10 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__name(this IStringLocalizer<TR0004_NoCode> that, object name)
+        public static LocalizedString Greetings__name(this IStringLocalizer<Some.Root.Namespace.TR0004_NoCode> that, object name)
             => that["Greetings {name:wtf}"].Format(name);
+
+
 
     }
 }

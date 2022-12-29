@@ -19,7 +19,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Groupings_NoCode> that, object name, object date)
+        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, object name, object date)
             => that["Greetings {name}, today is {date}"].Format(name, date);
 
         /// <summary>
@@ -29,7 +29,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello(this IStringLocalizer<Groupings_NoCode> that)
+        public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
             => that["Hello"];
 
         /// <summary>
@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Groupings_NoCode> that, string name, DateOnly date)
+        public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string name, DateOnly date)
             => that["Hello {name:s}, today is {date:d}"].Format(name, date);
 
         /// <summary>
@@ -49,7 +49,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Failed to delete {0}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString LogCritical_Failed_to_delete__UserName(this IStringLocalizer<Groupings_NoCode> that, string UserName)
+        public static LocalizedString LogCritical_Failed_to_delete__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Log.Critical]: Failed to delete {UserName:s}"].Format(UserName);
 
         /// <summary>
@@ -59,7 +59,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Could not find {0}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString LogWarning_Could_not_find__UserName(this IStringLocalizer<Groupings_NoCode> that, string UserName)
+        public static LocalizedString LogWarning_Could_not_find__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Log.Warning]: Could not find {UserName:s}"].Format(UserName);
 
         /// <summary>
@@ -69,7 +69,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Encountered an unknown error during the operation'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString LogWarning_Unknown_error(this IStringLocalizer<Groupings_NoCode> that)
+        public static LocalizedString LogWarning_Unknown_error(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
             => that["[Log.Warning]: Unknown error"];
 
         /// <summary>
@@ -79,7 +79,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Abort?'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Question_Abort(this IStringLocalizer<Groupings_NoCode> that)
+        public static LocalizedString Question_Abort(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
             => that["[Question]: Abort ?"];
 
         /// <summary>
@@ -89,7 +89,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Continue to delete {0}?'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Question_Continue_to_delete__UserName(this IStringLocalizer<Groupings_NoCode> that, string UserName)
+        public static LocalizedString Question_Continue_to_delete__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Question]: Continue to delete {UserName:s}?"].Format(UserName);
 
         /// <summary>
@@ -99,7 +99,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of '{0} will be deleted'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Warning__UserName__will_be_deleted(this IStringLocalizer<Groupings_NoCode> that, string UserName)
+        public static LocalizedString Warning__UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Warning]: {UserName:s} will be deleted!"].Format(UserName);
 
         /// <summary>

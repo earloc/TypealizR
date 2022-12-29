@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Some.Root.Namespace;
 using Some.Root.Namespace.TypealizR;
+
 namespace Microsoft.Extensions.Localization
 {
 
@@ -19,7 +20,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__0__today_is__1(this IStringLocalizer<TR0003_NoCode> that, object _0, object _1)
+        public static LocalizedString Greetings__0__today_is__1(this IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1)
             => that["Greetings {0}, today is {1}"].Format(_0, _1);
 
         /// <summary>
@@ -29,8 +30,10 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello__0__today_is__1(this IStringLocalizer<TR0003_NoCode> that, object _0, object _1)
+        public static LocalizedString Hello__0__today_is__1(this IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1)
             => that["Hello {0}, today is {1}"].Format(_0, _1);
+
+
 
     }
 }

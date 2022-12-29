@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Some.Root.Namespace;
 using Some.Root.Namespace.TypealizR;
+
 namespace Microsoft.Extensions.Localization
 {
 
@@ -19,7 +20,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<TR0002_NoCode> that, string name, DateOnly date)
+        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.TR0002_NoCode> that, string name, DateOnly date)
             => that["Greetings {name:s}, today is {date:d}"].Format(name, date);
 
         /// <summary>
@@ -29,8 +30,10 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__name__today_is__date1(this IStringLocalizer<TR0002_NoCode> that, object name, object date)
+        public static LocalizedString Greetings__name__today_is__date1(this IStringLocalizer<Some.Root.Namespace.TR0002_NoCode> that, object name, object date)
             => that["Greetings {name}, today is {date}"].Format(name, date);
+
+
 
     }
 }

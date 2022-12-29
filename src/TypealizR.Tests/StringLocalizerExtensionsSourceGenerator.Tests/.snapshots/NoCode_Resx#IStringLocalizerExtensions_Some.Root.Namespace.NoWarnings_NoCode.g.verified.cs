@@ -5,6 +5,7 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Some.Root.Namespace;
 using Some.Root.Namespace.TypealizR;
+
 namespace Microsoft.Extensions.Localization
 {
 
@@ -19,7 +20,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<NoWarnings_NoCode> that, object name, object date)
+        public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date)
             => that["Greetings {name}, today is {date}"].Format(name, date);
 
         /// <summary>
@@ -29,7 +30,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello(this IStringLocalizer<NoWarnings_NoCode> that)
+        public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that)
             => that["Hello"];
 
         /// <summary>
@@ -39,8 +40,10 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<NoWarnings_NoCode> that, string name, DateOnly date)
+        public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date)
             => that["Hello {name:s}, today is {date:d}"].Format(name, date);
+
+
 
     }
 }
