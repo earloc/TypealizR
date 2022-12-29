@@ -5,14 +5,11 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Some.Root.Namespace;
 using Some.Root.Namespace.TypealizR;
-
 namespace Microsoft.Extensions.Localization
 {
-
     [GeneratedCode("TypealizR.StringLocalizerExtensionsSourceGenerator", "1.0.0.0")]
     internal static partial class IStringLocalizerExtensions_Some_Root_Namespace_TR0003_NoCode
     {
-
         /// <summary>
         /// Looks up a localized string similar to 'Greetings {0}, today is {1}'
         /// </summary>
@@ -22,7 +19,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Greetings__0__today_is__1(this IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1)
             => that["Greetings {0}, today is {1}"].Format(_0, _1);
-
         /// <summary>
         /// Looks up a localized string similar to 'Hello {0}, today is {1}'
         /// </summary>
@@ -32,8 +28,11 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Hello__0__today_is__1(this IStringLocalizer<Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1)
             => that["Hello {0}, today is {1}"].Format(_0, _1);
-
-
-
+        /// <summary>
+        /// wraps the specified <see cref="IStringLocalizer&ltGroupings_NoCode&gt"/> into a generated type providing properties to access groups
+        /// </summary>
+        [DebuggerStepThrough]
+        public static GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode WithGroups(this IStringLocalizer<Groupings_NoCode> that)
+            => new GroupedStringLocalizer_Some_Root_Namespace_Groupings_NoCode(that);
     }
 }

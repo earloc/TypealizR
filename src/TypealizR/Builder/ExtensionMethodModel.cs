@@ -47,7 +47,7 @@ internal class ExtensionMethodModel
         }
         var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
 
-        return $"""
+        return $"""
             {comment.ToCSharp()}
             [DebuggerStepThrough]
             public static LocalizedString {Name}{signature}

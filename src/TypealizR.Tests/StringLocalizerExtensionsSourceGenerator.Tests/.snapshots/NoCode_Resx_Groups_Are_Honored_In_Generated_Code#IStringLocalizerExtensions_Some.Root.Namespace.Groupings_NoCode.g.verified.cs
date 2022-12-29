@@ -7,11 +7,9 @@ using Some.Root.Namespace;
 using Some.Root.Namespace.TypealizR;
 namespace Microsoft.Extensions.Localization
 {
-
     [GeneratedCode("TypealizR.StringLocalizerExtensionsSourceGenerator", "1.0.0.0")]
     internal static partial class IStringLocalizerExtensions_Some_Root_Namespace_Groupings_NoCode
     {
-
         /// <summary>
         /// Looks up a localized string similar to 'Greetings {name}, today is {date}'
         /// </summary>
@@ -21,7 +19,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Greetings__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, object name, object date)
             => that["Greetings {name}, today is {date}"].Format(name, date);
-
         /// <summary>
         /// Looks up a localized string similar to 'Hello'
         /// </summary>
@@ -31,7 +28,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Hello(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
             => that["Hello"];
-
         /// <summary>
         /// Looks up a localized string similar to 'Hello {name:s}, today is {date:d}'
         /// </summary>
@@ -41,7 +37,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Hello__name__today_is__date(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string name, DateOnly date)
             => that["Hello {name:s}, today is {date:d}"].Format(name, date);
-
         /// <summary>
         /// Looks up a localized string similar to '[Log.Critical]: Failed to delete {UserName:s}'
         /// </summary>
@@ -51,7 +46,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString LogCritical_Failed_to_delete__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Log.Critical]: Failed to delete {UserName:s}"].Format(UserName);
-
         /// <summary>
         /// Looks up a localized string similar to '[Log.Warning]: Could not find {UserName:s}'
         /// </summary>
@@ -61,7 +55,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString LogWarning_Could_not_find__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Log.Warning]: Could not find {UserName:s}"].Format(UserName);
-
         /// <summary>
         /// Looks up a localized string similar to '[Log.Warning]: Unknown error'
         /// </summary>
@@ -71,7 +64,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString LogWarning_Unknown_error(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
             => that["[Log.Warning]: Unknown error"];
-
         /// <summary>
         /// Looks up a localized string similar to '[Question]: Abort ?'
         /// </summary>
@@ -81,7 +73,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Question_Abort(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that)
             => that["[Question]: Abort ?"];
-
         /// <summary>
         /// Looks up a localized string similar to '[Question]: Continue to delete {UserName:s}?'
         /// </summary>
@@ -91,7 +82,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Question_Continue_to_delete__UserName(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Question]: Continue to delete {UserName:s}?"].Format(UserName);
-
         /// <summary>
         /// Looks up a localized string similar to '[Warning]: {UserName:s} will be deleted!'
         /// </summary>
@@ -101,7 +91,6 @@ namespace Microsoft.Extensions.Localization
         [DebuggerStepThrough]
         public static LocalizedString Warning__UserName__will_be_deleted(this IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> that, string UserName)
             => that["[Warning]: {UserName:s} will be deleted!"].Format(UserName);
-
         /// <summary>
         /// wraps the specified <see cref="IStringLocalizer&ltGroupings_NoCode&gt"/> into a generated type providing properties to access groups
         /// </summary>

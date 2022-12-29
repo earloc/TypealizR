@@ -3,6 +3,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Playground.Console.NoCodeGen;
 using Playground.Shared;
+using Playground.Shared.Groups;
 using Playground.Shared.NoCodeGen;
 
 Console.WriteLine("Hello, World!");
@@ -30,9 +31,20 @@ Console.WriteLine(publicLocalizable.Hello__name("Arthur"));
 
 var localize = internalLocalizable;
 
-
 var userName = "Arthur";
 var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
 
-
 localize.Hello__user__it_is__today(userName, today);
+
+var groups = provider.GetRequiredService<IStringLocalizer<Groups>>();
+
+var g = new Playground.Shared.Groups.TypealizR.StringTypealizR_Playground_Shared_Groups_Groups(groups);
+
+Console.WriteLine(
+	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.It
+);
+
+Console.WriteLine(
+	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
+);
+
