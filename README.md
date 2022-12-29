@@ -156,6 +156,68 @@ There's no way the default usage of `IStringLocalizer` would discover such thing
 > 	// wrong parameter-ordering, which would result in the translated string "Hello 2022-01-01, today is Arthur"
 > ```
 
+## Groupings
+
+Grouping resources allows to semantically tie together resources in a meaningful way.
+To group resources, prepend resource-keys with `[Some.Nested.Group.Name]:`
+
+> SomeResource.resx
+> 
+>	```xml
+>	<data name="[Messages.Warnings]: Attention}" xml:space="preserve">
+>		<value>Attention Message</value>
+>	</data>
+>	<data name="[Messages.Warnings]: {Operation:s} failed" xml:space="preserve">
+>		<value>Operation '{0}' failed</value>
+>	</data>
+>	```
+
+### **DO** this:
+#### Imperative usage
+Wherever code may depend on `IStringLocalizer<T>`, you can do this:
+```csharp
+	IStringLocalizer<SomeResource> localize...; //wherever that instance might came from
+	var groups = localize.WithGroups(); //call the generated extension-method, which returns type implementing `IStringTypealizR<T>`
+
+	//start using groups
+	Console.WriteLine(groups.Messages.Warnings.Attention); 
+	// "Attention Message"
+
+	Console.WriteLine(groups.Messages.Warnings.Operation__failed("some operation name"); 
+	// "Operation 'some operation name' failed"
+```
+
+`TypealizR` currently is duck-typing `IStringLocalizer<T>` within implementations of `IStringTypealizR<T>`, with built-in support to juist pass it a `IStringLocalizer<T>`
+
+```csharp
+	IStringLocalizer<SomeResource> localize...;
+	var groups = localize.WithGroups();
+
+	void SomeMethod(IStringLocalizer<SomeResource> localize) {
+		//use localize
+	}
+	
+	SomeMethod(groups.Localizer); //still works
+```
+
+#### Declarative usage
+> tbd. There will be a built-in solution for utilizing `IServiceCollection`, once #63 is done.
+
+### **DON'T DO** this:
+All groups are still available as extension-methods for `IStringLocalizer<T>` as a list of flat members.
+
+```csharp
+
+IStringLocalizer<SomeResource> localize...;
+
+Console.WriteLine(localize.MessagesWarnings_Attention()); 
+// "Attention Message"
+
+
+Console.WriteLine(localize.MessagesWarnings_Operation__failed("some operation name"); 
+// "Operation 'some operation name' failed"
+
+``` 
 
 ## setup
 

@@ -2,6 +2,7 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Playground.Console.NoCodeGen;
+using Playground.Console.Readme;
 using Playground.Shared;
 using Playground.Shared.Groups;
 using Playground.Shared.NoCodeGen;
@@ -41,6 +42,14 @@ var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca");
 var g = groups.WithGroups();
 
+void SomeMethod(IStringLocalizer<Ressources> L)
+{
+	//use L
+}
+
+SomeMethod(g.Localizer);
+
+
 Console.WriteLine(
 	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.It
 );
@@ -48,4 +57,12 @@ Console.WriteLine(
 Console.WriteLine(
 	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
 );
+
+
+
+
+var someRessource = provider.GetRequiredService<IStringLocalizer<SomeResource>>();
+
+
+
 
