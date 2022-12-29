@@ -187,7 +187,7 @@ Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 	// "Operation 'some operation name' failed"
 ```
 
-`TypealizR` currently is duck-typing `IStringLocalizer<T>` within implementations of `IStringTypealizR<T>`, with built-in support to juist pass it a `IStringLocalizer<T>`
+`TypealizR` currently is duck-typing `IStringLocalizer<T>` within implementations of `IStringTypealizR<T>`
 
 ```csharp
 	IStringLocalizer<SomeResource> localize...;
@@ -198,6 +198,15 @@ Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 	}
 	
 	SomeMethod(groups.Localizer); //still works
+```
+
+Even ordinary usage is still possible:
+```csharp
+	IStringLocalizer<SomeResource> localize...;
+	var groups = localize.WithGroups();
+
+	
+	groups["[Messages.Warnings]: {Operation:s} failed", "some operation"]; //still works
 ```
 
 #### Declarative usage

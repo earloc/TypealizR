@@ -10,7 +10,7 @@ using Some.Root.Namespace;
 namespace Some.Root.Namespace.TypealizR
 {
     [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
-    internal partial class StringTypealizR_Some_Root_Namespace_Groupings_NoCode : IStringTypealizR<Some.Root.Namespace.Groupings_NoCode>
+    internal partial class StringTypealizR_Some_Root_Namespace_Groupings_NoCode
     {
         private readonly IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> localizer;
         public StringTypealizR_Some_Root_Namespace_Groupings_NoCode(IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> localizer)
@@ -170,5 +170,6 @@ namespace Some.Root.Namespace.TypealizR
         /// </param>
         /// <returns>The strings.</returns>
         public IEnumerable<LocalizedString> GetAllStrings(bool includeParentCultures) => this.localizer.GetAllStrings(includeParentCultures);
+        public IStringLocalizer<Some.Root.Namespace.Groupings_NoCode> Localizer => this.localizer;
     }
 }
