@@ -24,7 +24,7 @@ internal static class StringExtensions
 			}
 		}
 
-		return builder.ToString().Trim();
+		return builder.ToString();
 	}
 
 	public static string ToCommaDelimited(this IEnumerable<string> that) => string.Join(", ", that);
