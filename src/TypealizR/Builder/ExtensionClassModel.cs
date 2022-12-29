@@ -22,8 +22,8 @@ internal class ExtensionClassModel
 		this.markertType = markertType;
 		this.methods = methods;
 		usings.Add(rootNamespace);
-		usings.Add($"{rootNamespace}.TypealizR");
 		usings.Add(markertType.Namespace);
+		usings.Add($"{markertType.Namespace}.TypealizR");
 	}
 
 	private readonly HashSet<string> usings = new()
@@ -51,4 +51,4 @@ internal class ExtensionClassModel
         }
 
         """;
-}
+}

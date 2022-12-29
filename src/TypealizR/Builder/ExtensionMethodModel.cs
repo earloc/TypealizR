@@ -32,7 +32,7 @@ internal class ExtensionMethodModel
 
     public string ToCSharp()
     {
-        static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.Name}> that";
+        static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.FullName}> that";
 
         var signature = $"({ThisParameterFor(ExtendedType)})";
         var body = $@"that[""{RawRessourceName}""]";
