@@ -210,7 +210,7 @@ Even ordinary usage is still possible:
 ```
 
 #### Declarative usage
-> tbd. There will be a built-in solution for utilizing `IServiceCollection`, once #63 is done.
+> tbd. There might be a built-in solution for utilizing `IServiceCollection` to inject instances which expose groups, once #63 is done.
 
 ### **DON'T DO** this:
 All groups are still available as extension-methods for `IStringLocalizer<T>` as a list of flat members.
