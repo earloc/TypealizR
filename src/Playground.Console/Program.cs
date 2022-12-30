@@ -50,10 +50,30 @@ var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
 
 localize.Hello__user__it_is__today(userName, today);
 
-var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 
-groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca");
-TypealizedRessources g = groups.Typealize();
+var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
+Console.WriteLine(
+	groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca")
+);
+
+var typealizedGroups = groups.Typealize();
+
+Console.WriteLine(
+	typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
+); ;
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 static void SomeMethod(IStringLocalizer<Ressources> L)
 {
