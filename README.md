@@ -64,7 +64,7 @@ Statically typed i18n support for the .NET - ecosystem
 ```
 - rebuild target csproj
   > NOTE: visual-studio might need a fresh restart after installing (or updating) TypealizR in order to work as expected
-- start utilizing statically typed ressources
+- start utilizing statically typed resources
 ![demo_typealize_translation_initial]
 
 
@@ -201,7 +201,7 @@ Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 ```
 
 The generated classes are currently duck-typing `IStringLocalizer<T>`. 
-This is done to support gradually adopting the benefits of statically types localizations, while still beeing able to use the lesser-typed default way of using `IStringLocalizer<T>`.
+This is done to support gradually adopting the benefits of statically typed localizations, while still beeing able to use the lesser typed default way of using `IStringLocalizer<T>` during the course of adoption.
 
 ```csharp
 	IStringLocalizer<SomeResource> localizer...;
@@ -233,23 +233,23 @@ var services = new ServiceCollection();
 services.AddLogging();
 services.AddLocalization();
 
-//register typealized ressource
-services.AddScoped(x => x.GetRequiredService<IStringLocalizer<Ressources>>().Typealize());
+//register typealized resource
+services.AddScoped(x => x.GetRequiredService<IStringLocalizer<Resources>>().Typealize());
 
 var provider = services.BuildServiceProvider();
 using var scope = provider.CreateScope();
 
 //service-located typealized instance (or better just inject it somewhere)
-var typealized = scope.ServiceProvider.GetRequiredService<TypealizedRessources>();
+var typealized = scope.ServiceProvider.GetRequiredService<TypealizedResources>();
 
 ```
 
 The generated types are placed in a seperated namespace to prevent collisions with other types.
 Given a `*.resx`-file with the following FullName:
-```Some\Folder\Path\Ressources.resx```
+```Some\Folder\Path\Resources.resx```
 
 The generated type will be
-```Some.Folder.Path.TypealizR.TypealizedRessources```
+```Some.Folder.Path.TypealizR.TypealizedResources```
 
 ##### automatic setup
 > tbd. There might be a built-in solution for utilizing `IServiceCollection` to register typealized instances, once #63 is done.
