@@ -5,7 +5,7 @@ using System.Text;
 using System.Xml;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Diagnostics;
+using TypealizR.Core;using TypealizR.Diagnostics;
 
 namespace TypealizR.Builder;
 internal partial class ExtensionClassBuilder
@@ -17,33 +17,18 @@ internal partial class ExtensionClassBuilder
 	{
 		this.markerType = markerType;
 		this.rootNamespace = rootNamespace;
-	}
-
-	private readonly Dictionary<string, ExtensionMethodModel> methods = new();
-	private readonly Dictionary<string, int> duplicates = new();
+	}    private DeduplicatingCollection<ExtensionMethodModel> methods = new();
 
 	public ExtensionClassBuilder WithExtensionMethod(string key, string value, DiagnosticsCollector diagnostics)
 	{
 		var builder = new ExtensionMethodBuilder(markerType, key, value, diagnostics);
 		var model = builder.Build();
-
-		if (!duplicates.ContainsKey(model.Name))
-		{
-			duplicates[model.Name] = 1;
-		}
-		else
-		{
-			var discriminator = duplicates[model.Name]++;
-			model.DeduplicateWith(discriminator);
-			diagnostics.Add(fac => fac.AmbigiousRessourceKey_0002(model.Name));
-		}
-
-		methods[model.Name] = model;
-		return this;
+        methods.Add(model, diagnostics);
+		return this;
 	}
 
 	public ExtensionClassModel Build()
 	{
-		return new(markerType, rootNamespace, methods.Values);
+		return new(markerType, rootNamespace, methods.Items);
     }
 }

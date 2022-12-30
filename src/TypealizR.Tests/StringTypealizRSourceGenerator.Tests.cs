@@ -28,4 +28,15 @@ public class StringTypealizRSourceGenerator_Tests
 			.Verify()
 		;
 	}
+
+	[Fact]
+	public async Task NoCode_Resx_Groups_Handles_Duplicates()
+	{
+		await GeneratorTesterBuilder<StringTypealizRSourceGenerator>
+			.Create(BaseDirectory, RootNamespace)
+			.WithResxFile($"Groupings_NoCode_WithDuplicates.resx")
+			.Build()
+			.Verify()
+		;
+	}
 }

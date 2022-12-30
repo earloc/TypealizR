@@ -60,6 +60,9 @@
 	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Groupings_NoCode.resx">
 	    <SubType>Designer</SubType>
 	  </EmbeddedResource>
+	  <EmbeddedResource Update="StringTypealizRSourceGenerator.Tests\Groupings_NoCode_WithDuplicates.resx">
+	    <SubType>Designer</SubType>
+	  </EmbeddedResource>
 	  <EmbeddedResource Update="StringTypealizRSourceGenerator.Tests\Groupings_NoCode.resx">
 	    <SubType>Designer</SubType>
 	  </EmbeddedResource>

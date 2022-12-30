@@ -94,6 +94,7 @@ public class RessourceFile_Tests
 	[InlineData("Hello", "", "Hello")]
 	[InlineData("Hello [world]", "", "Hello [world]")]
 	[InlineData("Hello [world]:", "", "Hello [world]:")]
+	[InlineData("[]: world", "", "[]: world")]
 	[InlineData("[world]:", "", "[world]:")]
 	[InlineData("[world]: ", "world", "[world]: ")]
 	[InlineData("[world]:  ", "world", "[world]:  ")]

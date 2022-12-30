@@ -1,0 +1,1 @@
+﻿using TypealizR.Values;namespace TypealizR.Builder;internal interface IMemberModel{    MemberName Name { get; }    void DeduplicateWith(int discriminator);}
