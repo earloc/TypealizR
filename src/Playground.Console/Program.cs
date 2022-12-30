@@ -58,9 +58,6 @@ Console.WriteLine(
 	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
 );
 
-
-
-
 var someRessource = provider.GetRequiredService<IStringLocalizer<SomeResource>>();
 
 
