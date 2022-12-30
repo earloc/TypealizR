@@ -19,8 +19,8 @@ internal partial class ExtensionClassBuilder
 		this.rootNamespace = rootNamespace;
 	}
 
-	private Dictionary<string, ExtensionMethodModel> methods = new();
-	private Dictionary<string, int> duplicates = new();
+	private readonly Dictionary<string, ExtensionMethodModel> methods = new();
+	private readonly Dictionary<string, int> duplicates = new();
 
 	public ExtensionClassBuilder WithExtensionMethod(string key, string value, DiagnosticsCollector diagnostics)
 	{
