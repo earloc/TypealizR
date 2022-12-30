@@ -23,7 +23,7 @@
 # TypealizR
 > The **type**d internation**aliz**e**R**
 
-Strongly typed i18n support for the .NET - ecosystem
+Statically typed i18n support for the .NET - ecosystem
 
 ## usage
 
@@ -176,8 +176,8 @@ To group resources, prepend resource-keys with `[Some.Nested.Group.Name]:`
 #### Imperative usage
 Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 ```csharp
-	IStringLocalizer<SomeResource> localize...; //wherever that instance might came from
-	var groups = localize.WithGroups(); //call the generated extension-method, which returns type implementing `IStringTypealizR<T>`
+	IStringLocalizer<SomeResource> localize...; //wherever that instance might came from, most probably through dependency-injection
+	var groups = localize.WithGroups(); //call the generated extension-method, which returns a type exposing groups as properties
 
 	//start using groups
 	Console.WriteLine(groups.Messages.Warnings.Attention); 
@@ -187,7 +187,8 @@ Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 	// "Operation 'some operation name' failed"
 ```
 
-`TypealizR` currently is duck-typing `IStringLocalizer<T>` within implementations of `IStringTypealizR<T>`
+The generated classes are currently duck-typing `IStringLocalizer<T>`. 
+This is done to support gradually adopting the benefits of statically types localizations, while still beeing able to use the lesser-typed default way of using `IStringLocalizer<T>`.
 
 ```csharp
 	IStringLocalizer<SomeResource> localize...;
@@ -204,7 +205,6 @@ Even ordinary usage is still possible:
 ```csharp
 	IStringLocalizer<SomeResource> localize...;
 	var groups = localize.WithGroups();
-
 	
 	groups["[Messages.Warnings]: {Operation:s} failed", "some operation"]; //still works
 ```
