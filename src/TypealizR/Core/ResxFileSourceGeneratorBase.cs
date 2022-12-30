@@ -1,7 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using Microsoft.CodeAnalysis;
+using System.Threading;using Microsoft.CodeAnalysis;
 using TypealizR.Builder;using TypealizR.Core;
 using TypealizR.Diagnostics;
 
@@ -41,7 +41,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 		if (!file.Entries.Any())
 		{
 			return;
-		}        (var targetNamespace, var accessability) = FindNameSpaceAndAccessabilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);        var markerType = new TypeModel(targetNamespace, file.SimpleName, accessability);        var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, markerType, compilation, file, options.SeverityConfig);
+		}        (var targetNamespace, var accessability) = FindNameSpaceAndAccessabilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);        var markerType = new TypeModel(targetNamespace, file.SimpleName, accessability);        var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, markerType, compilation, file, options.SeverityConfig, ctxt.CancellationToken);
 
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);
 		foreach (var diagnostic in generatedClass.Diagnostics)
@@ -73,5 +73,5 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 
         return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility);
 
-    }    protected abstract GeneratedSourceFile GenerateSourceFileFor(        DirectoryInfo projectDirectory,         string rootNamespace,         TypeModel markerType,        Compilation compilation,         RessourceFile file,         IDictionary<string, DiagnosticSeverity> severityConfig    );
+    }    protected abstract GeneratedSourceFile GenerateSourceFileFor(        DirectoryInfo projectDirectory,         string rootNamespace,         TypeModel markerType,        Compilation compilation,         RessourceFile file,         IDictionary<string, DiagnosticSeverity> severityConfig,        CancellationToken cancellationToken    );
 }
