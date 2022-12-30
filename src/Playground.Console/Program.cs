@@ -60,7 +60,7 @@ var typealizedGroups = groups.Typealize();
 
 Console.WriteLine(
 	typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
-); ;
+);
 
 
 
@@ -74,6 +74,7 @@ Console.WriteLine(
 
 
 
+var g = typealizedGroups;
 
 static void SomeMethod(IStringLocalizer<Ressources> L)
 {
