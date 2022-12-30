@@ -9,6 +9,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\Playground.Shared\Playground.Shared.csproj" />
 		<ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
@@ -24,12 +25,20 @@
 	</ItemGroup>
 
 	<ItemGroup>
-		<ProjectReference Include="..\Playground.Shared\Playground.Shared.csproj" />
+	  <Compile Update="Readme\SomeResource.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>SomeResource.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
 
 	<ItemGroup>
 		<EmbeddedResource Update="NoCodeGen\Internal.resx">
 			<Generator></Generator>
+		</EmbeddedResource>
+		<EmbeddedResource Update="Readme\SomeResource.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>SomeResource.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
 	</ItemGroup>
 

@@ -1,0 +1,28 @@
+﻿{
+  Diagnostics: [
+    {
+      Id: TR0002,
+      Title: AmbigiousRessourceKey,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}TypealizedClassSourceGenerator.Tests/Groupings_NoCode_WithDuplicates.resx: (122,0)-(122,42),
+      Description: Encountered an ambigious resource-key,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
+      MessageFormat: Resource-key '{0}' would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2},
+      Message: Resource-key '[Log.Warning]: Could not find {UserName:s}!' would end up as a duplicate method-name. Using 'Could_not_find__UserName1' as derived name for this key. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
+      Category: Readability
+    },
+    {
+      Id: TR0002,
+      Title: AmbigiousRessourceKey,
+      Severity: Warning,
+      WarningLevel: 1,
+      Location: {ProjectDirectory}TypealizedClassSourceGenerator.Tests/Groupings_NoCode_WithDuplicates.resx: (128,0)-(128,28),
+      Description: Encountered an ambigious resource-key,
+      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
+      MessageFormat: Resource-key '{0}' would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2},
+      Message: Resource-key '[Log.Warning]: Unknown error!' would end up as a duplicate method-name. Using 'Unknown_error1' as derived name for this key. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0002_AmbigiousRessourceKey.md,
+      Category: Readability
+    }
+  ]
+}

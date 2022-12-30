@@ -10,7 +10,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests;
 
-public class DiagnosticsFactoryTests
+public class DiagnosticsFactory_Tests
 {
 
 	private static DiagnosticsFactory CreateSut(DiagnosticsEntry entryid, DiagnosticSeverity severity) 

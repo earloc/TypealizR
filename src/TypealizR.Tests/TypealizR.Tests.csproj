@@ -17,16 +17,16 @@
 
 	<ItemGroup>
 	  <Compile Remove="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
-	  <Compile Remove="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
-	  <Compile Remove="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
-	  <Compile Remove="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
+	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
+	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
+	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <None Include="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
-	  <None Include="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
-	  <None Include="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
-	  <None Include="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
+	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
+	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
+	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -57,17 +57,33 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <EmbeddedResource Update="StringLocalizerSourceGenerator.Tests\Empty_NoCode.resx">
+	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Groupings_NoCode.resx">
+	    <SubType>Designer</SubType>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="TypealizedClassSourceGenerator.Tests\Groupings_NoCode_WithDuplicates.resx">
+	    <SubType>Designer</SubType>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="TypealizedClassSourceGenerator.Tests\Groupings_NoCode.resx">
+	    <SubType>Designer</SubType>
+	  </EmbeddedResource>
+	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Empty_NoCode.resx">
 	    <Generator></Generator>
 	  </EmbeddedResource>
-	  <EmbeddedResource Update="StringLocalizerSourceGenerator.Tests\NoWarnings_NoCode.resx">
+	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode.resx">
 	    <Generator></Generator>
 	  </EmbeddedResource>
 	</ItemGroup>
 
 	<ItemGroup>
 	  <Folder Include="StringFormatterSourceGenerator.Tests\.snapshots\" />
-	  <Folder Include="StringLocalizerSourceGenerator.Tests\.snapshots\" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="StringTypealizRSourceGenerator.Tests\.snapshots\NoCode_Resx_Groups_Are_Honored_In_Generated_Code#IStringLocalizerExtensions_Some.Root.Namespace.Groupings_NoCode.g.verified.cs">
+	    <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+	    <ParentExtension>$(MSBuildProjectExtension.Replace('proj', ''))</ParentExtension>
+	    <DependentUpon>%(ParentFile)%(ParentExtension)</DependentUpon>
+	  </None>
 	</ItemGroup>
 
 </Project>

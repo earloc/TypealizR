@@ -3,13 +3,21 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Xml;
 using FluentAssertions;
+using Microsoft.CodeAnalysis.Text;
+using TypealizR.Core;
 
 namespace TypealizR.Tests;
 public class RessourceFile_Tests
 {
 
-    [Theory]
+	private record LineInfo(int LineNumber = 42, int LinePosition = 1337, bool HasLineInfo = true) : IXmlLineInfo
+	{
+        bool IXmlLineInfo.HasLineInfo() => HasLineInfo;
+	}
+
+	[Theory]
     [InlineData(3, 
         "Ressource1.resx",
         "Ressource2.resx",
@@ -81,4 +89,49 @@ public class RessourceFile_Tests
         var actual = RessourceFile.GetSimpleFileNameOf(input);
         actual.Should().Be(expected);
     }
+
+	[Theory]
+	[InlineData("Hello", "", "Hello")]
+	[InlineData("Hello [world]", "", "Hello [world]")]
+	[InlineData("Hello [world]:", "", "Hello [world]:")]
+	[InlineData("[]: world", "", "[]: world")]
+	[InlineData("[world]:", "", "[world]:")]
+	[InlineData("[world]: ", "world", "[world]: ")]
+	[InlineData("[world]:  ", "world", "[world]:  ")]
+	[InlineData("[Hello] world", "", "[Hello] world")]
+	[InlineData("[Hello]world", "", "[Hello]world")]
+	[InlineData("[]: Hello", "", "[]: Hello")]
+	[InlineData("[logs]: Hello [world]", "logs", "Hello [world]")]
+	[InlineData("[message.info]: Hello [world]:", "message.info", "Hello [world]:")]
+	[InlineData("[Hello]: world","Hello", "world")]
+	[InlineData("[Hello]:world", "Hello", "world")]
+	[InlineData(" [Hello]:world", "Hello", "world")]
+	[InlineData("[ Hello]:world", "Hello", "world")]
+	[InlineData("[Hello ]:world", "Hello", "world")]
+	[InlineData("[ Hello ]:world", "Hello", "world")]
+	[InlineData("[ Hello.]:world", "Hello", "world")]
+	[InlineData("[ Hello. ]:world", "Hello", "world")]
+	[InlineData("[ Hello .]:world", "Hello", "world")]
+	[InlineData("[ Hello . ]:world", "Hello", "world")]
+	[InlineData("[Hello .World]:world", "Hello.World", "world")]
+	[InlineData("[Hello. World]:world", "Hello.World", "world")]
+	[InlineData("[ Hello. World]:world", "Hello.World", "world")]
+	[InlineData("[ Hello . World]:world", "Hello.World", "world")]
+	[InlineData("[ Hello .World ]:world", "Hello.World", "world")]
+	[InlineData("[ Hello. World ]:world", "Hello.World", "world")]
+	[InlineData("[ Hello . World ]:world", "Hello.World", "world")]
+	[InlineData("[ Hello .World.]:world", "Hello.World", "world")]
+	[InlineData("[ Hello .World. ]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello:?!§$&%\/.World. ]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello?!§$&%\/:?!§$&%\/.World. ]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello?!§$&%\/:?!§$&%\/.World?!§$&%\/:?!§$&%\/]:world", "Hello.World", "world")]
+	[InlineData(@"[Hello?_World]:world", "Hello_World", "world")]
+	public void Entry_Extracts_Groups(string input, string expectedGroupKey, string expectedKey)
+	{
+		var sut = new RessourceFile.Entry(input, input, new LineInfo());
+        var actualGroupKey = string.Join('.', sut.Groups);
+		actualGroupKey.Should().Be(expectedGroupKey);
+
+		sut.Key.Should().Be(expectedKey);
+	}
 }

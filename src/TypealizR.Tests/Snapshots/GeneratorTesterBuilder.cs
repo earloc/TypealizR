@@ -3,6 +3,7 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
