@@ -30,7 +30,7 @@
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
 	<ItemGroup>
-		<None Include="../../README.md" />
+		<None Include="../../README.md" Pack="true" PackagePath="\"/>
 		<None Include="C:\dev\eSc\TypealizR\src\TypealizR\.editorconfig" />
 	</ItemGroup>
 	<ItemGroup>
