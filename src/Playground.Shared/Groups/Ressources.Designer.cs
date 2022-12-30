@@ -99,9 +99,9 @@ namespace Playground.Shared.Groups {
         /// <summary>
         ///   Looks up a localized string similar to What to do {0}?.
         /// </summary>
-        public static string _Questions___What_to_do__now__dt__ {
+        public static string _Questions___What_to_do__now_dt__ {
             get {
-                return ResourceManager.GetString("[Questions]: What to do {now: dt}?", resourceCulture);
+                return ResourceManager.GetString("[Questions]: What to do {now:dt}?", resourceCulture);
             }
         }
         
@@ -138,6 +138,15 @@ namespace Playground.Shared.Groups {
         public static string Hello__world_s_ {
             get {
                 return ResourceManager.GetString("Hello {world:s}", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to s.
+        /// </summary>
+        public static string String1 {
+            get {
+                return ResourceManager.GetString("String1", resourceCulture);
             }
         }
     }

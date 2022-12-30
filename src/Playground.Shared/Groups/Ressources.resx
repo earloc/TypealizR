@@ -123,6 +123,9 @@
   <data name="Hello {world:s}" xml:space="preserve">
     <value>Hello {0}</value>
   </data>
+  <data name="String1" xml:space="preserve">
+    <value>s</value>
+  </data>
   <data name="[Messages.Info]: Info1" xml:space="preserve">
     <value>Hello</value>
   </data>
@@ -132,7 +135,7 @@
   <data name="[Messages.Info]: Info3" xml:space="preserve">
     <value>Hello World</value>
   </data>
-  <data name="[Questions]: What to do {now: dt}?" xml:space="preserve">
+  <data name="[Questions]: What to do {now:dt}?" xml:space="preserve">
     <value>What to do {0}?</value>
   </data>
   <data name="[Questions]: What to do?" xml:space="preserve">
