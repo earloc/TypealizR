@@ -2,7 +2,7 @@
 using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Core;
+using TypealizR.Builder;using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Core;
@@ -25,8 +25,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 				var compilation = source.Right;
 
 				foreach (var file in files)
-				{
-					GenerateSourceFor(ctxt, options, compilation, file);
+				{                    GenerateSourceFor(ctxt, options, compilation, file);
 				}
 			});
 	}
@@ -42,16 +41,37 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 		if (!file.Entries.Any())
 		{
 			return;
-		}
-
-		var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, compilation, file, options.SeverityConfig);
+		}        (var targetNamespace, var accessability) = FindNameSpaceAndAccessabilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);        var markerType = new TypeModel(targetNamespace, file.SimpleName, accessability);        var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, markerType, compilation, file, options.SeverityConfig);
 
 		ctxt.AddSource(generatedClass.FileName, generatedClass.Content);
 		foreach (var diagnostic in generatedClass.Diagnostics)
 		{
 			ctxt.ReportDiagnostic(diagnostic);
 		}
-	}
+	}    private (string, Accessibility) FindNameSpaceAndAccessabilityOf(Compilation compilation, string rootNameSpace, RessourceFile resx, string projectFullPath)
+    {
+        var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
+        var nameSpace = resx.FullPath.Replace(projectFullPath, "");
+        nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
+        nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
+        if (nameSpace != rootNameSpace)
+        {
+            nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
+        }
 
-	protected abstract GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig);
+        if (!possibleMarkerTypeSymbols.Any())
+        {
+            return (nameSpace.Trim('.', ' '), Accessibility.Internal);
+        }
+
+        var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
+
+        if (matchingMarkerType is null)
+        {
+            return (nameSpace.Trim('.', ' '), Accessibility.Internal);
+        }
+
+        return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility);
+
+    }    protected abstract GeneratedSourceFile GenerateSourceFileFor(        DirectoryInfo projectDirectory,         string rootNamespace,         TypeModel markerType,        Compilation compilation,         RessourceFile file,         IDictionary<string, DiagnosticSeverity> severityConfig    );
 }

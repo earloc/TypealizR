@@ -1,17 +1,16 @@
-﻿namespace TypealizR.Builder;
-internal class TypeModel
+﻿using Microsoft.CodeAnalysis;namespace TypealizR.Builder;
+public class TypeModel
 {
-	public TypeModel(string @namespace, string name, Visibility visibility = Visibility.Internal)
+	public TypeModel(string @namespace, string name, Accessibility accessibility = Accessibility.Internal)
 	{
 		Namespace = @namespace;
-		Name = name;
-		Visibility = visibility;
+		Name = name;        Accessibility = accessibility;
 	}
 
     public string Namespace { get; }
     public string Name { get; }
 
-	public Visibility Visibility { get; }
+	public Accessibility Accessibility { get; }
 
 	public string FullName => $"{Namespace}.{Name}";
 	public string FullNameForClassName => FullName.Replace(".", "_");

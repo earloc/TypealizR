@@ -11,11 +11,8 @@ namespace TypealizR;
 [Generator(LanguageNames.CSharp)]
 public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGeneratorBase
 {
-    protected override GeneratedSourceFile GenerateSourceFileFor(DirectoryInfo projectDirectory, string rootNamespace, Compilation compilation, RessourceFile file, IDictionary<string, DiagnosticSeverity> severityConfig)
+    protected override GeneratedSourceFile GenerateSourceFileFor(        DirectoryInfo projectDirectory,         string rootNamespace,        TypeModel markerType,        Compilation compilation,         RessourceFile file,         IDictionary<string, DiagnosticSeverity> severityConfig    )
     {
-        (var targetNamespace, var visibility) = FindNameSpaceAndVisibilityOf(compilation, rootNamespace, file, projectDirectory.FullName);
-        var markerType = new TypeModel (targetNamespace, file.SimpleName, visibility);
-
         var builder = new ExtensionClassBuilder(markerType, rootNamespace);
 
         var diagnostics = new List<Diagnostic>();
@@ -32,30 +29,5 @@ public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGen
         return new(extensionClass.FileName, extensionClass.ToCSharp(GetType()), diagnostics);
     }
 
-    private (string, Visibility) FindNameSpaceAndVisibilityOf(Compilation compilation, string rootNameSpace, RessourceFile resx, string projectFullPath)
-    {
-        var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
-        var nameSpace = resx.FullPath.Replace(projectFullPath, "");
-        nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
-        nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
-        if (nameSpace != rootNameSpace)
-        {
-            nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
-        }
 
-        if (!possibleMarkerTypeSymbols.Any())
-        {
-            return (nameSpace.Trim('.', ' '), Visibility.Internal);
-        }
-
-        var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
-
-        if (matchingMarkerType is null)
-        {
-            return (nameSpace.Trim('.', ' '), Visibility.Internal);
-        }
-
-        return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility.ToVisibilty());
-
-    }
 }
