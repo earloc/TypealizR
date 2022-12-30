@@ -1,12 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Linq.Expressions;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
+﻿using FluentAssertions;
+using TypealizR.Core;
 using TypealizR.Diagnostics;
-using TypealizR.Builder;
 
 namespace TypealizR.Tests;
 

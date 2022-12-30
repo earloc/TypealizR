@@ -71,7 +71,4 @@
 	<ItemGroup>
 	  <EditorConfigFiles Remove="C:\dev\eSc\TypealizR\src\TypealizR\.editorconfig" />
 	</ItemGroup>
-	<ItemGroup>
-	  <Folder Include="Builder\" />
-	</ItemGroup>
 </Project>

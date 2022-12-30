@@ -7,7 +7,6 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
-using TypealizR.Values;
 
 namespace TypealizR;
 internal partial class TypealizedClassBuilder

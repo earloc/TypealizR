@@ -1,13 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Values;
-
-namespace TypealizR;
+using TypealizR.Core;namespace TypealizR;
 internal class ExtensionMethodModel : IMemberModel
 {
     public void DeduplicateWith(int discriminator)

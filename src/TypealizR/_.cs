@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Reflection;
-using System.Runtime.CompilerServices;
-using System.Text;
-using TypealizR.Builder;
+﻿using System.Runtime.CompilerServices;
 
 [assembly: InternalsVisibleTo("TypealizR.Tests")]
 

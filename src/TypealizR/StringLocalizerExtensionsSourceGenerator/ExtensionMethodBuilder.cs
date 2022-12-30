@@ -10,9 +10,7 @@ using Microsoft.CodeAnalysis;
 using System.Xml.Linq;
 using TypealizR.Extensions;
 using TypealizR.Diagnostics;
-using TypealizR.Values;
-
-namespace TypealizR;
+using TypealizR.Core;namespace TypealizR;
 internal class ExtensionMethodBuilder
 {
 	private readonly TypeModel markerType;

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text.RegularExpressions;
 using System.Xml;
-using TypealizR.Values;
 
 namespace TypealizR.Core;
 public partial class RessourceFile

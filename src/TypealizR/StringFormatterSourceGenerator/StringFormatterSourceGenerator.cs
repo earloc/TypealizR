@@ -3,8 +3,6 @@ using System.IO;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
-using TypealizR.Extensibility;
-using TypealizR.Builder;
 using System;
 using TypealizR.Core;
 

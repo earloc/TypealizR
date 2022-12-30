@@ -3,7 +3,6 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
-using TypealizR.Builder;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
 

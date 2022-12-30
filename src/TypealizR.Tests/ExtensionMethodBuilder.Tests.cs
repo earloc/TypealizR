@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using FluentAssertions;
-using TypealizR.Builder;
+﻿using FluentAssertions;
+using TypealizR.Core;
 
 namespace TypealizR.Tests;
 
