@@ -43,7 +43,7 @@ namespace Microsoft.Extensions.Localization
         /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static TypealizedNoWarnings_NoCode WithGroups(this IStringLocalizer<global::Some.Root.Namespace.NoWarnings_NoCode> that)
+        public static TypealizedNoWarnings_NoCode Typealize(this IStringLocalizer<global::Some.Root.Namespace.NoWarnings_NoCode> that)
             => new TypealizedNoWarnings_NoCode(that);
     }
 }

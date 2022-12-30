@@ -97,7 +97,7 @@ namespace Microsoft.Extensions.Localization
         /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static TypealizedGroupings_NoCode WithGroups(this IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> that)
+        public static TypealizedGroupings_NoCode Typealize(this IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> that)
             => new TypealizedGroupings_NoCode(that);
     }
 }

@@ -25,7 +25,7 @@ namespace Microsoft.Extensions.Localization
         /// localize.Some.Nested.Group...
         /// </summary>
         [DebuggerStepThrough]
-        public static TypealizedTR0004_NoCode WithGroups(this IStringLocalizer<global::Some.Root.Namespace.TR0004_NoCode> that)
+        public static TypealizedTR0004_NoCode Typealize(this IStringLocalizer<global::Some.Root.Namespace.TR0004_NoCode> that)
             => new TypealizedTR0004_NoCode(that);
     }
 }
