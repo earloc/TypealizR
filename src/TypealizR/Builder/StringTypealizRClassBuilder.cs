@@ -10,14 +10,14 @@ using TypealizR.Diagnostics;
 using TypealizR.Values;
 
 namespace TypealizR.Builder;
-internal partial class StringTypealizRClassBuilder
+internal partial class TypealizedClassBuilder
 {
     private readonly TypeModel markerType;
     private readonly string name;
     private readonly string rootNamespace;
     private readonly IDictionary<string, DiagnosticSeverity> severityConfig;
 
-    public StringTypealizRClassBuilder(TypeModel markerType, string name, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
+    public TypealizedClassBuilder(TypeModel markerType, string name, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
     {
         this.markerType = markerType;
         this.name = name;
@@ -27,7 +27,7 @@ internal partial class StringTypealizRClassBuilder
 
     private readonly DeduplicatingCollection<InstanceMemberModel> members = new();
 
-    public StringTypealizRClassBuilder WithMember(string key, string rawKey, string value, DiagnosticsCollector diagnostics)
+    public TypealizedClassBuilder WithMember(string key, string rawKey, string value, DiagnosticsCollector diagnostics)
     {
         var builder = new InstanceMemberBuilder(key, rawKey, value);
         var model = builder.Build(diagnostics);
@@ -37,9 +37,9 @@ internal partial class StringTypealizRClassBuilder
         return this;
     }
 
-    private readonly Dictionary<string, StringTypealizRClassBuilder> nestedTypes = new();
+    private readonly Dictionary<string, TypealizedClassBuilder> nestedTypes = new();
 
-    public StringTypealizRClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<MemberName> groups, DiagnosticsCollector diagnostics)
+    public TypealizedClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<MemberName> groups, DiagnosticsCollector diagnostics)
     {
         if (!groups.Any())
         {
@@ -51,7 +51,7 @@ internal partial class StringTypealizRClassBuilder
 
         if (!nestedTypes.ContainsKey(firstLevel))
         {
-            nestedTypes[firstLevel] = new StringTypealizRClassBuilder(markerType, $"{firstLevel}", rootNamespace, severityConfig);
+            nestedTypes[firstLevel] = new TypealizedClassBuilder(markerType, $"{firstLevel}", rootNamespace, severityConfig);
         }
 
         nestedTypes[firstLevel].WithGroups(key, rawKey, value, groups.Skip(1), diagnostics);
@@ -59,7 +59,7 @@ internal partial class StringTypealizRClassBuilder
         return this;
     }
 
-    public StringTypealizRClassModel Build()
+    public TypealizedClassModel Build()
     {
         var nested = nestedTypes
             .Values

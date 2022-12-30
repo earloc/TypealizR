@@ -2,10 +2,10 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using Playground.Console.NoCodeGen;
-using Playground.Console.Readme;
 using Playground.Shared;
 using Playground.Shared.Groups;
 using Playground.Shared.NoCodeGen;
+using Playground.Shared.Groups.TypealizR;
 
 Console.WriteLine("Hello, World!");
 
@@ -40,7 +40,7 @@ localize.Hello__user__it_is__today(userName, today);
 var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 
 groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca");
-var g = groups.WithGroups();
+TypealizedRessources g = groups.WithGroups();
 
 void SomeMethod(IStringLocalizer<Ressources> L)
 {

@@ -1,10 +1,13 @@
-﻿using Microsoft.CodeAnalysis;namespace TypealizR.Builder;
+﻿using Microsoft.CodeAnalysis;
+
+namespace TypealizR.Builder;
 public class TypeModel
 {
 	public TypeModel(string @namespace, string name, Accessibility accessibility = Accessibility.Internal)
 	{
 		Namespace = @namespace;
-		Name = name;        Accessibility = accessibility;
+		Name = name;
+        Accessibility = accessibility;
 	}
 
     public string Namespace { get; }
@@ -12,8 +15,7 @@ public class TypeModel
 
 	public Accessibility Accessibility { get; }
 
-	public string FullName => $"{Namespace}.{Name}";
-	public string FullNameForClassName => FullName.Replace(".", "_");
+	public string FullName => $"{Namespace}.{Name}";    public string GlobalFullName => $"global::{FullName}";    public string FullNameForClassName => FullName.Replace(".", "");
 
 
 }

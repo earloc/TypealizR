@@ -31,7 +31,7 @@ internal class ExtensionMethodModel : IMemberModel
 
     public string ToCSharp()
     {
-        static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.FullName}> that";
+        static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.GlobalFullName}> that";
 
         var signature = $"({ThisParameterFor(ExtendedType)})";
         var body = $@"that[""{RawRessourceName}""]";

@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;using Microsoft.CodeAnalysis;
+using System.Threading;
+using Microsoft.CodeAnalysis;
 using TypealizR.Builder;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
@@ -17,15 +18,18 @@ public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
         TypeModel markerType,
         Compilation compilation,
         RessourceFile file,
-        IDictionary<string, DiagnosticSeverity> severityConfig,         CancellationToken cancellationToken
+        IDictionary<string, DiagnosticSeverity> severityConfig, 
+        CancellationToken cancellationToken
     )
     {
-        var builder = new StringTypealizRClassBuilder(markerType, $"StringTypealizR_{markerType.FullNameForClassName}", rootNamespace, severityConfig);
+        var builder = new TypealizedClassBuilder(markerType, $"Typealized{markerType.Name}", rootNamespace, severityConfig);
 
         var diagnostics = new List<Diagnostic>();
 
         foreach (var entry in file.Entries)
-        {            cancellationToken.ThrowIfCancellationRequested();
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var collector = new DiagnosticsCollector(file.FullPath, entry.RawKey, entry.Location.LineNumber, severityConfig);
 
             if (!entry.Groups.Any())

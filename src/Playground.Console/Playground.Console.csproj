@@ -10,7 +10,7 @@
 
 	<ItemGroup>
 		<ProjectReference Include="..\Playground.Shared\Playground.Shared.csproj" />
-		<ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+		<ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
 	</ItemGroup>
 
 	<PropertyGroup>
