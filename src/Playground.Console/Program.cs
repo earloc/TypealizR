@@ -40,7 +40,7 @@ localize.Hello__user__it_is__today(userName, today);
 var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 
 groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca");
-TypealizedRessources g = groups.WithGroups();
+TypealizedRessources g = groups.Typealize();
 
 void SomeMethod(IStringLocalizer<Ressources> L)
 {

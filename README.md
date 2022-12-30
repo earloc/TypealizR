@@ -176,14 +176,14 @@ To group resources, prepend resource-keys with `[Some.Nested.Group.Name]:`
 #### Imperative usage
 Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 ```csharp
-	IStringLocalizer<SomeResource> localize...; //wherever that instance might came from, most probably through dependency-injection
-	var groups = localize.WithGroups(); //call the generated extension-method, which returns a type exposing groups as properties
+	IStringLocalizer<SomeResource> localizer...; //wherever that instance might came from, most probably through dependency-injection
+	var typealized = localizer.Typealize(); //call the generated extension-method, which returns a type exposing groups as properties
 
 	//start using groups
-	Console.WriteLine(groups.Messages.Warnings.Attention); 
+	Console.WriteLine(typealized.Messages.Warnings.Attention); 
 	// "Attention Message"
 
-	Console.WriteLine(groups.Messages.Warnings.Operation__failed("some operation name"); 
+	Console.WriteLine(typealized.Messages.Warnings.Operation__failed("some operation name"); 
 	// "Operation 'some operation name' failed"
 ```
 
@@ -191,22 +191,23 @@ The generated classes are currently duck-typing `IStringLocalizer<T>`.
 This is done to support gradually adopting the benefits of statically types localizations, while still beeing able to use the lesser-typed default way of using `IStringLocalizer<T>`.
 
 ```csharp
-	IStringLocalizer<SomeResource> localize...;
-	var groups = localize.WithGroups();
+	IStringLocalizer<SomeResource> localizer...;
+	var typealized = localizer.Typealize();
 
-	void SomeMethod(IStringLocalizer<SomeResource> localize) {
-		//use localize
+	void SomeMethod(IStringLocalizer<SomeResource> localizer) {
+		//use localizer
 	}
 	
-	SomeMethod(groups.Localizer); //still works
+	SomeMethod(typealized.Localizer); //still works
 ```
 
 Even ordinary usage is still possible:
 ```csharp
-	IStringLocalizer<SomeResource> localize...;
-	var groups = localize.WithGroups();
+	IStringLocalizer<SomeResource> localizer...;
+	var typealized = localizer.Typealize();
 	
-	groups["[Messages.Warnings]: {Operation:s} failed", "some operation"]; //still works
+	localizer["[Messages.Warnings]: {Operation:s} failed", "some operation"];
+	typealized["[Messages.Warnings]: {Operation:s} failed", "some operation"]; //still works
 ```
 
 #### Declarative usage
