@@ -24,11 +24,10 @@
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
-		<Description>Strongly typed i18n support for the .NET - ecosystem</Description>
+		<Description>Statically typed i18n support for the .NET - ecosystem</Description>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="lib/netstandard2.0" Visible="true" />
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="../../README.md" />
