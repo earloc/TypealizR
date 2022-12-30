@@ -52,12 +52,25 @@ Statically typed i18n support for the .NET - ecosystem
 
 ```
 
+## getting started
+
+- install via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+- modify target csproj (where those precious ResX-files are ;P)
+```xml
+<PropertyGroup>
+	<!-- Update the property to include all EmbeddedResource files -->
+	<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
+</PropertyGroup>
+```
+- rebuild target csproj
+  > NOTE: visual-studio might need a fresh restart after installing (or updating) TypealizR in order to work as expected
+- start utilizing statically typed ressources
+![demo_typealize_translation_initial]
+
+
 ## how it works
 
 TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on the fly.
-
-![demo_typealize_translation_initial]
-
 
 given the following folder-structure:
 
@@ -134,7 +147,7 @@ With applied [type-annotations], this will generate tho following compile-time e
 > - CS1503	Argument 3: cannot convert from 'string' to 'System.DateOnly'
 
 
-![demo_typed_parameters](docs/assets/demo_typed_parameters.gif)
+![demo_typed_parameters]
 
 ### **DON´T** do that:
 There's no way the default usage of `IStringLocalizer` would discover such things this early in the dev-cycle!
@@ -210,8 +223,36 @@ Even ordinary usage is still possible:
 	typealized["[Messages.Warnings]: {Operation:s} failed", "some operation"]; //still works
 ```
 
-#### Declarative usage
-> tbd. There might be a built-in solution for utilizing `IServiceCollection` to inject instances which expose groups, once #63 is done.
+
+#### [Microsoft.Extensions.DependencyInjection]
+
+##### manual setup
+```csharp
+//normal setup
+var services = new ServiceCollection();
+services.AddLogging();
+services.AddLocalization();
+
+//register typealized ressource
+services.AddScoped(x => x.GetRequiredService<IStringLocalizer<Ressources>>().Typealize());
+
+var provider = services.BuildServiceProvider();
+using var scope = provider.CreateScope();
+
+//service-located typealized instance (or better just inject it somewhere)
+var typealized = scope.ServiceProvider.GetRequiredService<TypealizedRessources>();
+
+```
+
+The generated types are placed in a seperated namespace to prevent collisions with other types.
+Given a `*.resx`-file with the following FullName:
+```Some\Folder\Path\Ressources.resx```
+
+The generated type will be
+```Some.Folder.Path.TypealizR.TypealizedRessources```
+
+##### automatic setup
+> tbd. There might be a built-in solution for utilizing `IServiceCollection` to register typealized instances, once #63 is done.
 
 ### **DON'T DO** this:
 All groups are still available as extension-methods for `IStringLocalizer<T>` as a list of flat members.
@@ -228,22 +269,6 @@ Console.WriteLine(localize.MessagesWarnings_Operation__failed("some operation na
 // "Operation 'some operation name' failed"
 
 ``` 
-
-## setup
-
-- install via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
-- modify target csproj (where those precious ResX-files are ;P)
-```xml
-<PropertyGroup>
-	<!-- Update the property to include all EmbeddedResource files -->
-	<AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
-</PropertyGroup>
-```
-- rebuild target csproj
-  > NOTE: visual-studio might need a fresh restart after installing (or updating) TypealizR in order to work as expected
-- start utilizing strongly typed ressources
-
-[demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif
 
 # extensibilty
 
@@ -305,6 +330,12 @@ See
 [#16]:https://github.com/earloc/TypealizR/issues/16
 [#35]:https://github.com/earloc/TypealizR/pull/35
 
+[demo_typealize_translation_initial]:docs/assets/demo_typealize_translation_initial.gif
+[demo_typed_parameters]:docs/assets/demo_typed_parameters.gif
+
 [global-analyzerconfig]:https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
 
 [type-annotations]:docs/reference/TR0004_UnrecognizedParameterType.md
+
+
+[Microsoft.Extensions.DependencyInjection]:https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage
