@@ -8,7 +8,7 @@ using Microsoft.Extensions.Localization;
 using Some.Root.Namespace;
 namespace Some.Root.Namespace.TypealizR
 {
-    [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+    [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
     internal partial class TypealizedGroupings_NoCode
     {
         private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> localizer;
@@ -46,7 +46,7 @@ namespace Some.Root.Namespace.TypealizR
         public LogGroup Log { get; }
         public QuestionGroup Question { get; }
         public WarningGroup Warning { get; }
-        [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+        [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
         internal partial class LogGroup
         {
             private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> localizer;
@@ -59,7 +59,7 @@ namespace Some.Root.Namespace.TypealizR
             }
             public CriticalGroup Critical { get; }
             public WarningGroup Warning { get; }
-            [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+            [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
             internal partial class CriticalGroup
             {
                 private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> localizer;
@@ -77,7 +77,7 @@ namespace Some.Root.Namespace.TypealizR
         public LocalizedString Failed_to_delete__UserName(string UserName)
             => localizer["[Log.Critical]: Failed to delete {UserName:s}"].Format(UserName);
             }
-            [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+            [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
             internal partial class WarningGroup
             {
                 private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> localizer;
@@ -104,7 +104,7 @@ namespace Some.Root.Namespace.TypealizR
             => localizer["[Log.Warning]: Unknown error"];
             }
         }
-        [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+        [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
         internal partial class QuestionGroup
         {
             private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> localizer;
@@ -130,7 +130,7 @@ namespace Some.Root.Namespace.TypealizR
         public LocalizedString Continue_to_delete__UserName(string UserName)
             => localizer["[Question]: Continue to delete {UserName:s}?"].Format(UserName);
         }
-        [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+        [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
         internal partial class WarningGroup
         {
             private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode> localizer;

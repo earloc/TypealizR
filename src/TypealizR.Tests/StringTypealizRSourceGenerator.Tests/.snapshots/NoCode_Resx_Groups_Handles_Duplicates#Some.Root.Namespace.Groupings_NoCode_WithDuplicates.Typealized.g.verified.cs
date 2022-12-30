@@ -8,7 +8,7 @@ using Microsoft.Extensions.Localization;
 using Some.Root.Namespace;
 namespace Some.Root.Namespace.TypealizR
 {
-    [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+    [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
     internal partial class TypealizedGroupings_NoCode_WithDuplicates
     {
         private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode_WithDuplicates> localizer;
@@ -18,7 +18,7 @@ namespace Some.Root.Namespace.TypealizR
             Log = new LogGroup(localizer);
         }
         public LogGroup Log { get; }
-        [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+        [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
         internal partial class LogGroup
         {
             private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode_WithDuplicates> localizer;
@@ -29,7 +29,7 @@ namespace Some.Root.Namespace.TypealizR
                 Warning = new WarningGroup(localizer);
             }
             public WarningGroup Warning { get; }
-            [GeneratedCode("TypealizR.StringTypealizRSourceGenerator", "1.0.0.0")]
+            [GeneratedCode("TypealizR.TypealizedClassSourceGenerator", "1.0.0.0")]
             internal partial class WarningGroup
             {
                 private readonly IStringLocalizer<global::Some.Root.Namespace.Groupings_NoCode_WithDuplicates> localizer;

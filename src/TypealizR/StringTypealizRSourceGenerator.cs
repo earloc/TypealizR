@@ -10,7 +10,7 @@ using TypealizR.Diagnostics;
 namespace TypealizR;
 
 [Generator(LanguageNames.CSharp)]
-public sealed class StringTypealizRSourceGenerator : ResxFileSourceGeneratorBase
+public sealed class TypealizedClassSourceGenerator : ResxFileSourceGeneratorBase
 {
     protected override GeneratedSourceFile GenerateSourceFileFor(
         DirectoryInfo projectDirectory,
