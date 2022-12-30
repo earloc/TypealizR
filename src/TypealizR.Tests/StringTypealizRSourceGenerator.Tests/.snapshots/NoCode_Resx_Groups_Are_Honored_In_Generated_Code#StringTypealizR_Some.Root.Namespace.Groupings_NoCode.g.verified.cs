@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
-using TypealizR.Abstractions;
 using Some.Root.Namespace;
 namespace Some.Root.Namespace.TypealizR
 {
