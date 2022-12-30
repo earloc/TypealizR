@@ -13,7 +13,7 @@
 
 
 	<ItemGroup>
-		<PackageReference Include="TypealizR" Version="0.8.0-pre05">
+		<PackageReference Include="TypealizR" Version="0.8.0-pre0005">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
