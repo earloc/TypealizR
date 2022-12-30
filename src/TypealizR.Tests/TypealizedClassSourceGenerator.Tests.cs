@@ -15,7 +15,7 @@ namespace TypealizR.Tests;
 [UsesVerify]
 public class TypealizedClassSourceGenerator_Tests
 {
-	private const string BaseDirectory = "../../../StringTypealizRSourceGenerator.Tests";
+	private const string BaseDirectory = "../../../TypealizedClassSourceGenerator.Tests";
 	private const string RootNamespace = "Some.Root.Namespace";
 
 	[Fact]
