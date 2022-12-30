@@ -13,7 +13,7 @@ using TypealizR.Tests.Snapshots;
 namespace TypealizR.Tests;
 
 [UsesVerify]
-public class StringTypealizRSourceGenerator_Tests
+public class TypealizedClassSourceGenerator_Tests
 {
 	private const string BaseDirectory = "../../../StringTypealizRSourceGenerator.Tests";
 	private const string RootNamespace = "Some.Root.Namespace";
