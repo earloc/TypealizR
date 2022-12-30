@@ -7,7 +7,7 @@ using System.Text;
 using Microsoft.CodeAnalysis;
 using TypealizR.Extensions;
 
-namespace TypealizR.Builder;
+namespace TypealizR.Core;
 internal class ParameterModel
 {
 	public readonly string Token;

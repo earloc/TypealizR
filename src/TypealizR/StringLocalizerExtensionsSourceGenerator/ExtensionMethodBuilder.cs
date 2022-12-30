@@ -12,7 +12,7 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 using TypealizR.Values;
 
-namespace TypealizR.Builder;
+namespace TypealizR;
 internal class ExtensionMethodBuilder
 {
 	private readonly TypeModel markerType;

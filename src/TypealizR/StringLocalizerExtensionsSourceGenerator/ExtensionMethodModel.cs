@@ -5,7 +5,9 @@ using System.Reflection;
 using System.Text;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Values;namespace TypealizR.Builder;
+using TypealizR.Values;
+
+namespace TypealizR;
 internal class ExtensionMethodModel : IMemberModel
 {
     public void DeduplicateWith(int discriminator)
@@ -46,7 +48,8 @@ internal class ExtensionMethodModel : IMemberModel
         }
         var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
 
-        return $"""
+        return $"""
+
             {comment.ToCSharp()}
             [DebuggerStepThrough]
             public static LocalizedString {Name}{signature}

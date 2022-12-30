@@ -9,7 +9,7 @@ using TypealizR.Core;
 using TypealizR.Diagnostics;
 using TypealizR.Values;
 
-namespace TypealizR.Builder;
+namespace TypealizR;
 internal partial class TypealizedClassBuilder
 {
     private readonly TypeModel markerType;

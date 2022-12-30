@@ -10,7 +10,9 @@ using Microsoft.CodeAnalysis;
 using System.Xml.Linq;
 using TypealizR.Extensions;
 using TypealizR.Diagnostics;
-using TypealizR.Values;namespace TypealizR.Builder;
+using TypealizR.Values;
+
+namespace TypealizR;
 internal class InstanceMemberBuilder
 {
     private readonly string key;

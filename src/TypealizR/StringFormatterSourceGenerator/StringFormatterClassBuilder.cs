@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using System.Text;
 using TypealizR.Extensions;
 
-namespace TypealizR.Extensibility;
+namespace TypealizR;
 internal class StringFormatterClassBuilder
 {
 	internal static readonly string TypeName = "TypealizR_StringFormatter";

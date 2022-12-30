@@ -1,7 +1,7 @@
 ﻿using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 
-namespace TypealizR;
+namespace TypealizR.Core;
 
 internal enum Visibility
 {

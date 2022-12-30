@@ -6,7 +6,7 @@ using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 
-namespace TypealizR.Builder;
+namespace TypealizR.Core;
 internal class ParameterBuilder
 {
 	public ParameterBuilder(string rawKeyValue)

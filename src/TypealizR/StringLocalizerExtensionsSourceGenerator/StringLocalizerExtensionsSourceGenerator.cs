@@ -1,7 +1,8 @@
 ﻿using System.Collections.Generic;
 using System.IO;
 using System.Linq;
-using System.Threading;using Microsoft.CodeAnalysis;
+using System.Threading;
+using Microsoft.CodeAnalysis;
 using TypealizR.Builder;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
@@ -17,7 +18,8 @@ public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGen
         TypeModel markerType,
         Compilation compilation, 
         RessourceFile file, 
-        IDictionary<string, DiagnosticSeverity> severityConfig,        CancellationToken cancellationToken
+        IDictionary<string, DiagnosticSeverity> severityConfig,
+        CancellationToken cancellationToken
     )
     {
         var builder = new ExtensionClassBuilder(markerType, rootNamespace);
@@ -25,7 +27,9 @@ public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGen
         var diagnostics = new List<Diagnostic>();
 
         foreach (var entry in file.Entries)
-        {            cancellationToken.ThrowIfCancellationRequested();
+        {
+            cancellationToken.ThrowIfCancellationRequested();
+
             var collector = new DiagnosticsCollector(file.FullPath, entry.RawKey, entry.Location.LineNumber, severityConfig);
             builder.WithExtensionMethod(entry.RawKey, entry.Value, collector);
             diagnostics.AddRange(collector.Diagnostics);

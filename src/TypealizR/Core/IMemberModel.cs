@@ -1,1 +1,1 @@
-﻿using TypealizR.Values;namespace TypealizR.Builder;internal interface IMemberModel{    MemberName Name { get; }    void DeduplicateWith(int discriminator);}
+﻿using TypealizR.Values;namespace TypealizR.Core;internal interface IMemberModel{    MemberName Name { get; }    void DeduplicateWith(int discriminator);}

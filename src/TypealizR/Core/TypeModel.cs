@@ -1,6 +1,6 @@
 ﻿using Microsoft.CodeAnalysis;
 
-namespace TypealizR.Builder;
+namespace TypealizR.Core;
 public class TypeModel
 {
     public TypeModel(string @namespace, string name, Accessibility accessibility = Accessibility.Internal)

@@ -73,6 +73,5 @@
 	</ItemGroup>
 	<ItemGroup>
 	  <Folder Include="Builder\" />
-	  <Folder Include="Extensibility\" />
 	</ItemGroup>
 </Project>
