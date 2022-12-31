@@ -13,6 +13,7 @@
 	</PropertyGroup>
 	<PropertyGroup>
 		<PackageId>TypealizR</PackageId>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
 		<Title>TypealizR</Title>
 		<Authors>earloc</Authors>
 		<Product>TypealizR</Product>
