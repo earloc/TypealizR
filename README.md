@@ -1,6 +1,6 @@
 
 [![build](https://github.com/earloc/TypealizR/actions/workflows/build.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/build.yml)
-[![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main)](https://coveralls.io/github/earloc/TypealizR?branch=main)
+[![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main&q=1)](https://coveralls.io/github/earloc/TypealizR?branch=main)
 [![CodeQL](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml)
 [![Publish](https://github.com/earloc/TypealizR/actions/workflows/publish.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/publish.yml)
 
