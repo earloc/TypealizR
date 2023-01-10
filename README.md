@@ -286,7 +286,7 @@ unless the following modifications where made within the consuming `csproj`-file
 </ItemGroup>
 ```
 > This is due to the fact that `source-generator`s may not see msbuild-properties unless developers explicitly opt-in to let `source-generator`s see those custom properties on a per-file-basis.
-> The above options makes the `CustomToolNamespace`-property of any `EmbeddedResource` visible, so that the genrated tapyes may be placed within there.
+> The above options makes the `CustomToolNamespace`-property of any `EmbeddedResource` visible to the `source-generator`, so that the generated types may be placed there.
 See [Consume MSBuild properties and metadata] for further details.
 
 # extensibilty
