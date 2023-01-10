@@ -20,7 +20,9 @@ public partial class RessourceFile
     public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace)
     {
         SimpleName = simpleName;
-        FullPath = fullPath;        CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
+        FullPath = fullPath;
+
+        CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
 
         IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
 
@@ -60,7 +62,7 @@ public partial class RessourceFile
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new { Name = resx.Key, MainFile = resx.Max() })
+                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })                .Where(_ => _.MainFile is not null)
                 .Select(_ => {
                     _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamesapce);
                     return new RessourceFile(_.Name, _.MainFile.Text.Path, _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, customToolNamesapce);

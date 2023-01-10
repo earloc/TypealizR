@@ -1,9 +1,6 @@
 ﻿using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
-using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
@@ -103,7 +100,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutMsBuildProjectDirectory ? null : baseDirectory, projectDir, rootNamespace, severityConfig, customToolNamespaces)
+                new GeneratorTesterOptionsProvider(withoutMsBuildProjectDirectory ? null : baseDirectory, projectDir, rootNamespace, severityConfig, customToolNamespaces)
         );
 
         var generatorDriver = driver.RunGenerators(compilation);
@@ -121,92 +118,5 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 		severityConfig[id] = severity;
 		return this;
 	}
-
-	class GeneratorTesterAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
-	{
-		internal class Options : AnalyzerConfigOptions
-		{
-            private readonly Dictionary<string, string> options = new();
-
-            public Options(AnalyzerConfigOptions source)
-            {
-                foreach (var key in source.Keys)
-                {
-                    if (source.TryGetValue(key, out var value))
-                    {
-                        options.Add(key, value);
-                    }
-                }
-            }
-
-            public Options(
-                DirectoryInfo? baseDirectory, 
-                DirectoryInfo? alternativeProjectDirectory, 
-                string? rootNamespace, 
-                Dictionary<DiagnosticsId, string> severityConfig
-            )
-            {
-                if (baseDirectory is not null)
-                {
-                    options.Add(GeneratorOptions.msBuildProjectDirectory_BuildProperty, baseDirectory.FullName);
-                }
-
-                if (alternativeProjectDirectory is not null)
-                {
-					options.Add(GeneratorOptions.projectDir_BuildProperty, alternativeProjectDirectory.FullName);
-				}
-
-                if (rootNamespace is not null)
-                {
-				    options.Add(GeneratorOptions.rootNamespace_BuildProperty, rootNamespace);
-                }
-
-                foreach(var severityOverride in severityConfig)
-                {
-                    options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLower()}_severity", severityOverride.Value.ToLower());
-                }
-            }
-
-            public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value) => options.TryGetValue(key, out value);
-
-            public void Set(string key, string value) => options[key] = value;
-
-            public override IEnumerable<string> Keys => options.Keys;
-        }
-
-        private readonly Dictionary<string, string> customToolNamespaces;
-
-        public GeneratorTesterAnalyzerConfigOptionsProvider(
-            DirectoryInfo? baseDirectory, 
-            DirectoryInfo? alternativeProjectDirectory, 
-            string? rootNamespace, 
-            Dictionary<DiagnosticsId, string> severityConfig, 
-            Dictionary<string, string> customToolNamespaces
-        )
-        {
-            globalOptions = new Options(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig);
-            this.customToolNamespaces = customToolNamespaces;
-        }
-
-        private readonly AnalyzerConfigOptions globalOptions;
-
-        public override AnalyzerConfigOptions GlobalOptions => globalOptions;
-
-		public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
-		{
-            throw new NotImplementedException();
-        }
-
-		public override AnalyzerConfigOptions GetOptions(AdditionalText textFile)
-		{
-            var copy = new Options(this.globalOptions);
-
-            if (customToolNamespaces.ContainsKey(textFile.Path))
-            {
-                copy.Set(RessourceFile.CustomToolNameSpaceProperty, customToolNamespaces[textFile.Path]);
-            }
-
-            return copy;
-		}
-	}
 }
+
