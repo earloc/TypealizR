@@ -36,7 +36,10 @@
 	    <DependentUpon>CustomNameSpace.resx</DependentUpon>
 	  </Compile>
 	</ItemGroup>
-
+	<ItemGroup>
+		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="CustomToolNamespace" />
+	</ItemGroup>
+	
 	<ItemGroup>
 		<EmbeddedResource Update="NoCodeGen\Internal.resx">
 			<Generator></Generator>

@@ -6,6 +6,7 @@ using Playground.Shared;
 using Playground.Shared.Groups;
 using Playground.Shared.NoCodeGen;
 using Playground.Shared.Groups.TypealizR;
+using My.Super.Special.Namespace;
 
 Console.WriteLine("Hello, World!");
 
@@ -27,7 +28,8 @@ Console.WriteLine(typealized.Questions.What_to_do__now(DateTime.Now));
 
 services.AddSingleton<Greeter, Greeter>();
 
-
+var customNamespace = provider.GetRequiredService<IStringLocalizer<CustomNameSpace>>();
+Console.WriteLine(customNamespace.Hello());
 
 
 var greeter = provider.GetRequiredService<Greeter>();

@@ -78,7 +78,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             .Replace('/', '.')
             .Replace('\\', '.');
 
-        if (nameSpace != rootNameSpace)
+        if (resx.CustomToolNamespace is null && nameSpace != rootNameSpace)
         {
             nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
         }
