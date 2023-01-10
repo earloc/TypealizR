@@ -11,11 +11,23 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 {
 	public void Initialize(IncrementalGeneratorInitializationContext context)
 	{
-		var optionsProvider = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
-		var resxFilesProvider = context.AdditionalTextsProvider.Where(static x => x.Path.EndsWith(".resx"));
-		var monitoredFiles = resxFilesProvider.Collect().Select((x, cancel) => RessourceFile.From(x));
+        
+        var optionsProvider = context.AnalyzerConfigOptionsProvider
+            .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
+        );
 
-		context.RegisterSourceOutput(monitoredFiles
+		var resxFilesProvider = context.AdditionalTextsProvider
+            .Where(static x => x.Path.EndsWith(".resx"))
+            .Combine(context.AnalyzerConfigOptionsProvider)
+        ;
+
+		var monitoredFiles = resxFilesProvider
+            .Select((x, cancel) => new AdditionalTextWithOptions(x.Left, x.Right.GetOptions(x.Left)))
+            .Collect()
+            .Select(RessourceFile.From)
+        ;
+
+        context.RegisterSourceOutput(monitoredFiles
 			.Combine(optionsProvider)
 			.Combine(context.CompilationProvider),
 			(ctxt, source) =>
@@ -43,6 +55,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 		{
 			return;
 		}
+
         (var targetNamespace, var accessability) = FindNameSpaceAndAccessabilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName);
         var markerType = new TypeModel(targetNamespace, file.SimpleName, accessability);
 
@@ -58,10 +71,14 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
     private (string, Accessibility) FindNameSpaceAndAccessabilityOf(Compilation compilation, string rootNameSpace, RessourceFile resx, string projectFullPath)
     {
         var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName);
-        var nameSpace = resx.FullPath.Replace(projectFullPath, "");
-        nameSpace = nameSpace.Replace(Path.GetFileName(resx.FullPath), "");
-        nameSpace = nameSpace.Trim('/', '\\').Replace('/', '.').Replace('\\', '.');
-        if (nameSpace != rootNameSpace)
+        var nameSpace = resx.CustomToolNamespace ?? resx.FullPath
+            .Replace(projectFullPath, "")
+            .Replace(Path.GetFileName(resx.FullPath), "")
+            .Trim('/', '\\')
+            .Replace('/', '.')
+            .Replace('\\', '.');
+
+        if (resx.CustomToolNamespace is null && nameSpace != rootNameSpace)
         {
             nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
         }

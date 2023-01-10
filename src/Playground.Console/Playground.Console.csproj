@@ -30,8 +30,16 @@
 	    <AutoGen>True</AutoGen>
 	    <DependentUpon>SomeResource.resx</DependentUpon>
 	  </Compile>
+	  <Compile Update="WithCodeGen\CustomNameSpace.Designer.cs">
+	    <DesignTime>True</DesignTime>
+	    <AutoGen>True</AutoGen>
+	    <DependentUpon>CustomNameSpace.resx</DependentUpon>
+	  </Compile>
 	</ItemGroup>
-
+	<ItemGroup>
+		<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="CustomToolNamespace" />
+	</ItemGroup>
+	
 	<ItemGroup>
 		<EmbeddedResource Update="NoCodeGen\Internal.resx">
 			<Generator></Generator>
@@ -39,6 +47,11 @@
 		<EmbeddedResource Update="Readme\SomeResource.resx">
 		  <Generator>ResXFileCodeGenerator</Generator>
 		  <LastGenOutput>SomeResource.Designer.cs</LastGenOutput>
+		</EmbeddedResource>
+		<EmbeddedResource Update="WithCodeGen\CustomNameSpace.resx">
+		  <Generator>ResXFileCodeGenerator</Generator>
+		  <LastGenOutput>CustomNameSpace.Designer.cs</LastGenOutput>
+		  <CustomToolNamespace>My.Super.Special.Namespace</CustomToolNamespace>
 		</EmbeddedResource>
 	</ItemGroup>
 

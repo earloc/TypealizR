@@ -1,21 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace TypealizR.Core;
 public partial class RessourceFile
 {
+    internal const string CustomToolNameSpaceProperty = "build_metadata.embeddedresource.customtoolnamespace";
+
     public IEnumerable<Entry> Entries { get; }
 
-    public RessourceFile(string simpleName, string fullPath, string content)
+    public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace)
     {
         SimpleName = simpleName;
         FullPath = fullPath;
+
+        CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
+
         IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
 
         if (string.IsNullOrEmpty(content))
@@ -42,31 +50,23 @@ public partial class RessourceFile
 
     public string SimpleName { get; }
     public string FullPath { get; }
+    public string? CustomToolNamespace { get; }
     public bool IsDefaultLocale { get; }
     
-    public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalText> source) => From(source.Select(x => x.Path));
-
-    public static IEnumerable<RessourceFile> From(IEnumerable<string> filePaths)
+    public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalTextWithOptions> source, CancellationToken cancellationToken)
     {
-		static string TryGetFileContent(string filePath)
-        {
-            if (File.Exists(filePath))
-            {
-                return File.ReadAllText(filePath);
-            }
-            return string.Empty;
-        }
-
-        var byFolder = filePaths
-            .GroupBy(x => Directory.GetParent(x).FullName)
-            .Select(x => x.GroupBy(y => GetSimpleFileNameOf(y)))
+        var byFolder = source
+            .GroupBy(x => Directory.GetParent(x.Text.Path).FullName)
+            .Select(x => x.GroupBy(y => GetSimpleFileNameOf(y.Text.Path)))
         ;
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new { Name = resx.Key, MainFile = resx.Max()})
-                .Select(_ => new RessourceFile(_.Name, _.MainFile, TryGetFileContent(_.MainFile))
-            )
+                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })                .Where(_ => _.MainFile is not null)
+                .Select(_ => {
+                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamesapce);
+                    return new RessourceFile(_.Name, _.MainFile.Text.Path, _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, customToolNamesapce);
+                })
         );
 
         return files.Where(x => x.IsDefaultLocale);

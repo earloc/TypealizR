@@ -10,9 +10,9 @@ namespace TypealizR.Core;
 
 public sealed class GeneratorOptions
 {
-	public const string MSBUILD_PROJECT_DIRECTORY = "build_property.msbuildprojectdirectory";
-	public const string PROJECT_DIR = "build_property.projectdir";
-	public const string ROOT_NAMESPACE = "build_property.rootnamespace";
+	public const string msBuildProjectDirectory_BuildProperty = "build_property.msbuildprojectdirectory";
+	public const string projectDir_BuildProperty = "build_property.projectdir";
+	public const string rootNamespace_BuildProperty = "build_property.rootnamespace";
 
 	public GeneratorOptions(string? projectDirectory, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
 	{
@@ -30,12 +30,12 @@ public sealed class GeneratorOptions
 
 	public static GeneratorOptions From(AnalyzerConfigOptions options)
 	{
-		if (!options.TryGetValue(MSBUILD_PROJECT_DIRECTORY, out var projectDirectory))
+		if (!options.TryGetValue(msBuildProjectDirectory_BuildProperty, out var projectDirectory))
 		{
-			options.TryGetValue(PROJECT_DIR, out projectDirectory);
+			options.TryGetValue(projectDir_BuildProperty, out projectDirectory);
 		}
 
-		options.TryGetValue(ROOT_NAMESPACE, out var rootNamespace);
+		options.TryGetValue(rootNamespace_BuildProperty, out var rootNamespace);
 
 		var severityConfig = ReadSeverityConfig(options);
 
