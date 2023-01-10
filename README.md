@@ -342,6 +342,7 @@ See
 - [#12] for details about design-decisssions
 - [#35] for implementation-details
 
+[TypealizR]:https://github.com/earloc/TypealizR
 
 [v0.6]:https://github.com/earloc/TypealizR/milestone/1
 
