@@ -215,4 +215,28 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
 			.Verify()
 		;
 	}
+
+    [Theory]
+    [InlineData("wtf")]
+    public async Task NoCode_Ignores_Invalid_Setting_UseParamNamesInMethodNames(string useParamNamesInMethodNames)
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", useParamNamesInMethodNames: useParamNamesInMethodNames)
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Theory]
+    [InlineData("false")]
+    public async Task NoCode_Honors_Setting_UseParamNamesInMethodNames(string useParamNamesInMethodNames)
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", useParamNamesInMethodNames: useParamNamesInMethodNames)
+            .Build()
+            .Verify()
+        ;
+    }
 }

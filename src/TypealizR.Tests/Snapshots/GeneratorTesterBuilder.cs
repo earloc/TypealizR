@@ -13,7 +13,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     private readonly List<FileInfo> sourceFiles = new();
     private readonly List<FileInfo> resxFiles = new();
     private readonly Dictionary<string, string> customToolNamespaces = new();
-    private readonly Dictionary<string, bool> useParamNamesInMethodNames = new();
+    private readonly Dictionary<string, string> useParamNamesInMethodNames = new();
 
     private readonly string? rootNamespace;
 
@@ -59,7 +59,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         string fileName, 
         bool andDesignerFile = false, 
         string andCustomToolNamespace = "",
-        bool useParamNamesInMethodNames = true
+        string useParamNamesInMethodNames = ""
     )
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);

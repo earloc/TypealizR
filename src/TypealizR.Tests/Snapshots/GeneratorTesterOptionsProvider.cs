@@ -8,7 +8,7 @@ namespace TypealizR.Tests.Snapshots;
 internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
 {
     private readonly Dictionary<string, string> customToolNamespaces;
-    private readonly Dictionary<string, bool> useParamNamesInMethodNames;
+    private readonly Dictionary<string, string> useParamNamesInMethodNames;
 
     public GeneratorTesterOptionsProvider(
         DirectoryInfo? baseDirectory,
@@ -16,7 +16,7 @@ internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
         string? rootNamespace,
         Dictionary<DiagnosticsId, string> severityConfig,
         Dictionary<string, string> customToolNamespaces,
-        Dictionary<string, bool> useParamNamesInMethodNames
+        Dictionary<string, string> useParamNamesInMethodNames
     )
     {
         globalOptions = new GeneratorTesterOptions(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig);
@@ -40,8 +40,13 @@ internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
         if (customToolNamespaces.ContainsKey(textFile.Path))
         {
             copy.Set(RessourceFile.CustomToolNameSpaceProperty, customToolNamespaces[textFile.Path]);
-            copy.Set(RessourceFile.UseParamNamesInMethodNamesProperty, useParamNamesInMethodNames[textFile.Path].ToString());
         }
+
+        if (useParamNamesInMethodNames.ContainsKey(textFile.Path))
+        {
+            copy.Set(RessourceFile.UseParamNamesInMethodNamesProperty, useParamNamesInMethodNames[textFile.Path]);
+        }
+        
 
         return copy;
     }

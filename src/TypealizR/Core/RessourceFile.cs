@@ -22,8 +22,8 @@ public partial class RessourceFile
     {
         SimpleName = simpleName;
         FullPath = fullPath;
-        UseParamNamesInMethodNames = useParamNamesInMethodNames;
         CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
+        UseParamNamesInMethodNames = useParamNamesInMethodNames;
 
         IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
 
@@ -67,7 +67,15 @@ public partial class RessourceFile
                 .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })
                 .Where(_ => _.MainFile is not null)
                 .Select(_ => {
-                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamespace);                    var useParamNamesInMethodNames = true;                    if (_.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var useParamNamesInMethodNamesString))                    {                        if (bool.TryParse(useParamNamesInMethodNamesString, out var useParamNamesInMethodNamesValue))                        {                            useParamNamesInMethodNames = useParamNamesInMethodNamesValue;                        }
+                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamespace);
+
+                    var useParamNamesInMethodNames = true;
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesProperty, out var useParamNamesInMethodNamesString))
+                    {
+                        if (bool.TryParse(useParamNamesInMethodNamesString, out var useParamNamesInMethodNamesValue))
+                        {
+                            useParamNamesInMethodNames = useParamNamesInMethodNamesValue;
+                        }
                     }
 
                     return new RessourceFile(
