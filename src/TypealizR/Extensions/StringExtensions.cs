@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using System.Text;
 
 namespace System;
@@ -27,6 +25,9 @@ internal static class StringExtensions
 		return builder.ToString();
 	}
 
-	public static string ToCommaDelimited(this IEnumerable<string> that)         => string.Join(", ", that);    public static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join)         => string.Join(join, s.Split(new[] { seperator }, StringSplitOptions.RemoveEmptyEntries));
+	public static string ToCommaDelimited(this IEnumerable<string> that) 
+        => string.Join(", ", that);
 
+    public static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join) 
+        => string.Join(join, s.Split(new[] { seperator }, StringSplitOptions.RemoveEmptyEntries));
 }
