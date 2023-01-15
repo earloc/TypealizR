@@ -16,16 +16,14 @@ internal class ExtensionMethodBuilder
 	private readonly TypeModel markerType;
 	private readonly string key;
 	private readonly string value;
-	private readonly DiagnosticsCollector diagnostics;
-	private readonly ParameterBuilder parameterBuilder;
+	private readonly DiagnosticsCollector diagnostics;    private readonly bool useParametersInMethodNames;    private readonly ParameterBuilder parameterBuilder;
 
-	public ExtensionMethodBuilder(TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics, bool useParametersInMethodNames = true)
+	public ExtensionMethodBuilder(bool useParametersInMethodNames, TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics)
 	{
-		this.markerType = markerType;
+        this.useParametersInMethodNames = useParametersInMethodNames;		this.markerType = markerType;
 		this.key = key;
 		this.value = value;
-		this.diagnostics = diagnostics;
-		parameterBuilder = new(key);
+		this.diagnostics = diagnostics;        parameterBuilder = new(key);
 	}
 
 	public ExtensionMethodModel Build()
