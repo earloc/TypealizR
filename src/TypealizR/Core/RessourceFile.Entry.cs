@@ -46,7 +46,7 @@ public partial class RessourceFile
                 .ToArray()
             ;
 
-            return parts.Select(x => new MemberName(x));
+            return parts.Select(x => new MemberName(x)).ToArray();
         }
 
         public string Key { get; }
