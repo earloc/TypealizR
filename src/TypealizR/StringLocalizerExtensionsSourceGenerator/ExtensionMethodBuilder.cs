@@ -28,16 +28,13 @@ internal class ExtensionMethodBuilder
 
 	public ExtensionMethodModel Build()
 	{
-		var parameters = parameterBuilder.Build(diagnostics);
-
-		var methodNameWithoutParameters = key;
+		var parameters = parameterBuilder.Build(diagnostics);        string sanitizedMethodName = key;
 
 		foreach (var parameter in parameters)
-		{
-			methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
+		{            sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, $"_{parameter.Name}_");
 		}
 
-		var name = new MemberName(methodNameWithoutParameters.Trim());
+		var name = new MemberName(sanitizedMethodName.Trim());
 
 		return new ExtensionMethodModel(markerType, key, value, name, parameters);
 	}
