@@ -20,7 +20,7 @@ public sealed class StringLocalizerExtensionsSourceGenerator : ResxFileSourceGen
         CancellationToken cancellationToken
     )
     {
-        var builder = new ExtensionClassBuilder(markerType, rootNamespace);
+        var builder = new ExtensionClassBuilder(markerType, rootNamespace, file.UseParamNamesInMethodNames);
 
         var diagnostics = new List<Diagnostic>();
 

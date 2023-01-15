@@ -13,6 +13,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     private readonly List<FileInfo> sourceFiles = new();
     private readonly List<FileInfo> resxFiles = new();
     private readonly Dictionary<string, string> customToolNamespaces = new();
+    private readonly Dictionary<string, bool> useParamNamesInMethodNames = new();
 
     private readonly string? rootNamespace;
 
@@ -54,7 +55,12 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         return this;
     }
 
-    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName, bool andDesignerFile = false, string andCustomToolNamespace = "")
+    public GeneratorTesterBuilder<TGenerator> WithResxFile(
+        string fileName, 
+        bool andDesignerFile = false, 
+        string andCustomToolNamespace = "",
+        bool useParamNamesInMethodNames = true
+    )
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);
 		var fileInfo = new FileInfo(path);
@@ -70,6 +76,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         {
             customToolNamespaces.Add(fileInfo.FullName, andCustomToolNamespace);
         }
+
+        this.useParamNamesInMethodNames.Add(fileInfo.FullName, useParamNamesInMethodNames);
 
         if (andDesignerFile)
         {
@@ -100,7 +108,14 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterOptionsProvider(withoutMsBuildProjectDirectory ? null : baseDirectory, projectDir, rootNamespace, severityConfig, customToolNamespaces)
+                new GeneratorTesterOptionsProvider(
+                    withoutMsBuildProjectDirectory ? null : baseDirectory, 
+                    projectDir, 
+                    rootNamespace, 
+                    severityConfig, 
+                    customToolNamespaces,
+                    useParamNamesInMethodNames
+                )
         );
 
         var generatorDriver = driver.RunGenerators(compilation);

@@ -14,14 +14,15 @@ namespace TypealizR.Core;
 public partial class RessourceFile
 {
     internal const string CustomToolNameSpaceProperty = "build_metadata.embeddedresource.customtoolnamespace";
+    internal const string UseParamNamesInMethodNamesProperty = "build_property.typealizr_useparamnamesinmethodnames";
 
     public IEnumerable<Entry> Entries { get; }
 
-    public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace)
+    public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace, bool useParamNamesInMethodNames)
     {
         SimpleName = simpleName;
         FullPath = fullPath;
-
+        UseParamNamesInMethodNames = useParamNamesInMethodNames;
         CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
 
         IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
@@ -50,6 +51,7 @@ public partial class RessourceFile
 
     public string SimpleName { get; }
     public string FullPath { get; }
+    public bool UseParamNamesInMethodNames { get; }
     public string? CustomToolNamespace { get; }
     public bool IsDefaultLocale { get; }
     
@@ -62,10 +64,19 @@ public partial class RessourceFile
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })                .Where(_ => _.MainFile is not null)
+                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })
+                .Where(_ => _.MainFile is not null)
                 .Select(_ => {
-                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamesapce);
-                    return new RessourceFile(_.Name, _.MainFile.Text.Path, _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, customToolNamesapce);
+                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamespace);                    var useParamNamesInMethodNames = true;                    if (_.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var useParamNamesInMethodNamesString))                    {                        if (bool.TryParse(useParamNamesInMethodNamesString, out var useParamNamesInMethodNamesValue))                        {                            useParamNamesInMethodNames = useParamNamesInMethodNamesValue;                        }
+                    }
+
+                    return new RessourceFile(
+                        simpleName: _.Name, 
+                        fullPath: _.MainFile.Text.Path, 
+                        content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, 
+                        customToolNamespace: customToolNamespace,
+                        useParamNamesInMethodNames: useParamNamesInMethodNames
+                    );
                 })
         );
 
