@@ -31,7 +31,7 @@ internal class ExtensionMethodBuilder
 		var parameters = parameterBuilder.Build(diagnostics);        string sanitizedMethodName = key;
 
 		foreach (var parameter in parameters)
-		{            sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, $"_{parameter.Name}_");
+		{            var sanitizedParameterName = useParametersInMethodNames ? $"_{parameter.Name}_" : "";            sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, sanitizedParameterName);
 		}
 
 		var name = new MemberName(sanitizedMethodName.Trim());
