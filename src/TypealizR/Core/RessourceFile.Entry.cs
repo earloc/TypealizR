@@ -13,7 +13,7 @@ public partial class RessourceFile
 
         public Entry(string key, string value, IXmlLineInfo location)
         {
-                        RawKey = key;
+            RawKey = key;
             Value = value;
             Location = location;
 
@@ -46,7 +46,7 @@ public partial class RessourceFile
                 .ToArray()
             ;
 
-            return parts.Select(x => new MemberName(x)).ToArray();
+            return parts                .Select(x => new MemberName(x                    .ReplaceInvalidForMemberNameWith(' ')                    .Replace(" ", ""))                )                .ToArray();
         }
 
         public string Key { get; }
