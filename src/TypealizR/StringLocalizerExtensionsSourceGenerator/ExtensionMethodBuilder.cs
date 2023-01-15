@@ -19,7 +19,7 @@ internal class ExtensionMethodBuilder
 	private readonly DiagnosticsCollector diagnostics;
 	private readonly ParameterBuilder parameterBuilder;
 
-	public ExtensionMethodBuilder(TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics)
+	public ExtensionMethodBuilder(TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics, bool useParametersInMethodNames = true)
 	{
 		this.markerType = markerType;
 		this.key = key;
