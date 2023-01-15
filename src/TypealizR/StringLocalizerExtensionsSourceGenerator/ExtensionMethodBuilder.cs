@@ -39,7 +39,7 @@ internal class ExtensionMethodBuilder
 
 		foreach (var parameter in parameters)
 		{
-            var sanitizedParameterName = useParametersInMethodNames ? $"_{parameter.Name}_" : "";
+            var sanitizedParameterName = useParametersInMethodNames ? $"_{parameter.Name}_" : " ";
             sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, sanitizedParameterName);
 		}
 
