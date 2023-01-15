@@ -13,7 +13,7 @@ public partial class RessourceFile
 
         public Entry(string key, string value, IXmlLineInfo location)
         {
-            RawKey = key;
+                        RawKey = key;
             Value = value;
             Location = location;
 
