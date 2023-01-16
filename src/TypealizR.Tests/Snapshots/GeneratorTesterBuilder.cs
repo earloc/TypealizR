@@ -60,7 +60,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     public GeneratorTesterBuilder<TGenerator> WithResxFile(
         string fileName, 
         bool andDesignerFile = false, 
-        string andCustomToolNamespace = "",
+        string? andCustomToolNamespace = null,
         string useParamNamesInMethodNames = ""
     )
     {

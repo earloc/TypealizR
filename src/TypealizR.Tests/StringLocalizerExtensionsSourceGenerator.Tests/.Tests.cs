@@ -169,7 +169,29 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
 		;
 	}
 
-	[Fact]
+    [Fact]
+    public async Task NoCode_Resx_Honors_CustomToolNamespace()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", andCustomToolNamespace: "Some.Special.Custom.Namespace")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
+    public async Task NoCode_Resx_Ignores_Empty_CustomToolNamespace()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", andCustomToolNamespace: "")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
 	public async Task NoCode_Resx_Honors_Internal_MarkerType()
 	{
 		await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
