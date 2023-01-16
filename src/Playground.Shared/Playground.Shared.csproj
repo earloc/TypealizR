@@ -53,6 +53,9 @@
 		  <Generator>PublicResXFileCodeGenerator</Generator>
 		  <LastGenOutput>Ressources.Designer.cs</LastGenOutput>
 		</EmbeddedResource>
+		<EmbeddedResource Update="NoCodeGen\Without_Params_In_MethodNames.resx">
+		  <Generator></Generator>
+		</EmbeddedResource>
 	</ItemGroup>
 
 </Project>

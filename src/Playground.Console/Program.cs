@@ -64,8 +64,15 @@ Console.WriteLine(
 	typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
 );
 
+var without_Params_In_MethodNames = provider.GetRequiredService<IStringLocalizer<Without_Params_In_MethodNames>>();
 
+Console.WriteLine(
+    without_Params_In_MethodNames.Hello__world("Earth")
+);
 
+Console.WriteLine(
+    without_Params_In_MethodNames.Goodbye__user("Arthur")
+);
 
 
 
