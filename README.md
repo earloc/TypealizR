@@ -348,7 +348,7 @@ Both approaches require modifications within the consuming `*.csproj`-files:
 
 ```
 
-> the per-file setting takes preceedence over the global setting. So you can choose to just opt-out on a per-file basis, or opt-out globally and optin-in on a per-file basis, if needed
+> the per-file setting takes precedence over the global setting. So you can choose to just opt-out on a per-file basis, or opt-out globally and optin-in on a per-file basis, if needed
 
 ## customize warnings
 
