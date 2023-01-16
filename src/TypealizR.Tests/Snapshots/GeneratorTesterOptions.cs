@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
+using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
@@ -30,7 +31,8 @@ internal class GeneratorTesterOptions : AnalyzerConfigOptions
         DirectoryInfo? baseDirectory,
         DirectoryInfo? alternativeProjectDirectory,
         string? rootNamespace,
-        Dictionary<DiagnosticsId, string> severityConfig
+        Dictionary<DiagnosticsId, string> severityConfig,
+        string? useParamNamesInMethodNames = null
     )
     {
         if (baseDirectory is not null)
@@ -52,6 +54,8 @@ internal class GeneratorTesterOptions : AnalyzerConfigOptions
         {
             options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLower()}_severity", severityOverride.Value.ToLower());
         }
+
+        options.Add(RessourceFile.UseParamNamesInMethodNamesBuildProperty, useParamNamesInMethodNames is not null ? useParamNamesInMethodNames : "");
     }
 
     public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value) => options.TryGetValue(key, out value);

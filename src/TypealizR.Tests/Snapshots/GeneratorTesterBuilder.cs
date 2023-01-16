@@ -7,7 +7,7 @@ namespace TypealizR.Tests.Snapshots;
 
 internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
-    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
+    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = new();
@@ -16,8 +16,9 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     private readonly Dictionary<string, string> useParamNamesInMethodNames = new();
 
     private readonly string? rootNamespace;
+    private readonly string? useParamNamesInMethodNamesBuildProperty;
 
-	public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null)
+    public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null)
 	{
         this.baseDirectory = new DirectoryInfo(baseDirectory);
 
@@ -27,7 +28,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         }
 
 		this.rootNamespace = rootNamespace;
-	}
+        useParamNamesInMethodNamesBuildProperty = useParamNamesInMethodNames;
+    }
 
     private bool withoutMsBuildProjectDirectory = false;
     private DirectoryInfo? projectDir = null;
@@ -114,7 +116,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
                     rootNamespace, 
                     severityConfig, 
                     customToolNamespaces,
-                    useParamNamesInMethodNames
+                    useParamNamesInMethodNames,
+                    useParamNamesInMethodNamesBuildProperty
                 )
         );
 

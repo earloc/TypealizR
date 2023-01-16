@@ -16,10 +16,11 @@ internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
         string? rootNamespace,
         Dictionary<DiagnosticsId, string> severityConfig,
         Dictionary<string, string> customToolNamespaces,
-        Dictionary<string, string> useParamNamesInMethodNames
+        Dictionary<string, string> useParamNamesInMethodNames,
+        string? useParamNamesInMethodNamesBuildProperty
     )
     {
-        globalOptions = new GeneratorTesterOptions(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig);
+        globalOptions = new GeneratorTesterOptions(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig, useParamNamesInMethodNamesBuildProperty);
         this.customToolNamespaces = customToolNamespaces;
         this.useParamNamesInMethodNames = useParamNamesInMethodNames;
     }
@@ -39,12 +40,12 @@ internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
 
         if (customToolNamespaces.ContainsKey(textFile.Path))
         {
-            copy.Set(RessourceFile.CustomToolNameSpaceProperty, customToolNamespaces[textFile.Path]);
+            copy.Set(RessourceFile.CustomToolNameSpaceItemMetadata, customToolNamespaces[textFile.Path]);
         }
 
         if (useParamNamesInMethodNames.ContainsKey(textFile.Path))
         {
-            copy.Set(RessourceFile.UseParamNamesInMethodNamesProperty, useParamNamesInMethodNames[textFile.Path]);
+            copy.Set(RessourceFile.UseParamNamesInMethodNamesItemMetadata, useParamNamesInMethodNames[textFile.Path]);
         }
         
 

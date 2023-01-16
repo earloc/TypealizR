@@ -228,13 +228,23 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
         ;
     }
 
-    [Theory]
-    [InlineData("false")]
-    public async Task NoCode_Honors_Setting_UseParamNamesInMethodNames(string useParamNamesInMethodNames)
+    [Fact]
+    public async Task NoCode_Honors_Setting_UseParamNamesInMethodNames_BuildProperty()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace, useParamNamesInMethodNames: "false")
+            .WithResxFile("NoWarnings_NoCode.resx")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
+    public async Task NoCode_Honors_Setting_UseParamNamesInMethodNames_ItemMetadata()
     {
         await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
             .Create(BaseDirectory, RootNamespace)
-            .WithResxFile("NoWarnings_NoCode.resx", useParamNamesInMethodNames: useParamNamesInMethodNames)
+            .WithResxFile("NoWarnings_NoCode.resx", useParamNamesInMethodNames: "false")
             .Build()
             .Verify()
         ;
