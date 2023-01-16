@@ -169,7 +169,29 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
 		;
 	}
 
-	[Fact]
+    [Fact]
+    public async Task NoCode_Resx_Honors_CustomToolNamespace()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", andCustomToolNamespace: "Some.Special.Custom.Namespace")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
+    public async Task NoCode_Resx_Ignores_Empty_CustomToolNamespace()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", andCustomToolNamespace: "")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
 	public async Task NoCode_Resx_Honors_Internal_MarkerType()
 	{
 		await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
@@ -215,4 +237,38 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
 			.Verify()
 		;
 	}
+
+    [Theory]
+    [InlineData("wtf")]
+    public async Task NoCode_Ignores_Invalid_Setting_UseParamNamesInMethodNames(string useParamNamesInMethodNames)
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", useParamNamesInMethodNames: useParamNamesInMethodNames)
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
+    public async Task NoCode_Honors_Setting_UseParamNamesInMethodNames_BuildProperty()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace, useParamNamesInMethodNames: "false")
+            .WithResxFile("NoWarnings_NoCode.resx")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
+    public async Task NoCode_Honors_Setting_UseParamNamesInMethodNames_ItemMetadata()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("NoWarnings_NoCode.resx", useParamNamesInMethodNames: "false")
+            .Build()
+            .Verify()
+        ;
+    }
 }

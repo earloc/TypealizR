@@ -7,16 +7,18 @@ namespace TypealizR.Tests.Snapshots;
 
 internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
-    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
+    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = new();
     private readonly List<FileInfo> resxFiles = new();
     private readonly Dictionary<string, string> customToolNamespaces = new();
+    private readonly Dictionary<string, string> useParamNamesInMethodNames = new();
 
     private readonly string? rootNamespace;
+    private readonly string? useParamNamesInMethodNamesBuildProperty;
 
-	public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null)
+    public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null)
 	{
         this.baseDirectory = new DirectoryInfo(baseDirectory);
 
@@ -26,7 +28,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         }
 
 		this.rootNamespace = rootNamespace;
-	}
+        useParamNamesInMethodNamesBuildProperty = useParamNamesInMethodNames;
+    }
 
     private bool withoutMsBuildProjectDirectory = false;
     private DirectoryInfo? projectDir = null;
@@ -54,7 +57,12 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         return this;
     }
 
-    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName, bool andDesignerFile = false, string andCustomToolNamespace = "")
+    public GeneratorTesterBuilder<TGenerator> WithResxFile(
+        string fileName, 
+        bool andDesignerFile = false, 
+        string? andCustomToolNamespace = null,
+        string useParamNamesInMethodNames = ""
+    )
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);
 		var fileInfo = new FileInfo(path);
@@ -70,6 +78,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         {
             customToolNamespaces.Add(fileInfo.FullName, andCustomToolNamespace);
         }
+
+        this.useParamNamesInMethodNames.Add(fileInfo.FullName, useParamNamesInMethodNames);
 
         if (andDesignerFile)
         {
@@ -100,7 +110,15 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterOptionsProvider(withoutMsBuildProjectDirectory ? null : baseDirectory, projectDir, rootNamespace, severityConfig, customToolNamespaces)
+                new GeneratorTesterOptionsProvider(
+                    withoutMsBuildProjectDirectory ? null : baseDirectory, 
+                    projectDir, 
+                    rootNamespace, 
+                    severityConfig, 
+                    customToolNamespaces,
+                    useParamNamesInMethodNames,
+                    useParamNamesInMethodNamesBuildProperty
+                )
         );
 
         var generatorDriver = driver.RunGenerators(compilation);

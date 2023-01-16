@@ -7,6 +7,7 @@ using Playground.Shared.Groups;
 using Playground.Shared.NoCodeGen;
 using Playground.Shared.Groups.TypealizR;
 using My.Super.Special.Namespace;
+using Playground.Console.WithCodeGen;
 
 Console.WriteLine("Hello, World!");
 
@@ -55,17 +56,24 @@ localize.Hello__user__it_is__today(userName, today);
 
 var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 Console.WriteLine(
-	groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca")
+    groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca")
 );
 
 var typealizedGroups = groups.Typealize();
 
 Console.WriteLine(
-	typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
+    typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
 );
 
+var without_Params_In_MethodNames = provider.GetRequiredService<IStringLocalizer<Without_Params_In_MethodNames>>();
 
+Console.WriteLine(
+    without_Params_In_MethodNames.Hello("Earth")
+);
 
+Console.WriteLine(
+    without_Params_In_MethodNames.Goodbye("Arthur")
+);
 
 
 
@@ -80,16 +88,16 @@ var g = typealizedGroups;
 
 static void SomeMethod(IStringLocalizer<Ressources> L)
 {
-	//use L
+    //use L
 }
 
 SomeMethod(g.Localizer);
 
 
 Console.WriteLine(
-	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.It
+    g.Some.Deeply.Nested.Thing.Called.After.A.Monster.It
 );
 
 Console.WriteLine(
-	g.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
+    g.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
 );

@@ -12,15 +12,13 @@ using TypealizR.Extensions;
 using TypealizR.Diagnostics;
 using TypealizR.Core;namespace TypealizR;
 internal class InstanceMemberBuilder
-{
-    private readonly string key;
+{    private readonly bool useParametersInMethodNames;    private readonly string key;
     private readonly string rawKey;
     private readonly string value;
     private readonly ParameterBuilder parameterBuilder;
 
-    public InstanceMemberBuilder(string key, string rawKey, string value)
-    {
-        this.key = key;
+    public InstanceMemberBuilder(bool useParametersInMethodNames, string key, string rawKey, string value)
+    {        this.useParametersInMethodNames = useParametersInMethodNames;        this.key = key;
         this.rawKey = rawKey;
         this.value = value;
         parameterBuilder = new(key);
@@ -30,14 +28,14 @@ internal class InstanceMemberBuilder
     {
         var parameters = parameterBuilder.Build(diagnostics);
 
-        var methodNameWithoutParameters = key;
+        var sanitizedMethodName = key;
 
         foreach (var parameter in parameters)
-        {
-            methodNameWithoutParameters = methodNameWithoutParameters.Replace(parameter.Token, $"_{parameter.Name}_");
+        {            var sanitizedParameterName = useParametersInMethodNames ? $"_{parameter.Name}_" : " ";
+            sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, sanitizedParameterName);
         }
 
-        var name = new MemberName(methodNameWithoutParameters.Trim());
+        var name = new MemberName(sanitizedMethodName.Trim());
 
         return new InstanceMemberModel(rawKey, value, name, parameters);
     }
