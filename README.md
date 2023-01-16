@@ -394,11 +394,9 @@ See
 [demo_groups]:https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_groups.gif?raw=true
 [demo_CustomToolNamespace]:https://github.com/earloc/TypealizR/blob/main/docs/assets/CustomToolNamespace.png?raw=true
 
-
 [global-analyzerconfig]:https://learn.microsoft.com/en-us/dotnet/fundamentals/code-analysis/configuration-files#global-analyzerconfig
 [type-annotations]:https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0004_UnrecognizedParameterType.md
 
 [Microsoft.Extensions.DependencyInjection]:https://learn.microsoft.com/en-us/dotnet/core/extensions/dependency-injection-usage
-
 
 [Consume MSBuild properties and metadata]:https://github.com/dotnet/roslyn/blob/main/docs/features/source-generators.cookbook.md#consume-msbuild-properties-and-metadata
