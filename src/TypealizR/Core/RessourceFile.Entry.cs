@@ -46,7 +46,12 @@ public partial class RessourceFile
                 .ToArray()
             ;
 
-            return parts                .Select(x => new MemberName(x                    .ReplaceInvalidForMemberNameWith(' ')                    .Replace(" ", ""))                )                .ToArray();
+            return parts
+                .Select(x => new MemberName(x
+                    .ReplaceInvalidForMemberNameWith(' ')
+                    .Replace(" ", ""))
+                )
+                .ToArray();
         }
 
         public string Key { get; }

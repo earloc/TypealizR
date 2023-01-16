@@ -13,10 +13,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace TypealizR.Core;
 public partial class RessourceFile
 {
-    internal const string CustomToolNameSpaceProperty = "build_metadata.embeddedresource.customtoolnamespace";
-    internal const string UseParamNamesInMethodNamesProperty = "build_property.typealizr_useparamnamesinmethodnames";
-
-    public IEnumerable<Entry> Entries { get; }
+    internal const string CustomToolNameSpaceItemMetadata = "build_metadata.embeddedresource.customtoolnamespace";
+    internal const string UseParamNamesInMethodNamesBuildProperty = "build_property.typealizr_useparamnamesinmethodnames";    internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
+    public IEnumerable<Entry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace, bool useParamNamesInMethodNames)
     {
@@ -67,18 +66,19 @@ public partial class RessourceFile
                 .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })
                 .Where(_ => _.MainFile is not null)
                 .Select(_ => {
-                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceProperty, out var customToolNamespace);
+                    _.MainFile.Options.TryGetValue(CustomToolNameSpaceItemMetadata, out var customToolNamespace);
 
-                    var useParamNamesInMethodNames = true;
-                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesProperty, out var useParamNamesInMethodNamesString))
+                    var useParamNamesInMethodNames = true;
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString))
                     {
-                        if (bool.TryParse(useParamNamesInMethodNamesString, out var useParamNamesInMethodNamesValue))
+                        if (!string.IsNullOrEmpty(useParamNamesInMethodNamesBuildPropertyString) && bool.TryParse(useParamNamesInMethodNamesBuildPropertyString, out var value))
                         {
-                            useParamNamesInMethodNames = useParamNamesInMethodNamesValue;
+                            useParamNamesInMethodNames = value;
                         }
-                    }
-
-                    return new RessourceFile(
+                    }                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString))                    {                        if (!string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString) && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var value))
+                        {
+                            useParamNamesInMethodNames = value;
+                        }                    }                    return new RessourceFile(
                         simpleName: _.Name, 
                         fullPath: _.MainFile.Text.Path, 
                         content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, 
