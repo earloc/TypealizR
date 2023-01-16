@@ -21,7 +21,7 @@ public sealed class TypealizedClassSourceGenerator : ResxFileSourceGeneratorBase
         CancellationToken cancellationToken
     )
     {
-        var builder = new TypealizedClassBuilder(markerType, $"Typealized{markerType.Name}", rootNamespace, severityConfig);
+        var builder = new TypealizedClassBuilder(file.UseParamNamesInMethodNames, markerType, $"Typealized{markerType.Name}", rootNamespace, severityConfig);
 
         var diagnostics = new List<Diagnostic>();
 
