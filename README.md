@@ -313,6 +313,43 @@ With this implementation, every localized string would be reversed. (Even if tha
 
 
 # configuration
+
+## parameter names in method names
+
+Per default, `TypealizR` uses any given parameter name within the name of generated methods.
+
+f.e. the resource-key `Hello {world:s}` will be populated as `Hello__world(string world)`.
+
+For some naming-strategies, this could be a bit too verbose, so you can opt-out of this behavior either globally or on a per-file basis.
+f.e. the resource-key `Hello {world:s}` will then be populated  as `Hello(string world)`.
+
+Both approaches require modifications within the consuming `*.csproj`-files:
+
+### global
+```xml
+<ItemGroup>
+	<CompilerVisibleProperty Include="TypealizR_UseParamNamesInMethodNames" />
+</ItemGroup>
+
+<PropertyGroup>
+	<TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
+</PropertyGroup>
+```
+
+### per file
+```xml
+<ItemGroup>
+	<CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="TypealizR_UseParamNamesInMethodNames" />
+</ItemGroup>
+
+<EmbeddedResource Update="Some.resx">
+	<TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
+</EmbeddedResource>
+
+```
+
+> the per-file setting takes preceedence over the global setting. So you can choose to just opt-out on a per-file basis, or opt-out globally and optin-in on a per-file basis, if needed
+
 ## customize warnings
 
 During code-generation, the `code-generator` might emit one of [these diagnostics](https://github.com/earloc/TypealizR/tree/main/docs/reference).
