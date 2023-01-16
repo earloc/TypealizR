@@ -69,16 +69,12 @@ public partial class RessourceFile
                     _.MainFile.Options.TryGetValue(CustomToolNameSpaceItemMetadata, out var customToolNamespace);
 
                     var useParamNamesInMethodNames = true;
-                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString))
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString)                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesBuildPropertyString)                        && bool.TryParse(useParamNamesInMethodNamesBuildPropertyString, out var useParamNamesInMethodNamesBuildProperty))
                     {
-                        if (!string.IsNullOrEmpty(useParamNamesInMethodNamesBuildPropertyString) && bool.TryParse(useParamNamesInMethodNamesBuildPropertyString, out var value))
-                        {
-                            useParamNamesInMethodNames = value;
-                        }
-                    }                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString))                    {                        if (!string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString) && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var value))
-                        {
-                            useParamNamesInMethodNames = value;
-                        }                    }                    return new RessourceFile(
+                            useParamNamesInMethodNames = useParamNamesInMethodNamesBuildProperty;
+                    }                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString)                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString)                        && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var useParamNamesInMethodNamesItemMetadata))                    {                        
+                            useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
+                                            }                    return new RessourceFile(
                         simpleName: _.Name, 
                         fullPath: _.MainFile.Text.Path, 
                         content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, 
