@@ -36,4 +36,10 @@
   <data name="TR0004_MessageFormat" xml:space="preserve">
     <value>Die Ressource '{0}' verwendet die unbekannte Parametertyp-Annotation '{1}'. Stattdessen wird 'object' verwendet. Siehe {2}</value>
   </data>
+  <data name="TR0005_Description" xml:space="preserve">
+    <value>Name wäre nicht kompilierbar</value>
+  </data>
+  <data name="TR0005_MessageFormat" xml:space="preserve">
+    <value>Die Ressource '{0}' wurde zu '{1}' reduziert,  wäre jedoch nicht kompilierbar. Stattdessen wird '{2}' verwendet. Siehe {3}</value>
+  </data>
 </root>
