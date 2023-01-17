@@ -131,5 +131,23 @@ namespace TypealizR.Diagnostics {
                 return ResourceManager.GetString("TR0004_MessageFormat", resourceCulture);
             }
         }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to MemberName would be un-compilable.
+        /// </summary>
+        internal static string TR0005_Description {
+            get {
+                return ResourceManager.GetString("TR0005_Description", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Ressource-key &apos;{0}&apos; reduced to &apos;{1}&apos; would be non-compilable. Falling back to &apos;{2}&apos;. See {3}.
+        /// </summary>
+        internal static string TR0005_MessageFormat {
+            get {
+                return ResourceManager.GetString("TR0005_MessageFormat", resourceCulture);
+            }
+        }
     }
 }

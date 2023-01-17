@@ -121,5 +121,5 @@ internal class DiagnosticsFactory
 				)
 			),
 			rawRessourceKey, parameterTypeAnnotation, DiagnosticsEntry.LinkToDocs(TR0004)
-		);
+		);    internal static readonly DiagnosticsEntry TR0005 = new(id.TR0005, "InvalidMemberName");    internal Diagnostic InvalidMemberName_0005(string source, string replacement) =>        Diagnostic.Create(            new(id: TR0005.Id.ToString(),                title: TR0005.Title,                messageFormat: Strings.TR0005_MessageFormat,                category: "Readability",                defaultSeverity: SeverityFor(TR0005.Id) ?? DiagnosticSeverity.Warning,                isEnabledByDefault: true,                description: Strings.TR0005_Description,                helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0005)            ),            Location.Create(filePath.Replace("\\", "/"),                textSpan: new(0, rawRessourceKey.Length),                lineSpan: new(                    start: new(line: lineNumber - 1, character: 0),                    end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)                )            ),            rawRessourceKey, source, replacement, DiagnosticsEntry.LinkToDocs(TR0005)        );
 }

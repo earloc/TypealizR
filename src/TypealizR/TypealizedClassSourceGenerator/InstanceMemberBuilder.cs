@@ -35,9 +35,8 @@ internal class InstanceMemberBuilder
             sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, sanitizedParameterName);
         }
 
-        var name = new MemberName(sanitizedMethodName.Trim());
+        var name = new MemberName(sanitizedMethodName.Trim());        if (!name.IsValidMethodName())        {            var invalidName = name.ToString();            name.MakeCompilable();            diagnostics.Add(x => x.InvalidMemberName_0005(name, invalidName));        }
 
-        return new InstanceMemberModel(rawKey, value, name, parameters);
-    }
+        return new InstanceMemberModel(rawKey, value, name, parameters);    }
 
 }

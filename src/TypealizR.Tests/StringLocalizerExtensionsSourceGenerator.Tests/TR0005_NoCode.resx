@@ -117,34 +117,7 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="TR0001_Description" xml:space="preserve">
-    <value>The code generator could not determine the projects root-directory</value>
-  </data>
-  <data name="TR0001_MessageFormat" xml:space="preserve">
-    <value>The code generator could not determine the projects root-directory. See {0}</value>
-  </data>
-  <data name="TR0002_Description" xml:space="preserve">
-    <value>Encountered an ambigious resource-key</value>
-  </data>
-  <data name="TR0002_MessageFormat" xml:space="preserve">
-    <value>Resource-key '{0}' would end up as a duplicate method-name. Using '{1}' as derived name for this key. See {2}</value>
-  </data>
-  <data name="TR0003_Description" xml:space="preserve">
-    <value>Encountered a generic parameter</value>
-  </data>
-  <data name="TR0003_MessageFormat" xml:space="preserve">
-    <value>Resource-key '{0}' uses the generic format-parameter '{1}'. Consider to use a more meaningful name, instead. See {2}</value>
-  </data>
-  <data name="TR0004_Description" xml:space="preserve">
-    <value>Encountered an unrecognized parameter-type</value>
-  </data>
-  <data name="TR0004_MessageFormat" xml:space="preserve">
-    <value>Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2}</value>
-  </data>
-  <data name="TR0005_Description" xml:space="preserve">
-    <value>MemberName would be un-compilable</value>
-  </data>
-  <data name="TR0005_MessageFormat" xml:space="preserve">
-    <value>Ressource-key '{0}' reduced to '{1}' would be non-compilable. Falling back to '{2}'. See {3}</value>
+  <data name="class {name:s}" xml:space="preserve">
+    <value>Greetings {0}</value>
   </data>
 </root>
