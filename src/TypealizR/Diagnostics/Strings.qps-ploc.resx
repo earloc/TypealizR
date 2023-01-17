@@ -36,4 +36,10 @@
   <data name="TR0004_MessageFormat" xml:space="preserve">
     <value>[B562B][!!_Řêşśóûŗĉê-ķèў '{0}' µŝéş ûйѓęĉòġйìźêð ρáѓáмęţêŕ-áйиòťãťîõи '{1}'. ₣âļľįиĝ ьáĉķ ţó 'òБĵèčτ'. Šęę {2}_!!]</value>
   </data>
+  <data name="TR0005_Description" xml:space="preserve">
+    <value>[43F97][!!_ΜêmъêŗŅãmé ẅôµľď Бę úй-ćóмрìĺâьłę_!!]</value>
+  </data>
+  <data name="TR0005_MessageFormat" xml:space="preserve">
+    <value>[3B016][!!_Ѓèŝšòùŗĉę-ķêý '{0}' řêďùċęđ тó '{1}' ŵôúĺđ Бê йõη-ċómþîĺáБĺè. ₣áļľìйġ вáċќ тô '{2}'. Ŝéè {3}_!!]</value>
+  </data>
 </root>

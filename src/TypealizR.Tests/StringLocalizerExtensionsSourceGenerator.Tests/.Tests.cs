@@ -158,7 +158,30 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
 		;
 	}
 
-	[Fact]
+    [Fact]
+    public async Task Emits_Warning_TR0005()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithResxFile("TR0005_NoCode.resx", useParamNamesInMethodNames: "false")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
+    public async Task Emits_Error_TR0005()
+    {
+        await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithSeverityConfig(DiagnosticsId.TR0005, DiagnosticSeverity.Error)
+            .WithResxFile("TR0005_NoCode.resx", useParamNamesInMethodNames: "false")
+            .Build()
+            .Verify()
+        ;
+    }
+
+    [Fact]
 	public async Task NoCode_Resx()
 	{
 		await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
