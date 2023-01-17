@@ -38,6 +38,14 @@
           <source>Ressource-key '{0}' uses unrecognized parameter-annotation '{1}'. Falling back to 'object'. See {2}</source>
           <target state="translated">Die Ressource '{0}' verwendet die unbekannte Parametertyp-Annotation '{1}'. Stattdessen wird 'object' verwendet. Siehe {2}</target>
         </trans-unit>
+        <trans-unit id="TR0005_Description" translate="yes" xml:space="preserve">
+          <source>MemberName would be un-compilable</source>
+          <target state="translated">Name wäre nicht kompilierbar</target>
+        </trans-unit>
+        <trans-unit id="TR0005_MessageFormat" translate="yes" xml:space="preserve">
+          <source>Ressource-key '{0}' reduced to '{1}' would be non-compilable. Falling back to '{2}'. See {3}</source>
+          <target state="translated">Die Ressource '{0}' wurde zu '{1}' reduziert,  wäre jedoch nicht kompilierbar. Stattdessen wird '{2}' verwendet. Siehe {3}</target>
+        </trans-unit>
       </group>
     </body>
   </file>
