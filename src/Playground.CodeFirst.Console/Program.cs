@@ -1,26 +1,30 @@
 ﻿// See https://aka.ms/new-console-template for more information
-using System.Runtime.CompilerServices;
-using System.Runtime.InteropServices;
+using System.ComponentModel;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
 using TypealizR.CodeFirst.Abstractions;
 
-Console.WriteLine("Hello, World!");
+var services = new ServiceCollection();
+var provider = services.BuildServiceProvider();
+using var scope = provider.CreateScope();
 
-ILocalizables i18n = new Localizables();
 
-Console.WriteLine(i18n.Hello(world:"Earth"));
+var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
+Console.WriteLine(i18n.Hello("Earth"));
 
-[TypealizR]
+
+[CodeFirstTypealized]
 interface ILocalizables
 {
-    /// <summary>
-    /// Hello <paramref name="world"/>
-    /// </summary>
-    /// <param name="world"></param>
+    ///<summary>
+    /// Hello '<paramref name="world"/>'
+    ///</summary>
+    /// <param name="world">the name of the world to be greeted</param>
     /// <returns></returns>
-    string Hello(string world);
+    LocalizedString Hello(string world);
 }
 
-partial class Localizables : ILocalizables
-{
-    public string Hello(string world) => $"Hello {world}";
-}
+//partial class Localizables : ILocalizables
+//{
+//    public LocalizedString Hello(string world) => localizer["Hello '{0}'", world];
+//}
