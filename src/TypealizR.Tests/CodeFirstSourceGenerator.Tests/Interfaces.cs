@@ -9,7 +9,16 @@ internal interface IInterfaceWithMarker
     bool IsEnabledProperty { get; }
     bool IsEnabledMethod();
 
+    /// <summary>
+    /// Hello, fellow developer!
+    /// </summary>
     LocalizedString Greeting { get; }
+
+    /// <summary>
+    /// Hello <paramref name="world"/>, what´s up?
+    /// </summary>
+    /// <param name="world"></param>
+    /// <returns></returns>
     LocalizedString Hello(string world);
 }
 
