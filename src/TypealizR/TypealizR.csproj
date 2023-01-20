@@ -25,6 +25,7 @@
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
+		<UserSecretsId>4ecf8a8e-b6b2-49dc-b835-374a180a7011</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
@@ -44,20 +45,14 @@
 	</Target>
 
 	<ItemGroup>
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" GeneratePathProperty="true" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" GeneratePathProperty="false">
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" GeneratePathProperty="true">
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" PrivateAssets="all" GeneratePathProperty="true" />
-
+		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
 	</ItemGroup>
+
 	<ItemGroup>
-		<None Include="$(PkgMicrosoft_CodeAnalysis_CSharp)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-		<None Include="$(PkgMicrosoft_Extensions_Localization_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-	</ItemGroup>
-
-<ItemGroup>
 		<XliffResource Include="MultilingualResources\TypealizR.de.xlf" />
 		<XliffResource Include="MultilingualResources\TypealizR.qps-ploc.xlf" />
 	</ItemGroup>
