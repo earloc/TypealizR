@@ -1,4 +1,4 @@
-﻿<?xml version="1.0" encoding="utf-8"?>
+<?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
 	<PropertyGroup Label="MultilingualAppToolkit">
 		<MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
@@ -50,13 +50,14 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" PrivateAssets="all" GeneratePathProperty="true" />
+
 	</ItemGroup>
 	<ItemGroup>
 		<None Include="$(PkgMicrosoft_CodeAnalysis_CSharp)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-
 		<None Include="$(PkgMicrosoft_Extensions_Localization_Abstractions)\lib\netstandard2.0\*.dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
 	</ItemGroup>
-	<ItemGroup>
+
+<ItemGroup>
 		<XliffResource Include="MultilingualResources\TypealizR.de.xlf" />
 		<XliffResource Include="MultilingualResources\TypealizR.qps-ploc.xlf" />
 	</ItemGroup>

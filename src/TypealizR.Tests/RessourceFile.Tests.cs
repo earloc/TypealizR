@@ -1,18 +1,37 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Immutable;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 using FluentAssertions;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using TypealizR.Core;
+using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
+internal class EmptyFile : AdditionalText
+{
+    private readonly string text = "";
+
+    public override string Path { get; }
+
+    public EmptyFile(string path)
+    {
+        Path = path;
+    }
+
+    public override SourceText GetText(CancellationToken cancellationToken = new CancellationToken())
+    {
+        return SourceText.From(text);
+    }
+}
+
 public class RessourceFile_Tests
 {
-
-	private record LineInfo(int LineNumber = 42, int LinePosition = 1337, bool HasLineInfo = true) : IXmlLineInfo
+    private record LineInfo(int LineNumber = 42, int LinePosition = 1337, bool HasLineInfo = true) : IXmlLineInfo
 	{
         bool IXmlLineInfo.HasLineInfo() => HasLineInfo;
 	}
@@ -30,7 +49,11 @@ public class RessourceFile_Tests
     )]
     public void Parsing_Paths_Does_Not_Group_Files_With_Different_Names_And_Paths(int expected, params string[] paths)
     {
-        var actual = RessourceFile.From(paths);
+        var additionalFiles = paths
+            .Select(x => new AdditionalTextWithOptions(new EmptyFile(x), GeneratorTesterOptions.Empty))
+            .ToArray();
+
+        var actual = RessourceFile.From(ImmutableArray.Create(additionalFiles), CancellationToken.None);
         actual.Should().HaveCount(expected);
     }
 
@@ -67,7 +90,12 @@ public class RessourceFile_Tests
     )]
     public void Parsing_Paths_Groups_Localizations_By_Path(int expected, params string[] paths)
     {
-        var actual = RessourceFile.From(paths);
+        var additionalFiles = paths
+            .Select(x => new AdditionalTextWithOptions(new EmptyFile(x), GeneratorTesterOptions.Empty))
+            .ToArray();
+
+        var actual = RessourceFile.From(ImmutableArray.Create(additionalFiles), CancellationToken.None);
+        
         actual.Should().HaveCount(expected);
     }
 

@@ -1,23 +1,24 @@
 ﻿using System.Collections.Immutable;
-using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.Diagnostics;
-using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
 internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
-    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null) => new(baseDirectory, rootNamespace);
+    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = new();
     private readonly List<FileInfo> resxFiles = new();
-	private readonly string? rootNamespace;
+    private readonly Dictionary<string, string> customToolNamespaces = new();
+    private readonly Dictionary<string, string> useParamNamesInMethodNames = new();
 
-	public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null)
+    private readonly string? rootNamespace;
+    private readonly string? useParamNamesInMethodNamesBuildProperty;
+
+    public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null)
 	{
         this.baseDirectory = new DirectoryInfo(baseDirectory);
 
@@ -27,7 +28,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         }
 
 		this.rootNamespace = rootNamespace;
-	}
+        useParamNamesInMethodNamesBuildProperty = useParamNamesInMethodNames;
+    }
 
     private bool withoutMsBuildProjectDirectory = false;
     private DirectoryInfo? projectDir = null;
@@ -55,7 +57,12 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         return this;
     }
 
-    public GeneratorTesterBuilder<TGenerator> WithResxFile(string fileName, bool andDesignerFile = false)
+    public GeneratorTesterBuilder<TGenerator> WithResxFile(
+        string fileName, 
+        bool andDesignerFile = false, 
+        string? andCustomToolNamespace = null,
+        string useParamNamesInMethodNames = ""
+    )
     {
 		var path = Path.Combine(baseDirectory.FullName, fileName);
 		var fileInfo = new FileInfo(path);
@@ -64,7 +71,15 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         {
             throw new FileNotFoundException($"{fileInfo.FullName} not found", fileInfo.FullName);
         }
+
         resxFiles.Add(fileInfo);
+
+        if (!string.IsNullOrEmpty(andCustomToolNamespace))
+        {
+            customToolNamespaces.Add(fileInfo.FullName, andCustomToolNamespace);
+        }
+
+        this.useParamNamesInMethodNames.Add(fileInfo.FullName, useParamNamesInMethodNames);
 
         if (andDesignerFile)
         {
@@ -95,9 +110,16 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         var driver = CSharpGeneratorDriver.Create(generator)
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
-                new GeneratorTesterAnalyzerConfigOptionsProvider(withoutMsBuildProjectDirectory ? null: baseDirectory, projectDir, rootNamespace, severityConfig)
-            )
-        ;
+                new GeneratorTesterOptionsProvider(
+                    withoutMsBuildProjectDirectory ? null : baseDirectory, 
+                    projectDir, 
+                    rootNamespace, 
+                    severityConfig, 
+                    customToolNamespaces,
+                    useParamNamesInMethodNames,
+                    useParamNamesInMethodNamesBuildProperty
+                )
+        );
 
         var generatorDriver = driver.RunGenerators(compilation);
 
@@ -114,56 +136,5 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 		severityConfig[id] = severity;
 		return this;
 	}
-
-	class GeneratorTesterAnalyzerConfigOptionsProvider : AnalyzerConfigOptionsProvider
-	{
-		internal class Options : AnalyzerConfigOptions
-		{
-            public Options(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string? rootNamespace, Dictionary<DiagnosticsId, string> severityConfig)
-            {
-                if (baseDirectory is not null)
-                {
-                    options.Add(GeneratorOptions.MSBUILD_PROJECT_DIRECTORY, baseDirectory.FullName);
-                }
-                if (alternativeProjectDirectory is not null)
-                {
-					options.Add(GeneratorOptions.PROJECT_DIR, alternativeProjectDirectory.FullName);
-				}
-
-                if (rootNamespace is not null)
-                {
-				    options.Add(GeneratorOptions.ROOT_NAMESPACE, rootNamespace);
-                }
-
-                foreach(var severityOverride in severityConfig)
-                {
-                    options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLower()}_severity", severityOverride.Value.ToLower());
-                }
-			}
-
-
-            private readonly Dictionary<string, string> options = new ();
-
-            public override bool TryGetValue(string key, [NotNullWhen(true)] out string? value) => options.TryGetValue(key, out value);
-		}
-
-
-		public GeneratorTesterAnalyzerConfigOptionsProvider(DirectoryInfo? baseDirectory, DirectoryInfo? alternativeProjectDirectory, string? rootNamespace, Dictionary<DiagnosticsId, string> severityConfig)
-        {
-            globalOptions = new Options(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig);
-		}
-
-        private readonly AnalyzerConfigOptions globalOptions;
-		public override AnalyzerConfigOptions GlobalOptions => globalOptions;
-
-		public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
-		{
-			throw new NotImplementedException();
-		}
-
-		public override AnalyzerConfigOptions GetOptions(AdditionalText textFile)
-		{
-			throw new NotImplementedException();
-		}
-	}
 }
+
