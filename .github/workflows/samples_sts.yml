@@ -5,9 +5,9 @@ name: Samples STS
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "releases/*" ]
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "releases/*" ]
 
 jobs:
   build:
