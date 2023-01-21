@@ -11,7 +11,7 @@ internal class CodeFirstClassModel
     private readonly TypeModel implementingInterface;
     private readonly TypeModel type;
     private readonly IEnumerable<CodeFirstMethodModel> methods;
-
+    private readonly IEnumerable<CodeFirstPropertyModel> properties;
     private readonly HashSet<string> usings = new()
     {
         "System",
@@ -21,12 +21,13 @@ internal class CodeFirstClassModel
         "Microsoft.Extensions.Localization"
     };
 
-    public CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, IEnumerable<CodeFirstMethodModel> methods)
+    public CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
     {
         FileName = fileName;
         this.implementingInterface = implementingInterface;
         this.type = type;
         this.methods = methods;
+        this.properties = properties;
     }
 
     public string FileName { get; }
@@ -45,6 +46,7 @@ internal class CodeFirstClassModel
                 this.localizer = localizer;
             }
             {{methods.Select(x => x.ToCSharp()).ToMultiline("        ", appendNewLineAfterEach: false)}}
+            {{properties.Select(x => x.ToCSharp()).ToMultiline("        ", appendNewLineAfterEach: false)}}
         }
     }
     """;

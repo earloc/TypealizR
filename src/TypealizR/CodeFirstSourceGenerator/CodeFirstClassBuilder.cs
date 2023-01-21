@@ -10,6 +10,8 @@ namespace TypealizR;
 internal class CodeFirstClassBuilder
 {
     internal readonly List<CodeFirstMethodBuilder> methodBuilders = new();
+    internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = new();
+
     private readonly TypeModel typealizedInterface;
     private readonly TypeModel type;
 
@@ -26,15 +28,25 @@ internal class CodeFirstClassBuilder
             .ToArray()
         ;
 
-        return new CodeFirstClassModel($"{type.FullName}.g.cs", typealizedInterface, type, methodModels);
+        var propertyModels = propertyBuilders
+            .Select(x => x.Build())
+            .ToArray()
+        ;
+
+        return new CodeFirstClassModel($"{type.FullName}.g.cs", typealizedInterface, type, methodModels, propertyModels);
     }
 
     internal CodeFirstMethodBuilder WithMethod(string name)
     {
         var builder = new CodeFirstMethodBuilder(name);
-
         methodBuilders.Add(builder);
+        return builder;
+    }
 
+    internal CodeFirstPropertyBuilder WithProperty(string name)
+    {
+        var builder = new CodeFirstPropertyBuilder(name);
+        propertyBuilders.Add(builder);
         return builder;
     }
 }

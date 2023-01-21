@@ -87,6 +87,16 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Where(x => x.Type is not null)
             .ToArray()
         ;
+
+        foreach (var property in properties)
+        {
+            var filePath = property.Declaration.SyntaxTree.FilePath;
+            var linePosition = property.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
+            var collector = new DiagnosticsCollector(filePath, property.Declaration.ToFullString(), linePosition, options.SeverityConfig);
+
+            builder.WithProperty(property.Declaration.Identifier.Text);
+        }
+
     }
 
     private void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options)
@@ -103,7 +113,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         {
             var filePath = method.Declaration.SyntaxTree.FilePath;
             var linePosition = method.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
-
             var collector = new DiagnosticsCollector(filePath, method.Declaration.ToFullString(), linePosition, options.SeverityConfig);
 
             var methodBuilder = builder.WithMethod(method.Declaration.Identifier.Text);
