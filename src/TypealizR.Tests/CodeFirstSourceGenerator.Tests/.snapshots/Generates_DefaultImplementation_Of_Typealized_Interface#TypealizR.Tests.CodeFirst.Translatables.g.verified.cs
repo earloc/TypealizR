@@ -13,5 +13,8 @@ namespace TypealizR.Tests.CodeFirst {
             this.localizer = localizer;
         }
         public LocalizedString Hello (string world) => localizer["Hello {0}", world];
+        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) => localizer["Hello {0} {1} {2} {3} ", user, world, visitCount, dontPanic];
+        public LocalizedString Greet (string user, DateTimeOffset now) => localizer["Hello {0}, the current time is: {1}", user, now];
+        public LocalizedString Farewell (string user, DateTimeOffset now) => localizer["The current time is: {1}, Goodbye {0}", user, now];
     }
 }

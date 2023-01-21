@@ -14,12 +14,26 @@ internal interface ITranslatables
     /// </summary>
     LocalizedString Greeting { get; }
 
-    /// <summary>
-    /// Hello <paramref name="world"/>, what´s up?
-    /// </summary>
-    /// <param name="world"></param>
-    /// <returns></returns>
     LocalizedString Hello(string world);
+
+    LocalizedString Hello(string user, string world, int visitCount, bool dontPanic);
+
+    /// <summary>
+    /// Hello <paramref name="user"/>, the current time is: <paramref name="now"/>
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="now"></param>
+    /// <returns></returns>
+    LocalizedString Greet(string user, DateTimeOffset now);
+
+    /// <summary>
+    /// The current time is: <paramref name="now"/>, Goodbye <paramref name="user"/>
+    /// </summary>
+    /// <param name="user"></param>
+    /// <param name="now"></param>
+    /// <returns></returns>
+    LocalizedString Farewell(string user, DateTimeOffset now);
+
 }
 
 internal interface IInterfaceWithoutMarker
