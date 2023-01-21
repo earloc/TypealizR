@@ -15,7 +15,7 @@ internal interface IMethodsWithXmlCommentParameters
     LocalizedString Greet(string user, DateTimeOffset now);
 
     /// <summary>
-    /// The current time is: <paramref name="now"/>, Goodbye '<paramref name="user"/>'
+    /// The current time is: <paramref name="now"/>, goodbye '<paramref name="user"/>'
     /// </summary>
     /// <param name="user"></param>
     /// <param name="now"></param>

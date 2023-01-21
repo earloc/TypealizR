@@ -10,12 +10,12 @@ internal class CodeFirstMethodModel
     private readonly CodeFirstParameterModel[] parameters;
     private readonly string returnType;
 
-    public CodeFirstMethodModel (string name, CodeFirstParameterModel[] parameters, string returnType)
+    public CodeFirstMethodModel (string name, CodeFirstParameterModel[] parameters, string returnType, string? defaultValue)
     {
         this.name = name;
         this.parameters = parameters;
         this.returnType = returnType;
-        this.resourceKey = $"{name} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}";
+        this.resourceKey = defaultValue ?? $"{name} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}";
     }
 
     internal string ToCSharp() => $$"""

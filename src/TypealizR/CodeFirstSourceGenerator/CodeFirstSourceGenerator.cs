@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -157,19 +158,35 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             return default;
         }
 
-        var xmlComment = comment.Content.OfType<XmlTextSyntax>().FirstOrDefault();
-        var comments = xmlComment
-            .TextTokens
-            .Select(x => x.Text.Trim())
-            .Where(x => !string.IsNullOrEmpty(x))
-            .ToArray();
+        var xmlComments = comment.Content.Where(x => x.GetType() == typeof(XmlTextSyntax) || x.GetType() == typeof(XmlEmptyElementSyntax)).ToArray();
 
-        var value = comments.FirstOrDefault();
-        if (value is null)
+        var builder = new StringBuilder();
+
+        foreach (var xmlNodeSyntax in xmlComments)
         {
-            return default;
+
+            var value = xmlNodeSyntax switch
+            {
+                (XmlTextSyntax x) => x.TextTokens
+                    .Select(_ => _.Text.Trim())
+                    .Where(_ => !string.IsNullOrEmpty(_))
+                    .ToSpaceDelimited() ?? "",
+
+                (XmlEmptyElementSyntax x) => x.Attributes
+                    .OfType<XmlNameAttributeSyntax>()
+                    .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
+                    .ToCommaDelimited(),
+
+                _ => ""
+            };
+
+            if (!string.IsNullOrEmpty(value))
+            {
+                builder.Append(value);
+                builder.Append(" ");
+            }
         }
 
-        return value;
+        return builder.ToString().Trim();
     }
 }
