@@ -18,6 +18,13 @@ internal interface ITranslatables
 
     LocalizedString Hello(string world);
 
+    /// <summary>
+    /// Hello {0}!
+    /// </summary>
+    /// <param name="world"></param>
+    /// <returns></returns>
+    LocalizedString CustomizedHello(string world);
+
     LocalizedString Hello(string user, string world, int visitCount, bool dontPanic);
 
     /// <summary>
