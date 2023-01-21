@@ -123,7 +123,36 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             var linePosition = property.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
             var collector = new DiagnosticsCollector(filePath, property.Declaration.ToFullString(), linePosition, options.SeverityConfig);
 
-            builder.WithProperty(property.Declaration.Identifier.Text, "Hupe");
+            var defaultValue = property.Declaration.Identifier.Text;
+
+            if (property.Declaration.HasStructuredTrivia)
+            {
+                var trivia = property.Declaration.GetLeadingTrivia();
+
+                var documentation = trivia.FirstOrDefault(x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
+                var structure = documentation.GetStructure() as DocumentationCommentTriviaSyntax;
+
+                if (structure is not null)
+                {
+
+                    var comment = structure.Content.FirstOrDefault(x => x.GetType() == typeof(XmlElementSyntax)) as XmlElementSyntax;
+                    if (comment is not null)
+                    {
+                        var xmlComment = comment.Content.OfType<XmlTextSyntax>().FirstOrDefault();
+                        var comments = xmlComment.TextTokens.Select(x => x.Text.Trim()).Where(x => !string.IsNullOrEmpty(x)).ToArray();
+
+                        var value = comments.FirstOrDefault(); ;
+                        if (value is not null)
+                        {
+                            defaultValue = value;
+
+                        }
+                    }
+                }
+            }
+
+
+            builder.WithProperty(property.Declaration.Identifier.Text, defaultValue);
 
             diagnostics.AddRange(collector.Diagnostics);
         }
