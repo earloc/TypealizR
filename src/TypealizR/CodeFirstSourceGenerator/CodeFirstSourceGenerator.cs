@@ -95,7 +95,10 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             var linePosition = method.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
             var collector = new DiagnosticsCollector(filePath, method.Declaration.ToFullString(), linePosition, options.SeverityConfig);
 
-            var methodBuilder = builder.WithMethod(method.Declaration.Identifier.Text);
+            var name = method.Declaration.Identifier.Text;
+            var defaultValue = TryGetDefaultValueFrom(method.Declaration);
+
+            var methodBuilder = builder.WithMethod(method.Declaration.Identifier.Text, defaultValue);
 
             foreach (var parameter in method.Declaration.ParameterList.Parameters)
             {
@@ -120,20 +123,21 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             var filePath = property.Declaration.SyntaxTree.FilePath;
             var linePosition = property.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
             var collector = new DiagnosticsCollector(filePath, property.Declaration.ToFullString(), linePosition, options.SeverityConfig);
+            var name = property.Declaration.Identifier.Text;
 
-            var defaultValue = GetDefaultValueFrom(property.Declaration);
+            var defaultValue = TryGetDefaultValueFrom(property.Declaration);
 
-            builder.WithProperty(property.Declaration.Identifier.Text, defaultValue);
+            builder.WithProperty(name, defaultValue);
 
             diagnostics.AddRange(collector.Diagnostics);
         }
     }
 
-    private string GetDefaultValueFrom(PropertyDeclarationSyntax declaration)
+    private string? TryGetDefaultValueFrom(SyntaxNode declaration)
     {
         if (!declaration.HasStructuredTrivia)
         {
-            return declaration.Identifier.Text;
+            return default;
         }
 
         var trivia = declaration.GetLeadingTrivia();
@@ -143,14 +147,14 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
         if (structure is null)
         {
-            return declaration.Identifier.Text;
+            return default;
         }
 
         var comment = structure.Content.OfType< XmlElementSyntax>().FirstOrDefault();
 
         if (comment is null)
         {
-            return declaration.Identifier.Text;
+            return default;
         }
 
         var xmlComment = comment.Content.OfType<XmlTextSyntax>().FirstOrDefault();
@@ -163,7 +167,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         var value = comments.FirstOrDefault();
         if (value is null)
         {
-            return declaration.Identifier.Text;
+            return default;
         }
 
         return value;
