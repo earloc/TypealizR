@@ -1,0 +1,1 @@
+﻿using System;namespace TypealizR;internal class CodeFirstClassModel{    public string FileName { get; }    internal string ToCSharp()    {        throw new NotImplementedException();    }}
