@@ -36,14 +36,14 @@ internal class CodeFirstClassBuilder
         return new CodeFirstClassModel($"{type.FullName}.g.cs", typealizedInterface, type, methodModels, propertyModels);
     }
 
-    internal CodeFirstMethodBuilder WithMethod(string name)
+    internal CodeFirstMethodBuilder WithMethod(string name, string? defaultValue)
     {
-        var builder = new CodeFirstMethodBuilder(name);
+        var builder = new CodeFirstMethodBuilder(name, defaultValue);
         methodBuilders.Add(builder);
         return builder;
     }
 
-    internal CodeFirstPropertyBuilder WithProperty(string name, string? defaultValue)
+    internal CodeFirstPropertyBuilder WithProperty(string name, string defaultValue)
     {
         var builder = new CodeFirstPropertyBuilder(name, defaultValue);
         propertyBuilders.Add(builder);

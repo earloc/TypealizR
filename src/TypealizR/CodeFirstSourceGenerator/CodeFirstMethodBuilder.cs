@@ -10,11 +10,13 @@ namespace TypealizR;
 internal class CodeFirstMethodBuilder
 {
     private readonly string name;
+    private readonly string? defaultValue;
     private readonly List<CodeFirstParameterBuilder> parameterBuilders = new();
 
-    public CodeFirstMethodBuilder(string name)
+    public CodeFirstMethodBuilder(string name, string? defaultValue)
     {
         this.name = name;
+        this.defaultValue = defaultValue;
     }
 
     public CodeFirstMethodBuilder WithParameter(string name, string type)
