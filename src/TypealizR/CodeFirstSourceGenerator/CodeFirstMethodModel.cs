@@ -15,7 +15,7 @@ internal class CodeFirstMethodModel
         this.name = name;
         this.parameters = parameters;
         this.returnType = returnType;
-        this.resourceKey = $"{name} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()} ";
+        this.resourceKey = $"{name} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}";
     }
 
     internal string ToCSharp() => $$"""
