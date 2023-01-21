@@ -7,12 +7,22 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
-using TypealizR.Diagnostics;using static TypealizR.Core.RessourceFile;namespace TypealizR;
+using TypealizR.Diagnostics;
+using static TypealizR.Core.RessourceFile;
+
+namespace TypealizR;
 
 [Generator(LanguageNames.CSharp)]
 public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
-{    private const string MarkerAttributeName = "CodeFirstTypealized";    public void Initialize(IncrementalGeneratorInitializationContext context)
-    {        var optionsProvider = context.AnalyzerConfigOptionsProvider             .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)         );
+{
+    private const string MarkerAttributeName = "CodeFirstTypealized";
+
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        var optionsProvider = context.AnalyzerConfigOptionsProvider
+             .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
+         );
+
         var allInterfaces = context.CompilationProvider.Select(
             (compilation, cancel) => compilation.SyntaxTrees.Select(
                 tree => compilation.GetSemanticModel(tree)
@@ -23,8 +33,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                     .OfType<InterfaceDeclarationSyntax>()
                     .Select(
                         declaration => new { Declaration = declaration, Model = semanticModel.GetDeclaredSymbol(declaration) }
-                    )                    .Where(x => x.Model is not null)                    .Select(x => new { x.Declaration, Model = x.Model! })
-            )        );
+                    )
+                    .Where(x => x.Model is not null)
+                    .Select(x => new { x.Declaration, Model = x.Model! })
+            )
+        );
 
         var markedInterfaces = allInterfaces.SelectMany(
             (interfaces, cancel) => interfaces.Where(
@@ -35,20 +48,34 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
         context.RegisterSourceOutput(markedInterfaces.Combine(context.CompilationProvider).Combine(optionsProvider),
             (ctxt, source) =>
-            {                var options = source.Right;
+            {
+                var options = source.Right;
                 var typealizedInterface = source.Left.Left;
                 var compilation = source.Left.Right;
                 var members = typealizedInterface
                     .Declaration
-                    .Members;
+                    .Members;
+
                 var builder = new CodeFirstClassBuilder(new TypeModel(
                     typealizedInterface.Model.ContainingNamespace.ToDisplayString(),
                     typealizedInterface.Declaration.Identifier.Text
-                ));                var diagnostics = new List<Diagnostic>();
+                ));
+
+                var diagnostics = new List<Diagnostic>();
+
                 TryAddMethods(builder, diagnostics, members, options);
 
                 TryAddProperties(builder, diagnostics, members, options);
-                var typealizedClass = builder.Build();                var generatedFile = new GeneratedSourceFile(typealizedClass.FileName, typealizedClass.ToCSharp(GetType()), diagnostics);                foreach (var diagnostic in diagnostics)                {                    ctxt.ReportDiagnostic(diagnostic);                }                ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
+
+                var typealizedClass = builder.Build();
+                var generatedFile = new GeneratedSourceFile(typealizedClass.FileName, typealizedClass.ToCSharp(GetType()), diagnostics);
+
+                foreach (var diagnostic in diagnostics)
+                {
+                    ctxt.ReportDiagnostic(diagnostic);
+                }
+
+                ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
     }
 
