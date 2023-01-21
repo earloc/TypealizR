@@ -43,9 +43,9 @@ internal class CodeFirstClassBuilder
         return builder;
     }
 
-    internal CodeFirstPropertyBuilder WithProperty(string name)
+    internal CodeFirstPropertyBuilder WithProperty(string name, string? defaultValue)
     {
-        var builder = new CodeFirstPropertyBuilder(name);
+        var builder = new CodeFirstPropertyBuilder(name, defaultValue);
         propertyBuilders.Add(builder);
         return builder;
     }
