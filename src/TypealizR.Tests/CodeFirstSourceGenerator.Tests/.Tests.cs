@@ -13,11 +13,11 @@ public class CodeFirstSourceGenerator_Tests
     private const string BaseDirectory = "../../../CodeFirstSourceGenerator.Tests";
 
     [Fact]
-    public async Task Throws_When_RootNamespace_Is_Missing()
+    public async Task Generates_DefaultImplementation_Of_Typealized_Interface()
     {
         await GeneratorTesterBuilder<CodeFirstSourceGenerator>
             .Create(BaseDirectory, null)
-            .WithSourceFile("Interfaces.cs")
+            .WithSourceFile("ITranslatables.cs")
             .Build()
             .Verify()
         ;
