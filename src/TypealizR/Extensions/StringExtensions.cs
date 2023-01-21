@@ -31,6 +31,10 @@ internal static class StringExtensions
         => string.Join(", ", that)
     ;
 
+    public static string ToSpaceDelimited(this IEnumerable<string> that)
+        => string.Join(" ", that)
+    ;
+
     public static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join) 
         => string.Join(join, s.Split(new[] { seperator }, StringSplitOptions.RemoveEmptyEntries))
     ;
