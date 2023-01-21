@@ -9,10 +9,12 @@ internal interface ITranslatables
     bool IsEnabledProperty { get; }
     bool IsEnabledMethod();
 
+    LocalizedString Greeting { get; }
+
     /// <summary>
     /// Hello, fellow developer!
     /// </summary>
-    LocalizedString Greeting { get; }
+    LocalizedString CustomizedGreeting { get; }
 
     LocalizedString Hello(string world);
 
