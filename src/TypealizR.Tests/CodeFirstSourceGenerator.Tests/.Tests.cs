@@ -13,6 +13,18 @@ public class CodeFirstSourceGenerator_Tests
     private const string BaseDirectory = "../../../CodeFirstSourceGenerator.Tests";
 
     [Fact]
+    public async Task Does_Not_Care_About_NonMarked_Interfaces()
+    {
+        await GeneratorTesterBuilder<CodeFirstSourceGenerator>
+            .Create(BaseDirectory, null)
+            .WithSourceFile("ISomeInterface.cs")
+            .Build()
+            .Verify()
+        ;
+    }
+
+
+    [Fact]
     public async Task Uses_Default_Values_From_Member_Names()
     {
         await GeneratorTesterBuilder<CodeFirstSourceGenerator>

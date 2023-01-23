@@ -16,6 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
 	  <Compile Remove="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
 	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
 	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
@@ -23,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
 	  <None Include="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
 	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
 	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />

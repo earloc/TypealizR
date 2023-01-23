@@ -3,8 +3,7 @@ using TypealizR.CodeFirst.Abstractions;
 
 namespace TypealizR.Tests.CodeFirst;
 
-[CodeFirstTypealized]
-internal interface ITranslatables
+internal interface ISomeInterface
 {
     bool IsEnabledProperty { get; }
     bool IsEnabledMethod();

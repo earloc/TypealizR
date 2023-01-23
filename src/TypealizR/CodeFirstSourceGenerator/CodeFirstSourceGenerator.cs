@@ -64,11 +64,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var typealizedClass = builder.Build();
                 var generatedFile = new GeneratedSourceFile(typealizedClass.FileName, typealizedClass.ToCSharp(GetType()), diagnostics);
 
-                foreach (var diagnostic in diagnostics)
-                {
-                    ctxt.ReportDiagnostic(diagnostic);
-                }
-
                 ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
     }
@@ -163,7 +158,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             {
                 (XmlTextSyntax x) => x.TextTokens
                     .Select(_ => _.Text)
-                    .Join() ?? "",
+                    .Join(),
 
                 (XmlEmptyElementSyntax x) => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
