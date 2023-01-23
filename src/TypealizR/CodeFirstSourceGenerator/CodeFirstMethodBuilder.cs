@@ -33,19 +33,19 @@ internal class CodeFirstMethodBuilder
             .ToArray()
         ;
 
-        var customDefaultValue = defaultValue ?? name;
+        var resourceKey = defaultValue;
 
-        if (defaultValue is not null)
+        if (resourceKey is not null)
         {
             var indexedParams = parameters.Select((x, i) => new { Name = x.Name, Index = i }).ToArray();
 
             foreach (var param in indexedParams)
             {
-                customDefaultValue = customDefaultValue.Replace($$"""{{{param.Name}}}""", $$"""{{{param.Index}}}""").Trim();
+                resourceKey = resourceKey.Replace($$"""{{{param.Name}}}""", $$"""{{{param.Index}}}""").Trim();
             }
         }
 
-        var method = new CodeFirstMethodModel(name, parameters, "LocalizedString", customDefaultValue);
+        var method = new CodeFirstMethodModel(name, parameters, "LocalizedString", resourceKey);
 
         return method;
     }
