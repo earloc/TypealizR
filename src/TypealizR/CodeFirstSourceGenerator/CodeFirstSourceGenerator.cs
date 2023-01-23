@@ -43,7 +43,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         var markedInterfaces = allInterfaces.SelectMany(
             (interfaces, cancel) => interfaces.Where(
                 i => i?.Model?.GetAttributes()
-                    .Any(x => x.AttributeClass?.Name == MarkerAttributeName) ?? false
+                    .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false) ?? false
             )
         );
 
@@ -103,7 +103,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
             foreach (var parameter in method.Declaration.ParameterList.Parameters)
             {
-                methodBuilder.WithParameter(parameter.Identifier.Text, parameter.Type.ToString());
+                methodBuilder.WithParameter(parameter.Identifier.Text, parameter.Type?.ToString() ?? "object");
             }
 
             diagnostics.AddRange(collector.Diagnostics);

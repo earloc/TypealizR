@@ -17,6 +17,6 @@ internal class CodeFirstPropertyModel
     }
 
     internal string ToCSharp() => $$"""
-        public {{returnType}} {{name}} { get; } => localizer["{{resourceKey}}"];
+        public {{returnType}} {{name}} => localizer["{{resourceKey}}"];
         """;
 }
