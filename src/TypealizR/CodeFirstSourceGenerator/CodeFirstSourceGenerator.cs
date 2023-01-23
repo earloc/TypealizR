@@ -163,7 +163,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             {
                 (XmlTextSyntax x) => x.TextTokens
                     .Select(_ => _.Text)
-                    .Where(_ => !string.IsNullOrEmpty(_))
                     .Join() ?? "",
 
                 (XmlEmptyElementSyntax x) => x.Attributes
