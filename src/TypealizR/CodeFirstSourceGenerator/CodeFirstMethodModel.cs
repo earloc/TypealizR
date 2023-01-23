@@ -19,6 +19,6 @@ internal class CodeFirstMethodModel
     }
 
     internal string ToCSharp() => $$"""
-        public {{returnType}} {{name}} ({{parameters.ToCharpDeclaration()}}) => localizer["{{resourceKey}}", {{parameters.ToCSharpInvocation()}}];
+        public {{returnType}} {{name}} ({{parameters.ToCharpDeclaration()}}) => localizer[@"{{resourceKey}}", {{parameters.ToCSharpInvocation()}}];
         """;
 }
