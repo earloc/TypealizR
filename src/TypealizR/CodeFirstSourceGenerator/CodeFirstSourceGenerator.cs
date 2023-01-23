@@ -148,7 +148,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
         if (structure is null)
         {
-            return default;
+            return default; 
         }
 
         var comment = structure.Content.OfType< XmlElementSyntax>().FirstOrDefault();
@@ -164,7 +164,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
         foreach (var xmlNodeSyntax in xmlComments)
         {
-
             var value = xmlNodeSyntax switch
             {
                 (XmlTextSyntax x) => x.TextTokens
