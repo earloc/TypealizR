@@ -162,9 +162,9 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             var value = xmlNodeSyntax switch
             {
                 (XmlTextSyntax x) => x.TextTokens
-                    .Select(_ => _.Text.Trim())
+                    .Select(_ => _.Text)
                     .Where(_ => !string.IsNullOrEmpty(_))
-                    .ToSpaceDelimited() ?? "",
+                    .Join() ?? "",
 
                 (XmlEmptyElementSyntax x) => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
@@ -177,7 +177,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             if (!string.IsNullOrEmpty(value))
             {
                 builder.Append(value);
-                builder.Append(" ");
             }
         }
 
