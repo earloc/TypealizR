@@ -14,5 +14,7 @@ namespace TypealizR.Tests.CodeFirst {
         }
         public LocalizedString Greet (string user, DateTimeOffset now) => localizer[@"Hello {0}, the current time is: {1}", user, now];
         public LocalizedString Farewell (string user, DateTimeOffset now) => localizer[@"The current time is: {1}, goodbye '{0}'", user, now];
+        public LocalizedString CallForBeetlejuice (string name) => localizer[@"1.{0} 2.{0} 3.{0}", name];
+        public LocalizedString DoIt (string name, string verb) => localizer[@"{1}, {0}. {1}!!", name, verb];
     }
 }
