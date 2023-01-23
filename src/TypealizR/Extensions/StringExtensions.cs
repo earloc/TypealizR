@@ -28,11 +28,15 @@ internal static class StringExtensions
 	}
 
 	public static string ToCommaDelimited(this IEnumerable<string> that) 
-        => string.Join(", ", that)
+        => that.Join(", ")
     ;
 
     public static string ToSpaceDelimited(this IEnumerable<string> that)
-        => string.Join(" ", that)
+        => that.Join(" ")
+    ;
+
+    public static string Join(this IEnumerable<string> that, string seperator = "")
+        => string.Join(seperator, that)
     ;
 
     public static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join) 
