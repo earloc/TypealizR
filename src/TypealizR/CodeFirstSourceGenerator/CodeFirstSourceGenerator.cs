@@ -1,15 +1,16 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
+using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
-using static TypealizR.Core.RessourceFile;
 
 namespace TypealizR;
 
@@ -20,39 +21,32 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        var allInterfaces = context.SyntaxProvider.CreateSyntaxProvider(
+            static (node, cancel) => node is InterfaceDeclarationSyntax,
+            static (node, cancel) => new { Declaration = (InterfaceDeclarationSyntax) node.Node, Model = node.SemanticModel }
+        );
+
+        var markedInterfaces = allInterfaces
+            .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration)})
+            .Where(x => x.Model is not null)
+            .Select((x, cancel) => new { x.Declaration, Model = x.Model! })
+            .Where(x => x.Model
+                .GetAttributes()
+                .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false)
+            )
+        ;
+
         var optionsProvider = context.AnalyzerConfigOptionsProvider
-             .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
-         );
-
-        var allInterfaces = context.CompilationProvider.Select(
-            (compilation, cancel) => compilation.SyntaxTrees.Select(
-                tree => compilation.GetSemanticModel(tree)
-            ).SelectMany(
-                semanticModel => semanticModel.SyntaxTree
-                    .GetRoot()
-                    .DescendantNodes()
-                    .OfType<InterfaceDeclarationSyntax>()
-                    .Select(
-                        declaration => new { Declaration = declaration, Model = semanticModel.GetDeclaredSymbol(declaration) }
-                    )
-                    .Where(x => x.Model is not null)
-                    .Select(x => new { x.Declaration, Model = x.Model! })
-            )
+            .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
         );
 
-        var markedInterfaces = allInterfaces.SelectMany(
-            (interfaces, cancel) => interfaces.Where(
-                i => i?.Model?.GetAttributes()
-                    .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false) ?? false
-            )
-        );
-
-        context.RegisterSourceOutput(markedInterfaces.Combine(context.CompilationProvider).Combine(optionsProvider),
+        context.RegisterImplementationSourceOutput(markedInterfaces.Combine(context.CompilationProvider).Combine(optionsProvider),
             (ctxt, source) =>
             {
                 var options = source.Right;
                 var typealizedInterface = source.Left.Left;
                 var compilation = source.Left.Right;
+
                 var members = typealizedInterface
                     .Declaration
                     .Members;
@@ -64,9 +58,8 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
                 var diagnostics = new List<Diagnostic>();
 
-                TryAddMethods(builder, diagnostics, members, options);
-
-                TryAddProperties(builder, diagnostics, members, options);
+                TryAddMethods(builder, diagnostics, members, options, ctxt.CancellationToken);
+                TryAddProperties(builder, diagnostics, members, options, ctxt.CancellationToken);
 
                 var typealizedClass = builder.Build();
                 var generatedFile = new GeneratedSourceFile(typealizedClass.FileName, typealizedClass.ToCSharp(GetType()), diagnostics);
@@ -80,7 +73,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             });
     }
 
-    private void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options)
+    private void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {
         var methods = members
             .OfType<MethodDeclarationSyntax>()
@@ -97,7 +90,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             var collector = new DiagnosticsCollector(filePath, method.Declaration.ToFullString(), linePosition, options.SeverityConfig);
 
             var name = method.Declaration.Identifier.Text;
-            var defaultValue = TryGetDefaultValueFrom(method.Declaration);
+            var defaultValue = TryGetDefaultValueFrom(method.Declaration, cancellationToken);
 
             var methodBuilder = builder.WithMethod(method.Declaration.Identifier.Text, defaultValue);
 
@@ -110,7 +103,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
     }
 
-    private void TryAddProperties(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options)
+    private void TryAddProperties(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {
         var properties = members
             .OfType<PropertyDeclarationSyntax>()
@@ -126,7 +119,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             var collector = new DiagnosticsCollector(filePath, property.Declaration.ToFullString(), linePosition, options.SeverityConfig);
             var name = property.Declaration.Identifier.Text;
 
-            var defaultValue = TryGetDefaultValueFrom(property.Declaration);
+            var defaultValue = TryGetDefaultValueFrom(property.Declaration, cancellationToken);
 
             builder.WithProperty(name, defaultValue);
 
@@ -134,24 +127,26 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
     }
 
-    private string? TryGetDefaultValueFrom(SyntaxNode declaration)
+    private string? TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
     {
-        if (!declaration.HasStructuredTrivia)
+        var allTrivias = declaration.GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
+
+        if (!allTrivias.Any())
         {
-            return default;
+            var tree = CSharpSyntaxTree.ParseText(declaration.ToFullString());
+            allTrivias = tree.GetCompilationUnitRoot(cancellationToken).GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
         }
 
-        var trivia = declaration.GetLeadingTrivia();
+        var documentation = allTrivias.FirstOrDefault(x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
 
-        var documentation = trivia.FirstOrDefault(x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
         var structure = documentation.GetStructure() as DocumentationCommentTriviaSyntax;
 
         if (structure is null)
         {
-            return default; 
+            return default;
         }
 
-        var comment = structure.Content.OfType< XmlElementSyntax>().FirstOrDefault();
+        var comment = structure.Content.OfType<XmlElementSyntax>().FirstOrDefault();
 
         if (comment is null)
         {
