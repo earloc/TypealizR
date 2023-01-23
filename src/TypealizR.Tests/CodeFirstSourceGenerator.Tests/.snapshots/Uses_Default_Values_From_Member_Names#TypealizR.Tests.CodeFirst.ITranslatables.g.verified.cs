@@ -12,8 +12,8 @@ namespace TypealizR.Tests.CodeFirst {
         public Translatables (IStringLocalizer<ITranslatables> localizer) {
             this.localizer = localizer;
         }
-        public LocalizedString Hello (string world) => localizer["Hello {0}", world];
-        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) => localizer["Hello {0} {1} {2} {3}", user, world, visitCount, dontPanic];
-        public LocalizedString Greeting => localizer["Greeting"];
+        public LocalizedString Hello (string world) => localizer[@"Hello {0}", world];
+        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) => localizer[@"Hello {0} {1} {2} {3}", user, world, visitCount, dontPanic];
+        public LocalizedString Greeting => localizer[@"Greeting"];
     }
 }

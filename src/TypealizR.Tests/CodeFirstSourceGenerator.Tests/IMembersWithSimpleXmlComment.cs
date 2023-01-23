@@ -26,8 +26,8 @@ internal interface IMembersWithSimpleXmlComment
 
     /// <summary>
     /// Greetings, fellow developer!
-    /// This line here will be in the generated default value, also.
-    /// But sadly without the newlines ;(
+    /// This line here will be in the generated default resource-key, also.
+    /// And also this one, even with newlines #wowh@x0r!
     /// </summary>
     LocalizedString GreetingWithMultilineComment { get; }
 
