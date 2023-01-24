@@ -6,28 +6,28 @@ using TypealizR.Extensions;
 namespace System;
 internal static class StringExtensions
 {
-	public static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true)
-	{
-		var builder = new StringBuilder();
+    public static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true)
+    {
+        var builder = new StringBuilder();
 
-		int i = 0;
-		foreach (var line in that)
-		{
-			if (i++ > 0)
-			{
-				builder.Append(prependLinesWith);
-			}
-			builder.AppendLine(line);
-			if (appendNewLineAfterEach)
-			{
-				builder.AppendLine();
-			}
-		}
+        int i = 0;
+        foreach (var line in that)
+        {
+            if (i++ > 0)
+            {
+                builder.Append(prependLinesWith);
+            }
+            builder.AppendLine(line);
+            if (appendNewLineAfterEach)
+            {
+                builder.AppendLine();
+            }
+        }
 
-		return builder.ToString();
-	}
+        return builder.ToString();
+    }
 
-	public static string ToCommaDelimited(this IEnumerable<string> that) 
+    public static string ToCommaDelimited(this IEnumerable<string> that) 
         => that.Join(", ")
     ;
 
@@ -46,4 +46,6 @@ internal static class StringExtensions
     public static string ReplaceInvalidForMemberNameWith(this string that, char replacement)
         => new(that.Select(x => x.IsValidInIdentifier(false) ? x : replacement).ToArray())
     ;
+
+    public static string Escape(this string that) => that.Replace("\"", "\"\"");
 }
