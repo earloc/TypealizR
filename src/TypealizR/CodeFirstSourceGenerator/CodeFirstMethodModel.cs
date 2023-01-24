@@ -18,7 +18,12 @@ internal class CodeFirstMethodModel
         this.resourceKey = defaultValue ?? $"{name} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}";
     }
 
+    private string KeyName => $"{name}_Key";
+    private string ValueName => $"{name}_Value";
+
     internal string ToCSharp() => $$"""
-        public {{returnType}} {{name}} ({{parameters.ToCharpDeclaration()}}) => localizer[@"{{resourceKey}}", {{parameters.ToCSharpInvocation()}}];
+        private const string {{KeyName}} = @"{{resourceKey}}";
+                public {{returnType}} {{ValueName}} => localizer[{{KeyName}}];
+                public {{returnType}} {{name}} ({{parameters.ToCharpDeclaration()}}) => localizer[{{KeyName}}, {{parameters.ToCSharpInvocation()}}];
         """;
 }

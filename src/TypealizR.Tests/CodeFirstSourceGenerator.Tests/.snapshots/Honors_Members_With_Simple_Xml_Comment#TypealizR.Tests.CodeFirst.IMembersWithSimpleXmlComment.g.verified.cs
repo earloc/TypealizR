@@ -12,7 +12,9 @@ namespace TypealizR.Tests.CodeFirst {
         public MembersWithSimpleXmlComment (IStringLocalizer<IMembersWithSimpleXmlComment> localizer) {
             this.localizer = localizer;
         }
-        public LocalizedString Hello (string world) => localizer[@"Hello {0}!", world];
+        private const string Hello_Key = @"Hello {0}!";
+        public LocalizedString Hello_Value => localizer[Hello_Key];
+        public LocalizedString Hello (string world) => localizer[Hello_Key, world];
         public LocalizedString HelloProperty => localizer[@"Hello world!"];
         public LocalizedString Greeting => localizer[@"Greetings, fellow developer!"];
         public LocalizedString GreetingWithMultilineComment => localizer[@"Greetings, fellow developer!

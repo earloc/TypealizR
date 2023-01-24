@@ -12,9 +12,17 @@ namespace TypealizR.Tests.CodeFirst {
         public MethodsWithXmlCommentParameters (IStringLocalizer<IMethodsWithXmlCommentParameters> localizer) {
             this.localizer = localizer;
         }
-        public LocalizedString Greet (string user, DateTimeOffset now) => localizer[@"Hello {0}, the current time is: {1}", user, now];
-        public LocalizedString Farewell (string user, DateTimeOffset now) => localizer[@"The current time is: {1}, goodbye '{0}'", user, now];
-        public LocalizedString CallForBeetlejuice (string name) => localizer[@"1.{0} 2.{0} 3.{0}", name];
-        public LocalizedString DoIt (string name, string verb) => localizer[@"{1}, {0}. {1}!!", name, verb];
+        private const string Greet_Key = @"Hello {0}, the current time is: {1}";
+        public LocalizedString Greet_Value => localizer[Greet_Key];
+        public LocalizedString Greet (string user, DateTimeOffset now) => localizer[Greet_Key, user, now];
+        private const string Farewell_Key = @"The current time is: {1}, goodbye '{0}'";
+        public LocalizedString Farewell_Value => localizer[Farewell_Key];
+        public LocalizedString Farewell (string user, DateTimeOffset now) => localizer[Farewell_Key, user, now];
+        private const string CallForBeetlejuice_Key = @"1.{0} 2.{0} 3.{0}";
+        public LocalizedString CallForBeetlejuice_Value => localizer[CallForBeetlejuice_Key];
+        public LocalizedString CallForBeetlejuice (string name) => localizer[CallForBeetlejuice_Key, name];
+        private const string DoIt_Key = @"{1}, {0}. {1}!!";
+        public LocalizedString DoIt_Value => localizer[DoIt_Key];
+        public LocalizedString DoIt (string name, string verb) => localizer[DoIt_Key, name, verb];
     }
 }
