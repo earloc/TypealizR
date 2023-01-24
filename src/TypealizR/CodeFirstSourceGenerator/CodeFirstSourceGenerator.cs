@@ -105,14 +105,14 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .ToArray()
         ;
 
-        foreach (var property in properties)
+        foreach (var property in properties.Select(x => x.Declaration))
         {
-            var filePath = property.Declaration.SyntaxTree.FilePath;
-            var linePosition = property.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
-            var collector = new DiagnosticsCollector(filePath, property.Declaration.ToFullString(), linePosition, options.SeverityConfig);
-            var name = property.Declaration.Identifier.Text;
+            var filePath = property.SyntaxTree.FilePath;
+            var linePosition = property.GetLocation().GetLineSpan().StartLinePosition.Line;
+            var collector = new DiagnosticsCollector(filePath, property.ToFullString(), linePosition, options.SeverityConfig);
+            var name = property.Identifier.Text;
 
-            var defaultValue = TryGetDefaultValueFrom(property.Declaration, cancellationToken);
+            var defaultValue = TryGetDefaultValueFrom(property, cancellationToken);
 
             builder.WithProperty(name, defaultValue);
 
