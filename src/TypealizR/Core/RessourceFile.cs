@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -46,8 +46,8 @@ public partial class RessourceFile
                 .Select(x => new Entry(
                     key: x.Attribute("name").Value,
                     value: x.Descendants("value").FirstOrDefault().Value,
-					location: x.Attribute("name")
-				));
+                    location: x.Attribute("name")
+                ));
         }
     }
 
@@ -60,7 +60,7 @@ public partial class RessourceFile
     public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalTextWithOptions> source, CancellationToken cancellationToken)
     {
         var byFolder = source
-            .GroupBy(x => Directory.GetParent(x.Text.Path).FullName)
+            .GroupBy(x => Path.GetDirectoryName(x.Text.Path))
             .Select(x => x.GroupBy(y => GetSimpleFileNameOf(y.Text.Path)))
         ;
 
