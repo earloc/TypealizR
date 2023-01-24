@@ -27,7 +27,9 @@
 
 Statically typed i18n support for the .NET - ecosystem
 
-## usage
+# usage
+
+## resource-first
 
 ### ✔️ **DO** this:
 
@@ -54,9 +56,33 @@ Statically typed i18n support for the .NET - ecosystem
 
 ```
 
-## getting started
+## code-first
+
+### ✔️ **DO** this:
+
+```csharp
+void Demo(ILocalizables i18n)
+{
+    Console.WriteLine(i18n.Hello("Earth")); // Hello Earth
+    Console.WriteLine(i18n.Farewell("Arthur")); // So long, 'Arthur'. And thx for all the fish!
+    Console.WriteLine(i18n.WhatIsTheMeaningOfLifeTheUniverseAndEverything); // 42
+    Console.WriteLine(i18n.Greet(right: "Zaphod", left: "Arthur")); // Arthur greets Zaphod, and Zaphod replies: "Hi!".
+}
+```
+### ❌ **DON´T** do that:
+void Demo(IStringLocalizer i18n)
+{
+    Console.WriteLine(i18n["Hello", "Earth"]); // Hello Earth
+    Console.WriteLine(i18n["Farewell", "Arthur"]); // So long, 'Arthur'. And thx for all the fish!
+    Console.WriteLine(i18n["WhatIsTheMeaningOfLifeTheUniverseAndEverything"]; // 42
+    Console.WriteLine(i18n["Greet", "Arthur", "Zaphod")); // Arthur greets Zaphod, and Zaphod replies: "Hi!".
+}
+
+# getting started
 
 - install via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+
+## resource-first
 - modify target csproj (where those precious ResX-files are ;P)
 ```xml
 <PropertyGroup>
@@ -69,8 +95,13 @@ Statically typed i18n support for the .NET - ecosystem
 - start utilizing statically typed resources
 ![demo_typealize_translation_initial]
 
+## code-first
+- install via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
 
-## how it works
+
+# how it works
+
+## resource-first
 
 TypealizR parses ordinary Resx-files and generates extension-classes and -methods using `source-generators` on the fly.
 
@@ -116,10 +147,10 @@ internal static class IStringLocalizerExtensions_Root_Pages_HomePage
 
 which then can be used in favor of the lesser-typed default-syntax of IStringLocalizer&lt;T&gt;
 
-## [type-annotations] ftw
+### [type-annotations] ftw
 TypealizR assists in spotting translations where specified arguments may mismatch by type / order.
 
-### ✔️ **DO** this:
+#### ✔️ **DO** this:
 
 Consider the following call, which might have been wrong right from the start or just became wrong over time.
 
@@ -151,7 +182,7 @@ With applied [type-annotations], this will generate tho following compile-time e
 
 ![demo_typed_parameters]
 
-### ❌ **DON´T** do that:
+#### ❌ **DON´T** do that:
 There's no way the default usage of `IStringLocalizer` would discover such things this early in the dev-cycle!
 
 > some.resx
@@ -171,7 +202,7 @@ There's no way the default usage of `IStringLocalizer` would discover such thing
 > 	// wrong parameter-ordering, which would result in the translated string "Hello 2022-01-01, today is Arthur"
 > ```
 
-## Groupings
+### Groupings
 
 Grouping resources allows to semantically tie together resources in a meaningful way.
 To group resources, prepend resource-keys with `[Some.Nested.Group.Name]:`
@@ -189,8 +220,8 @@ To group resources, prepend resource-keys with `[Some.Nested.Group.Name]:`
 >	</data>
 >	```
 
-### ✔️ **DO** this:
-#### Imperative usage
+#### ✔️ **DO** this:
+##### Imperative usage
 Wherever code may depend on `IStringLocalizer<T>`, you can do this:
 ```csharp
     IStringLocalizer<SomeResource> localizer...; //wherever that instance might came from, most probably through dependency-injection
@@ -228,9 +259,9 @@ Even ordinary usage is still possible:
 ```
 
 
-#### [Microsoft.Extensions.DependencyInjection]
+##### [Microsoft.Extensions.DependencyInjection]
 
-##### manual setup
+###### manual setup
 ```csharp
 //normal setup
 var services = new ServiceCollection();
@@ -255,10 +286,10 @@ Given a `*.resx`-file with the following FullName:
 The generated type will be
 ```Some.Folder.Path.TypealizR.TypealizedResources```
 
-##### automatic setup
+###### automatic setup
 > tbd. There might be a built-in solution for utilizing `IServiceCollection` to register typealized instances, once [#63] is done.
 
-### ❌ **DON'T DO** this:
+#### ❌ **DON'T DO** this:
 All groups are still available as extension-methods for `IStringLocalizer<T>` as a list of flat members.
 
 ```csharp
@@ -274,7 +305,7 @@ Console.WriteLine(localize.MessagesWarnings_Operation__failed("some operation na
 
 ``` 
 
-# Custom Tool Namespaces
+### Custom Tool Namespaces
 If the consuming project of [TypealizR] utilizes `resx`-files which specify a `CustomToolNameSpace`
 ![demo_CustomToolNamespace]
 
@@ -289,15 +320,69 @@ unless the following modifications where made within the consuming `csproj`-file
 > The above options makes the `CustomToolNamespace`-property of any `EmbeddedResource` visible to the `source-generator`, so that the generated types may be placed there.
 See [Consume MSBuild properties and metadata] for further details.
 
-# extensibilty
+## code-first
 
-## customize string formatting
+- Author an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
+- Use properties for plain `translatables`.
+  > return-type needs to be `LocalizedString`
+- Use methods for type-safe translation of formatted `translatables`.
+  > return-type needs to be `LocalizedString`
+- Utilize `structured xml comments` to provide custom default-values.
+
+
+```csharp
+[CodeFirstTypealized]
+public interface ILocalizables
+{
+    LocalizedString Hello(string world);
+
+    /// <summary>
+    /// 42
+    /// </summary>
+    LocalizedString WhatIsTheMeaningOfLifeTheUniverseAndEverything { get; }
+
+    /// <summary>
+    /// So long, '<paramref name="user"/>'. And thx for all the fish!
+    /// </summary>
+    /// <param name="user"></param>
+    /// <returns></returns>
+    LocalizedString Farewell(string user);
+
+    /// <summary>
+    /// <paramref name="left"/> greets <paramref name="right"/>, and <paramref name="right"/> replies: "Hi!".
+    /// </summary>
+    /// <param name="left"></param>
+    /// <param name="right"></param>
+    /// <returns></returns>
+    LocalizedString Greet(string left, string right);
+}
+```
+
+
+Based on such an interface, [TypealizR] will generate a default implementation, which easily can be dependency injected:
+
+```csharp
+void Demo(ILocalizables i18n)
+{
+    Console.WriteLine(i18n.Hello("Earth")); // Hello Earth
+    Console.WriteLine(i18n.Farewell("Arthur")); // So long, 'Arthur'. And thx for all the fish!
+    Console.WriteLine(i18n.WhatIsTheMeaningOfLifeTheUniverseAndEverything); // 42
+    Console.WriteLine(i18n.Greet(right: "Zaphod", left: "Arthur")); // Arthur greets Zaphod, and Zaphod replies: "Hi!".
+}
+```
+
+### synchronize resources
+> not supported, yet. But will be awesome ;)
+
+## extensibilty
+
+### customize string formatting
 
 Starting with [v0.6], TypealizR supports customizing the internal usage of `string.Format()`, which should enable developers to implement [#16] with the technology / library / approach of their choice - Leaving TypelaziR un-opinionated about the actual approach to achieve this.
 
 To customize the formatting, just drop a custom implementation of `TypealizR_StringFormatter` anywhere in the project. The types `namespace` MUST match the project´s root-namespace.
 
-### example
+#### example
 Given the root-namespace `TypealizR.Ockz` for the project consuming TypealizR, this partial-class declaration should be enough:
 
 ```csharp
@@ -311,6 +396,10 @@ internal static partial class TypealizR_StringFormatter
 
 With this implementation, every localized string would be reversed. (Even if that doesn´t make any sense ;P)
 
+
+## code-first
+
+>tbd
 
 # configuration
 

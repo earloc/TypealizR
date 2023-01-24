@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Diagnostics;
@@ -16,6 +16,7 @@ public partial class RessourceFile
     internal const string CustomToolNameSpaceItemMetadata = "build_metadata.embeddedresource.customtoolnamespace";
     internal const string UseParamNamesInMethodNamesBuildProperty = "build_property.typealizr_useparamnamesinmethodnames";
     internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
+
 
     public IEnumerable<Entry> Entries { get; }
 

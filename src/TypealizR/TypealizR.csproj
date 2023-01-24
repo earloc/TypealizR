@@ -26,7 +26,6 @@
 		<IsRoslynComponent>true</IsRoslynComponent>
 		<PackageLicenseExpression>MIT</PackageLicenseExpression>
 		<IncludeBuildOutput>false</IncludeBuildOutput>
-		<UserSecretsId>4ecf8a8e-b6b2-49dc-b835-374a180a7011</UserSecretsId>
 	</PropertyGroup>
 	<ItemGroup>
 		<None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
@@ -51,8 +50,8 @@
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" PrivateAssets="all" GeneratePathProperty="true" />
 	</ItemGroup>
-
 	<ItemGroup>
 		<XliffResource Include="MultilingualResources\TypealizR.de.xlf" />
 		<XliffResource Include="MultilingualResources\TypealizR.qps-ploc.xlf" />

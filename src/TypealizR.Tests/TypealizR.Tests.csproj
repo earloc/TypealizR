@@ -16,6 +16,7 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
 	  <Compile Remove="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
 	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
 	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
@@ -23,6 +24,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <None Include="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
 	  <None Include="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
 	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
 	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
@@ -38,6 +40,7 @@
 		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
 		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
 		<PackageReference Include="Verify.SourceGenerators" Version="2.0.1" />
 		<PackageReference Include="Verify.Xunit" Version="19.7.1" />
@@ -53,6 +56,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
 		<ProjectReference Include="..\TypealizR\TypealizR.csproj" />
 	</ItemGroup>
 
@@ -75,6 +79,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Folder Include="CodeFirstSourceGenerator.Tests\.snapshots\" />
 	  <Folder Include="StringFormatterSourceGenerator.Tests\.snapshots\" />
 	</ItemGroup>
 
