@@ -17,7 +17,6 @@ public partial class RessourceFile
     internal const string UseParamNamesInMethodNamesBuildProperty = "build_property.typealizr_useparamnamesinmethodnames";
     internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
 
-
     public IEnumerable<Entry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace, bool useParamNamesInMethodNames)
@@ -60,7 +59,7 @@ public partial class RessourceFile
     public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalTextWithOptions> source, CancellationToken cancellationToken)
     {
         var byFolder = source
-            .GroupBy(x => Directory.GetParent(x.Text.Path).FullName)
+            .GroupBy(x => Path.GetDirectoryName(x.Text.Path))
             .Select(x => x.GroupBy(y => GetSimpleFileNameOf(y.Text.Path)))
         ;
 
