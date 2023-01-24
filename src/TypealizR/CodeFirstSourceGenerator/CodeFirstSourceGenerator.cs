@@ -40,7 +40,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
         );
 
-        context.RegisterImplementationSourceOutput(markedInterfaces.Combine(context.CompilationProvider).Combine(optionsProvider),
+        context.RegisterSourceOutput(markedInterfaces.Combine(context.CompilationProvider).Combine(optionsProvider),
             (ctxt, source) =>
             {
                 var options = source.Right;
@@ -134,9 +134,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
         var documentation = allTrivias.FirstOrDefault(x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
 
-        var structure = documentation.GetStructure() as DocumentationCommentTriviaSyntax;
-
-        if (structure is null)
+        if (documentation.GetStructure() is not DocumentationCommentTriviaSyntax structure)
         {
             return default;
         }
@@ -174,6 +172,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             }
         }
 
-        return builder.ToString().Trim();
+        return builder.ToString().Trim().Escape();
     }
 }
