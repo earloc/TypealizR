@@ -16,3 +16,5 @@ Console.WriteLine(i18n.Hello("Earth"));
 
 Console.WriteLine(i18n.Farewell("Arthur"));
 Console.WriteLine(i18n.WhatIsTheMeaningOfLifeTheUniverseAndEverything);
+
+//Console.WriteLine(i18n.Greet(left: "Zaphod", right: "Arthur"));
