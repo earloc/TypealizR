@@ -14,8 +14,10 @@ namespace TypealizR.Core;
 public partial class RessourceFile
 {
     internal const string CustomToolNameSpaceItemMetadata = "build_metadata.embeddedresource.customtoolnamespace";
-    internal const string UseParamNamesInMethodNamesBuildProperty = "build_property.typealizr_useparamnamesinmethodnames";    internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
-    public IEnumerable<Entry> Entries { get; }
+    internal const string UseParamNamesInMethodNamesBuildProperty = "build_property.typealizr_useparamnamesinmethodnames";
+    internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
+
+    public IEnumerable<Entry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace, bool useParamNamesInMethodNames)
     {
@@ -43,8 +45,8 @@ public partial class RessourceFile
                 .Select(x => new Entry(
                     key: x.Attribute("name").Value,
                     value: x.Descendants("value").FirstOrDefault().Value,
-					location: x.Attribute("name")
-				));
+                    location: x.Attribute("name")
+                ));
         }
     }
 
@@ -57,7 +59,7 @@ public partial class RessourceFile
     public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalTextWithOptions> source, CancellationToken cancellationToken)
     {
         var byFolder = source
-            .GroupBy(x => Directory.GetParent(x.Text.Path).FullName)
+            .GroupBy(x => Path.GetDirectoryName(x.Text.Path))
             .Select(x => x.GroupBy(y => GetSimpleFileNameOf(y.Text.Path)))
         ;
 
@@ -68,13 +70,26 @@ public partial class RessourceFile
                 .Select(_ => {
                     _.MainFile.Options.TryGetValue(CustomToolNameSpaceItemMetadata, out var customToolNamespace);
 
-                    var useParamNamesInMethodNames = true;
-                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString)                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesBuildPropertyString)                        && bool.TryParse(useParamNamesInMethodNamesBuildPropertyString, out var useParamNamesInMethodNamesBuildProperty))
+                    var useParamNamesInMethodNames = true;
+
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString) 
+                        && !string.IsNullOrEmpty(useParamNamesInMethodNamesBuildPropertyString)
+                        && bool.TryParse(useParamNamesInMethodNamesBuildPropertyString, out var useParamNamesInMethodNamesBuildProperty))
                     {
                             useParamNamesInMethodNames = useParamNamesInMethodNamesBuildProperty;
-                    }                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString)                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString)                        && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var useParamNamesInMethodNamesItemMetadata))                    {                        
+                    }
+
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString) 
+                        && !string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString)
+                        && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var useParamNamesInMethodNamesItemMetadata))
+                    {
+                        
                             useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
-                                            }                    return new RessourceFile(
+                        
+                    }
+
+
+                    return new RessourceFile(
                         simpleName: _.Name, 
                         fullPath: _.MainFile.Text.Path, 
                         content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, 
