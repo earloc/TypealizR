@@ -1,4 +1,5 @@
 ﻿// See https://aka.ms/new-console-template for more information
+using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
 using TypealizR.CodeFirst.Abstractions;
 
@@ -8,7 +9,7 @@ namespace TypealizR.CodeFirst.Console;
 public interface ILocalizables
 {
     ///<summary>
-    ///asdasdasd
+    ///Hello, <param name="world"/>
     ///</summary>
     ///<param name="world"></param>
     ///<returns></returns>
