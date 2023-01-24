@@ -3,4 +3,7 @@
 [AttributeUsage(AttributeTargets.Interface)]
 public class CodeFirstTypealizedAttribute : Attribute
 {
+    public CodeFirstTypealizedAttribute()
+    {
+    }
 }

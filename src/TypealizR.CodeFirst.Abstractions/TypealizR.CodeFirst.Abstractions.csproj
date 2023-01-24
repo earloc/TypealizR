@@ -1,10 +1,33 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <Nullable>enable</Nullable>
-	<LangVersion>latest</LangVersion>
-  </PropertyGroup>
+	<PropertyGroup>
+		<TargetFramework>netstandard2.0</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<Nullable>enable</Nullable>
+		<LangVersion>latest</LangVersion>
+	</PropertyGroup>
+
+	<PropertyGroup>
+		<PackageId>TypealizR.CodeFirst.Abstractions</PackageId>
+		<PackageReadmeFile>README.md</PackageReadmeFile>
+		<Title>TypealizR</Title>
+		<Authors>earloc</Authors>
+		<Product>TypealizR</Product>
+		<PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+		<RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+		<RepositoryType>git</RepositoryType>
+		<PackageOutputPath>../../bin</PackageOutputPath>
+		<DevelopmentDependency>true</DevelopmentDependency>
+		<IsRoslynComponent>true</IsRoslynComponent>
+		<PackageLicenseExpression>MIT</PackageLicenseExpression>
+		<IncludeBuildOutput>true</IncludeBuildOutput>
+	</PropertyGroup>
+
+	<ItemGroup>
+	  <None Include="..\..\README.md" Link="README.md">
+	    <PackagePath>\</PackagePath>
+	    <Pack>true</Pack>
+	  </None>
+	</ItemGroup>
 
 </Project>

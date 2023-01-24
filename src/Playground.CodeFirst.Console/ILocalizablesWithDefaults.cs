@@ -6,14 +6,21 @@ using TypealizR.CodeFirst.Abstractions;
 namespace TypealizR.CodeFirst.Console;
 
 [CodeFirstTypealized]
-public interface ILocalizables
+public interface ILocalizablesWithDefaults
 {
-    LocalizedString Hello(string world);
-
     ///<summary>
     ///42
     ///</summary>
     LocalizedString WhatIsTheMeaningOfLifeTheUniverseAndEverything { get; }
+
+    /// <summary>
+    /// Greetings to you, {0}
+    /// </summary>
+    /// <param name="world"></param>
+    /// <returns></returns>
+    LocalizedString Hello(string world);
+
+
 
     ///<summary>
     ///Goodbye, <paramref name="user"/>
@@ -29,4 +36,6 @@ public interface ILocalizables
     /// <param name="right"></param>
     /// <returns></returns>
     LocalizedString Greet(string left, string right);
+
+
 }
