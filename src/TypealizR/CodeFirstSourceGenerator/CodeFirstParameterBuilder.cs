@@ -4,8 +4,8 @@ namespace TypealizR;
 
 internal class CodeFirstParameterBuilder
 {
-    private string name;
-    private string type;
+    private readonly string name;
+    private readonly string type;
 
     public CodeFirstParameterBuilder(string name, string type)
     {

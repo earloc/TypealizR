@@ -15,7 +15,7 @@ var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
 
 Demo(i18n);
 
-void Demo(ILocalizables i18n)
+static void Demo(ILocalizables i18n)
 {
     Console.WriteLine(i18n.Hello("Earth")); // Hello Earth
     Console.WriteLine(i18n.Farewell("Arthur")); // Farewell Arthur

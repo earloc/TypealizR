@@ -40,12 +40,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
         );
 
-        context.RegisterSourceOutput(markedInterfaces.Combine(context.CompilationProvider).Combine(optionsProvider),
+        context.RegisterSourceOutput(markedInterfaces.Combine(optionsProvider),
             (ctxt, source) =>
             {
                 var options = source.Right;
-                var typealizedInterface = source.Left.Left;
-                var compilation = source.Left.Right;
+                var typealizedInterface = source.Left;
 
                 var members = typealizedInterface
                     .Declaration
@@ -78,18 +77,17 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .ToArray()
         ;
 
-        foreach (var method in methods)
+        foreach (var method in methods.Select(x => x.Declaration))
         {
-            var filePath = method.Declaration.SyntaxTree.FilePath;
-            var linePosition = method.Declaration.GetLocation().GetLineSpan().StartLinePosition.Line;
-            var collector = new DiagnosticsCollector(filePath, method.Declaration.ToFullString(), linePosition, options.SeverityConfig);
+            var filePath = method.SyntaxTree.FilePath;
+            var linePosition = method.GetLocation().GetLineSpan().StartLinePosition.Line;
+            var collector = new DiagnosticsCollector(filePath, method.ToFullString(), linePosition, options.SeverityConfig);
 
-            var name = method.Declaration.Identifier.Text;
-            var defaultValue = TryGetDefaultValueFrom(method.Declaration, cancellationToken);
+            var defaultValue = TryGetDefaultValueFrom(method, cancellationToken);
 
-            var methodBuilder = builder.WithMethod(method.Declaration.Identifier.Text, defaultValue);
+            var methodBuilder = builder.WithMethod(method.Identifier.Text, defaultValue);
 
-            foreach (var parameter in method.Declaration.ParameterList.Parameters)
+            foreach (var parameter in method.ParameterList.Parameters)
             {
                 methodBuilder.WithParameter(parameter.Identifier.Text, parameter.Type?.ToString() ?? "object");
             }
@@ -146,7 +144,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             return default;
         }
 
-        var xmlComments = comment.Content.Where(x => x.GetType() == typeof(XmlTextSyntax) || x.GetType() == typeof(XmlEmptyElementSyntax)).ToArray();
+        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax || x is XmlEmptyElementSyntax).ToArray();
 
         var builder = new StringBuilder();
 
