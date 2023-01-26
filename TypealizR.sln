@@ -17,6 +17,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.CodeFirst.Abstrac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.CodeFirst.Console", "src\Playground.CodeFirst.Console\Playground.CodeFirst.Console.csproj", "{CFFB0876-CC7C-466C-9D76-FB1F025E2B80}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TypealizR.CLI", "src\TypealizR.CLI\TypealizR.CLI.csproj", "{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -47,6 +49,10 @@ Global
 		{CFFB0876-CC7C-466C-9D76-FB1F025E2B80}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CFFB0876-CC7C-466C-9D76-FB1F025E2B80}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CFFB0876-CC7C-466C-9D76-FB1F025E2B80}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
