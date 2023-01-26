@@ -3,9 +3,9 @@
 using System.CommandLine;
 using TypealizR.CLI.Commands.CodeFirst;
 
-
 var directoryOption = new Option<string>("--directory");
 directoryOption.AddAlias("-d");
+directoryOption.SetDefaultValueFactory(() => Directory.GetCurrentDirectory());
 
 var rootCommand = new RootCommand();
 
