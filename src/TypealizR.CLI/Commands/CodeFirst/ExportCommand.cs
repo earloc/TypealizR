@@ -41,6 +41,8 @@ internal class ExportCommand
 
     private static async Task ExportAsync(Project project, CancellationToken cancellationToken)
     {
+        Console.WriteLine($"compiling {project.FilePath}");
+
         var compilation = await project.GetCompilationAsync(cancellationToken);
 
         if (compilation is null)
@@ -48,13 +50,18 @@ internal class ExportCommand
             return;
         }
 
+        Console.WriteLine($"scanning {project.FilePath}");
+
         var allInterfaces = compilation.SyntaxTrees
             .Where(x => x.GetRoot() is CompilationUnitSyntax)
             .Select(x => (CompilationUnitSyntax)x.GetRoot())
-            .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
+            .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>().ToArray())
             .SelectMany(x => x.Members.OfType<InterfaceDeclarationSyntax>())
-            .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
+            .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree)})
+            .ToArray()
         ;
+
+        Console.WriteLine($"found {allInterfaces.Count()} interfaces");
 
         var markedInterfaces = allInterfaces
             .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration) })
@@ -64,11 +71,14 @@ internal class ExportCommand
                 .GetAttributes()
                 .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false)
             )
+            .ToArray()
         ;
+
+        Console.WriteLine($"found {markedInterfaces.Count()} interfaces marked to be typealized");
 
         foreach (var markedInterface in markedInterfaces)
         {
-            Console.WriteLine(markedInterface.Model.ToDisplayString());
+            Console.WriteLine($"{markedInterface.Declaration.Identifier.Text}.resx");
 
             foreach (var member in markedInterface.Declaration.Members)
             {
