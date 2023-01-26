@@ -1,7 +1,10 @@
 ﻿
 
 using System.CommandLine;
+using System.Text;
 using TypealizR.CLI.Commands.CodeFirst;
+
+Console.OutputEncoding = Encoding.UTF8;
 
 var directoryOption = new Option<string>("--directory");
 directoryOption.AddAlias("-d");
