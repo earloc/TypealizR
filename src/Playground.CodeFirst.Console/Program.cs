@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CodeFirst.Console;
 
 var services = new ServiceCollection();

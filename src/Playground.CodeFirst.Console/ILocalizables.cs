@@ -1,6 +1,4 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.CodeDom.Compiler;
-using Microsoft.Extensions.Localization;
+﻿using Microsoft.Extensions.Localization;
 using TypealizR.CodeFirst.Abstractions;
 
 namespace TypealizR.CodeFirst.Console;
