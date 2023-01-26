@@ -1,0 +1,12 @@
+{
+  "profiles": {
+    "WSL": {
+      "commandName": "WSL2",
+      "distributionName": ""
+    },
+    "code-first export": {
+      "commandName": "Project",
+      "commandLineArgs": "cf ex -d ../../../../Playground.CodeFirst.Console"
+    }
+  }
+}
