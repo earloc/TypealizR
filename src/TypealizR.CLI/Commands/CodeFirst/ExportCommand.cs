@@ -46,13 +46,9 @@ internal class ExportCommand
 
         var allNamespaces = FindNamespaces(compilation, cancellationToken);
 
-        var allInterfaces = allNamespaces
+        var markedInterfaces = allNamespaces
             .SelectMany(x => x.Members.OfType<InterfaceDeclarationSyntax>())
             .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
-            .ToArray()
-        ;
-
-        var markedInterfaces = allInterfaces
             .Select(x => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
             .Where(x => x.Symbol is not null)
             .Select(x => new { x.Declaration, Symbol = x.Symbol! })
@@ -87,14 +83,47 @@ internal class ExportCommand
 
             Console.WriteLine($"  👀 {type.Declaration.Identifier.Text} -> {fileName}");
 
-            var builder = new StringBuilder();
-            foreach (var member in type.Declaration.Members)
-            {
-                builder.AppendLine(member.ToString());
+            var properties = type.Declaration.Members
+                .OfType<PropertyDeclarationSyntax>()
+                .Select(x => new { Syntax = x, ReturnType = x.Type as IdentifierNameSyntax })
+                .Where(x => x.ReturnType is not null)
+                .Select(x => new {x.Syntax, ReturnType = x.ReturnType!})
+                .ToArray()
+            ;
 
-                //Console.WriteLine($"    ✅ {member}");
-                //Console.WriteLine($"    ❌ {member}");
-                //Console.WriteLine($"    ⚠️ {member}");
+            var methods = type.Declaration.Members
+                .OfType<MethodDeclarationSyntax>()
+                .Select(x => new { Syntax = x, ReturnType = x.ReturnType as IdentifierNameSyntax })
+                .Where(x => x.ReturnType is not null)
+                .Select(x => new { x.Syntax, ReturnType = x.ReturnType! })
+                .ToArray()
+            ;
+
+            var builder = new StringBuilder();
+
+            foreach (var property in properties)
+            {
+                var key = type.Declaration.Members
+                    .OfType<FieldDeclarationSyntax>()
+                    .Where(x => x.Modifiers.Any(y => y.Text == "const"))
+                    .Select(x => x.Declaration.Variables.SingleOrDefault())
+                    .Where(x => x is not null).Select(x => x!)
+                    .Where(x => x.Identifier.Text == $"{property.Syntax.Identifier.Text}_Key")
+                    .FirstOrDefault()
+                ;
+                builder.AppendLine($"{property.Syntax.Identifier.Text} = {key?.Initializer?.Value}");
+            }
+
+            foreach (var method in methods)
+            {
+                var key = type.Declaration.Members
+                    .OfType<FieldDeclarationSyntax>()
+                    .Where(x => x.Modifiers.Any(y => y.Text == "const"))
+                    .Select(x => x.Declaration.Variables.SingleOrDefault())
+                    .Where(x => x is not null).Select(x => x!)
+                    .Where(x => x.Identifier.Text == $"{method.Syntax.Identifier.Text}_Key")
+                    .FirstOrDefault();
+                builder.AppendLine($"{method.Syntax.Identifier.Text} = {key?.Initializer?.Value}");
             }
 
             await storage.AddAsync(fileName, builder.ToString());
