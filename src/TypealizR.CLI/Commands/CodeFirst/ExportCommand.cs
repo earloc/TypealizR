@@ -4,6 +4,7 @@ using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using System.Xml.Linq;
 using Microsoft.Build.Locator;
@@ -15,30 +16,19 @@ using TypealizR.CLI.Abstractions;
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand
 {
-    public static async Task Handle(string baseDirectory, IStorage storage, CancellationToken cancellationToken)
+    public static async Task Handle(FileInfo projectFile, IStorage storage, CancellationToken cancellationToken)
     {
-        var directory = new DirectoryInfo(baseDirectory);
-
         if (!MSBuildLocator.IsRegistered)
         {
             MSBuildLocator.RegisterDefaults();
         }
-
-        foreach (var projectFile in directory.GetFiles("*.csproj"))
-        {
-            await ExportAsync(projectFile, storage, cancellationToken);
-        }
-    }
-
-    private static async Task ExportAsync(FileInfo projectFile, IStorage storage, CancellationToken cancellationToken)
-    {
         using var w = MSBuildWorkspace.Create();
 
         var project = await w.OpenProjectAsync(projectFile.FullName, cancellationToken: cancellationToken);
 
         await ExportAsync(project, storage, cancellationToken);
-
     }
+
     private const string MarkerAttributeName = "CodeFirstTypealized";
 
     private static async Task ExportAsync(Project project, IStorage storage, CancellationToken cancellationToken)
@@ -54,14 +44,9 @@ internal class ExportCommand
 
         Console.WriteLine($"🔍 scanning {project.FilePath}");
 
-        var allNameSpaces = compilation.SyntaxTrees
-            .Where(x => x.GetRoot() is CompilationUnitSyntax)
-            .Select(x => (CompilationUnitSyntax)x.GetRoot())
-            .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
-            .ToArray()
-        ;
+        var allNamespaces = FindNamespaces(compilation, cancellationToken);
 
-        var allInterfaces = allNameSpaces
+        var allInterfaces = allNamespaces
             .SelectMany(x => x.Members.OfType<InterfaceDeclarationSyntax>())
             .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
             .ToArray()
@@ -78,7 +63,7 @@ internal class ExportCommand
             .ToArray()
         ;
 
-        var allClasses = allNameSpaces
+        var allClasses = allNamespaces
             .SelectMany(x => x.Members.OfType<ClassDeclarationSyntax>())
             .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
             .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration) as INamedTypeSymbol })
@@ -115,4 +100,12 @@ internal class ExportCommand
             await storage.AddAsync(fileName, builder.ToString());
         }
     }
+
+    private static IEnumerable<BaseNamespaceDeclarationSyntax> FindNamespaces(Compilation compilation, CancellationToken cancellationToken) 
+        => compilation.SyntaxTrees
+            .Where(x => x.GetRoot() is CompilationUnitSyntax)
+            .Select(x => (CompilationUnitSyntax)x.GetRoot(cancellationToken))
+            .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
+            .ToArray()
+        ;
 }

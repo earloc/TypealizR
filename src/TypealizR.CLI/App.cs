@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.CommandLine;
 using System.Linq;
 using System.Text;
+using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CLI.Abstractions;
@@ -24,9 +25,11 @@ internal class App
 
         Console.OutputEncoding = Encoding.UTF8;
 
-        var directoryOption = new Option<string>("--directory");
-        directoryOption.AddAlias("-d");
-        directoryOption.SetDefaultValueFactory(() => Directory.GetCurrentDirectory());
+        var projectArgument = new Argument<FileInfo>("--project");
+
+        projectArgument.SetDefaultValueFactory(
+            () => Directory.GetFiles(Directory.GetCurrentDirectory(), "*.csproj").FirstOrDefault()
+        );
 
         var codeFirstCommand = new Command("code-first");
         codeFirstCommand.AddAlias("cf");
@@ -35,10 +38,10 @@ internal class App
 
         var exportCommand = new Command("export");
         exportCommand.AddAlias("ex");
-        exportCommand.AddOption(directoryOption);
+        exportCommand.AddArgument(projectArgument);
         exportCommand.SetHandler(
-            (directory, storage) => ExportCommand.Handle(directory, storage, CancellationToken.None),
-            directoryOption, new FuncBinder<IStorage>(dependencies.Storage)
+            (project, storage) => ExportCommand.Handle(project, storage, CancellationToken.None),
+            projectArgument, new FuncBinder<IStorage>(dependencies.Storage)
         );
 
         codeFirstCommand.AddCommand(exportCommand);
