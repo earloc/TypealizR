@@ -16,6 +16,12 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <Compile Remove="CLI.Tests\Projects\**" />
+	  <EmbeddedResource Remove="CLI.Tests\Projects\**" />
+	  <None Remove="CLI.Tests\Projects\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 	  <Compile Remove="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
 	  <Compile Remove="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
 	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
@@ -37,8 +43,8 @@
 			<PrivateAssets>all</PrivateAssets>
 			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
 		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.3.1" />
+		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" PrivateAssets="all" />
 		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" />
 		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
@@ -56,6 +62,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
+		<ProjectReference Include="..\TypealizR.CLI\TypealizR.CLI.csproj" />
 		<ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
 		<ProjectReference Include="..\TypealizR\TypealizR.csproj" />
 	</ItemGroup>
