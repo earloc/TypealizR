@@ -53,9 +53,9 @@ internal class ExportCommand
         ;
 
         var markedInterfaces = allInterfaces
-            .Select((x, cancel) => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration) })
+            .Select(x => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
             .Where(x => x.Symbol is not null)
-            .Select((x, cancel) => new { x.Declaration, Symbol = x.Symbol! })
+            .Select(x => new { x.Declaration, Symbol = x.Symbol! })
             .Where(x => x.Symbol
                 .GetAttributes()
                 .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false)
@@ -66,7 +66,7 @@ internal class ExportCommand
         var allClasses = allNamespaces
             .SelectMany(x => x.Members.OfType<ClassDeclarationSyntax>())
             .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
-            .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration) as INamedTypeSymbol })
+            .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) as INamedTypeSymbol })
             .Where(x => x.Symbol is not null)
             .Select(x => new { x.Declaration, x.Model, Symbol = x.Symbol! })
             .ToArray()
