@@ -10,11 +10,12 @@ using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
+using TypealizR.CLI.Abstractions;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand
 {
-    public static async Task Handle(string baseDirectory, CancellationToken cancellationToken)
+    public static async Task Handle(string baseDirectory, IStorage storage, CancellationToken cancellationToken)
     {
         var directory = new DirectoryInfo(baseDirectory);
 
@@ -25,22 +26,22 @@ internal class ExportCommand
 
         foreach (var projectFile in directory.GetFiles("*.csproj"))
         {
-            await ExportAsync(projectFile, cancellationToken);
+            await ExportAsync(projectFile, storage, cancellationToken);
         }
     }
 
-    private static async Task ExportAsync(FileInfo projectFile, CancellationToken cancellationToken)
+    private static async Task ExportAsync(FileInfo projectFile, IStorage storage, CancellationToken cancellationToken)
     {
         using var w = MSBuildWorkspace.Create();
 
         var project = await w.OpenProjectAsync(projectFile.FullName, cancellationToken: cancellationToken);
 
-        await ExportAsync(project, cancellationToken);
+        await ExportAsync(project, storage, cancellationToken);
 
     }
     private const string MarkerAttributeName = "CodeFirstTypealized";
 
-    private static async Task ExportAsync(Project project, CancellationToken cancellationToken)
+    private static async Task ExportAsync(Project project, IStorage storage, CancellationToken cancellationToken)
     {
         Console.WriteLine($"🚀 building {project.FilePath}");
 
@@ -86,7 +87,6 @@ internal class ExportCommand
             .ToArray()
         ;
 
-
         var markedInterfacesIdentifier = markedInterfaces.Select(x => x.Symbol).ToArray();
 
         var typesImplementingMarkedInterfaces =
@@ -98,16 +98,21 @@ internal class ExportCommand
 
         foreach (var type in typesImplementingMarkedInterfaces)
         {
-            Console.WriteLine($"  👀 {type.Declaration.Identifier.Text} -> {type.Declaration.Identifier.Text}.resx");
+            var fileName = $"{type.Declaration.Identifier.Text}.resx";
 
+            Console.WriteLine($"  👀 {type.Declaration.Identifier.Text} -> {fileName}");
+
+            var builder = new StringBuilder();
             foreach (var member in type.Declaration.Members)
             {
-                Console.WriteLine($"    ✅ {member}");
-                Console.WriteLine($"    ❌ {member}");
-                Console.WriteLine($"    ⚠️ {member}");
+                builder.AppendLine(member.ToString());
+
+                //Console.WriteLine($"    ✅ {member}");
+                //Console.WriteLine($"    ❌ {member}");
+                //Console.WriteLine($"    ⚠️ {member}");
             }
+
+            await storage.AddAsync(fileName, builder.ToString());
         }
-
-
     }
 }
