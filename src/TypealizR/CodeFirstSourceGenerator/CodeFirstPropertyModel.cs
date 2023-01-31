@@ -15,8 +15,10 @@ internal class CodeFirstPropertyModel
         this.returnType = returnType;
         this.resourceKey = resourceKey;
     }
+    private string KeyName => $"{name}_Key";
 
     internal string ToCSharp() => $$"""
-        public {{returnType}} {{name}} => localizer[@"{{resourceKey}}"];
+        private const string {{KeyName}} = @"{{resourceKey}}";
+                public {{returnType}} {{name}} => localizer[{{KeyName}}];
         """;
 }
