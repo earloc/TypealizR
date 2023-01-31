@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.CommandLine;
 using System.CommandLine.Invocation;
 using System.Linq;
 using System.Text;
@@ -31,8 +32,8 @@ internal class ExportCommand
     private static async Task ExportAsync(FileInfo projectFile, CancellationToken cancellationToken)
     {
         using var w = MSBuildWorkspace.Create();
-        
-        var project = await w.OpenProjectAsync (projectFile.FullName, cancellationToken:cancellationToken);
+
+        var project = await w.OpenProjectAsync(projectFile.FullName, cancellationToken: cancellationToken);
 
         await ExportAsync(project, cancellationToken);
 
@@ -41,7 +42,7 @@ internal class ExportCommand
 
     private static async Task ExportAsync(Project project, CancellationToken cancellationToken)
     {
-        Console.WriteLine($"🚀 compiling {project.FilePath}");
+        Console.WriteLine($"🚀 building {project.FilePath}");
 
         var compilation = await project.GetCompilationAsync(cancellationToken);
 
@@ -52,31 +53,54 @@ internal class ExportCommand
 
         Console.WriteLine($"🔍 scanning {project.FilePath}");
 
-        var allInterfaces = compilation.SyntaxTrees
+        var allNameSpaces = compilation.SyntaxTrees
             .Where(x => x.GetRoot() is CompilationUnitSyntax)
             .Select(x => (CompilationUnitSyntax)x.GetRoot())
-            .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>().ToArray())
+            .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
+            .ToArray()
+        ;
+
+        var allInterfaces = allNameSpaces
             .SelectMany(x => x.Members.OfType<InterfaceDeclarationSyntax>())
-            .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree)})
+            .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
             .ToArray()
         ;
 
         var markedInterfaces = allInterfaces
-            .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration) })
-            .Where(x => x.Model is not null)
-            .Select((x, cancel) => new { x.Declaration, Model = x.Model! })
-            .Where(x => x.Model
+            .Select((x, cancel) => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration) })
+            .Where(x => x.Symbol is not null)
+            .Select((x, cancel) => new { x.Declaration, Symbol = x.Symbol! })
+            .Where(x => x.Symbol
                 .GetAttributes()
                 .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false)
             )
             .ToArray()
         ;
 
-        foreach (var markedInterface in markedInterfaces)
-        {
-            Console.WriteLine($"  👀 {markedInterface.Declaration.Identifier.Text} -> {markedInterface.Declaration.Identifier.Text}.resx");
+        var allClasses = allNameSpaces
+            .SelectMany(x => x.Members.OfType<ClassDeclarationSyntax>())
+            .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
+            .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration) as INamedTypeSymbol })
+            .Where(x => x.Symbol is not null)
+            .Select(x => new { x.Declaration, x.Model, Symbol = x.Symbol! })
+            .ToArray()
+        ;
 
-            foreach (var member in markedInterface.Declaration.Members)
+
+        var markedInterfacesIdentifier = markedInterfaces.Select(x => x.Symbol).ToArray();
+
+        var typesImplementingMarkedInterfaces =
+            allClasses
+            .Where(x => x.Symbol.AllInterfaces
+                .Any(y => markedInterfacesIdentifier.Contains(y, SymbolEqualityComparer.Default))
+            )
+        ;
+
+        foreach (var type in typesImplementingMarkedInterfaces)
+        {
+            Console.WriteLine($"  👀 {type.Declaration.Identifier.Text} -> {type.Declaration.Identifier.Text}.resx");
+
+            foreach (var member in type.Declaration.Members)
             {
                 Console.WriteLine($"    ✅ {member}");
                 Console.WriteLine($"    ❌ {member}");
