@@ -4,28 +4,27 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using FluentAssertions;
+using FluentAssertions.Common;
+using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CLI;
+using TypealizR.CLI.Abstractions;
 
 namespace TypealizR.Tests.CLI.Tests;
 public class ExportCommand_Tests
 {
     private static string ProjectFile(string x) =>  $"../../../../{x}/{x}.csproj";
 
-    private App CreateSUT(out InMemoryStorage storage)
-    {
-        var dependencies = new App.Dependencies();
-        var storageMock = new InMemoryStorage();
-        
-        dependencies.Storage = x => storageMock;
-        var app = new App();
-        storage = storageMock;
-        return app;
-    }
-
     [Fact]
     public async Task Export_SingleInterface_SingleProperty_Generates_Resx()
     {
-        var result = await CreateSUT(out var storage)
+        var storage = new InMemoryStorage();
+
+        var su = new App(
+            services =>
+                services.AddSingleton<IStorage>(_ => storage)
+        );
+
+        var result = await new App()
             .RunAsync("code-first", "export", ProjectFile("Tests.CLI.SingleInterface_SingleProperty"));
 
         result.Should().Be(0);

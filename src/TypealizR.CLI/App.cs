@@ -1,6 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.CommandLine;
+using System.CommandLine.Builder;
+using System.CommandLine.Parsing;
+using System.CommandLine.Hosting;
 using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -10,42 +13,45 @@ using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Binders;
 using TypealizR.CLI.Commands.CodeFirst;
 
+using Microsoft.Extensions.Hosting;
+
 namespace TypealizR.CLI;
 internal class App
 {
-    public class Dependencies
-    {
-        public Func<IServiceProvider, IStorage> Storage = x => new FileStorage();
-    }
+    private readonly Parser runner;
 
-    readonly RootCommand rootCommand = new ();
-    public App(Dependencies? dependencies = null)
+    public App(Action<IServiceCollection>? configureServices = null)
 	{
-        dependencies ??= new();
-
         Console.OutputEncoding = Encoding.UTF8;
 
-        var projectArgument = new Argument<FileInfo>("--project");
+        var codeFirstCommand = new Command("code-first")
+        {
+            new ExportCommand()
+        };
 
-        projectArgument.SetDefaultValueFactory(
-            () => Directory.GetFiles(Directory.GetCurrentDirectory(), "*.csproj").FirstOrDefault()
-        );
-
-        var codeFirstCommand = new Command("code-first");
         codeFirstCommand.AddAlias("cf");
 
-        rootCommand.AddCommand(codeFirstCommand);
+        var rootCommand = new RootCommand()
+        {
+            codeFirstCommand
+        };
 
-        var exportCommand = new Command("export");
-        exportCommand.AddAlias("ex");
-        exportCommand.AddArgument(projectArgument);
-        exportCommand.SetHandler(
-            (project, storage) => ExportCommand.Handle(project, storage, CancellationToken.None),
-            projectArgument, new FuncBinder<IStorage>(dependencies.Storage)
-        );
-
-        codeFirstCommand.AddCommand(exportCommand);
+        runner = new CommandLineBuilder(rootCommand)
+            .UseDefaults()
+            .UseHost(_ => Host.CreateDefaultBuilder(), builder =>
+                builder
+                    .UseCommandHandler<ExportCommand, ExportCommand.Implementation>()
+                    .ConfigureServices(ConfigureServices)
+                    .ConfigureServices(_ => configureServices?.Invoke(_))
+            )
+            .Build()
+        ;
     }
 
-    public Task<int> RunAsync(params string[] args) => rootCommand.InvokeAsync(args);
+    private void ConfigureServices(IServiceCollection services)
+    {
+        services.AddSingleton<IStorage, FileStorage>();
+    }
+
+    public Task<int> RunAsync(params string[] args) => runner.InvokeAsync(args);
 }
