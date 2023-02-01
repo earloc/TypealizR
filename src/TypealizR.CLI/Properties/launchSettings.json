@@ -6,7 +6,7 @@
     },
     "code-first export": {
       "commandName": "Project",
-      "commandLineArgs": "code-first export ../../../../Tests.CLI.SingleInterface_SingleProperty/Tests.CLI.SingleInterface_SingleProperty.csproj"
+      "commandLineArgs": "code-first export ../../../../Playground.CodeFirst.Console/Playground.CodeFirst.Console.csproj"
     }
   }
 }

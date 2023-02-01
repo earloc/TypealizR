@@ -25,7 +25,7 @@ public class ExportCommand_Tests
         );
 
         var result = await new App()
-            .RunAsync("code-first", "export", ProjectFile("Tests.CLI.SingleInterface_SingleProperty"));
+            .RunAsync("code-first", "export", ProjectFile("Playground.CodeFirst.Console"));
 
         result.Should().Be(0);
     }
