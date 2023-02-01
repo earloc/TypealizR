@@ -1,0 +1,26 @@
+<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="SomeValue">
+    <value>Some localized value</value>
+  </data>
+  <data name="SomeOtherValueWithoutComment">
+    <value>SomeOtherValueWithoutComment</value>
+  </data>
+  <data name="SomeInterpolated">
+    <value>Hello {0}, you are the {1} visitor today!</value>
+  </data>
+  <data name="SomeInterpolatedWithoutComment">
+    <value>SomeInterpolatedWithoutComment {0} {1}</value>
+  </data>
+</root>

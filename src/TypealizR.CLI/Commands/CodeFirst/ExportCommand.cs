@@ -14,6 +14,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
+using TypealizR.CLI.Resources;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command
@@ -107,21 +108,28 @@ internal class ExportCommand : Command
                 console.WriteLine($"  👀   {interfaceFile}");
                 console.WriteLine($"    -> {resourcefileName}");
 
-                var builder = new StringBuilder();
+                var builder = new ResxBuilder();
 
                 foreach (var property in FindProperties(type))
                 {
                     var key = FindKeyOf(type, property);
-                    builder.AppendLine($"{property.Syntax.Identifier.Text} = {key?.Initializer?.Value}");
+                    if (key?.Initializer?.Value is not null)
+                    {
+                        builder.Add(property.Syntax.Identifier.Text, key?.Initializer?.Value.ToString().Trim('@', '$', '"') ?? "");
+                    }
                 }
 
                 foreach (var method in FindMethods(type))
                 {
                     var key = FindKeyOf(type, method);
-                    builder.AppendLine($"{method.Syntax.Identifier.Text} = {key?.Initializer?.Value}");
+                    if (key?.Initializer?.Value is not null)
+                    {
+                        builder.Add(method.Syntax.Identifier.Text, key?.Initializer?.Value.ToString().Trim('@', '$', '"') ?? "");
+                    }
                 }
 
-                await storage.AddAsync(resourcefileName, builder.ToString());
+                var content = builder.Build();
+                await storage.AddAsync(resourcefileName, content);
             }
         }
 

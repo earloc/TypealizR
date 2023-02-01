@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 namespace TypealizR.CLI.Abstractions;
 internal class FileStorage : IStorage
 {
-    public Task AddAsync(string fileName, string content)
+    public async Task AddAsync(string fileName, string content)
     {
-        throw new NotImplementedException();
+        await File.WriteAllTextAsync(fileName, content);
     }
 }

@@ -14,4 +14,16 @@ public interface ISimple
     /// Some localized value
     /// </summary>
     public LocalizedString SomeValue { get; }
+
+    public LocalizedString SomeOtherValueWithoutComment { get; }
+
+    /// <summary>
+    /// Hello <paramref name="userName"/>, you are the <paramref name="count"/> visitor today!
+    /// </summary>
+    /// <param name="userName"></param>
+    /// <param name="count"></param>
+    /// <returns></returns>
+    public LocalizedString SomeInterpolated(string userName, int count);
+
+    public LocalizedString SomeInterpolatedWithoutComment(int count, string userName);
 }
