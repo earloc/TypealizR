@@ -5,20 +5,23 @@ namespace TypealizR;
 
 internal class CodeFirstPropertyModel
 {
-    private readonly string name;
+    private readonly string key;
     private readonly string returnType;
-    private readonly string resourceKey;
+    private readonly string fallbackKey;
 
-    public CodeFirstPropertyModel(string name, string returnType, string resourceKey)
+    public CodeFirstPropertyModel(string key, string returnType, string fallbackKey)
     {
-        this.name = name;
+        this.key = key;
         this.returnType = returnType;
-        this.resourceKey = resourceKey;
+        this.fallbackKey = fallbackKey;
     }
-    private string KeyName => $"{name}_Key";
+    private string FallbackKeyName => $"{key}{_.FallBackKeySuffix}";
+    private string KeyName => $"{key}{_.KeySuffix}";
+
 
     internal string ToCSharp() => $$"""
-        private const string {{KeyName}} = @"{{resourceKey}}";
-                public {{returnType}} {{name}} => localizer[@"{{name}}"].Or(localizer[{{KeyName}}]);
+        private const string {{KeyName}} = @"{{key}}";
+                private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
+                public {{returnType}} {{key}} => localizer[{{KeyName}}].Or(localizer[{{FallbackKeyName}}]);
         """;
 }

@@ -201,7 +201,7 @@ internal class ExportCommand : Command
                 .Where(x => x.Modifiers.Any(y => y.Text == "const"))
                 .Select(x => x.Declaration.Variables.SingleOrDefault())
                 .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{property.Syntax.Identifier.Text}_Key")
+                .FirstOrDefault(x => x.Identifier.Text == $"{property.Syntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
         ;
 
         private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodInfo method)
@@ -210,7 +210,7 @@ internal class ExportCommand : Command
                 .Where(x => x.Modifiers.Any(y => y.Text == "const"))
                 .Select(x => x.Declaration.Variables.SingleOrDefault())
                 .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{method.Syntax.Identifier.Text}_Key")
+                .FirstOrDefault(x => x.Identifier.Text == $"{method.Syntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
         ;
     }
 }

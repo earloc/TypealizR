@@ -4,6 +4,10 @@
 
 namespace TypealizR;
 
-internal abstract class _
+public abstract class _
 {
+
+    public const string RawSuffix = "_Raw";
+    public const string KeySuffix = "_Key";
+    public const string FallBackKeySuffix = "_FallbackKey";
 }
