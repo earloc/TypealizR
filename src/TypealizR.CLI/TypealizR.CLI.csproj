@@ -5,8 +5,25 @@
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <AssemblyName>tr</AssemblyName>
     </PropertyGroup>
-
+    <PropertyGroup>
+        <PackageId>TypealizR.CLI</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Title>TypealizR.CLI</Title>
+        <Authors>earloc</Authors>
+        <Product>TypealizR</Product>
+        <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageOutputPath>../../bin</PackageOutputPath>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackAsTool>true</PackAsTool>
+    </PropertyGroup>
+    <ItemGroup>
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
 
 
     <ItemGroup>
