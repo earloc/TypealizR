@@ -95,13 +95,17 @@ internal class ExportCommand : Command
             var allNamespaces = FindNamespaces(compilation, cancellationToken).ToArray();
             var markedInterfaces = FindInterfaces(compilation, allNamespaces, cancellationToken).ToArray();
 
-            var typesImplementingMarkedInterfaces = FindClasses(compilation, allNamespaces, markedInterfaces.Select(x => x.Symbol).ToArray(), cancellationToken).ToArray();
+            var typesImplementingMarkedInterfaces = FindClasses(compilation, allNamespaces, markedInterfaces, cancellationToken).ToArray();
 
             foreach (var type in typesImplementingMarkedInterfaces)
             {
-                var fileName = $"{type.Declaration.Identifier.Text}.resx";
+                var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
+                var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
-                console.WriteLine($"  👀 {type.Declaration.Identifier.Text} -> {fileName}");
+                var resourcefileName = Path.Combine(interfacePath, $"{type.Declaration.Identifier.Text}.resx");
+
+                console.WriteLine($"  👀   {interfaceFile}");
+                console.WriteLine($"    -> {resourcefileName}");
 
                 var builder = new StringBuilder();
 
@@ -117,7 +121,7 @@ internal class ExportCommand : Command
                     builder.AppendLine($"{method.Syntax.Identifier.Text} = {key?.Initializer?.Value}");
                 }
 
-                await storage.AddAsync(fileName, builder.ToString());
+                await storage.AddAsync(resourcefileName, builder.ToString());
             }
         }
 
@@ -141,17 +145,27 @@ internal class ExportCommand : Command
                 )
         ;
 
-        private static IEnumerable<TypeInfo> FindClasses(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, IEnumerable<ISymbol> markedInterfacesIdentifier, CancellationToken cancellationToken)
-            => allNamespaces
+        private static IEnumerable<TypeInfo> FindClasses(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, IEnumerable<InterfaceInfo> markedInterfacesIdentifier, CancellationToken cancellationToken)
+        {
+            var interfaces = markedInterfacesIdentifier.ToDictionary(x => x.Symbol, SymbolEqualityComparer.Default);
+
+            return allNamespaces
                 .SelectMany(x => x.Members.OfType<ClassDeclarationSyntax>())
                 .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
                 .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) as INamedTypeSymbol })
                 .Where(x => x.Symbol is not null)
-                .Select(x => new TypeInfo(x.Declaration, x.Model, x.Symbol!))
-                .Where(x => x.Symbol.AllInterfaces
-                    .Any(y => markedInterfacesIdentifier.Contains(y, SymbolEqualityComparer.Default))
-                )
-        ;
+                .Select(x => new
+                {
+                    x.Declaration,
+                    x.Model,
+                    Symbol = x.Symbol!,
+                    Interface = x.Symbol!.AllInterfaces
+                        .FirstOrDefault(y => interfaces.ContainsKey(y))
+                })
+                .Where(x => x.Interface is not null)
+                .Select(x => new TypeInfo(x.Declaration, x.Model, x.Symbol, interfaces[x.Interface!]))
+            ;
+        }
 
         private static IEnumerable<PropertyInfo> FindProperties(TypeInfo type)
             => type.Declaration.Members
