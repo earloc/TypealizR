@@ -19,6 +19,6 @@ internal class CodeFirstPropertyModel
 
     internal string ToCSharp() => $$"""
         private const string {{KeyName}} = @"{{resourceKey}}";
-                public {{returnType}} {{name}} => localizer[{{KeyName}}];
+                public {{returnType}} {{name}} => localizer[@"{{name}}"].Or(localizer[{{KeyName}}]);
         """;
 }

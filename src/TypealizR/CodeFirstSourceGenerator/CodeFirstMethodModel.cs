@@ -23,7 +23,7 @@ internal class CodeFirstMethodModel
 
     internal string ToCSharp() => $$"""
         private const string {{KeyName}} = @"{{resourceKey}}";
-                public {{returnType}} {{ValueName}} => localizer[{{KeyName}}];
-                public {{returnType}} {{name}} ({{parameters.ToCharpDeclaration()}}) => localizer[{{KeyName}}, {{parameters.ToCSharpInvocation()}}];
+                public {{returnType}} {{ValueName}} => localizer[@"{{name}}"].Or(localizer[{{KeyName}}]);
+                public {{returnType}} {{name}} ({{parameters.ToCharpDeclaration()}}) => localizer[@"{{name}}", {{parameters.ToCSharpInvocation()}}].Or(localizer[{{KeyName}}, {{parameters.ToCSharpInvocation()}}]);
         """;
 }
