@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using TypealizR.CodeFirst.Abstractions;
 
-namespace TypealizR.CodeFirst.Console;
+namespace Playground.CodeFirst.Console;
 
 [CodeFirstTypealized]
 public interface ILocalizables
