@@ -11,16 +11,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="SomeValue">
+  <data name="Some localized value">
     <value>Some localized value</value>
   </data>
   <data name="SomeOtherValueWithoutComment">
     <value>SomeOtherValueWithoutComment</value>
   </data>
-  <data name="SomeInterpolated">
+  <data name="Hello {0}, you are the {1} visitor today!">
     <value>Hello {0}, you are the {1} visitor today!</value>
   </data>
-  <data name="SomeInterpolatedWithoutComment">
+  <data name="SomeInterpolatedWithoutComment {0} {1}">
     <value>SomeInterpolatedWithoutComment {0} {1}</value>
   </data>
 </root>

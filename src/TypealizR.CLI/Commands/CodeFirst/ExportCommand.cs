@@ -113,18 +113,23 @@ internal class ExportCommand : Command
                 foreach (var property in FindProperties(type))
                 {
                     var key = FindKeyOf(type, property);
-                    if (key?.Initializer?.Value is not null)
+                    var sanitizedKey = key?.Initializer?.Value?.ToResourceKey() ?? "";
+
+                    if (!string.IsNullOrEmpty(sanitizedKey))
                     {
-                        builder.Add(property.Syntax.Identifier.Text, key?.Initializer?.Value.ToString().Trim('@', '$', '"') ?? "");
+                        //TODO: emit diagnostics, otherwise
+                        builder.Add(sanitizedKey, sanitizedKey);
                     }
                 }
 
                 foreach (var method in FindMethods(type))
                 {
                     var key = FindKeyOf(type, method);
-                    if (key?.Initializer?.Value is not null)
+                    var sanitizedKey = key?.Initializer?.Value?.ToResourceKey() ?? "";
+                    if (!string.IsNullOrEmpty(sanitizedKey))
                     {
-                        builder.Add(method.Syntax.Identifier.Text, key?.Initializer?.Value.ToString().Trim('@', '$', '"') ?? "");
+                        //TODO: emit diagnostics, otherwise
+                        builder.Add(sanitizedKey, sanitizedKey);
                     }
                 }
 
