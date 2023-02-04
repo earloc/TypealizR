@@ -15,7 +15,7 @@ public class ExportCommand_Tests
     private static string ProjectFile(string x) =>  $"../../../../{x}/{x}.csproj";
 
     [Fact]
-    public async Task Export_SingleInterface_SingleProperty_Generates_Resx()
+    public async Task Export_Generates_ResxFiles()
     {
         var storage = new InMemoryStorage();
         var sut = new App( services => services.AddSingleton<IStorage>(_ => storage) );
