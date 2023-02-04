@@ -71,13 +71,6 @@ internal class ExportCommand : Command
                 return;
             }
 
-            var diagnostics = compilation.GetDiagnostics(cancellationToken).Where(x => x.Severity == DiagnosticSeverity.Error);
-
-            if (diagnostics.Any())
-            {
-                throw new Exception("💥 project contains errors");
-            }
-
             await ExportAsync(console, project, storage, compilation, cancellationToken);
         }
 
@@ -146,7 +139,7 @@ internal class ExportCommand : Command
                 .Select(x => new InterfaceInfo(x.Declaration, x.Symbol!))
                 .Where(x => x.Symbol
                     .GetAttributes()
-                    .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false)
+                    .Any(x => x.AttributeClass is not null && x.AttributeClass!.Name.StartsWith(MarkerAttributeName))
                 )
         ;
 
@@ -168,7 +161,7 @@ internal class ExportCommand : Command
                         .FirstOrDefault(y => interfaces.ContainsKey(y))
                 })
                 .Where(x => x.Interface is not null)
-                .Select(x => new TypeInfo(x.Declaration, x.Model, x.Symbol, interfaces[x.Interface!]))
+                .Select(x => new TypeInfo(x.Declaration, interfaces[x.Interface!]))
             ;
         }
 
