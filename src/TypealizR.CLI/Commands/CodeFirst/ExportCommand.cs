@@ -1,14 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Invocation;
-using System.CommandLine.NamingConventionBinder;
-using System.Linq;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading;
-using System.Threading.Tasks;
-using System.Xml.Linq;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -45,6 +36,11 @@ internal class ExportCommand : Command
 
         public async Task<int> InvokeAsync(InvocationContext context)
         {
+            if (!MSBuildLocator.IsRegistered)
+            {
+                MSBuildLocator.RegisterDefaults();
+            }
+
             if (Project is null)
             {
                 throw new InvalidOperationException($"{nameof(Project)} is missing");
@@ -52,10 +48,6 @@ internal class ExportCommand : Command
 
             var cancellationToken = context.GetCancellationToken();
 
-            if (!MSBuildLocator.IsRegistered)
-            {
-                MSBuildLocator.RegisterDefaults();
-            }
             using var w = MSBuildWorkspace.Create();
 
 
