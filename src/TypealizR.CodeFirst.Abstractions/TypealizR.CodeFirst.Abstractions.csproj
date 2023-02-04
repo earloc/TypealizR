@@ -8,6 +8,7 @@
     </PropertyGroup>
 
     <PropertyGroup>
+        <IsPackable>true</IsPackable>
         <PackageId>TypealizR.CodeFirst.Abstractions</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>TypealizR</Title>

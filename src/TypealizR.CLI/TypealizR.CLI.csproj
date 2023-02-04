@@ -8,6 +8,7 @@
         <AssemblyName>tr</AssemblyName>
     </PropertyGroup>
     <PropertyGroup>
+        <IsPackable>true</IsPackable>
         <PackageId>TypealizR.CLI</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>TypealizR.CLI</Title>
