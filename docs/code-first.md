@@ -3,13 +3,16 @@
 
 ## getting started
 
-- install via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
-- Author an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
-- Use properties for plain `translatables`.
-  > return-type needs to be `LocalizedString`
-- Use methods for type-safe translation of formatted `translatables`.
-  > return-type needs to be `LocalizedString`
-- Utilize `structured xml comments` to provide custom default-values.
+- install [TypealizR](https://www.nuget.org/packages/TypealizR)  via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+- install [TypealizR.CodeFirst.Abstractions](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions) via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
+- Author a `Typealized-Interface` which basically is an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
+  - Use properties for plain `translatables`.
+    > return-type needs to be `LocalizedString`
+  - Use methods for type-safe translation of formatted `translatables`.
+    > return-type needs to be `LocalizedString`
+  - Utilize `structured xml comments` to provide custom default-values.
+
+![TypealizedInterface](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface.png?raw=true)
 
 ```csharp
 [CodeFirstTypealized]
@@ -39,8 +42,7 @@ public interface ILocalizables
 }
 ```
 
-
-Based on such an interface, [TypealizR] will generate a default implementation, which easily can be dependency injected:
+Based on such an interface, TypealizR will generate a default implementation, which easily can be dependency injected:
 
 ```csharp
 void Demo(ILocalizables i18n)
@@ -52,5 +54,28 @@ void Demo(ILocalizables i18n)
 }
 ```
 
-### synchronize resources
-> not supported, yet. But will be awesome ;)
+## synchronize resources
+- install [TypealizR.CLI](https://www.nuget.org/packages/TypealizR.CLI) (as local or global tool) via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CLI)](https://www.nuget.org/packages/TypealizR.CLI)
+- run it on your project
+  - `dotnet tr code-first export some/path/to/a.csproj`, or alternatively
+    > `dotnet tr cf ex some/path/to/a.csproj`
+
+Would extract the following `resx`-file:
+
+![TypealizedInterface_Resx](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface_Resx.png?raw=true)
+
+```xml
+<data name="WhatIsTheMeaningOfLifeTheUniverseAndEverything">
+    <value>42</value>
+  </data>
+  <data name="Hello">
+    <value>Hello {0}</value>
+  </data>
+  <data name="Farewell">
+    <value>Goodbye, {0}</value>
+  </data>
+  <data name="Greet">
+    <value>{1} greets {0}, and {0} answers: ""Hi!"".</value>
+  </data>
+```
+
