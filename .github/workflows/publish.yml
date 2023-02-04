@@ -72,4 +72,4 @@ jobs:
       run: dotnet pack --configuration Release --no-build --verbosity normal /p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
     - name: Publish
-      run: dotnet nuget push "**/*.nupkg" -k "${{secrets.NUGET_APIKEY_TYPEALIZR}}" --skip-duplicate -s "https://api.nuget.org/v3/index.json"
+      run: dotnet nuget push "bin/*.nupkg" -k "${{secrets.NUGET_APIKEY_TYPEALIZR}}" --skip-duplicate -s "https://api.nuget.org/v3/index.json"
