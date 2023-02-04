@@ -10,7 +10,6 @@ using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CLI.Abstractions;
-using TypealizR.CLI.Binders;
 using TypealizR.CLI.Commands.CodeFirst;
 
 using Microsoft.Extensions.Hosting;
