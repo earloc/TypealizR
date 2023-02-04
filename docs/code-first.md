@@ -60,7 +60,7 @@ void Demo(ILocalizables i18n)
   - `dotnet tr code-first export some/path/to/a.csproj`, or alternatively
     > `dotnet tr cf ex some/path/to/a.csproj`
 
-Would extract the following `resx`-file:
+Will extract the following `resx`-file:
 
 ![TypealizedInterface_Resx](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface_Resx.png?raw=true)
 
