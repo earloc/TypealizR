@@ -18,15 +18,12 @@ public class ExportCommand_Tests
     public async Task Export_SingleInterface_SingleProperty_Generates_Resx()
     {
         var storage = new InMemoryStorage();
-
-        var su = new App(
-            services =>
-                services.AddSingleton<IStorage>(_ => storage)
-        );
-
-        var result = await new App()
+        var sut = new App( services => services.AddSingleton<IStorage>(_ => storage) );
+        var result = await sut
             .RunAsync("code-first", "export", ProjectFile("Playground.CodeFirst.Console"));
-
         result.Should().Be(0);
+
+        storage.Files.Keys.Should().ContainMatch("*ILocalizables.resx");
+        storage.Files.Keys.Should().ContainMatch("*ILocalizablesWithDefaults.resx");
     }
 }

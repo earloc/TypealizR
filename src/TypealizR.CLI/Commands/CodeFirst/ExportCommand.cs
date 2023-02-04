@@ -95,14 +95,14 @@ internal class ExportCommand : Command
                 var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
-                var resourcefileName = Path.Combine(interfacePath, $"{type.Declaration.Identifier.Text}.resx");
+                var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
 
                 console.WriteLine($"  👀   {interfaceFile}");
                 console.WriteLine($"    -> {resourcefileName}");
 
                 var builder = new ResxBuilder();
 
-                foreach (var property in FindProperties(type))
+                foreach (var property in type.Declaration.Members.OfType<PropertyDeclarationSyntax>())
                 {
                     var key = FindKeyOf(type, property);
                     var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
@@ -110,18 +110,18 @@ internal class ExportCommand : Command
                     if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
                     {
                         //TODO: emit diagnostics, otherwise
-                        builder.Add(property.Syntax.Identifier.Text, sanitizedValue);
+                        builder.Add(property.Identifier.Text, sanitizedValue);
                     }
                 }
 
-                foreach (var method in FindMethods(type))
+                foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
                 {
                     var key = FindKeyOf(type, method);
                     var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
                     if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
                     {
                         //TODO: emit diagnostics, otherwise
-                        builder.Add(method.Syntax.Identifier.Text, sanitizedValue);
+                        builder.Add(method.Identifier.Text, sanitizedValue);
                     }
                 }
 
@@ -172,37 +172,22 @@ internal class ExportCommand : Command
             ;
         }
 
-        private static IEnumerable<PropertyInfo> FindProperties(TypeInfo type)
-            => type.Declaration.Members
-                .OfType<PropertyDeclarationSyntax>()
-                .Select(x => new { Syntax = x, ReturnType = x.Type as IdentifierNameSyntax })
-                .Where(x => x.ReturnType is not null)
-                .Select(x => new PropertyInfo(x.Syntax, x.ReturnType!))
-        ;
-        private static IEnumerable<MethodInfo> FindMethods(TypeInfo type)
-            => type.Declaration.Members
-                .OfType<MethodDeclarationSyntax>()
-                .Select(x => new { Syntax = x, ReturnType = x.ReturnType as IdentifierNameSyntax })
-                .Where(x => x.ReturnType is not null)
-                .Select(x => new MethodInfo(x.Syntax, x.ReturnType!))
-        ;
-
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyInfo property)
+        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyDeclarationSyntax propertySyntax)
             => type.Declaration.Members
                 .OfType<FieldDeclarationSyntax>()
                 .Where(x => x.Modifiers.Any(y => y.Text == "const"))
                 .Select(x => x.Declaration.Variables.SingleOrDefault())
                 .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{property.Syntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
+                .FirstOrDefault(x => x.Identifier.Text == $"{propertySyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
         ;
 
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodInfo method)
+        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodDeclarationSyntax methodSyntax)
             => type.Declaration.Members
                 .OfType<FieldDeclarationSyntax>()
                 .Where(x => x.Modifiers.Any(y => y.Text == "const"))
                 .Select(x => x.Declaration.Variables.SingleOrDefault())
                 .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{method.Syntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
+                .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
         ;
     }
 }
