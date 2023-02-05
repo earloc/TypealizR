@@ -1,94 +1,102 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-	<PropertyGroup>
-		<TargetFramework>net6.0</TargetFramework>
-		<LangVersion>Latest</LangVersion>
-		<ImplicitUsings>enable</ImplicitUsings>
-		<Nullable>enable</Nullable>
-		<IsPackable>false</IsPackable>
-		<ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
-	</PropertyGroup>
+    <PropertyGroup>
+        <IsPackable>false</IsPackable>
+        <TargetFramework>net6.0</TargetFramework>
+        <LangVersion>Latest</LangVersion>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <IsPackable>false</IsPackable>
+        <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+    </PropertyGroup>
 
-	<PropertyGroup>
-		<CollectCoverage>true</CollectCoverage>
-		<ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
-		<CoverletOutputFormat>lcov</CoverletOutputFormat>
-	</PropertyGroup>
+    <PropertyGroup>
+        <CollectCoverage>true</CollectCoverage>
+        <ExcludeByAttribute>GeneratedCodeAttribute</ExcludeByAttribute>
+        <CoverletOutputFormat>lcov</CoverletOutputFormat>
+    </PropertyGroup>
 
-	<ItemGroup>
-	  <Compile Remove="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
-	  <Compile Remove="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
-	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
-	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
-	  <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Remove="CLI.Tests\Projects\**" />
+        <EmbeddedResource Remove="CLI.Tests\Projects\**" />
+        <None Remove="CLI.Tests\Projects\**" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <None Include="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
-	  <None Include="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
-	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
-	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
-	  <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
-	</ItemGroup>
+    <ItemGroup>
+        <Compile Remove="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
+        <Compile Remove="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
+        <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
+        <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
+        <Compile Remove="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<PackageReference Include="FluentAssertions" Version="6.9.0" />
-		<PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-		<PackageReference Include="Microsoft.CodeAnalysis.Common" Version="4.4.0" />
-		<PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.4.0" PrivateAssets="all" />
-		<PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" />
-		<PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
-		<PackageReference Include="Verify.SourceGenerators" Version="2.0.1" />
-		<PackageReference Include="Verify.Xunit" Version="19.7.1" />
-		<PackageReference Include="xunit" Version="2.4.2" />
-		<PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-			<PrivateAssets>all</PrivateAssets>
-		</PackageReference>
-		<PackageReference Include="coverlet.msbuild" Version="3.2.0">
-			<PrivateAssets>all</PrivateAssets>
-			<IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-		</PackageReference>
-	</ItemGroup>
+    <ItemGroup>
+        <None Include="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
+        <None Include="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
+        <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />
+        <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Public.cs" />
+        <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_Internal.cs" />
+    </ItemGroup>
 
-	<ItemGroup>
-		<ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
-		<ProjectReference Include="..\TypealizR\TypealizR.csproj" />
-	</ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="NuGet.Frameworks" Version="6.4.0" />
+        <PackageReference Include="FluentAssertions" Version="6.9.0" />
+        <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.3" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.2" />
+        <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.4.1" />
+        <PackageReference Include="Verify.SourceGenerators" Version="2.0.1" />
+        <PackageReference Include="Verify.Xunit" Version="19.8.3" />
+        <PackageReference Include="xunit" Version="2.4.2" />
+        <PackageReference Include="xunit.runner.visualstudio" Version="2.4.5">
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+            <PrivateAssets>all</PrivateAssets>
+        </PackageReference>
+        <PackageReference Include="coverlet.msbuild" Version="3.2.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Groupings_NoCode.resx">
-	    <SubType>Designer</SubType>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="TypealizedClassSourceGenerator.Tests\Groupings_NoCode_WithDuplicates.resx">
-	    <SubType>Designer</SubType>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="TypealizedClassSourceGenerator.Tests\Groupings_NoCode.resx">
-	    <SubType>Designer</SubType>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Empty_NoCode.resx">
-	    <Generator></Generator>
-	  </EmbeddedResource>
-	  <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode.resx">
-	    <Generator></Generator>
-	  </EmbeddedResource>
-	</ItemGroup>
+    <ItemGroup>
+        <ProjectReference Include="..\TypealizR.CLI\TypealizR.CLI.csproj" />
+        <ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
+        <ProjectReference Include="..\TypealizR\TypealizR.csproj" />
+    </ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="CodeFirstSourceGenerator.Tests\.snapshots\" />
-	  <Folder Include="StringFormatterSourceGenerator.Tests\.snapshots\" />
-	</ItemGroup>
+    <ItemGroup>
+        <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Groupings_NoCode.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Update="TypealizedClassSourceGenerator.Tests\Groupings_NoCode_WithDuplicates.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Update="TypealizedClassSourceGenerator.Tests\Groupings_NoCode.resx">
+            <SubType>Designer</SubType>
+        </EmbeddedResource>
+        <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\Empty_NoCode.resx">
+            <Generator></Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode.resx">
+            <Generator></Generator>
+        </EmbeddedResource>
+    </ItemGroup>
 
-	<ItemGroup>
-	  <None Update="StringTypealizRSourceGenerator.Tests\.snapshots\NoCode_Resx_Groups_Are_Honored_In_Generated_Code#IStringLocalizerExtensions_Some.Root.Namespace.Groupings_NoCode.g.verified.cs">
-	    <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
-	    <ParentExtension>$(MSBuildProjectExtension.Replace('proj', ''))</ParentExtension>
-	    <DependentUpon>%(ParentFile)%(ParentExtension)</DependentUpon>
-	  </None>
-	</ItemGroup>
+    <ItemGroup>
+        <Folder Include="CodeFirstSourceGenerator.Tests\.snapshots\" />
+        <Folder Include="StringFormatterSourceGenerator.Tests\.snapshots\" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <None Update="StringTypealizRSourceGenerator.Tests\.snapshots\NoCode_Resx_Groups_Are_Honored_In_Generated_Code#IStringLocalizerExtensions_Some.Root.Namespace.Groupings_NoCode.g.verified.cs">
+            <ParentFile>$([System.String]::Copy('%(FileName)').Split('.')[0])</ParentFile>
+            <ParentExtension>$(MSBuildProjectExtension.Replace('proj', ''))</ParentExtension>
+            <DependentUpon>%(ParentFile)%(ParentExtension)</DependentUpon>
+        </None>
+    </ItemGroup>
 
 </Project>

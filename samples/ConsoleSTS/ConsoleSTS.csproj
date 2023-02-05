@@ -11,10 +11,11 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="TypealizR" Version="0.8.0-pre0005">
+    <PackageReference Include="TypealizR" Version="0.9.2-pre0008">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.9.2-pre0008" />
   </ItemGroup>
 
   <ItemGroup>

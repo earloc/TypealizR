@@ -1,0 +1,56 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <OutputType>Exe</OutputType>
+        <TargetFramework>net6.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+        <AssemblyName>tr</AssemblyName>
+      
+    </PropertyGroup>
+    <PropertyGroup>
+        <IsPackable>true</IsPackable>
+        <PackageId>TypealizR.CLI</PackageId>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Title>TypealizR.CLI</Title>
+        <Authors>earloc</Authors>
+        <Product>TypealizR</Product>
+        <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageOutputPath>../../bin</PackageOutputPath>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackAsTool>true</PackAsTool>
+        <UseAppHost>false</UseAppHost>
+    </PropertyGroup>
+    <ItemGroup>
+      <None Remove="appsettings.json" />
+    </ItemGroup>
+    <ItemGroup>
+      <Content Include="appsettings.json">
+        <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+      </Content>
+    </ItemGroup>
+    <ItemGroup>
+      <None Include="..\..\README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+
+
+    <ItemGroup>
+        <PackageReference Include="Microsoft.Build.Locator" Version="1.5.5" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.3.1" />
+        <PackageReference Include="Microsoft.CodeAnalysis.Workspaces.MSBuild" Version="4.3.1" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
+        <PackageReference Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
+        <PackageReference Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
+    </ItemGroup>
+
+
+
+    <ItemGroup>
+      <ProjectReference Include="..\TypealizR\TypealizR.csproj" />
+    </ItemGroup>
+
+</Project>

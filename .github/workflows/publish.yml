@@ -10,7 +10,7 @@ on:
 jobs:
   build:
 
-    runs-on: ubuntu-latest
+    runs-on: windows-latest
 
     steps:
     - uses: actions/checkout@v3
@@ -69,7 +69,7 @@ jobs:
       run: dotnet build --configuration Release --no-restore /p:AssemblyVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} /p:FileVersion=${{ steps.gitversion.outputs.assemblySemFileVer }} /p:InformationalVersion=${{ steps.gitversion.outputs.Sha }}
 
     - name: Pack
-      run: dotnet pack ./src/TypealizR/TypealizR.csproj --configuration Release --no-build --verbosity normal /p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
+      run: dotnet pack --configuration Release --no-build --verbosity normal /p:Version=${{ steps.gitversion.outputs.nuGetVersionV2 }}
 
     - name: Publish
       run: dotnet nuget push "**/*.nupkg" -k "${{secrets.NUGET_APIKEY_TYPEALIZR}}" --skip-duplicate -s "https://api.nuget.org/v3/index.json"

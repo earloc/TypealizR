@@ -1,7 +1,6 @@
-﻿// See https://aka.ms/new-console-template for more information
-using System.ComponentModel;
-using Microsoft.Extensions.DependencyInjection;
-using TypealizR.CodeFirst.Console;
+﻿using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Localization;
+using Playground.CodeFirst.Console;
 
 var services = new ServiceCollection();
 services.AddLogging();
@@ -14,7 +13,6 @@ using var scope = provider.CreateScope();
 var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
 
 Demo(i18n);
-
 static void Demo(ILocalizables i18n)
 {
     Console.WriteLine(i18n.Hello("Earth")); // Hello Earth

@@ -12,13 +12,20 @@ namespace TypealizR.Tests.CodeFirst {
         public MembersWithSimpleXmlComment (IStringLocalizer<IMembersWithSimpleXmlComment> localizer) {
             this.localizer = localizer;
         }
-        private const string Hello_Key = @"Hello {0}!";
-        public LocalizedString Hello_Value => localizer[Hello_Key];
-        public LocalizedString Hello (string world) => localizer[Hello_Key, world];
-        public LocalizedString HelloProperty => localizer[@"Hello world!"];
-        public LocalizedString Greeting => localizer[@"Greetings, fellow developer!"];
-        public LocalizedString GreetingWithMultilineComment => localizer[@"Greetings, fellow developer!
+        private const string Hello_Key = @"Hello";
+        private const string Hello_FallbackKey = @"Hello {0}!";
+        public LocalizedString Hello_Raw => localizer[Hello_Key].Or(localizer[Hello_FallbackKey]);
+        public LocalizedString Hello (string world) => localizer[Hello_Key, world].Or(localizer[Hello_FallbackKey, world]);
+        private const string HelloProperty_Key = @"HelloProperty";
+        private const string HelloProperty_FallbackKey = @"Hello world!";
+        public LocalizedString HelloProperty => localizer[HelloProperty_Key].Or(localizer[HelloProperty_FallbackKey]);
+        private const string Greeting_Key = @"Greeting";
+        private const string Greeting_FallbackKey = @"Greetings, fellow developer!";
+        public LocalizedString Greeting => localizer[Greeting_Key].Or(localizer[Greeting_FallbackKey]);
+        private const string GreetingWithMultilineComment_Key = @"GreetingWithMultilineComment";
+        private const string GreetingWithMultilineComment_FallbackKey = @"Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!"];
+ And also this one, even with newlines #wowh@x0r!";
+        public LocalizedString GreetingWithMultilineComment => localizer[GreetingWithMultilineComment_Key].Or(localizer[GreetingWithMultilineComment_FallbackKey]);
     }
 }
