@@ -134,7 +134,6 @@ internal class ExportCommand : Command
                     var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
                     if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
                     {
-                        //TODO: emit diagnostics, otherwise
                         builder.Add(method.Identifier.Text, sanitizedValue);
                         console.WriteLine($"        ✔️ {method.Identifier.Text}()");
                     }
