@@ -18,7 +18,6 @@
         <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageOutputPath>../../bin</PackageOutputPath>
-        <DevelopmentDependency>true</DevelopmentDependency>
         <IsRoslynComponent>true</IsRoslynComponent>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeBuildOutput>true</IncludeBuildOutput>
