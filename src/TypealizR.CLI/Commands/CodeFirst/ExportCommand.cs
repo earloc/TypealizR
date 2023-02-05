@@ -190,7 +190,7 @@ internal class ExportCommand : Command
                 .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
         ;
 
-        private static void AddProperty(IConsole console, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax? property)
+        private static void AddProperty(IConsole console, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax property)
         {
             var key = FindKeyOf(type, property);
             var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
