@@ -14,17 +14,19 @@ using TypealizR.CLI.Commands.CodeFirst;
 
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Configuration;
 
 namespace TypealizR.CLI;
 internal class App
 {
     private readonly Parser runner;
     private readonly Action<IServiceCollection>? configureServices;
+    private readonly string[] args;
 
-    public App(Action<IServiceCollection>? configureServices = null)
+    public App(Action<IServiceCollection>? configureServices = null, params string[] args)
 	{
         this.configureServices = configureServices;
-
+        this.args = args;
         Console.OutputEncoding = Encoding.UTF8;
 
         var codeFirstCommand = new Command("code-first")
@@ -41,8 +43,13 @@ internal class App
 
         runner = new CommandLineBuilder(rootCommand)
             .UseDefaults()
-            .UseHost(_ => Host.CreateDefaultBuilder(), builder =>
-                builder
+            .UseHost(_ => Host
+                .CreateDefaultBuilder()
+                .ConfigureAppConfiguration(config => config
+                    .AddJsonFile("appsettings.json", optional: false)
+                    .AddCommandLine(args)
+                )
+                , builder => builder
                     .UseCommandHandler<ExportCommand, ExportCommand.Implementation>()
                     .ConfigureServices(ConfigureServices)
             )
@@ -56,5 +63,5 @@ internal class App
         services.TryAddSingleton<IStorage, FileStorage>();
     }
 
-    public Task<int> RunAsync(params string[] args) => runner.InvokeAsync(args);
+    public Task<int> RunAsync() => runner.InvokeAsync(args);
 }

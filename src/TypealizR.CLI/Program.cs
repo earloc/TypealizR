@@ -1,4 +1,4 @@
 ﻿using TypealizR.CLI;
 
-var app = new App();
-await app.RunAsync(args);
+var app = new App(null, args);
+await app.RunAsync();

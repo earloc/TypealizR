@@ -50,6 +50,7 @@ internal class ExportCommand : Command
 
             using var w = MSBuildWorkspace.Create();
 
+            console.WriteLine($"📖 opening {Project.FullName}");
 
             var project = await w.OpenProjectAsync(Project.FullName, cancellationToken: cancellationToken);
 
@@ -62,7 +63,7 @@ internal class ExportCommand : Command
 
         private static async Task ExportAsync(IConsole console, Project project, IStorage storage, CancellationToken cancellationToken)
         {
-            console.WriteLine($"🚀 building {project.FilePath}");
+            console.WriteLine($"  🚀 building");
 
             var compilation = await project.GetCompilationAsync(cancellationToken);
 
@@ -76,13 +77,27 @@ internal class ExportCommand : Command
 
         private static async Task ExportAsync(IConsole console, Project project, IStorage storage, Compilation compilation, CancellationToken cancellationToken)
         {
-            console.WriteLine($"🔍 scanning {project.FilePath}");
+            var directory = Directory.GetParent(project.FilePath ?? "");
+
+            console.WriteLine($"  🔍 scanning");
 
             var allNamespaces = FindNamespaces(compilation, cancellationToken).ToArray();
+            if (!allNamespaces.Any())
+            {
+                console.WriteLine("  ⚠️ no namespaces found");
+            }
+
             var markedInterfaces = FindInterfaces(compilation, allNamespaces, cancellationToken).ToArray();
+            if (!markedInterfaces.Any())
+            {
+                console.WriteLine("  ⚠️ no typealized interfaces found");
+            }
 
             var typesImplementingMarkedInterfaces = FindClasses(compilation, allNamespaces, markedInterfaces, cancellationToken).ToArray();
-
+            if (!typesImplementingMarkedInterfaces.Any())
+            {
+                console.WriteLine("  ⚠️ no classes implementing typealized interfaces found");
+            }
             foreach (var type in typesImplementingMarkedInterfaces)
             {
                 var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
@@ -90,20 +105,26 @@ internal class ExportCommand : Command
 
                 var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
 
-                console.WriteLine($"  👀   {interfaceFile}");
-                console.WriteLine($"    -> {resourcefileName}");
+                console.WriteLine($"    👀 found        {interfaceFile.Replace(directory.FullName, "")}");
+                console.WriteLine($"      🆕 generating {resourcefileName.Replace(directory.FullName, "")}");
 
                 var builder = new ResxBuilder();
 
-                foreach (var property in type.Declaration.Members.OfType<PropertyDeclarationSyntax>())
-                {
+                foreach (var property in type.Declaration.Members
+                    .OfType<PropertyDeclarationSyntax>()
+                    .Where(x => !x.Identifier.Text.EndsWith("_Raw"))
+                ) {
                     var key = FindKeyOf(type, property);
                     var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
-
+                    
                     if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
                     {
-                        //TODO: emit diagnostics, otherwise
                         builder.Add(property.Identifier.Text, sanitizedValue);
+                        console.WriteLine($"        ✔️ {property.Identifier.Text}");
+                    }
+                    else
+                    {
+                        console.WriteLine($"        ⚠️ {property.Identifier.Text} - invalid key");
                     }
                 }
 
@@ -115,6 +136,11 @@ internal class ExportCommand : Command
                     {
                         //TODO: emit diagnostics, otherwise
                         builder.Add(method.Identifier.Text, sanitizedValue);
+                        console.WriteLine($"        ✔️ {method.Identifier.Text}()");
+                    }
+                    else
+                    {
+                        console.WriteLine($"        ⚠️ {method.Identifier.Text} - invalid key");
                     }
                 }
 

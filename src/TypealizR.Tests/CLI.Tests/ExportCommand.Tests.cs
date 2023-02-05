@@ -18,9 +18,12 @@ public class ExportCommand_Tests
     public async Task Export_Generates_ResxFiles()
     {
         var storage = new InMemoryStorage();
-        var sut = new App( services => services.AddSingleton<IStorage>(_ => storage) );
+        var sut = new App( 
+            services => services.AddSingleton<IStorage>(_ => storage), 
+            "code-first", "export", ProjectFile("Playground.CodeFirst.Console")
+        );
         var result = await sut
-            .RunAsync("code-first", "export", ProjectFile("Playground.CodeFirst.Console"));
+            .RunAsync();
         result.Should().Be(0);
 
         storage.Files.Keys.Should().ContainMatch("*ILocalizables.resx");
