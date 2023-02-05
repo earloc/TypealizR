@@ -34,7 +34,7 @@ jobs:
       run: dotnet tool run dotnet-sonarscanner begin /k:"earloc_TypealizR" /o:"earloc" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
 
     - name: build
-      run: dotnet build -c Release --no-restore --no-incremental
+      run: dotnet msbuild /t:Rebuild /property:Configuration=Release
     - name: test
       run: dotnet test -c Release --no-build
 
