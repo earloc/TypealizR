@@ -38,7 +38,7 @@
     [CodeFirstTypealized] 
     public interface ILocalizables
     {
-        LocalizedString Greet(string userName, string planetName); // <-- interpolated translatables
+        LocalizedString Greet(string userName, string planetName); // <-- formatted translatables
     }
     ```
     > return-type needs to be `LocalizedString`
