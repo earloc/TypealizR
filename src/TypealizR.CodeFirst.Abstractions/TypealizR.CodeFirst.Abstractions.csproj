@@ -11,14 +11,13 @@
         <IsPackable>true</IsPackable>
         <PackageId>TypealizR.CodeFirst.Abstractions</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Title>TypealizR</Title>
+        <Title>TypealizR.CodeFirst.Abstractions</Title>
         <Authors>earloc</Authors>
         <Product>TypealizR</Product>
         <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
         <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
         <RepositoryType>git</RepositoryType>
         <PackageOutputPath>../../bin</PackageOutputPath>
-        <IsRoslynComponent>true</IsRoslynComponent>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeBuildOutput>true</IncludeBuildOutput>
     </PropertyGroup>
