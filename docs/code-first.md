@@ -1,6 +1,9 @@
 
 # TypealizR - code-first
 
+## pre-requisits
+The consuming target project should at least reference a suitable version of [Microsoft.Extensions.Localization.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Localization.Abstractions)
+
 ## getting started
 
 - install [TypealizR](https://www.nuget.org/packages/TypealizR)  via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
