@@ -6,6 +6,7 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>tr</AssemblyName>
+      
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>true</IsPackable>
@@ -21,6 +22,7 @@
         <DevelopmentDependency>true</DevelopmentDependency>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackAsTool>true</PackAsTool>
+        <UseAppHost>false</UseAppHost>
     </PropertyGroup>
     <ItemGroup>
       <None Remove="appsettings.json" />
