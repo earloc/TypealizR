@@ -77,7 +77,7 @@ internal class ExportCommand : Command
 
         private static async Task ExportAsync(IConsole console, Project project, IStorage storage, Compilation compilation, CancellationToken cancellationToken)
         {
-            var directory = Directory.GetParent(project.FilePath ?? "");
+            var directory = Directory.GetParent(project.FilePath ?? "")?.FullName ?? "";
 
             console.WriteLine($"  🔍 scanning");
 
@@ -105,8 +105,8 @@ internal class ExportCommand : Command
 
                 var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
 
-                console.WriteLine($"    👀 found        {interfaceFile.Replace(directory.FullName, "")}");
-                console.WriteLine($"      🆕 generating {resourcefileName.Replace(directory.FullName, "")}");
+                console.WriteLine($"    👀 found        {interfaceFile.Replace(directory, "")}");
+                console.WriteLine($"      🆕 generating {resourcefileName.Replace(directory, "")}");
 
                 var builder = new ResxBuilder();
 
