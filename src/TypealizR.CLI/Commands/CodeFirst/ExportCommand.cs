@@ -72,11 +72,6 @@ internal class ExportCommand : Command
                 return;
             }
 
-            await ExportAsync(console, project, storage, compilation, cancellationToken);
-        }
-
-        private static async Task ExportAsync(IConsole console, Project project, IStorage storage, Compilation compilation, CancellationToken cancellationToken)
-        {
             var directory = Directory.GetParent(project.FilePath ?? "")?.FullName ?? "";
 
             console.WriteLine($"  🔍 scanning");
@@ -98,49 +93,36 @@ internal class ExportCommand : Command
             {
                 console.WriteLine("  ⚠️ no classes implementing typealized interfaces found");
             }
-            foreach (var type in typesImplementingMarkedInterfaces)
+
+            await ExportAsync(console, directory, typesImplementingMarkedInterfaces, storage);
+        }
+
+        private static async Task ExportAsync(IConsole console, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
+        {
+
+            foreach (var type in types)
             {
                 var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
                 var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
 
-                console.WriteLine($"    👀 found        {interfaceFile.Replace(directory, "")}");
-                console.WriteLine($"      🆕 generating {resourcefileName.Replace(directory, "")}");
+                console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "")}");
+                console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "")}");
 
                 var builder = new ResxBuilder();
 
                 foreach (var property in type.Declaration.Members
                     .OfType<PropertyDeclarationSyntax>()
                     .Where(x => !x.Identifier.Text.EndsWith("_Raw"))
-                ) {
-                    var key = FindKeyOf(type, property);
-                    var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
-                    
-                    if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
-                    {
-                        builder.Add(property.Identifier.Text, sanitizedValue);
-                        console.WriteLine($"        ✔️ {property.Identifier.Text}");
-                    }
-                    else
-                    {
-                        console.WriteLine($"        ⚠️ {property.Identifier.Text} - invalid key");
-                    }
+                )
+                {
+                    AddProperty(console, type, builder, property);
                 }
 
                 foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
                 {
-                    var key = FindKeyOf(type, method);
-                    var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
-                    if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
-                    {
-                        builder.Add(method.Identifier.Text, sanitizedValue);
-                        console.WriteLine($"        ✔️ {method.Identifier.Text}()");
-                    }
-                    else
-                    {
-                        console.WriteLine($"        ⚠️ {method.Identifier.Text} - invalid key");
-                    }
+                    AddMethod(console, type, builder, method);
                 }
 
                 var content = builder.Build();
@@ -207,5 +189,36 @@ internal class ExportCommand : Command
                 .Where(x => x is not null).Select(x => x!)
                 .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
         ;
+
+        private static void AddProperty(IConsole console, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax? property)
+        {
+            var key = FindKeyOf(type, property);
+            var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+
+            if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
+            {
+                builder.Add(property.Identifier.Text, sanitizedValue);
+                console.WriteLine($"        ✔️ {property.Identifier.Text}");
+            }
+            else
+            {
+                console.WriteLine($"        ⚠️ {property.Identifier.Text} - invalid key");
+            }
+        }
+
+        private static void AddMethod(IConsole console, TypeInfo type, ResxBuilder builder, MethodDeclarationSyntax method)
+        {
+            var key = FindKeyOf(type, method);
+            var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+            if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
+            {
+                builder.Add(method.Identifier.Text, sanitizedValue);
+                console.WriteLine($"        ✔️ {method.Identifier.Text}()");
+            }
+            else
+            {
+                console.WriteLine($"        ⚠️ {method.Identifier.Text} - invalid key");
+            }
+        }
     }
 }
