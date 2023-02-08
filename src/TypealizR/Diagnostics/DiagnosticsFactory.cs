@@ -91,7 +91,7 @@ internal class DiagnosticsFactory
                 helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0003)
             ),
             Location.Create(filePath.Replace("\\", "/"),
-                textSpan: new(rawRessourceKey.IndexOf(parameterName), parameterName.Length),
+                textSpan: new(rawRessourceKey.IndexOf(parameterName, StringComparison.Ordinal), parameterName.Length),
                 lineSpan: new(
                     start: new(line: lineNumber - 1, character: 0),
                     end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
@@ -114,7 +114,7 @@ internal class DiagnosticsFactory
                 helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0004)
             ),
             Location.Create(filePath.Replace("\\", "/"),
-                textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation), parameterTypeAnnotation.Length),
+                textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation, StringComparison.Ordinal), parameterTypeAnnotation.Length),
                 lineSpan: new(
                     start: new(line: lineNumber - 1, character: 0),
                     end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)

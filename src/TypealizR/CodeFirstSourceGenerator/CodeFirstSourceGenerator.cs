@@ -32,7 +32,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Select((x, cancel) => new { x.Declaration, Model = x.Model! })
             .Where(x => x.Model
                 .GetAttributes()
-                .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName) ?? false)
+                .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal) ?? false)
             )
         ;
 

@@ -27,7 +27,7 @@ public partial class RessourceFile
         CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
         UseParamNamesInMethodNames = useParamNamesInMethodNames;
 
-        IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
+        IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx", StringComparison.Ordinal);
 
         if (string.IsNullOrEmpty(content))
         {
@@ -66,7 +66,7 @@ public partial class RessourceFile
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })
+                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx", StringComparison.Ordinal)) })
                 .Where(_ => _.MainFile is not null)
                 .Select(_ => {
                     _.MainFile.Options.TryGetValue(CustomToolNameSpaceItemMetadata, out var customToolNamespace);

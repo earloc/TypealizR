@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,7 +18,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
         );
 
 		var resxFilesProvider = context.AdditionalTextsProvider
-            .Where(static x => x.Path.EndsWith(".resx"))
+            .Where(static x => x.Path.EndsWith(".resx", StringComparison.Ordinal))
             .Combine(context.AnalyzerConfigOptionsProvider)
         ;
 
@@ -43,7 +44,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 			});
 	}
 
-	protected void GenerateSourceFor(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
+    protected void GenerateSourceFor(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
 	{
 		if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
 		{
