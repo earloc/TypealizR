@@ -25,7 +25,7 @@ internal class ParameterModel
 
 	}
 
-	private string SanitizeName(string rawParameterName)
+	private static string SanitizeName(string rawParameterName)
     {
         var parameterName = new string(
             rawParameterName

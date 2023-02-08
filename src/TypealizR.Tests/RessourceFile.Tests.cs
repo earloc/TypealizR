@@ -156,7 +156,7 @@ public class RessourceFile_Tests
 	[InlineData(@"[Hello?_World]:world", "Hello_World", "world")]
 	public void Entry_Extracts_Groups(string input, string expectedGroupKey, string expectedKey)
 	{
-		var sut = new RessourceFile.Entry(input, input, new LineInfo());
+		var sut = new RessourceFileEntry(input, input, new LineInfo());
         var actualGroupKey = string.Join('.', sut.Groups);
 		actualGroupKey.Should().Be(expectedGroupKey);
 

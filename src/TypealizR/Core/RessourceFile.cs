@@ -18,7 +18,7 @@ public partial class RessourceFile
     internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
 
 
-    public IEnumerable<Entry> Entries { get; }
+    public IEnumerable<RessourceFileEntry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace, bool useParamNamesInMethodNames)
     {
@@ -31,7 +31,7 @@ public partial class RessourceFile
 
         if (string.IsNullOrEmpty(content))
         {
-            Entries = Enumerable.Empty<Entry>();
+            Entries = Enumerable.Empty<RessourceFileEntry>();
         }
         else
         {
@@ -43,7 +43,7 @@ public partial class RessourceFile
                 .Root
                 .Descendants()
                 .Where(x => x.Name == "data")
-                .Select(x => new Entry(
+                .Select(x => new RessourceFileEntry(
                     key: x.Attribute("name").Value,
                     value: x.Descendants("value").FirstOrDefault().Value,
                     location: x.Attribute("name")

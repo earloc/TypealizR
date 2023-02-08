@@ -53,7 +53,7 @@ internal class ParameterBuilder
 		;
 	}
 
-	private (string, string) TryDeriveTypeFrom(string expression)
+	private static (string, string) TryDeriveTypeFrom(string expression)
 	{
 		if (string.IsNullOrEmpty(expression))
 		{
@@ -69,7 +69,7 @@ internal class ParameterBuilder
 		return ("object", expression);
 	}
 
-	private string? SanitizeType(string type) => type switch
+	private static string? SanitizeType(string type) => type switch
 	{
 		"int" => "int",
 		"i" => "int",

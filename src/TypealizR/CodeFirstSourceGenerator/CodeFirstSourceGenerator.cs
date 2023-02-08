@@ -27,7 +27,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         );
 
         var markedInterfaces = allInterfaces
-            .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration)})
+            .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration, cancel)})
             .Where(x => x.Model is not null)
             .Select((x, cancel) => new { x.Declaration, Model = x.Model! })
             .Where(x => x.Model
@@ -120,13 +120,13 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
     }
 
-    private string? TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
+    private static string? TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
     {
         var allTrivias = declaration.GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
 
         if (!allTrivias.Any())
         {
-            var tree = CSharpSyntaxTree.ParseText(declaration.ToFullString());
+            var tree = CSharpSyntaxTree.ParseText(declaration.ToFullString(), cancellationToken: cancellationToken);
             allTrivias = tree.GetCompilationUnitRoot(cancellationToken).GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
         }
 

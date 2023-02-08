@@ -31,6 +31,7 @@
     </ItemGroup>
 
     <ItemGroup>
+        <None Include="..\TypealizR\.editorconfig" Link=".editorconfig" />
         <None Include="CodeFirstSourceGenerator.Tests\ISomeInterface.cs" />
         <None Include="StringFormatterSourceGenerator.Tests\StringFormatter.cs" />
         <None Include="StringLocalizerExtensionsSourceGenerator.Tests\NoWarnings_NoCode_NamespaceMismatch.cs" />

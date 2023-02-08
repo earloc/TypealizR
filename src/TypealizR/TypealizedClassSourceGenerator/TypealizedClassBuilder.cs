@@ -38,13 +38,12 @@ internal partial class TypealizedClassBuilder
 
     public TypealizedClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<MemberName> groups, DiagnosticsCollector diagnostics)
     {
-        if (!groups.Any())
+        var firstLevel = groups.FirstOrDefault();
+        if (firstLevel is null)
         {
             WithMember(key, rawKey, value, diagnostics);
             return this;
         }
-
-        var firstLevel = groups.First();
 
         if (!nestedTypes.ContainsKey(firstLevel))
         {

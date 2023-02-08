@@ -38,7 +38,7 @@ internal class DiagnosticsFactory
         this.severityConfig = severityConfig ?? new Dictionary<string, DiagnosticSeverity>();
     }
 
-    private DiagnosticSeverity? SeverityFor(DiagnosticsId id) => severityConfig.ContainsKey(id.ToString()) ? severityConfig[id.ToString()] : null;
+    private DiagnosticSeverity? SeverityFor(id id) => severityConfig.TryGetValue(id.ToString(), out DiagnosticSeverity value) ? value : null;
 
     internal static readonly DiagnosticsEntry TR0001 = new(id.TR0001, "TargetProjectRootDirectoryNotFound");
     internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
