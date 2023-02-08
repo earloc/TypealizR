@@ -1,13 +1,13 @@
 ﻿// See https://aka.ms/new-console-template for more information
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
+using My.Super.Special.Namespace;
 using Playground.Console.NoCodeGen;
+using Playground.Console.WithCodeGen;
 using Playground.Shared;
 using Playground.Shared.Groups;
-using Playground.Shared.NoCodeGen;
 using Playground.Shared.Groups.TypealizR;
-using My.Super.Special.Namespace;
-using Playground.Console.WithCodeGen;
+using Playground.Shared.NoCodeGen;
 
 Console.WriteLine("Hello, World!");
 

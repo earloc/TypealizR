@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using id = TypealizR.Diagnostics.DiagnosticsId;
 
@@ -52,7 +50,7 @@ internal class DiagnosticsFactory
                 description: Strings.TR0001_Description,
                 helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0001)
             ),
-            Location.None, 
+            Location.None,
             DiagnosticsEntry.LinkToDocs(TR0001)
         );
 

@@ -1,16 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Reflection;
-using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Xml;
-using Microsoft.CodeAnalysis;
-using System.Xml.Linq;
-using TypealizR.Extensions;
-using TypealizR.Diagnostics;
-using TypealizR.Core;namespace TypealizR;
+﻿using TypealizR.Core;using TypealizR.Diagnostics;
+namespace TypealizR;
 internal class InstanceMemberBuilder
 {    private readonly bool useParametersInMethodNames;    private readonly string key;
     private readonly string rawKey;

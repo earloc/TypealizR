@@ -47,7 +47,7 @@ internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
         {
             copy.Set(RessourceFile.UseParamNamesInMethodNamesItemMetadata, useParamNamesInMethodNames[textFile.Path]);
         }
-        
+
 
         return copy;
     }

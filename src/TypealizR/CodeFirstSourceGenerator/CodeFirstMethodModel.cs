@@ -10,7 +10,7 @@ internal class CodeFirstMethodModel
     private readonly CodeFirstParameterModel[] parameters;
     private readonly string returnType;
 
-    public CodeFirstMethodModel (string key, CodeFirstParameterModel[] parameters, string returnType, string? fallbackKey)
+    public CodeFirstMethodModel(string key, CodeFirstParameterModel[] parameters, string returnType, string? fallbackKey)
     {
         this.key = key;
         this.parameters = parameters;

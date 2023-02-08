@@ -4,9 +4,9 @@ namespace TypealizR.Tests;
 
 public static class ModuleInitializer
 {
-	[ModuleInitializer]
-	public static void Init()
-	{
-		VerifySourceGenerators.Enable();
-	}
+    [ModuleInitializer]
+    public static void Init()
+    {
+        VerifySourceGenerators.Enable();
+    }
 }

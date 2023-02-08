@@ -86,7 +86,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 
     private static (string, Accessibility) FindNameSpaceAndAccessabilityOf(Compilation compilation, string rootNameSpace, RessourceFile resx, string projectFullPath, CancellationToken cancellationToken)
     {
-        var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName, cancellationToken:cancellationToken).ToArray();
+        var possibleMarkerTypeSymbols = compilation.GetSymbolsWithName(resx.SimpleName, cancellationToken: cancellationToken).ToArray();
         var nameSpace = resx.CustomToolNamespace ?? resx.FullPath
             .Replace(projectFullPath, "")
             .Replace(Path.GetFileName(resx.FullPath), "")

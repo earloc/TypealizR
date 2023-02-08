@@ -1,11 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -23,11 +20,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
     {
         var allInterfaces = context.SyntaxProvider.CreateSyntaxProvider(
             static (node, cancel) => node is InterfaceDeclarationSyntax,
-            static (node, cancel) => new { Declaration = (InterfaceDeclarationSyntax) node.Node, Model = node.SemanticModel }
+            static (node, cancel) => new { Declaration = (InterfaceDeclarationSyntax)node.Node, Model = node.SemanticModel }
         );
 
         var markedInterfaces = allInterfaces
-            .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration, cancel)})
+            .Select((x, cancel) => new { x.Declaration, Model = x.Model.GetDeclaredSymbol(x.Declaration, cancel) })
             .Where(x => x.Model is not null)
             .Select((x, cancel) => new { x.Declaration, Model = x.Model! })
             .Where(x => x.Model
@@ -67,7 +64,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             });
     }
 
-    private void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
+    private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {
         var methods = members
             .OfType<MethodDeclarationSyntax>()
@@ -96,7 +93,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
     }
 
-    private void TryAddProperties(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
+    private static void TryAddProperties(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {
         var properties = members
             .OfType<PropertyDeclarationSyntax>()

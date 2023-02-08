@@ -21,7 +21,7 @@ internal class GeneratorTesterOptions : AnalyzerConfigOptions
         }
     }
 
-    internal static GeneratorTesterOptions Empty = new ();
+    internal static GeneratorTesterOptions Empty = new();
 
     private GeneratorTesterOptions()
     {

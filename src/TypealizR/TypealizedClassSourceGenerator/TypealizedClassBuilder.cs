@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
@@ -66,5 +62,5 @@ internal partial class TypealizedClassBuilder
         return new(name, markerType, rootNamespace, members.Items, nested);
     }
 
-    
+
 }

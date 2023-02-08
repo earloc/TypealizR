@@ -17,7 +17,7 @@ public sealed class TypealizedClassSourceGenerator : ResxFileSourceGeneratorBase
         TypeModel markerType,
         Compilation compilation,
         RessourceFile file,
-        IDictionary<string, DiagnosticSeverity> severityConfig, 
+        IDictionary<string, DiagnosticSeverity> severityConfig,
         CancellationToken cancellationToken
     )
     {

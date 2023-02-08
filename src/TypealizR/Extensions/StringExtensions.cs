@@ -27,7 +27,7 @@ internal static class StringExtensions
         return builder.ToString();
     }
 
-    public static string ToCommaDelimited(this IEnumerable<string> that) 
+    public static string ToCommaDelimited(this IEnumerable<string> that)
         => that.Join(", ")
     ;
 
@@ -39,7 +39,7 @@ internal static class StringExtensions
         => string.Join(seperator, that)
     ;
 
-    public static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join) 
+    public static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join)
         => string.Join(join, s.Split(new[] { seperator }, StringSplitOptions.RemoveEmptyEntries))
     ;
 

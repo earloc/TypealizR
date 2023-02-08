@@ -19,9 +19,9 @@ internal class CodeFirstParameterModel
 
 internal static class CodeFirstParameterModelExtensions
 {
-    public static string ToCharpDeclaration(this IEnumerable<CodeFirstParameterModel> that) 
+    public static string ToCharpDeclaration(this IEnumerable<CodeFirstParameterModel> that)
         => that.Select(x => $"{x.Type} {x.Name}").ToCommaDelimited();
 
-    public static string ToCSharpInvocation(this IEnumerable<CodeFirstParameterModel> that) 
+    public static string ToCSharpInvocation(this IEnumerable<CodeFirstParameterModel> that)
         => that.Select(x => x.Name).ToCommaDelimited();
 }
