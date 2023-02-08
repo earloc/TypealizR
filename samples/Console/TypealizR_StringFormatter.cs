@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using Microsoft.Extensions.Localization;
 
-namespace ConsoleSTS;
+namespace CLI;
 internal static partial class TypealizR_StringFormatter
 {
 	internal static partial string Format(string s, object[] args) => new(string.Format(s, args).Reverse().ToArray());

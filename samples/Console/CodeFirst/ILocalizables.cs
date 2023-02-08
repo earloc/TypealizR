@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 using TypealizR.CodeFirst.Abstractions;
 
-namespace ConsoleSTS.CodeFirst;
+namespace CLI.CodeFirst;
 
 [CodeFirstTypealized]
 public interface ILocalizables

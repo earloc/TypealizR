@@ -5,7 +5,7 @@ VisualStudioVersion = 17.4.33110.190
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlazorServer", "BlazorServer\BlazorServer.csproj", "{53F8430E-4853-4EB6-B203-1A08AE365CBA}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ConsoleSTS", "ConsoleSTS\ConsoleSTS.csproj", "{DC67F4BD-031C-4A34-B15A-844AB71DFED8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CLI", "Console\CLI.csproj", "{DC67F4BD-031C-4A34-B15A-844AB71DFED8}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

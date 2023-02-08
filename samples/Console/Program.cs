@@ -1,5 +1,5 @@
-﻿using ConsoleSTS;
-using ConsoleSTS.CodeFirst;
+﻿using CLI;
+using CLI.CodeFirst;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using System.Text;
