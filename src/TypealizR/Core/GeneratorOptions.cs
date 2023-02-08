@@ -56,7 +56,7 @@ public sealed class GeneratorOptions
 
 		foreach (var diagnostic in availableDiagnostics)
 		{
-			var key = $"dotnet_diagnostic_{diagnostic.ToLower()}_severity";
+			var key = $"dotnet_diagnostic_{diagnostic.ToLowerInvariant()}_severity";
 
 			if (options.TryGetValue(key, out var rawValue))
 			{
