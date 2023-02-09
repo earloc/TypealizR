@@ -1,20 +1,14 @@
-﻿using System;
-using System.Collections.Generic;
-using System.CommandLine;
+﻿using System.CommandLine;
 using System.CommandLine.Builder;
-using System.CommandLine.Parsing;
 using System.CommandLine.Hosting;
-using System.Linq;
+using System.CommandLine.Parsing;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Threading.Tasks;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.DependencyInjection.Extensions;
+using Microsoft.Extensions.Hosting;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Commands.CodeFirst;
-
-using Microsoft.Extensions.Hosting;
-using Microsoft.Extensions.DependencyInjection.Extensions;
-using Microsoft.Extensions.Configuration;
 
 namespace TypealizR.CLI;
 internal class App
@@ -24,7 +18,7 @@ internal class App
     private readonly string[] args;
 
     public App(Action<IServiceCollection>? configureServices = null, params string[] args)
-	{
+    {
         this.configureServices = configureServices;
         this.args = args;
         Console.OutputEncoding = Encoding.UTF8;

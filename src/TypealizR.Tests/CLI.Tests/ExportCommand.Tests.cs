@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using FluentAssertions;
-using FluentAssertions.Common;
+﻿using FluentAssertions;
 using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CLI;
 using TypealizR.CLI.Abstractions;
@@ -12,14 +6,14 @@ using TypealizR.CLI.Abstractions;
 namespace TypealizR.Tests.CLI.Tests;
 public class ExportCommand_Tests
 {
-    private static string ProjectFile(string x) =>  $"../../../../{x}/{x}.csproj";
+    private static string ProjectFile(string x) => $"../../../../{x}/{x}.csproj";
 
     [Fact]
     public async Task Export_Generates_ResxFiles()
     {
         var storage = new InMemoryStorage();
-        var sut = new App( 
-            services => services.AddSingleton<IStorage>(_ => storage), 
+        var sut = new App(
+            services => services.AddSingleton<IStorage>(_ => storage),
             "code-first", "export", ProjectFile("Playground.CodeFirst.Console")
         );
         var result = await sut

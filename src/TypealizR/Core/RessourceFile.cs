@@ -1,14 +1,11 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Text;
 using System.Threading;
 using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.Diagnostics;
 
 namespace TypealizR.Core;
 public partial class RessourceFile
@@ -18,7 +15,7 @@ public partial class RessourceFile
     internal const string UseParamNamesInMethodNamesItemMetadata = "build_metadata.embeddedresource.typealizr_useparamnamesinmethodnames";
 
 
-    public IEnumerable<Entry> Entries { get; }
+    public IEnumerable<RessourceFileEntry> Entries { get; }
 
     public RessourceFile(string simpleName, string fullPath, string content, string? customToolNamespace, bool useParamNamesInMethodNames)
     {
@@ -27,11 +24,11 @@ public partial class RessourceFile
         CustomToolNamespace = !string.IsNullOrEmpty(customToolNamespace) ? customToolNamespace : null;
         UseParamNamesInMethodNames = useParamNamesInMethodNames;
 
-        IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx");
+        IsDefaultLocale = FullPath.EndsWith($"{simpleName}.resx", StringComparison.Ordinal);
 
         if (string.IsNullOrEmpty(content))
         {
-            Entries = Enumerable.Empty<Entry>();
+            Entries = Enumerable.Empty<RessourceFileEntry>();
         }
         else
         {
@@ -43,7 +40,7 @@ public partial class RessourceFile
                 .Root
                 .Descendants()
                 .Where(x => x.Name == "data")
-                .Select(x => new Entry(
+                .Select(x => new RessourceFileEntry(
                     key: x.Attribute("name").Value,
                     value: x.Descendants("value").FirstOrDefault().Value,
                     location: x.Attribute("name")
@@ -56,7 +53,7 @@ public partial class RessourceFile
     public bool UseParamNamesInMethodNames { get; }
     public string? CustomToolNamespace { get; }
     public bool IsDefaultLocale { get; }
-    
+
     public static IEnumerable<RessourceFile> From(ImmutableArray<AdditionalTextWithOptions> source, CancellationToken cancellationToken)
     {
         var byFolder = source
@@ -66,34 +63,35 @@ public partial class RessourceFile
 
         var files = byFolder
             .SelectMany(folder => folder
-                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx")) })
+                .Select(resx => new { Name = resx.Key, MainFile = resx.FirstOrDefault(x => x.Text.Path.EndsWith($"{resx.Key}.resx", StringComparison.Ordinal)) })
                 .Where(_ => _.MainFile is not null)
-                .Select(_ => {
+                .Select(_ =>
+                {
                     _.MainFile.Options.TryGetValue(CustomToolNameSpaceItemMetadata, out var customToolNamespace);
 
                     var useParamNamesInMethodNames = true;
 
-                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString) 
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesBuildProperty, out var useParamNamesInMethodNamesBuildPropertyString)
                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesBuildPropertyString)
                         && bool.TryParse(useParamNamesInMethodNamesBuildPropertyString, out var useParamNamesInMethodNamesBuildProperty))
                     {
-                            useParamNamesInMethodNames = useParamNamesInMethodNamesBuildProperty;
+                        useParamNamesInMethodNames = useParamNamesInMethodNamesBuildProperty;
                     }
 
-                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString) 
+                    if (_.MainFile.Options.TryGetValue(UseParamNamesInMethodNamesItemMetadata, out var useParamNamesInMethodNamesItemMetadataString)
                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString)
                         && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var useParamNamesInMethodNamesItemMetadata))
                     {
-                        
-                            useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
-                        
+
+                        useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
+
                     }
 
 
                     return new RessourceFile(
-                        simpleName: _.Name, 
-                        fullPath: _.MainFile.Text.Path, 
-                        content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty, 
+                        simpleName: _.Name,
+                        fullPath: _.MainFile.Text.Path,
+                        content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty,
                         customToolNamespace: customToolNamespace,
                         useParamNamesInMethodNames: useParamNamesInMethodNames
                     );

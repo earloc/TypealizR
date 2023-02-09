@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Collections.Immutable;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TypealizR;
 internal class CodeFirstMethodBuilder
@@ -50,5 +46,5 @@ internal class CodeFirstMethodBuilder
         return method;
     }
 
-    
+
 }

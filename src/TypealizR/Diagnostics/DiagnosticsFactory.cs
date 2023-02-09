@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using id = TypealizR.Diagnostics.DiagnosticsId;
 
@@ -38,7 +36,7 @@ internal class DiagnosticsFactory
         this.severityConfig = severityConfig ?? new Dictionary<string, DiagnosticSeverity>();
     }
 
-    private DiagnosticSeverity? SeverityFor(DiagnosticsId id) => severityConfig.ContainsKey(id.ToString()) ? severityConfig[id.ToString()] : null;
+    private DiagnosticSeverity? SeverityFor(id id) => severityConfig.TryGetValue(id.ToString(), out DiagnosticSeverity value) ? value : null;
 
     internal static readonly DiagnosticsEntry TR0001 = new(id.TR0001, "TargetProjectRootDirectoryNotFound");
     internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
@@ -52,7 +50,7 @@ internal class DiagnosticsFactory
                 description: Strings.TR0001_Description,
                 helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0001)
             ),
-            Location.None, 
+            Location.None,
             DiagnosticsEntry.LinkToDocs(TR0001)
         );
 
@@ -91,7 +89,7 @@ internal class DiagnosticsFactory
                 helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0003)
             ),
             Location.Create(filePath.Replace("\\", "/"),
-                textSpan: new(rawRessourceKey.IndexOf(parameterName), parameterName.Length),
+                textSpan: new(rawRessourceKey.IndexOf(parameterName, StringComparison.Ordinal), parameterName.Length),
                 lineSpan: new(
                     start: new(line: lineNumber - 1, character: 0),
                     end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)
@@ -114,7 +112,7 @@ internal class DiagnosticsFactory
                 helpLinkUri: DiagnosticsEntry.LinkToDocs(TR0004)
             ),
             Location.Create(filePath.Replace("\\", "/"),
-                textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation), parameterTypeAnnotation.Length),
+                textSpan: new(rawRessourceKey.IndexOf(parameterTypeAnnotation, StringComparison.Ordinal), parameterTypeAnnotation.Length),
                 lineSpan: new(
                     start: new(line: lineNumber - 1, character: 0),
                     end: new(line: lineNumber - 1, character: rawRessourceKey.Length - 1)

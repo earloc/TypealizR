@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Xml;
-using System.Xml.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
@@ -38,13 +34,12 @@ internal partial class TypealizedClassBuilder
 
     public TypealizedClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<MemberName> groups, DiagnosticsCollector diagnostics)
     {
-        if (!groups.Any())
+        var firstLevel = groups.FirstOrDefault();
+        if (firstLevel is null)
         {
             WithMember(key, rawKey, value, diagnostics);
             return this;
         }
-
-        var firstLevel = groups.First();
 
         if (!nestedTypes.ContainsKey(firstLevel))
         {
@@ -67,5 +62,5 @@ internal partial class TypealizedClassBuilder
         return new(name, markerType, rootNamespace, members.Items, nested);
     }
 
-    
+
 }

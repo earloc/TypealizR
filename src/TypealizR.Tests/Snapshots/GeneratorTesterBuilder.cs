@@ -5,7 +5,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
+internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
     internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
@@ -19,7 +19,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     private readonly string? useParamNamesInMethodNamesBuildProperty;
 
     public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null)
-	{
+    {
         this.baseDirectory = new DirectoryInfo(baseDirectory);
 
         if (!this.baseDirectory.Exists)
@@ -27,27 +27,27 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
             throw new ArgumentException($"the specified directory {this.baseDirectory.FullName} does not exist", nameof(baseDirectory));
         }
 
-		this.rootNamespace = rootNamespace;
+        this.rootNamespace = rootNamespace;
         useParamNamesInMethodNamesBuildProperty = useParamNamesInMethodNames;
     }
 
-    private bool withoutMsBuildProjectDirectory = false;
-    private DirectoryInfo? projectDir = null;
-	public GeneratorTesterBuilder<TGenerator> WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
+    private bool withoutMsBuildProjectDirectory;
+    private DirectoryInfo? projectDir;
+    public GeneratorTesterBuilder<TGenerator> WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
     {
         withoutMsBuildProjectDirectory = true;
         if (butWithProjectDir is not null)
         {
             this.projectDir = new DirectoryInfo(butWithProjectDir);
         }
-		return this;
+        return this;
     }
 
-	public GeneratorTesterBuilder<TGenerator> WithSourceFile(string fileName)
+    public GeneratorTesterBuilder<TGenerator> WithSourceFile(string fileName)
     {
         var path = Path.Combine(baseDirectory.FullName, fileName);
 
-		var fileInfo = new FileInfo(path);
+        var fileInfo = new FileInfo(path);
 
         if (!fileInfo.Exists)
         {
@@ -58,14 +58,14 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
     }
 
     public GeneratorTesterBuilder<TGenerator> WithResxFile(
-        string fileName, 
-        bool andDesignerFile = false, 
+        string fileName,
+        bool andDesignerFile = false,
         string? andCustomToolNamespace = null,
         string useParamNamesInMethodNames = ""
     )
     {
-		var path = Path.Combine(baseDirectory.FullName, fileName);
-		var fileInfo = new FileInfo(path);
+        var path = Path.Combine(baseDirectory.FullName, fileName);
+        var fileInfo = new FileInfo(path);
 
         if (!fileInfo.Exists)
         {
@@ -83,7 +83,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 
         if (andDesignerFile)
         {
-            WithSourceFile(fileName.Replace(".resx", ".Designer.cs"));
+            WithSourceFile(fileName.Replace(".resx", ".Designer.cs", StringComparison.Ordinal));
         }
 
         return this;
@@ -111,10 +111,10 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
             .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
             .WithUpdatedAnalyzerConfigOptions(
                 new GeneratorTesterOptionsProvider(
-                    withoutMsBuildProjectDirectory ? null : baseDirectory, 
-                    projectDir, 
-                    rootNamespace, 
-                    severityConfig, 
+                    withoutMsBuildProjectDirectory ? null : baseDirectory,
+                    projectDir,
+                    rootNamespace,
+                    severityConfig,
                     customToolNamespaces,
                     useParamNamesInMethodNames,
                     useParamNamesInMethodNamesBuildProperty
@@ -128,13 +128,13 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 
     private readonly Dictionary<DiagnosticsId, string> severityConfig = new();
 
-    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity) 
+    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity)
         => WithSeverityConfig(id, severity.ToString());
 
-	internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, string severity)
-	{
-		severityConfig[id] = severity;
-		return this;
-	}
+    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, string severity)
+    {
+        severityConfig[id] = severity;
+        return this;
+    }
 }
 

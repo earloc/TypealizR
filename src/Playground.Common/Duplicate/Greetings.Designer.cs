@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Playground.Shared {
+namespace Playground.Common.Duplicate {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Playground.Shared {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Playground.Shared.Greetings", typeof(Greetings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Playground.Common.Duplicate.Greetings", typeof(Greetings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;
@@ -61,11 +61,11 @@ namespace Playground.Shared {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Hello {0}.
+        ///   Looks up a localized string similar to Have a good morning, {0}.
         /// </summary>
-        public static string Hello__name_ {
+        public static string GoodMorning__name_ {
             get {
-                return ResourceManager.GetString("Hello {name}", resourceCulture);
+                return ResourceManager.GetString("GoodMorning {name}", resourceCulture);
             }
         }
     }

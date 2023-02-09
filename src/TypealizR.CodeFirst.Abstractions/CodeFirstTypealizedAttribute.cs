@@ -1,7 +1,7 @@
 ﻿namespace TypealizR.CodeFirst.Abstractions;
 
 [AttributeUsage(AttributeTargets.Interface)]
-public class CodeFirstTypealizedAttribute : Attribute
+public sealed class CodeFirstTypealizedAttribute : Attribute
 {
     public CodeFirstTypealizedAttribute()
     {

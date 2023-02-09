@@ -1,9 +1,5 @@
-﻿using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Diagnostics;
-using System;
 using TypealizR.Core;
 
 namespace TypealizR;
@@ -14,8 +10,8 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
         var optionsProvider = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
-        var stringFormatterExistsProvider = context.CompilationProvider.Select((x, cancel) => !x.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type));
-        
+        var stringFormatterExistsProvider = context.CompilationProvider.Select((x, cancel) => !x.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type, cancel));
+
         context.RegisterSourceOutput(optionsProvider
             .Combine(stringFormatterExistsProvider),
             (ctxt, source) =>

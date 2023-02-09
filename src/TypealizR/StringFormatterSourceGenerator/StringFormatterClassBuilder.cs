@@ -1,13 +1,11 @@
 ﻿using System;
-
-using System.Collections.Generic;
 using System.Text;
 using TypealizR.Extensions;
 
 namespace TypealizR;
 internal class StringFormatterClassBuilder
 {
-    internal static readonly string TypeName = "TypealizR_StringFormatter";
+    internal const string TypeName = "TypealizR_StringFormatter";
 
     private readonly string rootNamespace;
 
@@ -16,7 +14,7 @@ internal class StringFormatterClassBuilder
         this.rootNamespace = rootNamespace;
     }
 
-    private bool isUserModeImplementationProvided = false;
+    private bool isUserModeImplementationProvided;
     internal void UserModeImplementationIsProvided() => isUserModeImplementationProvided = true;
 
     internal string Build(Type generatorType)
@@ -49,16 +47,16 @@ internal class StringFormatterClassBuilder
         return builder.ToString();
     }
 
-    private string GenerateUsings() => $"""
+    private static string GenerateUsings() => $"""
         using System.Diagnostics;
         using System.CodeDom.Compiler;
         using Microsoft.Extensions.Localization;
 
         """;
 
-    private string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
+    private static string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
 
-    private string GenerateStub(Type generatorType) => $$"""
+    private static string GenerateStub(Type generatorType) => $$"""
         {{generatorType.GeneratedCodeAttribute()}}
         internal static partial class {{TypeName}}
         {

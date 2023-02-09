@@ -1,31 +1,28 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Reflection;
-using System.Reflection.Metadata;
-using System.Text;
 using Microsoft.CodeAnalysis;
 using TypealizR.Extensions;
 
 namespace TypealizR.Core;
 internal class ParameterModel
 {
-	public readonly string Token;
-	public readonly string Type;
-	public readonly string Name;
-	public readonly string DisplayName;
+    public readonly string Token;
+    public readonly string Type;
+    public readonly string Name;
+    public readonly string DisplayName;
 
 
-	public ParameterModel(string token, string name, string type)
+    public ParameterModel(string token, string name, string type)
     {
-		Token = token;
+        Token = token;
         Type = type;
         Name = name;
-		DisplayName = SanitizeName(name);
+        DisplayName = SanitizeName(name);
 
-	}
+    }
 
-	private string SanitizeName(string rawParameterName)
+    private static string SanitizeName(string rawParameterName)
     {
         var parameterName = new string(
             rawParameterName
@@ -44,7 +41,7 @@ internal class ParameterModel
 
 internal static class ParameterModelExtensions
 {
-	internal static string ToDeclarationCSharp(this IEnumerable<ParameterModel> that) => that
+    internal static string ToDeclarationCSharp(this IEnumerable<ParameterModel> that) => that
         .Select(x => $"{x.Type} {x.DisplayName}")
         .ToCommaDelimited();
 }

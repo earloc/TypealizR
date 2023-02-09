@@ -1,6 +1,4 @@
-﻿using System;
-
-namespace TypealizR;
+﻿namespace TypealizR;
 
 internal class CodeFirstParameterBuilder
 {

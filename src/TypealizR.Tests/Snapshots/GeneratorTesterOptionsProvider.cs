@@ -5,7 +5,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
+internal sealed class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
 {
     private readonly Dictionary<string, string> customToolNamespaces;
     private readonly Dictionary<string, string> useParamNamesInMethodNames;
@@ -38,16 +38,16 @@ internal class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProvider
     {
         var copy = new GeneratorTesterOptions(this.globalOptions);
 
-        if (customToolNamespaces.ContainsKey(textFile.Path))
+        if (customToolNamespaces.TryGetValue(textFile.Path, out var customToolNamespace))
         {
-            copy.Set(RessourceFile.CustomToolNameSpaceItemMetadata, customToolNamespaces[textFile.Path]);
+            copy.Set(RessourceFile.CustomToolNameSpaceItemMetadata, customToolNamespace);
         }
 
-        if (useParamNamesInMethodNames.ContainsKey(textFile.Path))
+        if (useParamNamesInMethodNames.TryGetValue(textFile.Path, out var useParamNamesInMethodName))
         {
-            copy.Set(RessourceFile.UseParamNamesInMethodNamesItemMetadata, useParamNamesInMethodNames[textFile.Path]);
+            copy.Set(RessourceFile.UseParamNamesInMethodNamesItemMetadata, useParamNamesInMethodName);
         }
-        
+
 
         return copy;
     }

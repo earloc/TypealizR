@@ -1,15 +1,14 @@
-﻿// See https://aka.ms/new-console-template for more information
+﻿#pragma warning disable CA1812 // Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
-using Playground.Console.NoCodeGen;
-using Playground.Shared;
-using Playground.Shared.Groups;
-using Playground.Shared.NoCodeGen;
-using Playground.Shared.Groups.TypealizR;
 using My.Super.Special.Namespace;
+using Playground.Console.NoCodeGen;
 using Playground.Console.WithCodeGen;
+using Playground.Common;
+using Playground.Common.Groups;
+using Playground.Common.Groups.TypealizR;
+using Playground.Common.NoCodeGen;
 
-Console.WriteLine("Hello, World!");
 
 var services = new ServiceCollection();
 services.AddLogging();
@@ -38,11 +37,11 @@ var greeter = provider.GetRequiredService<Greeter>();
 greeter.SayHello("Arthur");
 greeter.SayHelloPublic("Arthur");
 
-var internalLocalizable = provider.GetRequiredService<IStringLocalizer<Internal>>();
+var internalLocalizable = provider.GetRequiredService<IStringLocalizer<InternalClass>>();
 Console.WriteLine(internalLocalizable.Hello__name("Arthur"));
 
 
-var publicLocalizable = provider.GetRequiredService<IStringLocalizer<Public>>();
+var publicLocalizable = provider.GetRequiredService<IStringLocalizer<PublicClass>>();
 Console.WriteLine(publicLocalizable.Hello__name("Arthur"));
 
 
@@ -75,6 +74,7 @@ Console.WriteLine(
     without_Params_In_MethodNames.Goodbye("Arthur")
 );
 
+#pragma warning restore CA1812 // Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
 
 
 

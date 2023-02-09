@@ -1,7 +1,4 @@
-﻿using System;
-using System.Xml.Linq;
-
-namespace TypealizR;
+﻿namespace TypealizR;
 
 internal class CodeFirstPropertyModel
 {

@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Localization;
 using Playground.CodeFirst.Console;
 
 var services = new ServiceCollection();

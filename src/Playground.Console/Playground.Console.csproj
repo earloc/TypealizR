@@ -10,7 +10,7 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\Playground.Shared\Playground.Shared.csproj" />
+        <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
         <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
@@ -50,7 +50,7 @@
 
 
     <ItemGroup>
-        <EmbeddedResource Update="NoCodeGen\Internal.resx">
+        <EmbeddedResource Update="NoCodeGen\InternalClass.resx">
             <Generator></Generator>
         </EmbeddedResource>
         <EmbeddedResource Update="Readme\SomeResource.resx">

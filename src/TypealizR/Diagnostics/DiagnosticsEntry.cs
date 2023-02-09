@@ -1,14 +1,14 @@
 ﻿namespace TypealizR.Diagnostics;
 internal class DiagnosticsEntry
 {
-	public DiagnosticsEntry(DiagnosticsId id, string title)
-	{
-		Id = id;
-		Title = title;
-	}
+    public DiagnosticsEntry(DiagnosticsId id, string title)
+    {
+        Id = id;
+        Title = title;
+    }
 
-	public DiagnosticsId Id { get; }
-	public string Title { get; }
+    public DiagnosticsId Id { get; }
+    public string Title { get; }
 
-	internal static string LinkToDocs(DiagnosticsEntry that) => $"https://github.com/earloc/TypealizR/blob/main/docs/reference/{that.Id}_{that.Title}.md";
+    internal static string LinkToDocs(DiagnosticsEntry that) => $"https://github.com/earloc/TypealizR/blob/main/docs/reference/{that.Id}_{that.Title}.md";
 }

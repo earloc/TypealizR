@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.Tests", "src\Type
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR", "src\TypealizR\TypealizR.csproj", "{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Shared", "src\Playground.Shared\Playground.Shared.csproj", "{D94E3949-302E-4211-B508-5791482D8997}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Console", "src\Playground.Console\Playground.Console.csproj", "{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Playgrounds", "Playgrounds", "{38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}"
@@ -18,6 +16,15 @@ EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.CodeFirst.Console", "src\Playground.CodeFirst.Console\Playground.CodeFirst.Console.csproj", "{CFFB0876-CC7C-466C-9D76-FB1F025E2B80}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.CLI", "src\TypealizR.CLI\TypealizR.CLI.csproj", "{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{0C8376C6-E8F7-40E2-959A-210C515B06E0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		src\Directory.Build.props = src\Directory.Build.props
+		src\Version.props = src\Version.props
+	EndProjectSection
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Common", "src\Playground.Common\Playground.Common.csproj", "{0E9B0505-3680-40A2-A0AC-31C9117D1A24}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,10 +40,6 @@ Global
 		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{D94E3949-302E-4211-B508-5791482D8997}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{D94E3949-302E-4211-B508-5791482D8997}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{D94E3949-302E-4211-B508-5791482D8997}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{D94E3949-302E-4211-B508-5791482D8997}.Release|Any CPU.Build.0 = Release|Any CPU
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -53,14 +56,18 @@ Global
 		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}.Release|Any CPU.Build.0 = Release|Any CPU
+		{0E9B0505-3680-40A2-A0AC-31C9117D1A24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0E9B0505-3680-40A2-A0AC-31C9117D1A24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0E9B0505-3680-40A2-A0AC-31C9117D1A24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0E9B0505-3680-40A2-A0AC-31C9117D1A24}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(NestedProjects) = preSolution
-		{D94E3949-302E-4211-B508-5791482D8997} = {38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}
 		{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB} = {38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}
 		{CFFB0876-CC7C-466C-9D76-FB1F025E2B80} = {38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}
+		{0E9B0505-3680-40A2-A0AC-31C9117D1A24} = {38D4BAEB-9CA0-4868-B8A0-6CBADCB198AC}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {963536E5-E9EB-471B-9292-73125DAB4B08}
