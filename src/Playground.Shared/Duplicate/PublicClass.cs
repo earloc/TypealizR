@@ -1,4 +1,4 @@
-﻿namespace Playground.Shared.Duplicate;
+﻿namespace Playground.Common.Duplicate;
 public class PublicClass
 {
 }

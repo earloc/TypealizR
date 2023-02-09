@@ -4,10 +4,10 @@ using Microsoft.Extensions.Localization;
 using My.Super.Special.Namespace;
 using Playground.Console.NoCodeGen;
 using Playground.Console.WithCodeGen;
-using Playground.Shared;
-using Playground.Shared.Groups;
-using Playground.Shared.Groups.TypealizR;
-using Playground.Shared.NoCodeGen;
+using Playground.Common;
+using Playground.Common.Groups;
+using Playground.Common.Groups.TypealizR;
+using Playground.Common.NoCodeGen;
 
 
 var services = new ServiceCollection();

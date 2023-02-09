@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace Playground.Shared {
+namespace Playground.Common {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace Playground.Shared {
         public static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Playground.Shared.Greetings", typeof(Greetings).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("Playground.Common.Greetings", typeof(Greetings).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

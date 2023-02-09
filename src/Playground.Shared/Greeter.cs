@@ -1,7 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.Localization;
 
-namespace Playground.Shared;
+namespace Playground.Common;
 public class Greeter
 {
     private readonly IStringLocalizer<Greetings> localize;

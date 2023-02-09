@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.Tests", "src\Type
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR", "src\TypealizR\TypealizR.csproj", "{02E58A8F-83A0-40EF-9CB4-5FF42ADF189D}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Shared", "src\Playground.Shared\Playground.Shared.csproj", "{D94E3949-302E-4211-B508-5791482D8997}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Common", "src\Playground.Shared\Playground.Common.csproj", "{D94E3949-302E-4211-B508-5791482D8997}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Console", "src\Playground.Console\Playground.Console.csproj", "{5C3B51DC-CD28-4F12-B8D9-62EA8C2B00EB}"
 EndProject
