@@ -3,7 +3,7 @@ using Microsoft.CodeAnalysis;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTester : IVerifiable
+internal sealed class GeneratorTester : IVerifiable
 {
     private readonly GeneratorDriver driver;
     private readonly string snapshotDirectory;

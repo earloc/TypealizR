@@ -50,7 +50,7 @@
 
 
     <ItemGroup>
-        <EmbeddedResource Update="NoCodeGen\Internal.resx">
+        <EmbeddedResource Update="NoCodeGen\InternalClass.resx">
             <Generator></Generator>
         </EmbeddedResource>
         <EmbeddedResource Update="Readme\SomeResource.resx">

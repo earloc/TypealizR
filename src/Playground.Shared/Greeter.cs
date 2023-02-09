@@ -6,9 +6,9 @@ public class Greeter
 {
     private readonly IStringLocalizer<Greetings> localize;
     private readonly IStringLocalizer<Duplicate.Greetings> duplicates;
-    private readonly IStringLocalizer<Duplicate.Public> publicDuplicate;
+    private readonly IStringLocalizer<Duplicate.PublicClass> publicDuplicate;
 
-    public Greeter(IStringLocalizer<Greetings> localize, IStringLocalizer<Duplicate.Greetings> duplicates, IStringLocalizer<Duplicate.Public> publicDuplicate)
+    public Greeter(IStringLocalizer<Greetings> localize, IStringLocalizer<Duplicate.Greetings> duplicates, IStringLocalizer<Duplicate.PublicClass> publicDuplicate)
     {
         this.localize = localize;
         this.duplicates = duplicates;

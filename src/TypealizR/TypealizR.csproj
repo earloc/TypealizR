@@ -11,10 +11,6 @@
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <EnableNETAnalyzers>true</EnableNETAnalyzers>
-        <AnalysisMode>AllEnabledByDefault</AnalysisMode>
-        <AnalysisLevel>latest</AnalysisLevel>
-        <NeutralLanguage>en</NeutralLanguage>
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>true</IsPackable>
@@ -37,7 +33,6 @@
     </ItemGroup>
     <ItemGroup>
         <None Include="../../README.md" Pack="true" PackagePath="\" />
-        <None Include="C:\dev\eSc\TypealizR\src\TypealizR\.editorconfig" />
     </ItemGroup>
     <ItemGroup>
         <None Remove="MultilingualResources\TypealizR.de.xlf" />
@@ -73,8 +68,5 @@
             <Generator>ResXFileCodeGenerator</Generator>
             <LastGenOutput>Strings.Designer.cs</LastGenOutput>
         </EmbeddedResource>
-    </ItemGroup>
-    <ItemGroup>
-        <EditorConfigFiles Remove="C:\dev\eSc\TypealizR\src\TypealizR\.editorconfig" />
     </ItemGroup>
 </Project>

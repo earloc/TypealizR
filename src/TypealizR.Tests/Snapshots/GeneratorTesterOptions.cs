@@ -5,7 +5,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterOptions : AnalyzerConfigOptions
+internal sealed class GeneratorTesterOptions : AnalyzerConfigOptions
 {
 
     private readonly Dictionary<string, string> options = new();
@@ -52,7 +52,9 @@ internal class GeneratorTesterOptions : AnalyzerConfigOptions
 
         foreach (var severityOverride in severityConfig)
         {
-            options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLower()}_severity", severityOverride.Value.ToLower());
+#pragma warning disable CA1308 // Normalize strings to uppercase
+            options.Add($"dotnet_diagnostic_{severityOverride.Key.ToString().ToLowerInvariant()}_severity", severityOverride.Value.ToLowerInvariant());
+#pragma warning restore CA1308 // Normalize strings to uppercase
         }
 
         options.Add(RessourceFile.UseParamNamesInMethodNamesBuildProperty, useParamNamesInMethodNames is not null ? useParamNamesInMethodNames : "");

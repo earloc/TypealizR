@@ -5,7 +5,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
-internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
+internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
     internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
@@ -31,8 +31,8 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
         useParamNamesInMethodNamesBuildProperty = useParamNamesInMethodNames;
     }
 
-    private bool withoutMsBuildProjectDirectory = false;
-    private DirectoryInfo? projectDir = null;
+    private bool withoutMsBuildProjectDirectory;
+    private DirectoryInfo? projectDir;
     public GeneratorTesterBuilder<TGenerator> WithoutMsBuildProjectDirectory(string? butWithProjectDir = null)
     {
         withoutMsBuildProjectDirectory = true;
@@ -83,7 +83,7 @@ internal class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementa
 
         if (andDesignerFile)
         {
-            WithSourceFile(fileName.Replace(".resx", ".Designer.cs"));
+            WithSourceFile(fileName.Replace(".resx", ".Designer.cs", StringComparison.Ordinal));
         }
 
         return this;

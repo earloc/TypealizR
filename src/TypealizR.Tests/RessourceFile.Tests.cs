@@ -7,7 +7,7 @@ using TypealizR.Core;
 using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
-internal class EmptyFile : AdditionalText
+internal sealed class EmptyFile : AdditionalText
 {
     private readonly string text = "";
 
@@ -26,7 +26,7 @@ internal class EmptyFile : AdditionalText
 
 public class RessourceFile_Tests
 {
-    private record LineInfo(int LineNumber = 42, int LinePosition = 1337, bool HasLineInfo = true) : IXmlLineInfo
+    private sealed record LineInfo(int LineNumber = 42, int LinePosition = 1337, bool HasLineInfo = true) : IXmlLineInfo
     {
         bool IXmlLineInfo.HasLineInfo() => HasLineInfo;
     }

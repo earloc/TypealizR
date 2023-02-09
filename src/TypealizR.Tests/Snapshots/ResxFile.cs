@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.Text;
 
 namespace TypealizR.Tests.Snapshots;
-internal class ResxFile : AdditionalText
+internal sealed class ResxFile : AdditionalText
 {
     private readonly string text;
 

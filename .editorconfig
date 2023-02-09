@@ -1,0 +1,16 @@
+﻿root = true
+
+[*]
+
+tab_width = 4
+indent_size = 4
+end_of_line = crlf
+
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = none
+
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+
+# CA1852: Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
+dotnet_diagnostic.CA1852.severity = none

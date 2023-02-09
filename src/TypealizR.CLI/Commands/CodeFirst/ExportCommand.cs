@@ -107,14 +107,14 @@ internal class ExportCommand : Command
 
                 var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
 
-                console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "")}");
-                console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "")}");
+                console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
+                console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");
 
                 var builder = new ResxBuilder();
 
                 foreach (var property in type.Declaration.Members
                     .OfType<PropertyDeclarationSyntax>()
-                    .Where(x => !x.Identifier.Text.EndsWith("_Raw"))
+                    .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
                 )
                 {
                     AddProperty(console, type, builder, property);
@@ -146,7 +146,7 @@ internal class ExportCommand : Command
                 .Select(x => new InterfaceInfo(x.Declaration, x.Symbol!))
                 .Where(x => x.Symbol
                     .GetAttributes()
-                    .Any(x => x.AttributeClass is not null && x.AttributeClass!.Name.StartsWith(MarkerAttributeName))
+                    .Any(x => x.AttributeClass is not null && x.AttributeClass!.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal))
                 )
         ;
 

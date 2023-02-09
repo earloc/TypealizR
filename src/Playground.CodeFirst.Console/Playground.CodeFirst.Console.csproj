@@ -17,7 +17,7 @@
 
     <ItemGroup>
         <ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
-        <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false"/>
+        <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
     </ItemGroup>
 
 </Project>

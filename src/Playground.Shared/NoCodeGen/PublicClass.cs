@@ -1,4 +1,4 @@
 ﻿namespace Playground.Shared.NoCodeGen;
-public class Public
+public class PublicClass
 {
 }
