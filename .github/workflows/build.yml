@@ -31,6 +31,7 @@ jobs:
       run: dotnet tool restore
 
     - name: Begin SQ-Analysis
+      if: ${{ github.actor != 'dependabot[bot]' }}
       run: dotnet tool run dotnet-sonarscanner begin /k:"earloc_TypealizR" /o:"earloc" /d:sonar.login="${{ secrets.SONAR_TOKEN }}" /d:sonar.host.url="https://sonarcloud.io"
 
     - name: build
@@ -39,9 +40,11 @@ jobs:
       run: dotnet test --no-build
 
     - name: end SQ-Analysis
+      if: ${{ github.actor != 'dependabot[bot]' }}
       run: dotnet tool run dotnet-sonarscanner end /d:sonar.login="${{ secrets.SONAR_TOKEN }}"
 
     - name: publish coverage report to coveralls.io
+      if: ${{ github.actor != 'dependabot[bot]' }}
       uses: coverallsapp/github-action@master   
       with:
         github-token: ${{ secrets.GITHUB_TOKEN }} 
