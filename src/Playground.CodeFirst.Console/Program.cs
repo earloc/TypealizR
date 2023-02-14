@@ -12,10 +12,12 @@ using var scope = provider.CreateScope();
 var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
 
 Demo(i18n);
+
 static void Demo(ILocalizables i18n)
 {
     Console.WriteLine(i18n.Hello("Earth")); // Hello Earth
     Console.WriteLine(i18n.Farewell("Arthur")); // Farewell Arthur
     Console.WriteLine(i18n.WhatIsTheMeaningOfLifeTheUniverseAndEverything); // WhatIsTheMeaningOfLifeTheUniverseAndEverything
     Console.WriteLine(i18n.Greet(left: "Zaphod", right: "Arthur")); // Greet Zaphod Arthur
+    Console.WriteLine(i18n.Goodbye("Arthur"));
 }
