@@ -1,6 +1,12 @@
 
 # TypealizR - code-first
 
+The `code-first` approach let´s you specify ordinary, **strongly typed** `Interfaces` (a.k.a `typealized interfaces`) to let you just utilize familiar code artefacts when dealing with i18n.
+These `typealized interfaces` then get picked up by the `source-generator`, which generates an implementing class that then can be used f.e. in conjuntion with ordinary `dependency-injection`.
+This way, devlepors do not need to leave their natural habitat (the code-editor), which comes with the benefit of automatic code-refactorings, ultimatley optimizing the [inner-loop](https://notes.serverlessfirst.com/public/The+inner+and+outer+loops+of+software+development+workflow#Inner+loop), even during i18n-tasks.
+
+![GenerateMethod](../assets/demo_TypealizedInterface_GenerateMethod.gif)
+
 ## pre-requisits
 The consuming target project should at least reference a suitable version of [Microsoft.Extensions.Localization.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Localization.Abstractions)
 
@@ -10,7 +16,7 @@ The consuming target project should at least reference a suitable version of [Mi
 - install [TypealizR.CodeFirst.Abstractions](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions) via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
 - Author a `Typealized-Interface` which basically is just an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
   
-  ![TypealizedInterface](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface.png?raw=true)
+  ![demo_TypealizedInterface](../assets/demo_TypealizedInterface.png)
   ```csharp
     using TypealizR.CodeFirst.Abstractions;
     namespace Sample;
@@ -32,6 +38,7 @@ The consuming target project should at least reference a suitable version of [Mi
     }
     ```
     > return-type needs to be `LocalizedString`
+    > the generated code uses the property name `Hello` as the default-value
 
   - Use methods for type-safe translation of formatted `translatables`.
     ```csharp
@@ -45,6 +52,7 @@ The consuming target project should at least reference a suitable version of [Mi
     }
     ```
     > return-type needs to be `LocalizedString`
+    > the generated code uses the method name `Greet` as the default-value
 
   - setup dependency-injection in your startup-code
     ```csharp
@@ -61,7 +69,7 @@ The consuming target project should at least reference a suitable version of [Mi
     Console.WriteLine(codeFirst.Hello); // Hello
     Console.WriteLine(codeFirst.Greet("Arthur", "🌍 earth")); // Greet Arthur 🌍 earth
     ```
-  - Utilize `structured xml comments` to provide custom default-values
+  - Utilize [structured xml comments](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/) to provide custom default-values
     ```csharp
     using Microsoft.Extensions.Localization;
     using TypealizR.CodeFirst.Abstractions;
@@ -79,9 +87,6 @@ The consuming target project should at least reference a suitable version of [Mi
         /// <summary>
         /// Hey <paramref name="userName"/>, welcome to <paramref name="planetName"/> 👍!
         /// </summary>
-        /// <param name="userName"></param>
-        /// <param name="planetName"></param>
-        /// <returns></returns>
         public LocalizedString Greet(string userName, string planetName);
     }
 
@@ -99,7 +104,7 @@ The consuming target project should at least reference a suitable version of [Mi
     > `dotnet tr cf ex some/path/to/a.csproj`
 
   This will extract the following `resx`-file for above sample:
-  ![TypealizedInterface_Resx](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface_Resx.png?raw=true)
+  ![TypealizedInterface_Resx](../assets//demo_TypealizedInterface_Resx.png?raw=true)
   ```xml
     <data name="Hello">
       <value>Hello, fellow developer!</value>

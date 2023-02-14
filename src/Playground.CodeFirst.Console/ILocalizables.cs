@@ -22,4 +22,9 @@ public interface ILocalizables
     /// <paramref name="right"/> greets <paramref name="left"/>, and <paramref name="left"/> answers: "Hi!".
     /// </summary>
     LocalizedString Greet(string left, string right);
+
+    /// <summary>
+    /// Goodbye, <paramref name="name"/> and thx for all the fish!
+    /// </summary>
+    LocalizedString Goodbye(string name);
 }
