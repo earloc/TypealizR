@@ -10,17 +10,8 @@ var provider = services.BuildServiceProvider();
 using var scope = provider.CreateScope();
 
 var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
-//Console.WriteLine(i18n.Goodbye("Arthur"));
+
 Demo(i18n);
-
-
-
-
-
-
-
-
-
 
 static void Demo(ILocalizables i18n)
 {
