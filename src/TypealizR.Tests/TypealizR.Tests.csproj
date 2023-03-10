@@ -39,7 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="NuGet.Frameworks" Version="6.4.0" />
+        <PackageReference Include="NuGet.Frameworks" Version="6.5.0" />
         <PackageReference Include="FluentAssertions" Version="6.10.0" />
         <PackageReference Include="FluentAssertions.Analyzers" Version="0.17.2">
             <PrivateAssets>all</PrivateAssets>
