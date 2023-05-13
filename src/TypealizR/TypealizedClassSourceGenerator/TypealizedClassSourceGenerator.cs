@@ -27,8 +27,6 @@ public sealed class TypealizedClassSourceGenerator : ResxFileSourceGeneratorBase
 
         foreach (var entry in file.Entries)
         {
-            cancellationToken.ThrowIfCancellationRequested();
-
             var collector = new DiagnosticsCollector(file.FullPath, entry.RawKey, entry.Location.LineNumber, severityConfig);
 
             if (!entry.Groups.Any())
