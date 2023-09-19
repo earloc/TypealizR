@@ -104,7 +104,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             return (nameSpace.Trim('.', ' '), Accessibility.Internal);
         }
 
-        var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
+        var matchingMarkerType = Array.Find(possibleMarkerTypeSymbols, x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
         if (matchingMarkerType is null)
         {

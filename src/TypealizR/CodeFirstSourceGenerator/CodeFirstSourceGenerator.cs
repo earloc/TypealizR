@@ -127,7 +127,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             allTrivias = tree.GetCompilationUnitRoot(cancellationToken).GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
         }
 
-        var documentation = allTrivias.FirstOrDefault(x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
+        var documentation = Array.Find(allTrivias, x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
 
         if (documentation.GetStructure() is not DocumentationCommentTriviaSyntax structure)
         {
