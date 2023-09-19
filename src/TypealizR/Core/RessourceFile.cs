@@ -87,11 +87,12 @@ public partial class RessourceFile
 
                     }
 
+                    var content = cancellationToken.IsCancellationRequested ? string.Empty : _.MainFile.Text.GetText()?.ToString() ?? string.Empty;
 
                     return new RessourceFile(
                         simpleName: _.Name,
                         fullPath: _.MainFile.Text.Path,
-                        content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty,
+                        content: content,
                         customToolNamespace: customToolNamespace,
                         useParamNamesInMethodNames: useParamNamesInMethodNames
                     );
