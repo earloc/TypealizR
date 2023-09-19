@@ -12,7 +12,6 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-
         var optionsProvider = context.AnalyzerConfigOptionsProvider
             .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
         );
@@ -42,6 +41,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
                     GenerateSourceFor(ctxt, options, compilation, file);
                 }
             });
+
     }
 
     protected void GenerateSourceFor(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
@@ -104,7 +104,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             return (nameSpace.Trim('.', ' '), Accessibility.Internal);
         }
 
-        var matchingMarkerType = possibleMarkerTypeSymbols.FirstOrDefault(x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
+        var matchingMarkerType = Array.Find(possibleMarkerTypeSymbols, x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
         if (matchingMarkerType is null)
         {

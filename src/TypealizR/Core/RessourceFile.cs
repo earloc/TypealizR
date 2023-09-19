@@ -82,16 +82,15 @@ public partial class RessourceFile
                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString)
                         && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var useParamNamesInMethodNamesItemMetadata))
                     {
-
                         useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
-
                     }
 
+                    var content = cancellationToken.IsCancellationRequested ? string.Empty : _.MainFile.Text.GetText()?.ToString() ?? string.Empty;
 
                     return new RessourceFile(
                         simpleName: _.Name,
                         fullPath: _.MainFile.Text.Path,
-                        content: _.MainFile.Text.GetText(cancellationToken)?.ToString() ?? string.Empty,
+                        content: content,
                         customToolNamespace: customToolNamespace,
                         useParamNamesInMethodNames: useParamNamesInMethodNames
                     );
