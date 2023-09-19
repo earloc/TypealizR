@@ -82,7 +82,6 @@ public partial class RessourceFile
                         && !string.IsNullOrEmpty(useParamNamesInMethodNamesItemMetadataString)
                         && bool.TryParse(useParamNamesInMethodNamesItemMetadataString, out var useParamNamesInMethodNamesItemMetadata))
                     {
-
                         useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
                     }
 
