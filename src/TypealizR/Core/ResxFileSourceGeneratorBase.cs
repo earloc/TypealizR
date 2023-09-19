@@ -12,41 +12,36 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
-        try
-        {
-            var optionsProvider = context.AnalyzerConfigOptionsProvider
-                .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
-            );
+        var optionsProvider = context.AnalyzerConfigOptionsProvider
+            .Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions)
+        );
 
-            var resxFilesProvider = context.AdditionalTextsProvider
-                .Where(static x => x.Path.EndsWith(".resx", StringComparison.Ordinal))
-                .Combine(context.AnalyzerConfigOptionsProvider)
-            ;
+        var resxFilesProvider = context.AdditionalTextsProvider
+            .Where(static x => x.Path.EndsWith(".resx", StringComparison.Ordinal))
+            .Combine(context.AnalyzerConfigOptionsProvider)
+        ;
 
-            var monitoredFiles = resxFilesProvider
-                .Select((x, cancel) => new AdditionalTextWithOptions(x.Left, x.Right.GetOptions(x.Left)))
-                .Collect()
-                .Select(RessourceFile.From)
-            ;
+        var monitoredFiles = resxFilesProvider
+            .Select((x, cancel) => new AdditionalTextWithOptions(x.Left, x.Right.GetOptions(x.Left)))
+            .Collect()
+            .Select(RessourceFile.From)
+        ;
 
-            context.RegisterSourceOutput(monitoredFiles
-                .Combine(optionsProvider)
-                .Combine(context.CompilationProvider),
-                (ctxt, source) =>
+        context.RegisterSourceOutput(monitoredFiles
+            .Combine(optionsProvider)
+            .Combine(context.CompilationProvider),
+            (ctxt, source) =>
+            {
+                var files = source.Left.Left;
+                var options = source.Left.Right;
+                var compilation = source.Right;
+
+                foreach (var file in files)
                 {
-                    var files = source.Left.Left;
-                    var options = source.Left.Right;
-                    var compilation = source.Right;
+                    GenerateSourceFor(ctxt, options, compilation, file);
+                }
+            });
 
-                    foreach (var file in files)
-                    {
-                        GenerateSourceFor(ctxt, options, compilation, file);
-                    }
-                });
-        }
-        catch (OperationCanceledException)
-        {
-        }
     }
 
     protected void GenerateSourceFor(SourceProductionContext ctxt, GeneratorOptions options, Compilation compilation, RessourceFile file)
