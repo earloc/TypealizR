@@ -84,7 +84,6 @@ public partial class RessourceFile
                     {
 
                         useParamNamesInMethodNames = useParamNamesInMethodNamesItemMetadata;
-
                     }
 
                     var content = cancellationToken.IsCancellationRequested ? string.Empty : _.MainFile.Text.GetText()?.ToString() ?? string.Empty;
