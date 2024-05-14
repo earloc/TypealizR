@@ -77,7 +77,7 @@ internal class TypealizedClassModel
 
                 /// <summary>
                 /// Creates a new instance of <see cref="{{typeName}}"/>
-                /// </summar>
+                /// </summary>
                 public {{typeName}}(IStringLocalizer<{{markerType.GlobalFullName}}> localizer)
                 {
                     this.localizer = localizer;
