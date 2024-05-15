@@ -3,6 +3,8 @@
 namespace TypealizR.CLI.Resources;
 internal class ResxBuilder
 {
+    private const string resHeader = "resheader";
+    private const string value = "value";
     private readonly Dictionary<string, string> entries = new();
     public ResxBuilder Add(string key, string value)
     {
@@ -14,16 +16,16 @@ internal class ResxBuilder
     {
         var document = new XDocument(
             new XElement("root",
-                new XElement("resheader", new XAttribute("name", "resmimetype"),
-                    new XElement("value", "text/microsoft-resx")
+                new XElement(resHeader, new XAttribute("name", "resmimetype"),
+                    new XElement(value, "text/microsoft-resx")
                 ),
-                new XElement("resheader", new XAttribute("name", "version"),
+                new XElement(resHeader, new XAttribute("name", "version"),
                     new XElement("value", "2.0")
                 ),
-                new XElement("resheader", new XAttribute("name", "reader"),
+                new XElement(resHeader, new XAttribute("name", "reader"),
                     new XElement("value", "System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
                 ),
-                new XElement("resheader", new XAttribute("name", "writer"),
+                new XElement(resHeader, new XAttribute("name", "writer"),
                     new XElement("value", "System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
                 ),
                 entries.Select(x =>
