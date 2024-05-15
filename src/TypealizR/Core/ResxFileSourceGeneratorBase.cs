@@ -99,7 +99,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
         }
 
-        if (!possibleMarkerTypeSymbols.Any())
+        if (possibleMarkerTypeSymbols.Length == 0)
         {
             return (nameSpace.Trim('.', ' '), Accessibility.Internal);
         }

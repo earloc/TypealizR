@@ -53,7 +53,7 @@ public sealed class GeneratorOptions
     }
 
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "uppercase would not be valid")]
-    private static IDictionary<string, DiagnosticSeverity> ReadSeverityConfig(AnalyzerConfigOptions options)
+    private static Dictionary<string, DiagnosticSeverity> ReadSeverityConfig(AnalyzerConfigOptions options)
     {
         var severityConfig = new Dictionary<string, DiagnosticSeverity>();
 
