@@ -121,7 +121,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
     {
         var allTrivias = declaration.GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
 
-        if (!allTrivias.Any())
+        if (allTrivias.Length == 0)
         {
             var tree = CSharpSyntaxTree.ParseText(declaration.ToFullString(), cancellationToken: cancellationToken);
             allTrivias = tree.GetCompilationUnitRoot(cancellationToken).GetLeadingTrivia().Where(x => x.HasStructure).ToArray();

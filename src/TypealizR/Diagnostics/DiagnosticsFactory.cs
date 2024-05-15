@@ -23,6 +23,8 @@ internal class DiagnosticsCollector
 
 internal class DiagnosticsFactory
 {
+    private const string readabilityCategory = "Readability";
+
     private readonly string filePath;
     private readonly string rawRessourceKey;
     private readonly int lineNumber;
@@ -60,7 +62,7 @@ internal class DiagnosticsFactory
             new(id: TR0002.Id.ToString(),
                 title: TR0002.Title,
                 messageFormat: Strings.TR0002_MessageFormat,
-                category: "Readability",
+                category: readabilityCategory,
                 defaultSeverity: SeverityFor(TR0002.Id) ?? DiagnosticSeverity.Warning,
                 isEnabledByDefault: true,
                 description: Strings.TR0002_Description,
@@ -82,7 +84,7 @@ internal class DiagnosticsFactory
             new(id: TR0003.Id.ToString(),
                 title: TR0003.Title,
                 messageFormat: Strings.TR0003_MessageFormat,
-                category: "Readability",
+                category: readabilityCategory,
                 defaultSeverity: SeverityFor(TR0003.Id) ?? DiagnosticSeverity.Warning,
                 isEnabledByDefault: true,
                 description: Strings.TR0003_Description,
@@ -105,7 +107,7 @@ internal class DiagnosticsFactory
             new(id: TR0004.Id.ToString(),
                 title: TR0004.Title,
                 messageFormat: Strings.TR0004_MessageFormat,
-                category: "Readability",
+                category: readabilityCategory,
                 defaultSeverity: SeverityFor(TR0004.Id) ?? DiagnosticSeverity.Warning,
                 isEnabledByDefault: true,
                 description: Strings.TR0004_Description,
@@ -128,7 +130,7 @@ internal class DiagnosticsFactory
             new(id: TR0005.Id.ToString(),
                 title: TR0005.Title,
                 messageFormat: Strings.TR0005_MessageFormat,
-                category: "Readability",
+                category: readabilityCategory,
                 defaultSeverity: SeverityFor(TR0005.Id) ?? DiagnosticSeverity.Warning,
                 isEnabledByDefault: true,
                 description: Strings.TR0005_Description,
