@@ -23,6 +23,8 @@ internal class DiagnosticsCollector
 
 internal class DiagnosticsFactory
 {
+    private const string readabilityCategory = "Readability";
+
     private readonly string filePath;
     private readonly string rawRessourceKey;
     private readonly int lineNumber;
@@ -60,7 +62,7 @@ internal class DiagnosticsFactory
             new(id: TR0002.Id.ToString(),
                 title: TR0002.Title,
                 messageFormat: Strings.TR0002_MessageFormat,
-                category: "Readability",
+                category: readabilityCategory,
                 defaultSeverity: SeverityFor(TR0002.Id) ?? DiagnosticSeverity.Warning,
                 isEnabledByDefault: true,
                 description: Strings.TR0002_Description,

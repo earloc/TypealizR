@@ -8,7 +8,10 @@ using Playground.Common;
 using Playground.Common.Groups;
 using Playground.Common.Groups.TypealizR;
 using Playground.Common.NoCodeGen;
+using System.Runtime.InteropServices;
 
+const string arthur = "Arthur";
+const string chewbacca = "Chewbacca";
 
 var services = new ServiceCollection();
 services.AddLogging();
@@ -34,20 +37,20 @@ Console.WriteLine(customNamespace.Hello());
 
 var greeter = provider.GetRequiredService<Greeter>();
 
-greeter.SayHello("Arthur");
-greeter.SayHelloPublic("Arthur");
+greeter.SayHello(arthur);
+greeter.SayHelloPublic(arthur);
 
 var internalLocalizable = provider.GetRequiredService<IStringLocalizer<InternalClass>>();
-Console.WriteLine(internalLocalizable.Hello__name("Arthur"));
+Console.WriteLine(internalLocalizable.Hello__name(arthur));
 
 
 var publicLocalizable = provider.GetRequiredService<IStringLocalizer<PublicClass>>();
-Console.WriteLine(publicLocalizable.Hello__name("Arthur"));
+Console.WriteLine(publicLocalizable.Hello__name(arthur));
 
 
 var localize = internalLocalizable;
 
-var userName = "Arthur";
+var userName = arthur;
 var today = DateOnly.FromDateTime(DateTimeOffset.Now.UtcDateTime);
 
 localize.Hello__user__it_is__today(userName, today);
@@ -55,13 +58,13 @@ localize.Hello__user__it_is__today(userName, today);
 
 var groups = provider.GetRequiredService<IStringLocalizer<Ressources>>();
 Console.WriteLine(
-    groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name("Chewbacca")
+    groups.SomeDeeplyNestedThingCalledAfterAMonster_With_the__name(chewbacca)
 );
 
 var typealizedGroups = groups.Typealize();
 
 Console.WriteLine(
-    typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name("Chewbacca")
+    typealizedGroups.Some.Deeply.Nested.Thing.Called.After.A.Monster.With_the__name(chewbacca)
 );
 
 var without_Params_In_MethodNames = provider.GetRequiredService<IStringLocalizer<Without_Params_In_MethodNames>>();
@@ -71,7 +74,7 @@ Console.WriteLine(
 );
 
 Console.WriteLine(
-    without_Params_In_MethodNames.Goodbye("Arthur")
+    without_Params_In_MethodNames.Goodbye(arthur)
 );
 
 #pragma warning restore CA1812 // Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
