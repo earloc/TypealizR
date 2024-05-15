@@ -35,7 +35,7 @@ public class RessourceFileEntry
         Groups = Sanitize(rawGroupKey);
     }
 
-    private static IEnumerable<MemberName> Sanitize(string rawGroupKey)
+    private static MemberName[] Sanitize(string rawGroupKey)
     {
         var parts = rawGroupKey
             .Split('.')

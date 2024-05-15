@@ -18,7 +18,7 @@ public class FileStorage_Tests
 
         File.Exists(fileName).Should().BeTrue();
 
-        var actual = File.ReadAllText(fileName);
+        var actual = await File.ReadAllTextAsync(fileName);
         actual.Should().Be(expected);
     }
 
