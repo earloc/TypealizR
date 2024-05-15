@@ -20,18 +20,18 @@ internal class ResxBuilder
                     new XElement(value, "text/microsoft-resx")
                 ),
                 new XElement(resHeader, new XAttribute("name", "version"),
-                    new XElement("value", "2.0")
+                    new XElement(value, "2.0")
                 ),
                 new XElement(resHeader, new XAttribute("name", "reader"),
-                    new XElement("value", "System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
+                    new XElement(value, "System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
                 ),
                 new XElement(resHeader, new XAttribute("name", "writer"),
-                    new XElement("value", "System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
+                    new XElement(value, "System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
                 ),
                 entries.Select(x =>
                     new XElement("data",
                             new XAttribute("name", x.Key),
-                        new XElement("value", x.Value)
+                        new XElement(value, x.Value)
                     )
                 ).ToArray()
             )
