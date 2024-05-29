@@ -77,19 +77,19 @@ internal class ExportCommand : Command
             console.WriteLine($"  🔍 scanning");
 
             var allNamespaces = FindNamespaces(compilation, cancellationToken).ToArray();
-            if (!allNamespaces.Any())
+            if (allNamespaces.Length == 0)
             {
                 console.WriteLine("  ⚠️ no namespaces found");
             }
 
             var markedInterfaces = FindInterfaces(compilation, allNamespaces, cancellationToken).ToArray();
-            if (!markedInterfaces.Any())
+            if (markedInterfaces.Length == 0)
             {
                 console.WriteLine("  ⚠️ no typealized interfaces found");
             }
 
             var typesImplementingMarkedInterfaces = FindClasses(compilation, allNamespaces, markedInterfaces, cancellationToken).ToArray();
-            if (!typesImplementingMarkedInterfaces.Any())
+            if (typesImplementingMarkedInterfaces.Length == 0)
             {
                 console.WriteLine("  ⚠️ no classes implementing typealized interfaces found");
             }
