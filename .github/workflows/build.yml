@@ -20,6 +20,10 @@ jobs:
     - uses: actions/checkout@v3
       with:
         depth: 0
+    - uses: actions/setup-java@v4
+      with:
+        distribution: 'microsoft'
+        java-version: '21'
 
     - name: setup .NET
       uses: actions/setup-dotnet@v3

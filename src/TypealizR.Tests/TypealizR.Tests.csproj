@@ -39,7 +39,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="NuGet.Frameworks" Version="6.7.0" />
+        <PackageReference Include="NuGet.Frameworks" Version="6.10.0" />
         <PackageReference Include="FluentAssertions" Version="6.12.0" />
         <PackageReference Include="FluentAssertions.Analyzers" Version="0.26.0">
             <PrivateAssets>all</PrivateAssets>
@@ -52,7 +52,7 @@
         <PackageReference Include="System.Collections.Immutable" Version="7.0.0" />
         <PackageReference Include="Verify.SourceGenerators" Version="2.2.0" />
         <PackageReference Include="Verify.Xunit" Version="22.1.4" />
-        <PackageReference Include="xunit" Version="2.6.1" />
+        <PackageReference Include="xunit" Version="2.6.6" />
         <PackageReference Include="xunit.runner.visualstudio" Version="2.5.3">
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
             <PrivateAssets>all</PrivateAssets>
