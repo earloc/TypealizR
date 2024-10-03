@@ -1,12 +1,10 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.Collections.Immutable;
-using System.Linq;
-using System.Threading;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.Extensions.Localization;
 
 namespace TypealizeR.Analyzer
 {
@@ -38,6 +36,10 @@ namespace TypealizeR.Analyzer
             context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.InvocationExpression);
         }
 
+
+        static string desiredTargetTypeName = typeof(IStringLocalizer).FullName;
+        //static string simpleTypeName = $"{nameof(Microsoft)}.{nameof(Microsoft.Extensions)}.{nameof(Microsoft.Extensions.Localization)}.{nameof(IStringLocalizer)}";
+
         private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
         {
             var invocationExpression = (InvocationExpressionSyntax)context.Node;
@@ -51,7 +53,19 @@ namespace TypealizeR.Analyzer
             var symbolInfo = context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression);
             var symbol = symbolInfo.Symbol as IParameterSymbol;
 
-            if (symbol == null) // || symbol.Type.Name != "YourInterfaceName")
+            if (symbol == null)
+            {
+                return;
+            }
+
+            if (symbol.Type.Name != nameof(IStringLocalizer))
+            {
+                return;
+            }
+
+            var currentTargetTypeName = symbol.Type.ToDisplayString();
+            
+            if (currentTargetTypeName != desiredTargetTypeName)
             {
                 return;
             }
@@ -61,3 +75,4 @@ namespace TypealizeR.Analyzer
         }
     }
 }
+
