@@ -11,9 +11,9 @@ using Microsoft.CodeAnalysis.Diagnostics;
 namespace TypealizeR.Analyzer
 {
     [DiagnosticAnalyzer(LanguageNames.CSharp)]
-    public class TypealizeRAnalyzerAnalyzer : DiagnosticAnalyzer
+    public class UseIndexerAnalyzer : DiagnosticAnalyzer
     {
-        public const string DiagnosticId = "TypealizeRAnalyzer";
+        public const string DiagnosticId = nameof(UseIndexerAnalyzer);
 
         // You can change these strings in the Resources.resx file. If you do not want your analyzer to be localize-able, you can use regular strings for Title and MessageFormat.
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Localizing%20Analyzers.md for more on localization
@@ -28,27 +28,36 @@ namespace TypealizeR.Analyzer
 
         public override void Initialize(AnalysisContext context)
         {
+            context = context ?? throw new ArgumentNullException(nameof(context));
+
             context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
             context.EnableConcurrentExecution();
 
             // TODO: Consider registering other actions that act on syntax instead of or in addition to symbols
             // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
-            context.RegisterSymbolAction(AnalyzeSymbol, SymbolKind.NamedType);
+            context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.InvocationExpression);
         }
 
-        private static void AnalyzeSymbol(SymbolAnalysisContext context)
+        private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
         {
-            // TODO: Replace the following code with your own analysis, generating Diagnostic objects for any issues you find
-            var namedTypeSymbol = (INamedTypeSymbol)context.Symbol;
+            var invocationExpression = (InvocationExpressionSyntax)context.Node;
+            var memberAccessExpression = invocationExpression.Expression as MemberAccessExpressionSyntax;
 
-            // Find just those named type symbols with names containing lowercase letters.
-            if (namedTypeSymbol.Name.ToCharArray().Any(char.IsLower))
+            if (memberAccessExpression == null)
             {
-                // For all such symbols, produce a diagnostic.
-                var diagnostic = Diagnostic.Create(Rule, namedTypeSymbol.Locations[0], namedTypeSymbol.Name);
-
-                context.ReportDiagnostic(diagnostic);
+                return;
             }
+
+            var symbolInfo = context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression);
+            var symbol = symbolInfo.Symbol as IParameterSymbol;
+
+            if (symbol == null) // || symbol.Type.Name != "YourInterfaceName")
+            {
+                return;
+            }
+
+            var diagnostic = Diagnostic.Create(Rule, memberAccessExpression.GetLocation(), memberAccessExpression.Name, symbol.Name);
+            context.ReportDiagnostic(diagnostic);
         }
     }
 }

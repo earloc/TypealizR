@@ -1,13 +1,14 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.Testing;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = TypealizeR.Analyzer.Test.CSharpCodeFixVerifier<
-    TypealizeR.Analyzer.TypealizeRAnalyzerAnalyzer,
+    TypealizeR.Analyzer.UseIndexerAnalyzer,
     TypealizeR.Analyzer.TypealizeRAnalyzerCodeFixProvider>;
 
 namespace TypealizeR.Analyzer.Test
 {
     [TestClass]
-    public class TypealizeRAnalyzerUnitTest
+    public class UseIndexerAnalyzer_Test
     {
         //No diagnostics expected to show up
         [TestMethod]
@@ -32,28 +33,19 @@ namespace TypealizeR.Analyzer.Test
 
     namespace ConsoleApplication1
     {
-        class {|#0:TypeName|}
+        interface IFoo {
+            void Bar();
+        }
+
+        class Foo
         {   
+            public Foo(IFoo foo) {
+                {|#0:foo.Bar|}();
+            }
         }
     }";
-
-            var fixtest = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
-
-    namespace ConsoleApplication1
-    {
-        class TYPENAME
-        {   
-        }
-    }";
-
-            var expected = VerifyCS.Diagnostic("TypealizeRAnalyzer").WithLocation(0).WithArguments("TypeName");
-            await VerifyCS.VerifyCodeFixAsync(test, expected, fixtest);
+            var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+            await VerifyCS.VerifyAnalyzerAsync(test, expected);
         }
     }
 }

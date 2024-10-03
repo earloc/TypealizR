@@ -20,7 +20,7 @@ namespace TypealizeR.Analyzer
     {
         public sealed override ImmutableArray<string> FixableDiagnosticIds
         {
-            get { return ImmutableArray.Create(TypealizeRAnalyzerAnalyzer.DiagnosticId); }
+            get { return ImmutableArray.Create(UseIndexerAnalyzer.DiagnosticId); }
         }
 
         public sealed override FixAllProvider GetFixAllProvider()
