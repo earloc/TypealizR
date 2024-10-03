@@ -41,11 +41,11 @@ namespace TypealizeR.Analyzer.Test
         """;
 
         string generatedExtension = """
-        namespace Microsoft.Extensions.Localization {
-            public static class IStringLocalizerExtensions {
-                public static LocalizedString Bar(this IStringLocalizer that) => that[nameof(Bar)];
+            namespace Microsoft.Extensions.Localization {
+                public static class IStringLocalizerExtensions {
+                    public static LocalizedString Bar(this IStringLocalizer that) => that[nameof(Bar)];
+                }
             }
-        }
         """;
 
         //Diagnostic and CodeFix both triggered and checked for
