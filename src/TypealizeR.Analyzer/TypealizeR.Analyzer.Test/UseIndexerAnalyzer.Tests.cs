@@ -55,27 +55,35 @@ public class UseIndexerAnalyzer_Test
         }
     """;
 
-    //Diagnostic and CodeFix both triggered and checked for
-    [TestMethod]
-    public async Task UseIndexer()
+    private string TestCode(string code)
     {
         var test = $$"""
             using Microsoft.Extensions.Localization;
-        
+
             {{typeDeclarations}}
             {{interfaceDeclaration}}
             {{generatedExtension}}
 
-            namespace ConsoleApplication1
-            {
-                class Foo
+            {{code}}
+        """;
+
+        return test;
+    }
+
+    //Diagnostic and CodeFix both triggered and checked for
+    [TestMethod]
+    public async Task UseIndexer()
+    {
+        var test = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
                 {   
                     public Foo(IStringLocalizer localizer) {
                         var x = {|#0:localizer.Bar|}();
                     }
                 }
             }
-        """;
+        """);
 
         var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
         await VerifyCS.VerifyAnalyzerAsync(test, expected);
@@ -85,23 +93,16 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexer_Generic()
     {
-        var test = $$"""
-            using Microsoft.Extensions.Localization;
-        
-            {{typeDeclarations}}
-            {{interfaceDeclaration}}
-            {{generatedExtension}}
-
-            namespace ConsoleApplication1
-            {
-                class Foo
+        var test = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
                 {   
                     public Foo(IStringLocalizer<Foo> localizer) {
                         var x = {|#0:localizer.Bar|}();
                     }
                 }
             }
-        """;
+        """);
 
         var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
         await VerifyCS.VerifyAnalyzerAsync(test, expected);
