@@ -19,31 +19,39 @@ namespace TypealizeR.Analyzer.Test
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
 
+
+        string interfaceDeclaration = """
+            namespace Microsoft.Extensions.Localization {
+                    public interface IStringLocalizer {
+                    }
+                    public static class IStringLocalizerExtensions {
+                        public static void Bar(this IStringLocalizer that) {
+                        }
+                    }
+                }
+        """;
+
+
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
         public async Task UseIndexer()
         {
-            var test = @"
-    using System;
-    using System.Collections.Generic;
-    using System.Linq;
-    using System.Text;
-    using System.Threading.Tasks;
-    using System.Diagnostics;
+            var test = $$"""
+                using Microsoft.Extensions.Localization;
+            
+                {{interfaceDeclaration}}
 
-    namespace ConsoleApplication1
-    {
-        interface IFoo {
-            void Bar();
-        }
+                namespace ConsoleApplication1
+                {
+                    class Foo
+                    {   
+                        public Foo(IStringLocalizer localizer) {
+                            {|#0:localizer.Bar|}();
+                        }
+                    }
+                }
+            """;
 
-        class Foo
-        {   
-            public Foo(IFoo foo) {
-                {|#0:foo.Bar|}();
-            }
-        }
-    }";
             var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
             await VerifyCS.VerifyAnalyzerAsync(test, expected);
         }
