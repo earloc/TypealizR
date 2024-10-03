@@ -21,7 +21,7 @@ namespace TypealizeR.Analyzer.Test
 
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
-        public async Task TestMethod2()
+        public async Task UseIndexer()
         {
             var test = @"
     using System;
