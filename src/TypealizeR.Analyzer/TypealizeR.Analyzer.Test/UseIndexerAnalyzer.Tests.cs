@@ -18,7 +18,7 @@ public class UseIndexerAnalyzer_Test
         await VerifyCS.VerifyAnalyzerAsync(test);
     }
 
-    string baseDeclarations = """
+    string typeDeclarations = """
 
         public class Foo {
         }
@@ -62,7 +62,7 @@ public class UseIndexerAnalyzer_Test
         var test = $$"""
             using Microsoft.Extensions.Localization;
         
-            {{baseDeclarations}}
+            {{typeDeclarations}}
             {{interfaceDeclaration}}
             {{generatedExtension}}
 
@@ -88,7 +88,7 @@ public class UseIndexerAnalyzer_Test
         var test = $$"""
             using Microsoft.Extensions.Localization;
         
-            {{baseDeclarations}}
+            {{typeDeclarations}}
             {{interfaceDeclaration}}
             {{generatedExtension}}
 
