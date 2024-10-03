@@ -55,7 +55,7 @@ public class UseIndexerAnalyzer_Test
         }
     """;
 
-    private string TestCode(string code)
+    private string TestCode(string testCode)
     {
         var test = $$"""
             using Microsoft.Extensions.Localization;
@@ -64,7 +64,7 @@ public class UseIndexerAnalyzer_Test
             {{interfaceDeclaration}}
             {{generatedExtension}}
 
-            {{code}}
+            {{testCode}}
         """;
 
         return test;
