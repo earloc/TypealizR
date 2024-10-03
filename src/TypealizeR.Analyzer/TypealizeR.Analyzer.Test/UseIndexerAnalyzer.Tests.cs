@@ -12,7 +12,7 @@ namespace TypealizeR.Analyzer.Test
     {
         //No diagnostics expected to show up
         [TestMethod]
-        public async Task TestMethod1()
+        public async Task Emits_NoDiagnostics_ForEmptySyntax()
         {
             var test = @"";
 
@@ -48,10 +48,9 @@ namespace TypealizeR.Analyzer.Test
         }
         """;
 
-
         //Diagnostic and CodeFix both triggered and checked for
         [TestMethod]
-        public async Task UseIndexer()
+        public async Task Emits_Diagnostics_UseIndexer()
         {
             var test = $$"""
                 using Microsoft.Extensions.Localization;
