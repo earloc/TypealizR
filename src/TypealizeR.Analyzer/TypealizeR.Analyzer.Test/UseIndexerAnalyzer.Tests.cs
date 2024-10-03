@@ -19,16 +19,33 @@ namespace TypealizeR.Analyzer.Test
             await VerifyCS.VerifyAnalyzerAsync(test);
         }
 
+        string baseDeclarations = """
+            namespace Microsoft.Extensions.Localization {
+                public class LocalizedString {
+                    public string Name { get; } = "";
+                    public string Value { get; } = "";
+                    public bool ResourceNotFound { get; } = false;
+                    public string SearchedLocation { get; } = null;
+                }
+            }
+        """;
+        
 
         string interfaceDeclaration = """
             namespace Microsoft.Extensions.Localization {
-                    public interface IStringLocalizer {
-                    }
-                    public static class IStringLocalizerExtensions {
-                        public static void Bar(this IStringLocalizer that) {
-                        }
-                    }
+                public interface IStringLocalizer {
+                    LocalizedString this[string name] { get; }
+                    LocalizedString this[string name, params object[] arguments] { get; }
                 }
+            }
+        """;
+
+        string generatedExtension = """
+        namespace Microsoft.Extensions.Localization {
+            public static class IStringLocalizerExtensions {
+                public static LocalizedString Bar(this IStringLocalizer that) => that[nameof(Bar)];
+            }
+        }
         """;
 
 
@@ -39,7 +56,9 @@ namespace TypealizeR.Analyzer.Test
             var test = $$"""
                 using Microsoft.Extensions.Localization;
             
+                {{baseDeclarations}}
                 {{interfaceDeclaration}}
+                {{generatedExtension}}
 
                 namespace ConsoleApplication1
                 {
