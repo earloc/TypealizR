@@ -20,6 +20,10 @@ namespace TypealizeR.Analyzer.Test
         }
 
         string baseDeclarations = """
+
+            public class Foo {
+            }
+
             namespace Microsoft.Extensions.Localization {
                 public class LocalizedString {
                     public string Name { get; } = "";
@@ -37,6 +41,9 @@ namespace TypealizeR.Analyzer.Test
                     LocalizedString this[string name] { get; }
                     LocalizedString this[string name, params object[] arguments] { get; }
                 }
+
+                public interface IStringLocalizer<T> : IStringLocalizer {
+                }
             }
         """;
 
@@ -44,6 +51,7 @@ namespace TypealizeR.Analyzer.Test
             namespace Microsoft.Extensions.Localization {
                 public static class IStringLocalizerExtensions {
                     public static LocalizedString Bar(this IStringLocalizer that) => that[nameof(Bar)];
+                    public static LocalizedString FooBar(this IStringLocalizer<Foo> that) => that[nameof(Bar)];
                 }
             }
         """;
@@ -64,7 +72,33 @@ namespace TypealizeR.Analyzer.Test
                     class Foo
                     {   
                         public Foo(IStringLocalizer localizer) {
-                            {|#0:localizer.Bar|}();
+                            var x = {|#0:localizer.Bar|}();
+                        }
+                    }
+                }
+            """;
+
+            var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+            await VerifyCS.VerifyAnalyzerAsync(test, expected);
+        }
+
+        //Diagnostic and CodeFix both triggered and checked for
+        [TestMethod]
+        public async Task Emits_Diagnostics_UseIndexer_Generic()
+        {
+            var test = $$"""
+                using Microsoft.Extensions.Localization;
+            
+                {{baseDeclarations}}
+                {{interfaceDeclaration}}
+                {{generatedExtension}}
+
+                namespace ConsoleApplication1
+                {
+                    class Foo
+                    {   
+                        public Foo(IStringLocalizer<Foo> localizer) {
+                            var x = {|#0:localizer.Bar|}();
                         }
                     }
                 }

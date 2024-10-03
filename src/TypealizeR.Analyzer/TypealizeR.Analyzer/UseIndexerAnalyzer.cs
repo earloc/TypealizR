@@ -64,8 +64,10 @@ namespace TypealizeR.Analyzer
             }
 
             var currentTargetTypeName = symbol.Type.ToDisplayString();
-            
-            if (currentTargetTypeName != desiredTargetTypeName)
+
+            var currentTargetNonGenericTypeName = currentTargetTypeName.Split('<')[0];
+
+            if (currentTargetNonGenericTypeName != desiredTargetTypeName)
             {
                 return;
             }
