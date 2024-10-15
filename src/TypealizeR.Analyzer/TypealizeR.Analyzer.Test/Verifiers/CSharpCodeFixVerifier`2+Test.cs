@@ -20,6 +20,7 @@ namespace TypealizeR.Analyzer.Test
                         compilationOptions.SpecificDiagnosticOptions.SetItems(CSharpVerifierHelper.NullableWarnings));
                     solution = solution.WithProjectCompilationOptions(projectId, compilationOptions);
 
+                    // TODO: Add resx here
                     return solution;
                 });
             }

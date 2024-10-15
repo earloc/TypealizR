@@ -31,6 +31,7 @@ namespace TypealizeR.Analyzer.Test
             var test = new Test
             {
                 TestCode = source,
+                
             };
 
             test.ExpectedDiagnostics.AddRange(expected);

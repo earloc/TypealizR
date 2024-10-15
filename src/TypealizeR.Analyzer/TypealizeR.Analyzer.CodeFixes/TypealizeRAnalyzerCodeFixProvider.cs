@@ -38,34 +38,39 @@ namespace TypealizeR.Analyzer
             var diagnosticSpan = diagnostic.Location.SourceSpan;
 
             // Find the type declaration identified by the diagnostic.
-            var declaration = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<TypeDeclarationSyntax>().First();
+            var invocation = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<InvocationExpressionSyntax>().First();
 
             // Register a code action that will invoke the fix.
             context.RegisterCodeFix(
                 CodeAction.Create(
                     title: CodeFixResources.CodeFixTitle,
-                    createChangedSolution: c => MakeUppercaseAsync(context.Document, declaration, c),
+                    createChangedSolution: c => MakeUppercaseAsync(context.Document, invocation, c),
                     equivalenceKey: nameof(CodeFixResources.CodeFixTitle)),
                 diagnostic);
         }
 
-        private async Task<Solution> MakeUppercaseAsync(Document document, TypeDeclarationSyntax typeDecl, CancellationToken cancellationToken)
+        private async Task<Solution> MakeUppercaseAsync(Document document, InvocationExpressionSyntax syntax, CancellationToken cancellationToken)
         {
             // Compute new uppercase name.
-            var identifierToken = typeDecl.Identifier;
-            var newName = identifierToken.Text.ToUpperInvariant();
+            var identifierNameSyntax = syntax.Expression as MemberAccessExpressionSyntax;
+            var memberNameSyntax = identifierNameSyntax.Name;
+            var localNameSyntax = identifierNameSyntax.Expression as IdentifierNameSyntax;
+            // var newName = identifierToken.Text.ToUpperInvariant();
 
-            // Get the symbol representing the type to be renamed.
-            var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
-            var typeSymbol = semanticModel.GetDeclaredSymbol(typeDecl, cancellationToken);
+            var indexerAccess = $"{localNameSyntax.TryGetInferredMemberName()}["{memberNameSyntax.TryGetInferredMemberName()}"]";
 
-            // Produce a new solution that has all references to that type renamed, including the declaration.
-            var originalSolution = document.Project.Solution;
-            var optionSet = originalSolution.Workspace.Options;
-            var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, typeSymbol, newName, optionSet, cancellationToken).ConfigureAwait(false);
+            // // Get the symbol representing the type to be renamed.
+            // var semanticModel = await document.GetSemanticModelAsync(cancellationToken);
+            // var typeSymbol = semanticModel.GetDeclaredSymbol(typeDecl, cancellationToken);
 
-            // Return the new solution with the now-uppercase type name.
-            return newSolution;
+            // // Produce a new solution that has all references to that type renamed, including the declaration.
+            // var originalSolution = document.Project.Solution;
+            // var optionSet = originalSolution.Workspace.Options;
+            // var newSolution = await Renamer.RenameSymbolAsync(document.Project.Solution, typeSymbol, newName, optionSet, cancellationToken).ConfigureAwait(false);
+
+            // // Return the new solution with the now-uppercase type name.
+            // return newSolution;
+            return document.Project.Solution;
         }
     }
 }

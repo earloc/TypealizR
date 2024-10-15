@@ -74,7 +74,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexer()
     {
-        var test = TestCode("""
+        var code = TestCode("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -85,8 +85,20 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
-        await VerifyCS.VerifyAnalyzerAsync(test, expected);
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var x = {|#0:localizer["Bar"]|};
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     //Diagnostic and CodeFix both triggered and checked for
