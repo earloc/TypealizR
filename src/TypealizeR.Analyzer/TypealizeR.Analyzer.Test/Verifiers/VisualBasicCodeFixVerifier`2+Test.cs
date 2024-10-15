@@ -3,14 +3,13 @@ using Microsoft.CodeAnalysis.Diagnostics;
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using Microsoft.CodeAnalysis.VisualBasic.Testing;
 
-namespace TypealizeR.Analyzer.Test
+namespace TypealizeR.Analyzer.Tests;
+
+public static partial class VisualBasicCodeFixVerifier<TAnalyzer, TCodeFix>
+    where TAnalyzer : DiagnosticAnalyzer, new()
+    where TCodeFix : CodeFixProvider, new()
 {
-    public static partial class VisualBasicCodeFixVerifier<TAnalyzer, TCodeFix>
-        where TAnalyzer : DiagnosticAnalyzer, new()
-        where TCodeFix : CodeFixProvider, new()
+    public class Test : VisualBasicCodeFixTest<TAnalyzer, TCodeFix, MSTestVerifier>
     {
-        public class Test : VisualBasicCodeFixTest<TAnalyzer, TCodeFix, MSTestVerifier>
-        {
-        }
     }
 }
