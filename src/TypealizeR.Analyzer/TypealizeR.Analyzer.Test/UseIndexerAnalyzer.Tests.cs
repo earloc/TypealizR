@@ -50,7 +50,6 @@ public class UseIndexerAnalyzer_Test
             }
         }
     """;
-    
 
     string interfaceDeclaration = """
         namespace Microsoft.Extensions.Localization {
@@ -119,7 +118,6 @@ public class UseIndexerAnalyzer_Test
         await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    //Diagnostic and CodeFix both triggered and checked for
     [TestMethod]
     public async Task UseIndexSignature_Generic()
     {

@@ -34,7 +34,12 @@ public class TypealizeRAnalyzerCodeFixProvider : CodeFixProvider
     {
         var root = await context.Document.GetSyntaxRootAsync(context.CancellationToken).ConfigureAwait(false);
 
-        var diagnostic = context.Diagnostics.First();
+        var diagnostic = context.Diagnostics.FirstOrDefault();
+        if (diagnostic == null)
+        {
+            return;
+        }
+
         var diagnosticSpan = diagnostic.Location.SourceSpan;
 
         var invocation = root.FindToken(diagnosticSpan.Start).Parent.AncestorsAndSelf().OfType<InvocationExpressionSyntax>().First();

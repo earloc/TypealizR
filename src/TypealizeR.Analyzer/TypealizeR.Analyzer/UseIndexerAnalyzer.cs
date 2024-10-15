@@ -37,23 +37,21 @@ namespace TypealizeR.Analyzer
         }
 
 
-        static string desiredTargetTypeName = typeof(IStringLocalizer).FullName;
+        static readonly string desiredTargetTypeName = typeof(IStringLocalizer).FullName;
         //static string simpleTypeName = $"{nameof(Microsoft)}.{nameof(Microsoft.Extensions)}.{nameof(Microsoft.Extensions.Localization)}.{nameof(IStringLocalizer)}";
 
         private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
         {
             var invocationExpression = (InvocationExpressionSyntax)context.Node;
-            var memberAccessExpression = invocationExpression.Expression as MemberAccessExpressionSyntax;
 
-            if (memberAccessExpression == null)
+            if (!(invocationExpression.Expression is MemberAccessExpressionSyntax memberAccessExpression))
             {
                 return;
             }
 
             var symbolInfo = context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression);
-            var symbol = symbolInfo.Symbol as IParameterSymbol;
 
-            if (symbol == null)
+            if (!(symbolInfo.Symbol is IParameterSymbol symbol))
             {
                 return;
             }

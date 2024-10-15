@@ -61,7 +61,7 @@ namespace TypealizeR.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type names should be all uppercase..
+        ///   Looks up a localized string similar to Preferr index signature.
         /// </summary>
         internal static string AnalyzerDescription {
             get {
@@ -70,7 +70,7 @@ namespace TypealizeR.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type name &apos;{0}&apos; is being called.
+        ///   Looks up a localized string similar to The method signature &apos;{0}&apos; can be expressed as an index signature.
         /// </summary>
         internal static string AnalyzerMessageFormat {
             get {
@@ -79,7 +79,7 @@ namespace TypealizeR.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Type name contains lowercase letters.
+        ///   Looks up a localized string similar to Method signature can be simplified.
         /// </summary>
         internal static string AnalyzerTitle {
             get {
