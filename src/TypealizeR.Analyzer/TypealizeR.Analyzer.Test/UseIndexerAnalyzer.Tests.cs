@@ -1,19 +1,37 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = TypealizeR.Analyzer.Test.CSharpCodeFixVerifier<
+using VerifyCS = TypealizeR.Analyzer.Tests.CSharpCodeFixVerifier<
     TypealizeR.Analyzer.UseIndexerAnalyzer,
     TypealizeR.Analyzer.TypealizeRAnalyzerCodeFixProvider>;
 
-namespace TypealizeR.Analyzer.Test;
+namespace TypealizeR.Analyzer.Tests;
 
 [TestClass]
 public class UseIndexerAnalyzer_Test
 {
     //No diagnostics expected to show up
     [TestMethod]
-    public async Task Emits_NoDiagnostics_ForEmptySyntax()
+    public async Task Emits_NoDiagnostics_For_EmptySyntax()
     {
         var test = @"";
+
+        await VerifyCS.VerifyAnalyzerAsync(test);
+    }
+
+    [TestMethod]
+    public async Task Emits_NoDiagnostics_For_MethodCallSyntax()
+    {
+        var test = $$"""
+            public class Foo {
+                public void Bar() {
+                }
+            }
+            public class FooBar {
+                public FooBar(Foo foo) {
+                    foo.Bar();
+                }
+            }
+        """;
 
         await VerifyCS.VerifyAnalyzerAsync(test);
     }
@@ -72,7 +90,7 @@ public class UseIndexerAnalyzer_Test
 
     //Diagnostic and CodeFix both triggered and checked for
     [TestMethod]
-    public async Task UseIndexer()
+    public async Task UseIndexSignature()
     {
         var code = TestCode("""
             namespace ConsoleApplication1 {
@@ -103,7 +121,7 @@ public class UseIndexerAnalyzer_Test
 
     //Diagnostic and CodeFix both triggered and checked for
     [TestMethod]
-    public async Task UseIndexer_Generic()
+    public async Task UseIndexSignature_Generic()
     {
         var test = TestCode("""
             namespace ConsoleApplication1 {

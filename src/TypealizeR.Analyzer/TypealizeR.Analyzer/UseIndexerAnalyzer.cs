@@ -60,6 +60,7 @@ namespace TypealizeR.Analyzer
 
             if (symbol.Type.Name != nameof(IStringLocalizer))
             {
+                // TODO: also check namespace?
                 return;
             }
 
