@@ -2,20 +2,29 @@
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net6.0</TargetFramework>
+    <TargetFramework>net8.0</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.0" />
-    <PackageReference Include="Microsoft.Extensions.Logging" Version="7.0.0" />
-    <PackageReference Include="TypealizR" Version="0.9.2-pre0008">
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
+    <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.10" />
+    <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
+    <PackageReference Include="TypealizR" Version="0.9.9">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.9.2-pre0008" />
+    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.9.9" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="TypealizeR.Analyzer" OutputItemType="Analyzer" ReferenceOutputAssembly="false" AdditionalProperties="TargetFramework=netstandard2.0">
+      <HintPath>..\..\src\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\bin\Debug\netstandard2.0\TypealizeR.Analyzer.dll</HintPath>
+    </Reference>
+    <Reference Include="TypealizeR.Analyzer.CodeFixes" OutputItemType="Analyzer" ReferenceOutputAssembly="false" AdditionalProperties="TargetFramework=netstandard2.0">
+      <HintPath>..\..\src\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\bin\Debug\netstandard2.0\TypealizeR.Analyzer.CodeFixes.dll</HintPath>
+    </Reference>
   </ItemGroup>
 
   <ItemGroup>
