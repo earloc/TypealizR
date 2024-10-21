@@ -1,16 +1,18 @@
 ﻿{
   Diagnostics: [
     {
-      Id: TR0001,
-      Title: TargetProjectRootDirectoryNotFound,
-      Severity: Error,
-      WarningLevel: 0,
-      Location: : (0,0)-(0,0),
-      Description: Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden,
-      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0001_TargetProjectRootDirectoryNotFound.md,
-      MessageFormat: Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden. Siehe {0},
       Message: Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden. Siehe https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0001_TargetProjectRootDirectoryNotFound.md,
-      Category: Project
+      Severity: Error,
+      Descriptor: {
+        Id: TR0001,
+        Title: TargetProjectRootDirectoryNotFound,
+        Description: Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden,
+        HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0001_TargetProjectRootDirectoryNotFound.md,
+        MessageFormat: Der Quellcodegenerator konnte das Basisverzeichnis des Projektes nicht finden. Siehe {0},
+        Category: Project,
+        DefaultSeverity: Error,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }
