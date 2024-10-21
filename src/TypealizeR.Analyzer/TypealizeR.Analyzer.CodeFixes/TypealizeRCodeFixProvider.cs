@@ -10,11 +10,13 @@ using Microsoft.CodeAnalysis.CodeFixes;
 
 namespace TypealizeR.Analyzer;
 
+internal delegate ICodeFixer CodeFixerFactory(SyntaxNode root, Diagnostic diagnostic);
+
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypealizeRCodeFixProvider)), Shared]
 public class TypealizeRCodeFixProvider : CodeFixProvider
 {
 
-    private readonly Dictionary<string, Func<SyntaxNode, Diagnostic, ICodeFixer>> codeFixers = new()
+    private readonly Dictionary<string, CodeFixerFactory> codeFixers = new()
     {
         { UseIndexerAnalyzer.DiagnosticId, (root, diagnostics) => new UseIndexerCodeFixer(root, diagnostics) }
     };
