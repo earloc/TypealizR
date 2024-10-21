@@ -2,7 +2,7 @@
 using Microsoft.VisualStudio.TestTools.UnitTesting;
 using VerifyCS = TypealizeR.Analyzer.Tests.CSharpCodeFixVerifier<
     TypealizeR.Analyzer.UseIndexerAnalyzer,
-    TypealizeR.Analyzer.TypealizeRAnalyzerCodeFixProvider>;
+    TypealizeR.Analyzer.TypealizeRCodeFixProvider>;
 
 namespace TypealizeR.Analyzer.Tests;
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Composition;
 using System.Linq;
-using System.Reflection.Metadata;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
@@ -11,13 +10,11 @@ using Microsoft.CodeAnalysis.CodeFixes;
 
 namespace TypealizeR.Analyzer;
 
-delegate ICodeFixer CodeFixerFactory(SyntaxNode root, Diagnostic diagnostic);
-
 [ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypealizeRCodeFixProvider)), Shared]
 public class TypealizeRCodeFixProvider : CodeFixProvider
 {
 
-    private readonly Dictionary<string, CodeFixerFactory> codeFixes = new()
+    private readonly Dictionary<string, Func<SyntaxNode, Diagnostic, ICodeFixer>> codeFixers = new()
     {
         { UseIndexerAnalyzer.DiagnosticId, (root, diagnostics) => new UseIndexerCodeFixer(root, diagnostics) }
     };
@@ -43,7 +40,7 @@ public class TypealizeRCodeFixProvider : CodeFixProvider
             return;
         }
 
-        if (!codeFixes.TryGetValue(diagnostic.Id, out CodeFixerFactory createCodeFixer))
+        if (!codeFixers.TryGetValue(diagnostic.Id, out CodeFixerFactory createCodeFixer))
         {
             return;
         }
