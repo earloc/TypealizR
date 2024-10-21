@@ -58,18 +58,18 @@ namespace TypealizeR.Analyzer
             //    return;
             //}
 
-            if (!(symbolInfo.Symbol is IParameterSymbol symbol))
+            if (!(symbolInfo.Symbol is IMethodSymbol symbol))
             {
                 return;
             }
 
-            if (symbol.Type.Name != targetTypeName)
+            if (symbol.ReturnType.Name != targetTypeName)
             {
                 // TODO: also check namespace?
                 return;
             }
 
-            var currentTargetTypeName = symbol.Type.ToDisplayString();
+            var currentTargetTypeName = symbol.ReturnType.ToDisplayString();
 
             var currentTargetNonGenericTypeName = currentTargetTypeName.Trim('?').Split('<')[0];
 

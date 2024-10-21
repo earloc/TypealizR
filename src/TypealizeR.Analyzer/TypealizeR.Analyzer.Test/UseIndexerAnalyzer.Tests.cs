@@ -88,9 +88,8 @@ public class UseIndexerAnalyzer_Test
         return test;
     }
 
-    //Diagnostic and CodeFix both triggered and checked for
     [TestMethod]
-    public async Task UseIndexSignature()
+    public async Task UseIndexSignature_OnParameter()
     {
         var code = TestCode("""
             namespace ConsoleApplication1 {
@@ -119,7 +118,116 @@ public class UseIndexerAnalyzer_Test
         await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    //Diagnostic and CodeFix both triggered and checked for
+    [TestMethod]
+    public async Task UseIndexSignature_OnLocal()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo() {
+                        var localizer = GetLocalizer();
+                        var x = {|#0:localizer.Bar|}();
+                    }
+
+                    private IStringLocalizer GetLocalizer() {
+                        return null;
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo() {
+                        var localizer = GetLocalizer();
+                        var x = {|#0:localizer["Bar"]|};
+                    }
+
+                    private IStringLocalizer GetLocalizer() {
+                        return null;
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
+    [TestMethod]
+    public async Task UseIndexSignature_OnProperty()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public IStringLocalizer Localizer { get; set; }
+                    public Foo() {
+                        var x = {|#0:Localizer.Bar|}();
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public IStringLocalizer Localizer { get; set; }
+                    public Foo() {
+                        var x = {|#0:Localizer["Bar"]|};
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
+    [TestMethod]
+    public async Task UseIndexSignature_OnMethod()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo() {
+                        var x = {|#0:GetLocalizer().Bar|}();
+                    }
+
+                    private IStringLocalizer GetLocalizer() {
+                        return null;
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo() {
+                        var x = {|#0:GetLocalizer["Bar"]|};
+                    }
+
+                    private IStringLocalizer GetLocalizer() {
+                        return null;
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
     [TestMethod]
     public async Task UseIndexSignature_WithParameter_Literal_1()
     {

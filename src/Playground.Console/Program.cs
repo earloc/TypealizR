@@ -35,7 +35,6 @@ var genericLocalizer = provider.GetRequiredService<IStringLocalizer>();
 var customNamespace = provider.GetRequiredService<IStringLocalizer<CustomNameSpace>>();
 Console.WriteLine(customNamespace.Hello());
 
-
 var greeter = provider.GetRequiredService<Greeter>();
 
 greeter.SayHello(arthur);
