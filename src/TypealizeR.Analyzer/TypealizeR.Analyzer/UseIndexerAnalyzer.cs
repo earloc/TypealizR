@@ -4,7 +4,6 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Diagnostics;
-using Microsoft.Extensions.Localization;
 
 namespace TypealizeR.Analyzer
 {
@@ -37,7 +36,10 @@ namespace TypealizeR.Analyzer
         }
 
 
-        static readonly string desiredTargetTypeName = typeof(IStringLocalizer).FullName;
+        const string targetTypeName = "IStringLocalizer";
+        const string targetNameSpace = "Microsoft.Extensions.Localization";
+        static string targetTypeFullName = $"{targetNameSpace}.{targetTypeName}";
+
         //static string simpleTypeName = $"{nameof(Microsoft)}.{nameof(Microsoft.Extensions)}.{nameof(Microsoft.Extensions.Localization)}.{nameof(IStringLocalizer)}";
 
         private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
@@ -56,7 +58,7 @@ namespace TypealizeR.Analyzer
                 return;
             }
 
-            if (symbol.Type.Name != nameof(IStringLocalizer))
+            if (symbol.Type.Name != targetTypeName)
             {
                 // TODO: also check namespace?
                 return;
@@ -66,7 +68,7 @@ namespace TypealizeR.Analyzer
 
             var currentTargetNonGenericTypeName = currentTargetTypeName.Split('<')[0];
 
-            if (currentTargetNonGenericTypeName != desiredTargetTypeName)
+            if (currentTargetNonGenericTypeName != targetTypeFullName)
             {
                 return;
             }

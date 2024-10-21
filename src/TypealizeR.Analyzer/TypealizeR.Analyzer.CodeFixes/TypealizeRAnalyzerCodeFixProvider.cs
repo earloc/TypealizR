@@ -12,7 +12,6 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.Rename;
 using Microsoft.CodeAnalysis.Text;
-using Microsoft.Extensions.Localization;
 
 namespace TypealizeR.Analyzer;
 
@@ -21,7 +20,7 @@ public class TypealizeRAnalyzerCodeFixProvider : CodeFixProvider
 {
     public sealed override ImmutableArray<string> FixableDiagnosticIds
     {
-        get { return ImmutableArray.Create(UseIndexerAnalyzer.DiagnosticId); }
+        get { return [UseIndexerAnalyzer.DiagnosticId]; }
     }
 
     public sealed override FixAllProvider GetFixAllProvider()

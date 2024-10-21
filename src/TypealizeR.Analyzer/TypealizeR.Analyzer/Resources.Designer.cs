@@ -61,7 +61,7 @@ namespace TypealizeR.Analyzer {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Preferr index signature.
+        ///   Looks up a localized string similar to Preferr index signature!.
         /// </summary>
         internal static string AnalyzerDescription {
             get {

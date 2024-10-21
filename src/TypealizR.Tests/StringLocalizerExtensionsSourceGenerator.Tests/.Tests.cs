@@ -5,7 +5,6 @@ using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
 
-[UsesVerify]
 public class StringLocalizerExtensionsSourceGenerator_Tests
 {
     private const string BaseDirectory = "../../../StringLocalizerExtensionsSourceGenerator.Tests";
