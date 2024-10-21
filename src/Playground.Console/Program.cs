@@ -8,7 +8,6 @@ using Playground.Common;
 using Playground.Common.Groups;
 using Playground.Common.Groups.TypealizR;
 using Playground.Common.NoCodeGen;
-using System.Runtime.InteropServices;
 
 const string arthur = "Arthur";
 const string chewbacca = "Chewbacca";
@@ -43,6 +42,10 @@ greeter.SayHello(arthur);
 greeter.SayHelloPublic(arthur);
 
 var internalLocalizable = provider.GetRequiredService<IStringLocalizer<InternalClass>>();
+
+
+Console.WriteLine(internalLocalizable.Hello());
+
 Console.WriteLine(internalLocalizable.Hello__name(arthur));
 
 

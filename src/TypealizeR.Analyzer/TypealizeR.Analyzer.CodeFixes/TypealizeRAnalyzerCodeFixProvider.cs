@@ -70,7 +70,13 @@ public class TypealizeRAnalyzerCodeFixProvider : CodeFixProvider
 
         var parentName = parentSyntax.Identifier.Text;
 
+        var arguments = string.Join(", ", invocationSyntax.ArgumentList.Arguments.Select(_ => _.ToString()).ToArray());
+
         var indexSignatureCode = $"""{parentName}["{memberName}"]""";
+        if (!string.IsNullOrEmpty(arguments))
+        {
+            indexSignatureCode = $"""{parentName}["{memberName}", {arguments}]""";
+        }
         var indexSignatureSyntax = SyntaxFactory.ParseExpression(indexSignatureCode);
 
         var root = await document.GetSyntaxRootAsync(cancellationToken);

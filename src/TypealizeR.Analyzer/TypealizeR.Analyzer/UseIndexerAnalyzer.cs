@@ -38,7 +38,7 @@ namespace TypealizeR.Analyzer
 
         const string targetTypeName = "IStringLocalizer";
         const string targetNameSpace = "Microsoft.Extensions.Localization";
-        static string targetTypeFullName = $"{targetNameSpace}.{targetTypeName}";
+        static readonly string targetTypeFullName = $"{targetNameSpace}.{targetTypeName}";
 
         //static string simpleTypeName = $"{nameof(Microsoft)}.{nameof(Microsoft.Extensions)}.{nameof(Microsoft.Extensions.Localization)}.{nameof(IStringLocalizer)}";
 
@@ -53,6 +53,11 @@ namespace TypealizeR.Analyzer
 
             var symbolInfo = context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression);
 
+            //if (!(symbolInfo.Symbol is ILocalSymbol symbol))
+            //{
+            //    return;
+            //}
+
             if (!(symbolInfo.Symbol is IParameterSymbol symbol))
             {
                 return;
@@ -66,7 +71,7 @@ namespace TypealizeR.Analyzer
 
             var currentTargetTypeName = symbol.Type.ToDisplayString();
 
-            var currentTargetNonGenericTypeName = currentTargetTypeName.Split('<')[0];
+            var currentTargetNonGenericTypeName = currentTargetTypeName.Trim('?').Split('<')[0];
 
             if (currentTargetNonGenericTypeName != targetTypeFullName)
             {

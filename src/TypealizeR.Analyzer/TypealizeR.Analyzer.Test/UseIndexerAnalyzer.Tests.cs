@@ -36,7 +36,7 @@ public class UseIndexerAnalyzer_Test
         await VerifyCS.VerifyAnalyzerAsync(test);
     }
 
-    string typeDeclarations = """
+    readonly string typeDeclarations = """
 
         public class Foo {
         }
@@ -51,7 +51,7 @@ public class UseIndexerAnalyzer_Test
         }
     """;
 
-    string interfaceDeclaration = """
+    readonly string interfaceDeclaration = """
         namespace Microsoft.Extensions.Localization {
             public interface IStringLocalizer {
                 LocalizedString this[string name] { get; }
@@ -63,10 +63,11 @@ public class UseIndexerAnalyzer_Test
         }
     """;
 
-    string generatedExtension = """
+    readonly string generatedExtension = """
         namespace Microsoft.Extensions.Localization {
             public static class IStringLocalizerExtensions {
                 public static LocalizedString Bar(this IStringLocalizer that) => that[nameof(Bar)];
+                public static LocalizedString Bar_With_Foo(this IStringLocalizer that, string foo, string bar = "bar") => that[nameof(Bar), foo];
                 public static LocalizedString FooBar(this IStringLocalizer<Foo> that) => that[nameof(Bar)];
             }
         }
@@ -110,6 +111,131 @@ public class UseIndexerAnalyzer_Test
                 {   
                     public Foo(IStringLocalizer localizer) {
                         var x = {|#0:localizer["Bar"]|};
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
+    //Diagnostic and CodeFix both triggered and checked for
+    [TestMethod]
+    public async Task UseIndexSignature_WithParameter_Literal_1()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var x = {|#0:localizer.Bar_With_Foo|}("foo");
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var x = {|#0:localizer["Bar_With_Foo", "foo"]|};
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
+    [TestMethod]
+    public async Task UseIndexSignature_WithParameter_Literal_2()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var x = {|#0:localizer.Bar_With_Foo|}("foo", "bar");
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var x = {|#0:localizer["Bar_With_Foo", "foo", "bar"]|};
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
+    [TestMethod]
+    public async Task UseIndexSignature_WithParameter_Local_1()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var s = "foo";
+                        var x = {|#0:localizer.Bar_With_Foo|}(s);
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var s = "foo";
+                        var x = {|#0:localizer["Bar_With_Foo", s]|};
+                    }
+                }
+            }
+        """);
+
+        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+    }
+
+    [TestMethod]
+    public async Task UseIndexSignature_WithParameter_Local_2()
+    {
+        var code = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var s = "foo";
+                        var x = {|#0:localizer.Bar_With_Foo|}(s, "bar");
+                    }
+                }
+            }
+        """);
+
+        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+
+        var expectedCode = TestCode("""
+            namespace ConsoleApplication1 {
+                public class Foo
+                {   
+                    public Foo(IStringLocalizer localizer) {
+                        var s = "foo";
+                        var x = {|#0:localizer["Bar_With_Foo", s, "bar"]|};
                     }
                 }
             }
