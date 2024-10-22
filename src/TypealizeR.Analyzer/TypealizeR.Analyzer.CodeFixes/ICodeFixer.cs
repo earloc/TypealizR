@@ -3,7 +3,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Document = Microsoft.CodeAnalysis.Document;
 
-namespace TypealizeR.Analyzer;
+namespace TypealizeR.Analyzers;
 
 internal interface ICodeFixer
 {

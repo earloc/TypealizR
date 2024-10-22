@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>netstandard2.0</TargetFramework>
@@ -8,7 +8,7 @@
   </PropertyGroup>
 
   <PropertyGroup>
-    <PackageId>TypealizeR.Analyzer</PackageId>
+    <PackageId>TypealizeR.Analyzers</PackageId>
     <PackageVersion>1.0.0.0</PackageVersion>
     <Authors>earloc</Authors>
     <PackageLicenseUrl>http://LICENSE_URL_HERE_OR_DELETE_THIS_LINE</PackageLicenseUrl>
@@ -16,10 +16,10 @@
     <PackageIconUrl>http://ICON_URL_HERE_OR_DELETE_THIS_LINE</PackageIconUrl>
     <RepositoryUrl>http://REPOSITORY_URL_HERE_OR_DELETE_THIS_LINE</RepositoryUrl>
     <PackageRequireLicenseAcceptance>false</PackageRequireLicenseAcceptance>
-    <Description>TypealizeR.Analyzer</Description>
+    <Description>TypealizeR.Analyzers</Description>
     <PackageReleaseNotes>Summary of changes made in this release of the package.</PackageReleaseNotes>
     <Copyright>Copyright</Copyright>
-    <PackageTags>TypealizeR.Analyzer, analyzers</PackageTags>
+    <PackageTags>TypealizeR.Analyzers, analyzers, TypealizeR, ResX</PackageTags>
     <DevelopmentDependency>true</DevelopmentDependency>
     <NoPackageAnalysis>true</NoPackageAnalysis>
 
@@ -27,8 +27,8 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzer.CodeFixes.csproj" />
-    <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzer.csproj" />
+    <ProjectReference Include="..\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" />
+    <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
@@ -37,7 +37,7 @@
 
   <Target Name="_AddAnalyzersToOutput">
     <ItemGroup>
-      <TfmSpecificPackageFile Include="$(OutputPath)\TypealizeR.Analyzer.dll" PackagePath="analyzers/dotnet/cs" />
+      <TfmSpecificPackageFile Include="$(OutputPath)\TypealizeR.Analyzers.dll" PackagePath="analyzers/dotnet/cs" />
       <TfmSpecificPackageFile Include="$(OutputPath)\TypealizeR.Analyzer.CodeFixes.dll" PackagePath="analyzers/dotnet/cs" />
     </ItemGroup>
   </Target>

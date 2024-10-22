@@ -2,7 +2,7 @@
 using Microsoft.CodeAnalysis.Testing.Verifiers;
 using Microsoft.CodeAnalysis.VisualBasic.Testing;
 
-namespace TypealizeR.Analyzer.Tests;
+namespace TypealizeR.Analyzers.Tests;
 
 public static partial class VisualBasicAnalyzerVerifier<TAnalyzer>
     where TAnalyzer : DiagnosticAnalyzer, new()

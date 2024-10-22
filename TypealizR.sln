@@ -26,17 +26,17 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Common", "src\Playground.Common\Playground.Common.csproj", "{0E9B0505-3680-40A2-A0AC-31C9117D1A24}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzer", "src\TypealizeR.Analyzer\TypealizeR.Analyzer\TypealizeR.Analyzer.csproj", "{194C14A7-408B-4436-B4C7-6B06FFC6D731}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers", "src\TypealizeR.Analyzer\TypealizeR.Analyzer\TypealizeR.Analyzers.csproj", "{194C14A7-408B-4436-B4C7-6B06FFC6D731}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzer.CodeFixes", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzer.CodeFixes.csproj", "{62186A65-A71D-4A7C-83EA-BCF13FDCB9E9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers.CodeFixes", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj", "{62186A65-A71D-4A7C-83EA-BCF13FDCB9E9}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzer.Package", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.Package\TypealizeR.Analyzer.Package.csproj", "{CDB319D2-4654-4109-9E40-08871D16ED8B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers.Package", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.Package\TypealizeR.Analyzers.Package.csproj", "{CDB319D2-4654-4109-9E40-08871D16ED8B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzer.Tests", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.Test\TypealizeR.Analyzer.Tests.csproj", "{923F61EA-544B-41A0-A9F9-C506D2B4BE6B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers.Tests", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.Test\TypealizeR.Analyzers.Tests.csproj", "{923F61EA-544B-41A0-A9F9-C506D2B4BE6B}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzer.Vsix", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.Vsix\TypealizeR.Analyzer.Vsix.csproj", "{0ACB8B8A-11AC-4A6B-B923-49DDE2A98C48}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers.Vsix", "src\TypealizeR.Analyzer\TypealizeR.Analyzer.Vsix\TypealizeR.Analyzers.Vsix.csproj", "{0ACB8B8A-11AC-4A6B-B923-49DDE2A98C48}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzer", "Analyzer", "{9E311478-C17A-4D93-90BE-D94993A7020D}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Analyzers", "Analyzers", "{9E311478-C17A-4D93-90BE-D94993A7020D}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution

@@ -8,7 +8,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 
-namespace TypealizeR.Analyzer;
+namespace TypealizeR.Analyzers;
 
 internal delegate ICodeFixer CodeFixerFactory(SyntaxNode root, Diagnostic diagnostic);
 

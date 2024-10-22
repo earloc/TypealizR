@@ -1,10 +1,10 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = TypealizeR.Analyzer.Tests.CSharpCodeFixVerifier<
-    TypealizeR.Analyzer.UseIndexerAnalyzer,
-    TypealizeR.Analyzer.TypealizeRCodeFixProvider>;
+using VerifyCS = TypealizeR.Analyzers.Tests.CSharpCodeFixVerifier<
+    TypealizeR.Analyzers.UseIndexerAnalyzer,
+    TypealizeR.Analyzers.TypealizeRCodeFixProvider>;
 
-namespace TypealizeR.Analyzer.Tests;
+namespace TypealizeR.Analyzers.Tests;
 
 [TestClass]
 public class UseIndexerAnalyzer_Test

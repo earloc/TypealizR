@@ -8,7 +8,7 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-namespace TypealizeR.Analyzer {
+namespace TypealizeR.Analyzers {
     using System;
     
     
@@ -39,7 +39,7 @@ namespace TypealizeR.Analyzer {
         internal static global::System.Resources.ResourceManager ResourceManager {
             get {
                 if (object.ReferenceEquals(resourceMan, null)) {
-                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TypealizeR.Analyzer.CodeFixResources", typeof(CodeFixResources).Assembly);
+                    global::System.Resources.ResourceManager temp = new global::System.Resources.ResourceManager("TypealizeR.Analyzers.CodeFixResources", typeof(CodeFixResources).Assembly);
                     resourceMan = temp;
                 }
                 return resourceMan;

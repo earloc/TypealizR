@@ -11,8 +11,8 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
-        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzer.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzer\TypealizeR.Analyzer.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzer\TypealizeR.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
     </ItemGroup>
 

@@ -3,7 +3,7 @@
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <IsPackable>false</IsPackable>
-        <RootNamespace>TypealizeR.Analyzer</RootNamespace>
+        <RootNamespace>TypealizeR.Analyzers</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzer.csproj" />
+        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzers.csproj" />
     </ItemGroup>
 
     <ItemGroup>

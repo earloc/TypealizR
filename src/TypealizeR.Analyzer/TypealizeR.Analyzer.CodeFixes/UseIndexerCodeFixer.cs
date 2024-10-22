@@ -6,7 +6,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Document = Microsoft.CodeAnalysis.Document;
 
-namespace TypealizeR.Analyzer;
+namespace TypealizeR.Analyzers;
 
 public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICodeFixer<InvocationExpressionSyntax>
 {
