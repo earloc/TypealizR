@@ -12,7 +12,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzers.csproj" />
+        <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" />
     </ItemGroup>
 
     <ItemGroup>

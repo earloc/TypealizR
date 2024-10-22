@@ -33,8 +33,8 @@
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
 
   <ItemGroup>
-    <ProjectReference Include="..\TypealizeR.Analyzer.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" />
-    <ProjectReference Include="..\TypealizeR.Analyzer\TypealizeR.Analyzers.csproj" />
+    <ProjectReference Include="..\TypealizeR.Analyzers.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" />
+    <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" />
   </ItemGroup>
 
   <ItemGroup>
