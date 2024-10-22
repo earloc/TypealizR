@@ -1,8 +1,9 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using VerifyCS = TypealizeR.Analyzers.Tests.CSharpCodeFixVerifier<
+using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
     TypealizeR.Analyzers.UseIndexerAnalyzer,
-    TypealizeR.Analyzers.TypealizeRCodeFixProvider>;
+    TypealizeR.Analyzers.TypealizeRCodeFixProvider,
+    Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
 
 namespace TypealizeR.Analyzers.Tests;
 
@@ -15,7 +16,7 @@ public class UseIndexerAnalyzer_Test
     {
         var test = @"";
 
-        await VerifyCS.VerifyAnalyzerAsync(test);
+        await Verify.VerifyAnalyzerAsync(test);
     }
 
     [TestMethod]
@@ -33,7 +34,7 @@ public class UseIndexerAnalyzer_Test
             }
         """;
 
-        await VerifyCS.VerifyAnalyzerAsync(test);
+        await Verify.VerifyAnalyzerAsync(test);
     }
 
     readonly string typeDeclarations = """
@@ -102,7 +103,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -115,7 +116,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -137,7 +138,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -155,7 +156,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -173,7 +174,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -187,7 +188,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -208,7 +209,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -225,7 +226,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -242,7 +243,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -255,7 +256,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -272,7 +273,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -285,7 +286,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -303,7 +304,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -317,7 +318,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -335,7 +336,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -349,7 +350,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        await VerifyCS.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
+        await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
     [TestMethod]
@@ -366,7 +367,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expected = VerifyCS.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
-        await VerifyCS.VerifyAnalyzerAsync(test, expected);
+        var expected = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        await Verify.VerifyAnalyzerAsync(test, expected);
     }
 }

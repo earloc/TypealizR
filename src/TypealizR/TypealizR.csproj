@@ -13,8 +13,8 @@
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     </PropertyGroup>
     <PropertyGroup>
-        <IsPackable>true</IsPackable>
         <PackageId>TypealizR</PackageId>
+        <IsPackable>true</IsPackable>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>TypealizR</Title>
         <Authors>earloc</Authors>
