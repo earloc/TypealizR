@@ -191,7 +191,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    //TODO: support method-syntax
+    //#226 [Analyzer] [UseIndexerAnalyzer] support method syntaxes
     //[TestMethod]
     //public async Task UseIndexSignature_OnMethod()
     //{

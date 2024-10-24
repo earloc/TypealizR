@@ -29,7 +29,7 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
         var memberSyntax = Root.Expression switch
         {
             MemberAccessExpressionSyntax x => x.Expression as IdentifierNameSyntax,
-            //TODO: support method-syntax
+            //#226 [Analyzer] [UseIndexerAnalyzer] support method syntaxes
             _ => null
         };
 
