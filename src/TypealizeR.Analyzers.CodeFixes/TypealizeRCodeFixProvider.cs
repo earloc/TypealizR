@@ -47,8 +47,6 @@ public class TypealizeRCodeFixProvider : CodeFixProvider
             return;
         }
 
-        var diagnosticSpan = diagnostic.Location.SourceSpan;
-
         // Register a code action that will invoke the fix.
         context.RegisterCodeFix(
             CodeAction.Create(
