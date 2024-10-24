@@ -73,8 +73,6 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
             return source;
         }
 
-       
-
         var stringLocalizerInstanceName = memberSyntax.Identifier.Text;
 
         var arguments = string.Join(", ", Root.ArgumentList.Arguments.Select(_ => _.ToString()).ToArray());
@@ -86,7 +84,6 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
         }
         var indexSignatureSyntax = SyntaxFactory.ParseExpression(indexSignatureCode);
 
-        var root = await source.GetSyntaxRootAsync(cancellationToken);
         var newRoot = root.ReplaceNode(Root, indexSignatureSyntax);
 
         return source.WithSyntaxRoot(newRoot);

@@ -102,6 +102,9 @@ Console.WriteLine(
 );
 
 
+
+
+
 //analyzer samples
 var localizer = provider.GetRequiredService<IStringLocalizer>();
 
