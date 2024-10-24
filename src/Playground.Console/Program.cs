@@ -31,8 +31,6 @@ Console.WriteLine(typealized.Questions.What_to_do__now(DateTime.Now));
 
 services.AddSingleton<Greeter, Greeter>();
 
-var genericLocalizer = provider.GetRequiredService<IStringLocalizer>();
-
 var customNamespace = provider.GetRequiredService<IStringLocalizer<CustomNameSpace>>();
 Console.WriteLine(customNamespace.Hello());
 
