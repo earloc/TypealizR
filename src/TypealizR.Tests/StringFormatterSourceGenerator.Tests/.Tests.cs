@@ -2,7 +2,6 @@
 
 namespace TypealizR.Tests;
 
-[UsesVerify]
 public class StringFormatterSourceGenerator_Tests
 {
     private const string BaseDirectory = "../../../StringFormatterSourceGenerator.Tests";

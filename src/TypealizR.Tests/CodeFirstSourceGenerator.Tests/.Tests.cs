@@ -2,7 +2,6 @@
 
 namespace TypealizR.Tests;
 
-[UsesVerify]
 public class CodeFirstSourceGenerator_Tests
 {
     private const string BaseDirectory = "../../../CodeFirstSourceGenerator.Tests";
