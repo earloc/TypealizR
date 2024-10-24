@@ -30,17 +30,9 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.None);
         context.EnableConcurrentExecution();
 
-        // TODO: Consider registering other actions that act on syntax instead of or in addition to symbols
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
         context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.InvocationExpression);
     }
-
-
-    const string targetTypeName = "IStringLocalizer";
-    const string targetNameSpace = "Microsoft.Extensions.Localization";
-    const string targetTypeFullName = $"{targetNameSpace}.{targetTypeName}";
-
-    //static string simpleTypeName = $"{nameof(Microsoft)}.{nameof(Microsoft.Extensions)}.{nameof(Microsoft.Extensions.Localization)}.{nameof(IStringLocalizer)}";
 
     private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
@@ -55,35 +47,48 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var symbolInfo = context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression);
+        var targetSymbolName = GetTargetSymbolName(context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression));
 
-        //if (!(symbolInfo.Symbol is ILocalSymbol symbol))
-        //{
-        //    return;
-        //}
-
-        if (symbolInfo.Symbol is not ILocalSymbol symbol)
+        if (string.IsNullOrEmpty(targetSymbolName))
         {
             return;
         }
 
-        if (symbol.Type.Name != targetTypeName)
-        {
-            // TODO: also check namespace?
-            return;
-        }
-
-        var currentTargetTypeName = symbol.Type.ToDisplayString();
-
-        var currentTargetNonGenericTypeName = currentTargetTypeName.Trim('?').Split('<')[0];
-
-        if (currentTargetNonGenericTypeName != targetTypeFullName)
-        {
-            return;
-        }
-
-        var diagnostic = Diagnostic.Create(Rule, memberAccessExpression.GetLocation(), memberAccessExpression.Name, symbol.Name);
+        var diagnostic = Diagnostic.Create(Rule, memberAccessExpression.GetLocation(), memberAccessExpression.Name, targetSymbolName);
         context.ReportDiagnostic(diagnostic);
+    }
+
+    const string wantedNameSpace = "Microsoft.Extensions.Localization";
+    const string wantedTypeName = "IStringLocalizer";
+    const string wantedTypeFullName = $"{wantedNameSpace}.{wantedTypeName}";
+
+    private static string? GetTargetSymbolName(SymbolInfo symbolInfo)
+    {
+        if (symbolInfo.Symbol is null)
+        {
+            return null;
+        }
+
+        var displayName = symbolInfo.Symbol switch
+        {
+            ILocalSymbol symbol => symbol.Type.ToDisplayString(),
+            _ => null
+        };
+
+        if (displayName is null)
+        {
+            return null;
+        }
+
+        //var displayName = symbol.Type.ToDisplayString();
+        var nonGenericDisplayName = displayName.Trim('?').Split('<')[0];
+
+        if (nonGenericDisplayName != wantedTypeFullName)
+        {
+            return null;
+        }
+
+        return symbolInfo.Symbol.Name;
     }
 }
 
