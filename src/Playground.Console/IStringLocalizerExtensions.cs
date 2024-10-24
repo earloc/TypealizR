@@ -1,7 +1,7 @@
 ﻿using Microsoft.Extensions.Localization;
 
 namespace Playground.Console;
-public static class IStringLocalizerExtensions
+internal static class IStringLocalizerExtensions
 {
     public static LocalizedString Bar(this IStringLocalizer that) => that["Bar"];
     public static LocalizedString Bar(this IStringLocalizer that, string value) => that["Bar", value];
