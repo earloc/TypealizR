@@ -47,7 +47,7 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var targetSymbolName = GetTargetSymbolName(context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression));
+        var targetSymbolName = EnsureWantedSymbolName(context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression));
 
         if (string.IsNullOrEmpty(targetSymbolName))
         {
@@ -62,7 +62,7 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
     const string wantedTypeName = "IStringLocalizer";
     const string wantedTypeFullName = $"{wantedNameSpace}.{wantedTypeName}";
 
-    private static string? GetTargetSymbolName(SymbolInfo symbolInfo)
+    private static string? EnsureWantedSymbolName(SymbolInfo symbolInfo)
     {
         if (symbolInfo.Symbol is null)
         {
