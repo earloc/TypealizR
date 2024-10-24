@@ -1,0 +1,15 @@
+{
+  "name": "typealizr",
+  "version": "1.0.0",
+  "description": "[![build](https://github.com/earloc/TypealizR/actions/workflows/build.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/build.yml)\r [![Coverage Status](https://coveralls.io/repos/github/earloc/TypealizR/badge.svg?branch=main&q=1)](https://coveralls.io/github/earloc/TypealizR?branch=main)\r [![CodeQL](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/codeql.yml)\r [![Publish](https://github.com/earloc/TypealizR/actions/workflows/publish.yml/badge.svg)](https://github.com/earloc/TypealizR/actions/workflows/publish.yml)",
+  "main": "index.js",
+  "directories": {
+    "doc": "docs"
+  },
+    "scripts": {
+        "test": "echo \"Error: no test specified\" && exit 1",
+        "roslyn": "explorer %LOCALAPPDATA%\\Microsoft\\VisualStudio"
+    },
+  "author": "",
+  "license": "ISC"
+}
