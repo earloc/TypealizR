@@ -25,10 +25,25 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
         }
 
         var semanticModel = await source.GetSemanticModelAsync(cancellationToken).ConfigureAwait(false);
-        if (Root.Expression is not MemberAccessExpressionSyntax memberSyntax)
+
+        var memberSyntax = Root.Expression switch
+        {
+            MemberAccessExpressionSyntax x => x.Expression as IdentifierNameSyntax,
+            //TODO: support method-syntax
+            _ => null
+        };
+
+        if (memberSyntax is null)
         {
             return source;
         }
+
+        var parentTypeInfo = semanticModel.GetTypeInfo(memberSyntax, cancellationToken);
+        if (parentTypeInfo.Type is null)
+        {
+            return source;
+        }
+
 
         var rootSymbolInfo = semanticModel.GetSymbolInfo(Root, cancellationToken);
         if (rootSymbolInfo.Symbol is not IMethodSymbol rootMethodSymbol)
@@ -58,18 +73,9 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
             return source;
         }
 
-        if (memberSyntax.Expression is not IdentifierNameSyntax parentSyntax)
-        {
-            return source;
-        }
+       
 
-        var parentTypeInfo = semanticModel.GetTypeInfo(parentSyntax, cancellationToken);
-        if (parentTypeInfo.Type is null)
-        {
-            return source;
-        }
-
-        var stringLocalizerInstanceName = parentSyntax.Identifier.Text;
+        var stringLocalizerInstanceName = memberSyntax.Identifier.Text;
 
         var arguments = string.Join(", ", Root.ArgumentList.Arguments.Select(_ => _.ToString()).ToArray());
 
