@@ -71,7 +71,10 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
 
         var displayName = symbolInfo.Symbol switch
         {
-            ILocalSymbol symbol => symbol.Type.ToDisplayString(),
+            ILocalSymbol x => x.Type.ToDisplayString(),
+            IMethodSymbol x => x.ReturnType.ToDisplayString(),
+            IPropertySymbol x => x.Type.ToDisplayString(),
+            IParameterSymbol x => x.Type.ToDisplayString(),
             _ => null
         };
 
@@ -80,7 +83,6 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
             return null;
         }
 
-        //var displayName = symbol.Type.ToDisplayString();
         var nonGenericDisplayName = displayName.Trim('?').Split('<')[0];
 
         if (nonGenericDisplayName != wantedTypeFullName)
