@@ -53,10 +53,31 @@
         <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.10" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
 
+    
+    <!--
+        https://github.com/NuGet/Home/issues/3891#issuecomment-2083158085
+    -->
+    <PropertyGroup>
+        <TargetsForTfmSpecificBuildOutput>$(TargetsForTfmSpecificBuildOutput);IncludeProjectReferenceDlls</TargetsForTfmSpecificBuildOutput>
+    </PropertyGroup>
     <ItemGroup>
-      <ProjectReference Include="..\TypealizeR.Analyzers.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" />
-      <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" />
+      <ProjectReference Include="..\TypealizeR.Analyzers.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" PrivateAssets="all" />
+      <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" PrivateAssets="all" />
     </ItemGroup>
+    <ItemGroup>
+        <!-- Add a ref folder to the package which only exposes the library so that the referenced class library doesn't get exposed. -->
+        <None Include="$(TargetPath)" PackagePath="ref/$(TargetFramework)" Pack="true" Condition="'$(TargetFramework)' != ''" />
+    </ItemGroup>
+    <Target Name="IncludeProjectReferenceDlls" DependsOnTargets="BuildOnlySettings;ResolveReferences">
+        <ItemGroup>
+            <BuildOutputInPackage Include="@(ReferenceCopyLocalPaths->WithMetadataValue('ReferenceSourceTarget', 'ProjectReference')->WithMetadataValue('PrivateAssets', 'All'))"/>
+        </ItemGroup>
+    </Target>
+    <!--
+        https://github.com/NuGet/Home/issues/3891#issuecomment-2083158085
+    -->
+
+
     <ItemGroup>
         <XliffResource Include="MultilingualResources\TypealizR.de.xlf" />
         <XliffResource Include="MultilingualResources\TypealizR.qps-ploc.xlf" />
