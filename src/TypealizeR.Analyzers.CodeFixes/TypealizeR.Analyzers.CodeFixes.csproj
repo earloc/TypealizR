@@ -22,6 +22,10 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
+    
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
 
     <ItemGroup>
         <None Include="../../README.md" Pack="true" PackagePath="\" />
