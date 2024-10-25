@@ -1,29 +1,47 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <TargetFramework>netstandard2.0</TargetFramework>
-    <IsPackable>false</IsPackable>
-    <LangVersion>latest</LangVersion>
-    <Nullable>enable</Nullable>
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
 
-    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-  </PropertyGroup>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <None Remove="AnalyzerReleases.Shipped.md" />
-  </ItemGroup>
+    <PropertyGroup>
+        <PackageId>TypealizR.Analyzers</PackageId>
+        <IsPackable>true</IsPackable>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Title>TypealizR.Analyzers</Title>
+        <Authors>earloc</Authors>
+        <Product>TypealizR</Product>
+        <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageOutputPath>../../bin</PackageOutputPath>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
 
-  <ItemGroup>
-    <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
-      <PrivateAssets>all</PrivateAssets>
-      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-    </PackageReference>
-    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
-  </ItemGroup>
+    <ItemGroup>
+        <None Remove="AnalyzerReleases.Shipped.md" />
+    </ItemGroup>
 
-  <ItemGroup>
-    <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
-    <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
-  </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True"
+            DependentUpon="Resources.resx" />
+        <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator"
+            LastGenOutput="Resources.Designer.cs" />
+    </ItemGroup>
 
 </Project>
