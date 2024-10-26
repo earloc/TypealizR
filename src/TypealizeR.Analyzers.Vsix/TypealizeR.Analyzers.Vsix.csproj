@@ -29,6 +29,8 @@
   </PropertyGroup>
 
   <Import Sdk="Microsoft.NET.Sdk" Project="Sdk.targets" />
+    <!-- https://stackoverflow.com/a/74525130/4136104 -->
+  <Import Project="noop.targets" Condition="'$(MSBuildRuntimeType)' == 'Core'" />
 
   <Import Project="$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets" Condition="Exists('$(VSToolsPath)\VSSDK\Microsoft.VsSDK.targets')" />
 
