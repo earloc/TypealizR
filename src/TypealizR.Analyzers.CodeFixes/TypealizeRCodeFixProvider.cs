@@ -7,12 +7,12 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CodeActions;
 using Microsoft.CodeAnalysis.CodeFixes;
 
-namespace TypealizeR.Analyzers;
+namespace TypealizR.Analyzers;
 
 internal delegate ICodeFixer CodeFixerFactory(SyntaxNode root, Diagnostic diagnostic);
 
-[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypealizeRCodeFixProvider)), Shared]
-public class TypealizeRCodeFixProvider : CodeFixProvider
+[ExportCodeFixProvider(LanguageNames.CSharp, Name = nameof(TypealizRCodeFixProvider)), Shared]
+public class TypealizRCodeFixProvider : CodeFixProvider
 {
 
     private readonly Dictionary<string, CodeFixerFactory> codeFixers = new()

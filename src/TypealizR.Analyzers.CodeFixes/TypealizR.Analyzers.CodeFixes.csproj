@@ -1,8 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
-        <RootNamespace>TypealizeR.Analyzers</RootNamespace>
+        <RootNamespace>TypealizR.Analyzers</RootNamespace>
         <LangVersion>latest</LangVersion>
     </PropertyGroup>
 
@@ -36,7 +36,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" />
+        <ProjectReference Include="..\TypealizR.Analyzers\TypealizR.Analyzers.csproj" />
     </ItemGroup>
 
     <ItemGroup>
