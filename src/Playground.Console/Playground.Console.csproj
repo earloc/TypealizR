@@ -11,6 +11,7 @@
     </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
+        <ProjectReference Include="..\TypealizeR.Analyzers.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
         <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
     </ItemGroup>

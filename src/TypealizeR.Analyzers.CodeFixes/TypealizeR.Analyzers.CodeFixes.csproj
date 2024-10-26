@@ -1,18 +1,16 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
+        <RootNamespace>TypealizeR.Analyzers</RootNamespace>
         <LangVersion>latest</LangVersion>
-        <Nullable>enable</Nullable>
-
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     </PropertyGroup>
 
     <PropertyGroup>
-        <PackageId>TypealizR.Analyzers</PackageId>
+        <PackageId>TypealizR.Analyzers.CodeFixes</PackageId>
         <IsPackable>true</IsPackable>
         <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Title>TypealizR.Analyzers</Title>
+        <Title>TypealizR.Analyzers.CodeFixes</Title>
         <Authors>earloc</Authors>
         <Product>TypealizR</Product>
         <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
@@ -24,31 +22,26 @@
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <IncludeBuildOutput>false</IncludeBuildOutput>
     </PropertyGroup>
+    
     <ItemGroup>
         <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
     </ItemGroup>
 
     <ItemGroup>
-        <None Remove="AnalyzerReleases.Shipped.md" />
-    </ItemGroup>
-
-    <ItemGroup>
         <None Include="../../README.md" Pack="true" PackagePath="\" />
     </ItemGroup>
-
+    
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True"
-            DependentUpon="Resources.resx" />
-        <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator"
-            LastGenOutput="Resources.Designer.cs" />
+        <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" />
+    </ItemGroup>
+
+    <ItemGroup>
+        <Compile Update="CodeFixResources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="CodeFixResources.resx" />
+        <EmbeddedResource Update="CodeFixResources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="CodeFixResources.Designer.cs" />
     </ItemGroup>
 
 </Project>
