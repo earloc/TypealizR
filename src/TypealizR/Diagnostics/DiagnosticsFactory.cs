@@ -14,7 +14,7 @@ internal class DiagnosticsCollector
         this.factory = new(filePath, rawRessourceKey, lineNumber, severityConfig);
     }
 
-    private readonly List<Diagnostic> diagnostics = new();
+    private readonly List<Diagnostic> diagnostics = [];
 
     internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => diagnostics.Add(create(factory));
 

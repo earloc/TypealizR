@@ -13,7 +13,7 @@ internal class ParameterBuilder
         this.rawKeyValue = rawKeyValue;
     }
 
-    private readonly List<ParameterModel> models = new();
+    private readonly List<ParameterModel> models = [];
     private readonly string rawKeyValue;
 
     internal IEnumerable<ParameterModel> Build(DiagnosticsCollector diagnostics)

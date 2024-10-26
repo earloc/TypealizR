@@ -149,11 +149,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         {
             var value = xmlNodeSyntax switch
             {
-                (XmlTextSyntax x) => x.TextTokens
+                XmlTextSyntax x => x.TextTokens
                     .Select(_ => _.Text)
                     .Join(),
 
-                (XmlEmptyElementSyntax x) => x.Attributes
+                XmlEmptyElementSyntax x => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
                     .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
                     .ToCommaDelimited(),

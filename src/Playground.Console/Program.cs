@@ -2,13 +2,13 @@
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using My.Super.Special.Namespace;
-using Playground.Console.NoCodeGen;
-using Playground.Console.WithCodeGen;
 using Playground.Common;
 using Playground.Common.Groups;
 using Playground.Common.Groups.TypealizR;
 using Playground.Common.NoCodeGen;
 using Playground.Console;
+using Playground.Console.NoCodeGen;
+using Playground.Console.WithCodeGen;
 
 const string arthur = "Arthur";
 const string chewbacca = "Chewbacca";

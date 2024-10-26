@@ -12,14 +12,14 @@ internal class CodeFirstClassModel
     private readonly TypeModel type;
     private readonly IEnumerable<CodeFirstMethodModel> methods;
     private readonly IEnumerable<CodeFirstPropertyModel> properties;
-    private readonly HashSet<string> usings = new()
-    {
+    private readonly HashSet<string> usings =
+    [
         "System",
         "System.CodeDom.Compiler",
         "System.Diagnostics",
         "System.Diagnostics.CodeAnalysis",
         "Microsoft.Extensions.Localization"
-    };
+    ];
 
     public CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
     {

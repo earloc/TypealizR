@@ -61,7 +61,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             throw new ArgumentNullException(nameof(file));
         }
 
-        if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
+        if (options.ProjectDirectory == null || !options.ProjectDirectory.Exists)
         {
             ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
             return;

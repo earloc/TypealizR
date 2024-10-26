@@ -10,10 +10,10 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
     internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
     private readonly DirectoryInfo baseDirectory;
-    private readonly List<FileInfo> sourceFiles = new();
-    private readonly List<FileInfo> resxFiles = new();
-    private readonly Dictionary<string, string> customToolNamespaces = new();
-    private readonly Dictionary<string, string> useParamNamesInMethodNames = new();
+    private readonly List<FileInfo> sourceFiles = [];
+    private readonly List<FileInfo> resxFiles = [];
+    private readonly Dictionary<string, string> customToolNamespaces = [];
+    private readonly Dictionary<string, string> useParamNamesInMethodNames = [];
 
     private readonly string? rootNamespace;
     private readonly string? useParamNamesInMethodNamesBuildProperty;
@@ -126,7 +126,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
         return new GeneratorTester(generatorDriver, Path.Combine(baseDirectory.FullName, ".snapshots"));
     }
 
-    private readonly Dictionary<DiagnosticsId, string> severityConfig = new();
+    private readonly Dictionary<DiagnosticsId, string> severityConfig = [];
 
     internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity)
         => WithSeverityConfig(id, severity.ToString());

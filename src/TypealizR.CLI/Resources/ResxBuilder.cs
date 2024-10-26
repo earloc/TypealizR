@@ -5,7 +5,7 @@ internal class ResxBuilder
 {
     private const string resHeader = "resheader";
     private const string value = "value";
-    private readonly Dictionary<string, string> entries = new();
+    private readonly Dictionary<string, string> entries = [];
     public ResxBuilder Add(string key, string value)
     {
         entries.Add(key, value);

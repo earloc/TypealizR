@@ -30,7 +30,7 @@ internal partial class TypealizedClassBuilder
         return this;
     }
 
-    private readonly Dictionary<string, TypealizedClassBuilder> nestedTypes = new();
+    private readonly Dictionary<string, TypealizedClassBuilder> nestedTypes = [];
 
     public TypealizedClassBuilder WithGroups(string key, string rawKey, string value, IEnumerable<MemberName> groups, DiagnosticsCollector diagnostics)
     {

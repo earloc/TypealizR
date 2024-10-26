@@ -6,8 +6,8 @@ using TypealizR.Core;
 namespace TypealizR;
 internal class CodeFirstClassBuilder
 {
-    internal readonly List<CodeFirstMethodBuilder> methodBuilders = new();
-    internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = new();
+    internal readonly List<CodeFirstMethodBuilder> methodBuilders = [];
+    internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = [];
 
     private readonly TypeModel typealizedInterface;
     private readonly TypeModel type;
