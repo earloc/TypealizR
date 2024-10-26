@@ -67,9 +67,14 @@ public class UseIndexerAnalyzer_Test
     readonly string generatedExtension = """
         namespace Microsoft.Extensions.Localization {
             public static class IStringLocalizerExtensions {
-                public static LocalizedString Bar(this IStringLocalizer that) => that["Bar"];
-                public static LocalizedString Bar_With_Foo(this IStringLocalizer that, string foo, string bar = "bar") => that["Bar_With_Foo", foo];
-                public static LocalizedString FooBar(this IStringLocalizer<Foo> that) => that["FooBar"];
+                public static LocalizedString Bar(this IStringLocalizer that) => that[_Bar];
+                private const string _Bar = "Bar";
+
+                public static LocalizedString Bar_With_Foo(this IStringLocalizer that, string foo, string bar = "bar") => that[_Bar_With_Foo, foo];
+                private const string _Bar_With_Foo = "Bar_With_Foo";
+
+                public static LocalizedString FooBar(this IStringLocalizer<Foo> that) => that[_FooBar];
+                private const string _FooBar = "FooBar";
             }
         }
     """;

@@ -40,6 +40,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers.Tests"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "workflows", "workflows", "{F1ACB111-3C06-4CB5-B08B-3560F625EF7C}"
 EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizeR.Analyzers.Vsix", "src\TypealizeR.Analyzers.Vsix\TypealizeR.Analyzers.Vsix.csproj", "{FBF87176-01A1-4715-B220-FAC79E35DB2F}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -86,6 +88,12 @@ Global
 		{4B7D4786-87BE-45B5-A8F3-D3BD33E46AB0}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4B7D4786-87BE-45B5-A8F3-D3BD33E46AB0}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4B7D4786-87BE-45B5-A8F3-D3BD33E46AB0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBF87176-01A1-4715-B220-FAC79E35DB2F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FBF87176-01A1-4715-B220-FAC79E35DB2F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FBF87176-01A1-4715-B220-FAC79E35DB2F}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{FBF87176-01A1-4715-B220-FAC79E35DB2F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FBF87176-01A1-4715-B220-FAC79E35DB2F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FBF87176-01A1-4715-B220-FAC79E35DB2F}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

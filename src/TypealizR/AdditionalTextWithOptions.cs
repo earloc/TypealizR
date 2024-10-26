@@ -1,1 +1,2 @@
-﻿using Microsoft.CodeAnalysis;using Microsoft.CodeAnalysis.Diagnostics;namespace TypealizR;public class AdditionalTextWithOptions{    public AdditionalTextWithOptions(AdditionalText text, AnalyzerConfigOptions options)    {        Text = text;        Options = options;    }    public AdditionalText Text { get; }    public AnalyzerConfigOptions Options { get; }}
+﻿using Microsoft.CodeAnalysis;using Microsoft.CodeAnalysis.Diagnostics;namespace TypealizR;public class AdditionalTextWithOptions{    public AdditionalTextWithOptions(AdditionalText text, AnalyzerConfigOptions options)    {        Text = text;        Options = options;    }
+    public AdditionalText Text { get; }    public AnalyzerConfigOptions Options { get; }}

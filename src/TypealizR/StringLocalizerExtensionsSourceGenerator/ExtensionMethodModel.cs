@@ -27,8 +27,9 @@ internal class ExtensionMethodModel : IMemberModel
     {
         static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.GlobalFullName}> that";
 
+        var constName = $"_{ Name}";
         var signature = $"({ThisParameterFor(ExtendedType)})";
-        var body = $@"that[""{RawRessourceName}""]";
+        var body = $@"that[{constName}]";
 
         if (Parameters.Any())
         {
@@ -36,7 +37,7 @@ internal class ExtensionMethodModel : IMemberModel
             signature = $"({ThisParameterFor(ExtendedType)}, {additionalParameterDeclarations})";
 
             var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
-            body = $@"that[""{RawRessourceName}""].Format({parameterCollection})";
+            body = $@"that[{constName}].Format({parameterCollection})";
         }
         var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
 
@@ -44,8 +45,8 @@ internal class ExtensionMethodModel : IMemberModel
 
             {comment.ToCSharp()}
             [DebuggerStepThrough]
-            public static LocalizedString {Name}{signature}
-                => {body};
+            public static LocalizedString {Name}{signature} => {body};
+            private const string {constName} = "{RawRessourceName}";
     """;
     }
 }

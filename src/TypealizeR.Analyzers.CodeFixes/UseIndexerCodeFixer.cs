@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections.Frozen;
+using System.Linq;
 using System.Threading;
 using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
@@ -14,6 +15,7 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
 
     public async Task<Document> CreateChangedDocumentAsync(Document source, CancellationToken cancellationToken)
     {
+        
         if (Root is null)
         {
             return source;
@@ -57,21 +59,29 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
             return source;
         }
 
-        if (await declarationSyntax.GetSyntaxAsync(cancellationToken) is not MethodDeclarationSyntax rootMethodSyntax)
+        if (await declarationSyntax.GetSyntaxAsync(cancellationToken) is not MethodDeclarationSyntax rootMethodDeclarationSyntax)
         {
             return source;
         }
 
-        if (rootMethodSyntax.ExpressionBody.Expression is not ElementAccessExpressionSyntax elementAccessSyntax)
+        if (rootMethodDeclarationSyntax.Parent is not ClassDeclarationSyntax classDeclarationSyntax)
         {
             return source;
         }
 
-        var localizableStringKey = elementAccessSyntax.ArgumentList.Arguments.FirstOrDefault();
-        if (localizableStringKey is null)
+        var localizableStringKeyConstantName = $"_{rootMethodDeclarationSyntax.Identifier.Text}";
+        var localizableStringKeyConstantDeclaration = classDeclarationSyntax.Members
+            .Where(_ => _.IsKind(SyntaxKind.FieldDeclaration))
+            .Select(_ => ((FieldDeclarationSyntax)_).Declaration.Variables.FirstOrDefault())
+            .Where(_ => _ is not null)
+            .FirstOrDefault(_ => _.Identifier.Text == localizableStringKeyConstantName);
+
+        if (localizableStringKeyConstantDeclaration is null)
         {
             return source;
         }
+
+        var localizableStringKey = localizableStringKeyConstantDeclaration.Initializer.Value;
 
         var stringLocalizerInstanceName = memberSyntax.Identifier.Text;
 

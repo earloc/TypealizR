@@ -1,4 +1,5 @@
-﻿using System.Diagnostics.CodeAnalysis;
+﻿using System.CodeDom.Compiler;
+using System.Diagnostics.CodeAnalysis;
 
 namespace Playground.Console.NoCodeGen;
 [SuppressMessage(
@@ -7,4 +8,5 @@ namespace Playground.Console.NoCodeGen;
 ]
 internal sealed class InternalClass
 {
+    public int MyProperty { get; set; }
 }
