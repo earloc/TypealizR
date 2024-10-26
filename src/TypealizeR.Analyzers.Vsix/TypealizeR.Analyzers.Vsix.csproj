@@ -6,6 +6,7 @@
     <TargetFramework>net472</TargetFramework>
     <RootNamespace>TypealizeR.Analyzers.Vsix</RootNamespace>
     <AssemblyName>TypealizeR.Analyzers.Vsix</AssemblyName>
+    <IsPackable>false</IsPackable>
   </PropertyGroup>
 
   <PropertyGroup>
