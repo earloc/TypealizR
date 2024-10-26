@@ -22,7 +22,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\TypealizeR.Analyzers.CodeFixes\TypealizeR.Analyzers.CodeFixes.csproj" />
     <ProjectReference Include="..\TypealizeR.Analyzers\TypealizeR.Analyzers.csproj" />
   </ItemGroup>
 

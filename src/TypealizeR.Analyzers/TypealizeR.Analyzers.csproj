@@ -4,7 +4,6 @@
         <TargetFramework>netstandard2.0</TargetFramework>
         <LangVersion>latest</LangVersion>
         <Nullable>enable</Nullable>
-
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
     </PropertyGroup>
 
@@ -37,6 +36,8 @@
     </ItemGroup>
 
     <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.11.0" />
+
         <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
@@ -45,10 +46,17 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True"
-            DependentUpon="Resources.resx" />
-        <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator"
-            LastGenOutput="Resources.Designer.cs" />
+        <Compile Update="CodeFixResources.Designer.cs">
+          <DependentUpon>CodeFixResources.resx</DependentUpon>
+          <DesignTime>True</DesignTime>
+          <AutoGen>True</AutoGen>
+        </Compile>
+        <Compile Update="Resources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="Resources.resx" />
+        <EmbeddedResource Update="CodeFixResources.resx">
+          <LastGenOutput>CodeFixResources.Designer.cs</LastGenOutput>
+          <Generator>ResXFileCodeGenerator</Generator>
+        </EmbeddedResource>
+        <EmbeddedResource Update="Resources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="Resources.Designer.cs" />
     </ItemGroup>
 
 </Project>
