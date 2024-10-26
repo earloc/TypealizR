@@ -1,11 +1,13 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
+using static TypealizR.Diagnostics.DiagnosticsId;
+
 using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
-    TypealizeR.Analyzers.UseIndexerAnalyzer,
-    TypealizeR.Analyzers.TypealizeRCodeFixProvider,
+    TypealizR.Analyzers.UseIndexerAnalyzer,
+    TypealizR.Analyzers.TypealizRCodeFixProvider,
     Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
 
-namespace TypealizeR.Analyzers.Tests;
+namespace TypealizR.Analyzers.Tests;
 
 [TestClass]
 public class UseIndexerAnalyzer_Test
@@ -108,7 +110,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -143,7 +145,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -179,7 +181,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -249,7 +251,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -279,7 +281,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -310,7 +312,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -342,7 +344,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar_With_Foo");
+        var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
         var expectedCode = TestCode("""
             namespace ConsoleApplication1 {
@@ -373,7 +375,7 @@ public class UseIndexerAnalyzer_Test
             }
         """);
 
-        var expected = Verify.Diagnostic(nameof(UseIndexerAnalyzer)).WithLocation(0).WithArguments("Bar");
+        var expected = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
         await Verify.VerifyAnalyzerAsync(test, expected);
     }
 }
