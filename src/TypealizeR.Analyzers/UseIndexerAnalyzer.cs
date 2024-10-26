@@ -27,6 +27,7 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
     {
         context = context ?? throw new ArgumentNullException(nameof(context));
 
+        // enable analysis of generated code, so the analyzer also sees f.e. razor-files: https://github.com/dotnet/razor/issues/7250
         context.ConfigureGeneratedCodeAnalysis(GeneratedCodeAnalysisFlags.Analyze | GeneratedCodeAnalysisFlags.ReportDiagnostics);
         context.EnableConcurrentExecution();
 
