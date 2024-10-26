@@ -69,7 +69,9 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
             return source;
         }
 
-        var localizableStringKeyConstantName = $"_{rootMethodDeclarationSyntax.Identifier.Text}";
+        var generatedMethodName = rootMethodDeclarationSyntax.Identifier.Text;
+        var localizableStringKeyConstantName = $"_{generatedMethodName}";
+
         var localizableStringKeyConstantDeclaration = classDeclarationSyntax.Members
             .Where(_ => _.IsKind(SyntaxKind.FieldDeclaration))
             .Select(_ => ((FieldDeclarationSyntax)_).Declaration.Variables.FirstOrDefault())
