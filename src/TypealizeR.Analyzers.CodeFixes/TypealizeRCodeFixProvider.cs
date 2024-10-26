@@ -20,16 +20,11 @@ public class TypealizeRCodeFixProvider : CodeFixProvider
         { UseIndexerAnalyzer.DiagnosticId, (root, diagnostics) => new UseIndexerCodeFixer(root, diagnostics) }
     };
 
-    public sealed override ImmutableArray<string> FixableDiagnosticIds
-    {
-        get { return [UseIndexerAnalyzer.DiagnosticId]; }
-    }
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => [UseIndexerAnalyzer.DiagnosticId];
 
-    public sealed override FixAllProvider GetFixAllProvider()
-    {
+    public sealed override FixAllProvider GetFixAllProvider() =>
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
-        return WellKnownFixAllProviders.BatchFixer;
-    }
+        WellKnownFixAllProviders.BatchFixer;
 
     public sealed override async Task RegisterCodeFixesAsync(CodeFixContext context)
     {
@@ -41,7 +36,7 @@ public class TypealizeRCodeFixProvider : CodeFixProvider
             return;
         }
 
-        if (!codeFixers.TryGetValue(diagnostic.Id, out CodeFixerFactory createCodeFixer))
+        if (!codeFixers.TryGetValue(diagnostic.Id, out var createCodeFixer))
         {
             return;
         }

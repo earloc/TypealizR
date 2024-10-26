@@ -8,10 +8,7 @@ using TypealizR.Diagnostics;
 namespace TypealizR.Core;
 internal class ParameterBuilder
 {
-    public ParameterBuilder(string rawKeyValue)
-    {
-        this.rawKeyValue = rawKeyValue;
-    }
+    public ParameterBuilder(string rawKeyValue) => this.rawKeyValue = rawKeyValue;
 
     private readonly List<ParameterModel> models = [];
     private readonly string rawKeyValue;
@@ -60,12 +57,7 @@ internal class ParameterBuilder
         }
 
         var type = SanitizeType(expression);
-        if (type is not null)
-        {
-            return (type, "");
-        }
-
-        return ("object", expression);
+        return type is not null ? ((string, string))(type, "") : ((string, string))("object", expression);
     }
 
     private static string? SanitizeType(string type) => type switch

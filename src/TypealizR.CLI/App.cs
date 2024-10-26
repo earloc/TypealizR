@@ -30,10 +30,10 @@ internal class App
 
         codeFirstCommand.AddAlias("cf");
 
-        var rootCommand = new RootCommand()
-        {
+        RootCommand rootCommand =
+        [
             codeFirstCommand
-        };
+        ];
 
         runner = new CommandLineBuilder(rootCommand)
             .UseDefaults()

@@ -5,10 +5,7 @@ using Microsoft.CodeAnalysis;
 using TypealizR.Core;namespace TypealizR;
 internal class ExtensionMethodModel : IMemberModel
 {
-    public void DeduplicateWith(int discriminator)
-    {
-        Name = new MemberName($"{Name}{discriminator}");
-    }
+    public void DeduplicateWith(int discriminator) => Name = new MemberName($"{Name}{discriminator}");
 
     public TypeModel ExtendedType { get; }
     public string RawRessourceName { get; }

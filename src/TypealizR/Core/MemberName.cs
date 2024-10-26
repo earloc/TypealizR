@@ -38,6 +38,7 @@ internal class MemberName
     }
 
     public static implicit operator string(MemberName that) => that.nameOverride ?? that.name;
+
     public override string ToString() => nameOverride ?? name;
 
     internal bool IsValidMethodName()

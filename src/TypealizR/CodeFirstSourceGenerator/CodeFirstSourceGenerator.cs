@@ -52,7 +52,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                     typealizedInterface.Declaration.Identifier.Text
                 ));
 
-                var diagnostics = new List<Diagnostic>();
+                List<Diagnostic> diagnostics = [];
 
                 TryAddMethods(builder, diagnostics, members, options, ctxt.CancellationToken);
                 TryAddProperties(builder, diagnostics, members, options, ctxt.CancellationToken);
@@ -141,7 +141,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             return default;
         }
 
-        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax || x is XmlEmptyElementSyntax).ToArray();
+        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax or XmlEmptyElementSyntax).ToArray();
 
         var builder = new StringBuilder();
 

@@ -128,8 +128,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
     private readonly Dictionary<DiagnosticsId, string> severityConfig = [];
 
-    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity)
-        => WithSeverityConfig(id, severity.ToString());
+    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity) => WithSeverityConfig(id, severity.ToString());
 
     internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, string severity)
     {

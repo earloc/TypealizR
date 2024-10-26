@@ -9,10 +9,7 @@ internal class DiagnosticsCollector
 {
     private readonly DiagnosticsFactory factory;
 
-    public DiagnosticsCollector(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity>? severityConfig = null)
-    {
-        this.factory = new(filePath, rawRessourceKey, lineNumber, severityConfig);
-    }
+    public DiagnosticsCollector(string filePath, string rawRessourceKey, int lineNumber, IDictionary<string, DiagnosticSeverity>? severityConfig = null) => this.factory = new(filePath, rawRessourceKey, lineNumber, severityConfig);
 
     private readonly List<Diagnostic> diagnostics = [];
 
@@ -38,11 +35,10 @@ internal class DiagnosticsFactory
         this.severityConfig = severityConfig ?? new Dictionary<string, DiagnosticSeverity>();
     }
 
-    private DiagnosticSeverity? SeverityFor(id id) => severityConfig.TryGetValue(id.ToString(), out DiagnosticSeverity value) ? value : null;
+    private DiagnosticSeverity? SeverityFor(id id) => severityConfig.TryGetValue(id.ToString(), out var value) ? value : null;
 
     internal static readonly DiagnosticsEntry TR0001 = new(id.TR0001, "TargetProjectRootDirectoryNotFound");
-    internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() =>
-        Diagnostic.Create(
+    internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() => Diagnostic.Create(
             new(id: TR0001.Id.ToString(),
                 title: TR0001.Title,
                 messageFormat: Strings.TR0001_MessageFormat,
@@ -57,8 +53,7 @@ internal class DiagnosticsFactory
         );
 
     internal static readonly DiagnosticsEntry TR0002 = new(id.TR0002, "AmbigiousRessourceKey");
-    internal Diagnostic AmbigiousRessourceKey_0002(string fallback) =>
-        Diagnostic.Create(
+    internal Diagnostic AmbigiousRessourceKey_0002(string fallback) => Diagnostic.Create(
             new(id: TR0002.Id.ToString(),
                 title: TR0002.Title,
                 messageFormat: Strings.TR0002_MessageFormat,
@@ -79,8 +74,7 @@ internal class DiagnosticsFactory
         );
 
     internal static readonly DiagnosticsEntry TR0003 = new(id.TR0003, "UnnamedGenericParameter");
-    internal Diagnostic UnnamedGenericParameter_0003(string parameterName) =>
-        Diagnostic.Create(
+    internal Diagnostic UnnamedGenericParameter_0003(string parameterName) => Diagnostic.Create(
             new(id: TR0003.Id.ToString(),
                 title: TR0003.Title,
                 messageFormat: Strings.TR0003_MessageFormat,
@@ -102,8 +96,7 @@ internal class DiagnosticsFactory
 
     internal static readonly DiagnosticsEntry TR0004 = new(id.TR0004, "UnrecognizedParameterType");
 
-    internal Diagnostic UnrecognizedParameterType_0004(string parameterTypeAnnotation) =>
-        Diagnostic.Create(
+    internal Diagnostic UnrecognizedParameterType_0004(string parameterTypeAnnotation) => Diagnostic.Create(
             new(id: TR0004.Id.ToString(),
                 title: TR0004.Title,
                 messageFormat: Strings.TR0004_MessageFormat,
@@ -125,8 +118,7 @@ internal class DiagnosticsFactory
 
     internal static readonly DiagnosticsEntry TR0005 = new(id.TR0005, "InvalidMemberName");
 
-    internal Diagnostic InvalidMemberName_0005(string source, string replacement) =>
-        Diagnostic.Create(
+    internal Diagnostic InvalidMemberName_0005(string source, string replacement) => Diagnostic.Create(
             new(id: TR0005.Id.ToString(),
                 title: TR0005.Title,
                 messageFormat: Strings.TR0005_MessageFormat,

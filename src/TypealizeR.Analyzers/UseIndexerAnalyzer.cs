@@ -21,7 +21,7 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
 
     private static readonly DiagnosticDescriptor Rule = new(DiagnosticId, Title, MessageFormat, Category, DiagnosticSeverity.Hidden, isEnabledByDefault: true, description: Description);
 
-    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics { get { return [Rule]; } }
+    public override ImmutableArray<DiagnosticDescriptor> SupportedDiagnostics => [Rule];
 
     public override void Initialize(AnalysisContext context)
     {
@@ -85,12 +85,7 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
 
         var nonGenericDisplayName = displayName.Trim('?').Split('<')[0];
 
-        if (nonGenericDisplayName != wantedTypeFullName)
-        {
-            return null;
-        }
-
-        return symbolInfo.Symbol.Name;
+        return nonGenericDisplayName != wantedTypeFullName ? null : symbolInfo.Symbol.Name;
     }
 }
 
