@@ -4,5 +4,5 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------
-TR1000  | Usage    |  Hidden  | UseIndexerAnalyzer_UseIndexSignature
+TR1000  | Usage    | Warning  | UseIndexerAnalyzer
 
