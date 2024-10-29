@@ -8,5 +8,5 @@ using Microsoft.Extensions.Localization;
 namespace CLI;
 internal static partial class TypealizR_StringFormatter
 {
-	internal static partial string Format(string s, object[] args) => new(string.Format(s, args).Reverse().ToArray());
+	//internal static partial string Format(string s, object[] args) => new(string.Format(s, args).Reverse().ToArray());
 }

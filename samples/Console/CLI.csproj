@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -8,23 +8,23 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.10" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-    <PackageReference Include="TypealizR" Version="0.9.9">
+    <PackageReference Include="TypealizR" Version="0.10.0-pre0011">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.9.9" />
-  </ItemGroup>
-
-  <ItemGroup>
-    <Reference Include="TypealizeR.Analyzer" OutputItemType="Analyzer" ReferenceOutputAssembly="false" AdditionalProperties="TargetFramework=netstandard2.0">
-      <HintPath>..\..\src\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\bin\Debug\netstandard2.0\TypealizeR.Analyzer.dll</HintPath>
-    </Reference>
-    <Reference Include="TypealizeR.Analyzer.CodeFixes" OutputItemType="Analyzer" ReferenceOutputAssembly="false" AdditionalProperties="TargetFramework=netstandard2.0">
-      <HintPath>..\..\src\TypealizeR.Analyzer\TypealizeR.Analyzer.CodeFixes\bin\Debug\netstandard2.0\TypealizeR.Analyzer.CodeFixes.dll</HintPath>
-    </Reference>
+    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.10.0-pre0011" />
+    <PackageReference Include="TypealizR.Analyzers" Version="0.10.0-pre0011">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
+    <PackageReference Include="TypealizR.Analyzers.CodeFixes" Version="0.10.0-pre0011">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+    </PackageReference>
   </ItemGroup>
 
   <ItemGroup>
