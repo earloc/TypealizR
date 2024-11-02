@@ -6,5 +6,6 @@ public enum DiagnosticsId
     TR0002,
     TR0003,
     TR0004,    TR0005,
-    TR1000
+    TR1000,
+    TR1010
 }

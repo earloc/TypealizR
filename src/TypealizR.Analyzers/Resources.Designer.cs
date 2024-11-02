@@ -61,29 +61,56 @@ namespace TypealizR.Analyzers {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Preferr index signature!.
+        ///   Looks up a localized string similar to A resource key is missing and won&apos;t be translatable..
         /// </summary>
-        internal static string AnalyzerDescription {
+        internal static string MissingResourceKeyAnalyzerDescription {
             get {
-                return ResourceManager.GetString("AnalyzerDescription", resourceCulture);
+                return ResourceManager.GetString("MissingResourceKeyAnalyzerDescription", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to The resource key &apos;{0}&apos; is missing in locale &apos;{1}&apos;.
+        /// </summary>
+        internal static string MissingResourceKeyAnalyzerMessageFormat {
+            get {
+                return ResourceManager.GetString("MissingResourceKeyAnalyzerMessageFormat", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Missing resource key.
+        /// </summary>
+        internal static string MissingResourceKeyAnalyzerTitle {
+            get {
+                return ResourceManager.GetString("MissingResourceKeyAnalyzerTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Preferr index signature.
+        /// </summary>
+        internal static string UseIndexerAnalyzerDescription {
+            get {
+                return ResourceManager.GetString("UseIndexerAnalyzerDescription", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to The method signature &apos;{0}&apos; can be expressed as an index signature.
         /// </summary>
-        internal static string AnalyzerMessageFormat {
+        internal static string UseIndexerAnalyzerMessageFormat {
             get {
-                return ResourceManager.GetString("AnalyzerMessageFormat", resourceCulture);
+                return ResourceManager.GetString("UseIndexerAnalyzerMessageFormat", resourceCulture);
             }
         }
         
         /// <summary>
         ///   Looks up a localized string similar to Method signature can be simplified.
         /// </summary>
-        internal static string AnalyzerTitle {
+        internal static string UseIndexerAnalyzerTitle {
             get {
-                return ResourceManager.GetString("AnalyzerTitle", resourceCulture);
+                return ResourceManager.GetString("UseIndexerAnalyzerTitle", resourceCulture);
             }
         }
     }

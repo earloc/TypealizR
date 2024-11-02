@@ -117,16 +117,25 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="AnalyzerDescription" xml:space="preserve">
-    <value>Preferr index signature!</value>
+  <data name="UseIndexerAnalyzerDescription" xml:space="preserve">
+    <value>Preferr index signature</value>
     <comment>An optional longer localizable description of the diagnostic.</comment>
   </data>
-  <data name="AnalyzerMessageFormat" xml:space="preserve">
+  <data name="UseIndexerAnalyzerMessageFormat" xml:space="preserve">
     <value>The method signature '{0}' can be expressed as an index signature</value>
     <comment>The format-able message the diagnostic displays.</comment>
   </data>
-  <data name="AnalyzerTitle" xml:space="preserve">
+  <data name="UseIndexerAnalyzerTitle" xml:space="preserve">
     <value>Method signature can be simplified</value>
     <comment>The title of the diagnostic.</comment>
+  </data>
+  <data name="MissingResourceKeyAnalyzerTitle" xml:space="preserve">
+    <value>Missing resource key</value>
+  </data>
+  <data name="MissingResourceKeyAnalyzerDescription" xml:space="preserve">
+    <value>A resource key is missing and won't be translatable.</value>
+  </data>
+  <data name="MissingResourceKeyAnalyzerMessageFormat" xml:space="preserve">
+    <value>The resource key '{0}' is missing in locale '{1}'</value>
   </data>
 </root>

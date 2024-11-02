@@ -4,5 +4,6 @@
 
 Rule ID | Category | Severity | Notes
 --------|----------|----------|--------------------
-TR1000 | Usage | Info | UseIndexerAnalyzer
+TR1000 | Localization | Info | UseIndexerAnalyzer
+TR1010 | Localization | Info | MissingResourceKeyAnalyzer
 
