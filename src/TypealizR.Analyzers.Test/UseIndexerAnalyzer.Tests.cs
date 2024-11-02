@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using static TypealizR.Diagnostics.DiagnosticsId;
 
 using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
@@ -9,13 +9,12 @@ using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
 
 namespace TypealizR.Analyzers.Tests;
 
-[TestClass]
 public class UseIndexerAnalyzer_Test
 {
     private readonly StringLocalizerTestCodeBuilder test = new StringLocalizerTestCodeBuilder().WithExtensionMethods();
 
         //No diagnostics expected to show up
-    [TestMethod]
+    [Fact]
     public async Task Emits_NoDiagnostics_For_EmptySyntax()
     {
         var test = @"";
@@ -23,7 +22,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyAnalyzerAsync(test);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task Emits_NoDiagnostics_For_MethodCallSyntax()
     {
         var test = $$"""
@@ -41,7 +40,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyAnalyzerAsync(test);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_OnParameter()
     {
         var code = test.Code("""
@@ -71,7 +70,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_OnLocal()
     {
         var code = test.Code("""
@@ -111,7 +110,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_OnProperty()
     {
         var code = test.Code("""
@@ -182,7 +181,7 @@ public class UseIndexerAnalyzer_Test
     //    await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     //}
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_WithParameter_Literal_1()
     {
         var code = test.Code("""
@@ -212,7 +211,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_WithParameter_Literal_2()
     {
         var code = test.Code("""
@@ -242,7 +241,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_WithParameter_Local_1()
     {
         var code = test.Code("""
@@ -274,7 +273,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_WithParameter_Local_2()
     {
         var code = test.Code("""
@@ -306,7 +305,7 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyCodeFixAsync(code, expectedDiagnostics, expectedCode);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task UseIndexSignature_Generic()
     {
         var code = test.Code("""

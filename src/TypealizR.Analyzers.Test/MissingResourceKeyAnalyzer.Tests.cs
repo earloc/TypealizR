@@ -1,5 +1,5 @@
 ﻿using System.Threading.Tasks;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
+using Xunit;
 using static TypealizR.Diagnostics.DiagnosticsId;
 
 using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
@@ -9,13 +9,12 @@ using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
 
 namespace TypealizR.Analyzers.Tests;
 
-[TestClass]
 public class MissingResourceKeyAnalyzer_Test
 {
 
     private readonly StringLocalizerTestCodeBuilder test = new();
 
-    [TestMethod]
+    [Fact]
     public async Task Emits_NoDiagnostics_For_EmptySyntax()
     {
         var test = @"";
@@ -23,7 +22,7 @@ public class MissingResourceKeyAnalyzer_Test
         await Verify.VerifyAnalyzerAsync(test);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task Emits_NoDiagnostics_For_ElementAccessSyntax()
     {
         var test = $$"""
@@ -40,7 +39,7 @@ public class MissingResourceKeyAnalyzer_Test
         await Verify.VerifyAnalyzerAsync(test);
     }
 
-    [TestMethod]
+    [Fact]
     public async Task Reports_MissingKey_Bar()
     {
         var code = test.Code("""
