@@ -48,13 +48,13 @@ public class MissingResourceKeyAnalyzer_Test
                 public class Foo
                 {   
                     public Foo(IStringLocalizer localizer) {
-                        var x = localizer["{|#0:Bar|}"];
+                        var x = {|#0:localizer["Bar"]|};
                     }
                 }
             }
         """);
 
-        var expectedDiagnostics = Verify.Diagnostic(TR1010.ToString()).WithLocation(0).WithArguments("Bar");
+        var expectedDiagnostics = Verify.Diagnostic(TR1010.ToString()).WithLocation(0).WithArguments("Bar", "en");
 
         await Verify.VerifyAnalyzerAsync(code, expectedDiagnostics);
     }
