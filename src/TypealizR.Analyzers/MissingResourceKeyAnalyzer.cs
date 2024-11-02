@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Immutable;
+using System.Linq.Expressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -32,61 +33,19 @@ public class MissingResourceKeyAnalyzer : DiagnosticAnalyzer
         context.EnableConcurrentExecution();
 
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/Analyzer%20Actions%20Semantics.md for more information
-        context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.InvocationExpression);
+        context.RegisterSyntaxNodeAction(AnalyzeSyntaxNode, SyntaxKind.ElementAccessExpression);
     }
 
     private static void AnalyzeSyntaxNode(SyntaxNodeAnalysisContext context)
     {
-
-        if (context.Node is not InvocationExpressionSyntax invocationExpression)
+        
+        if (context.Node is not ElementAccessExpressionSyntax elementAccessExpression)
         {
             return;
         }
 
-        if (invocationExpression.Expression is not MemberAccessExpressionSyntax memberAccessExpression)
-        {
-            return;
-        }
-
-        var targetSymbolName = EnsureWantedSymbolName(context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression));
-
-        if (string.IsNullOrEmpty(targetSymbolName))
-        {
-            return;
-        }
-
-        var diagnostic = Diagnostic.Create(Rule, memberAccessExpression.GetLocation(), memberAccessExpression.Name, targetSymbolName);
+        var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), elementAccessExpression.ArgumentList.Arguments.FirstOrDefault()?.Expression.TryGetInferredMemberName() ?? "??", "asdfasd");
         context.ReportDiagnostic(diagnostic);
-    }
-
-    const string wantedNameSpace = "Microsoft.Extensions.Localization";
-    const string wantedTypeName = "IStringLocalizer";
-    const string wantedTypeFullName = $"{wantedNameSpace}.{wantedTypeName}";
-
-    private static string? EnsureWantedSymbolName(SymbolInfo symbolInfo)
-    {
-        if (symbolInfo.Symbol is null)
-        {
-            return null;
-        }
-
-        var displayName = symbolInfo.Symbol switch
-        {
-            ILocalSymbol x => x.Type.ToDisplayString(),
-            IMethodSymbol x => x.ReturnType.ToDisplayString(),
-            IPropertySymbol x => x.Type.ToDisplayString(),
-            IParameterSymbol x => x.Type.ToDisplayString(),
-            _ => null
-        };
-
-        if (displayName is null)
-        {
-            return null;
-        }
-
-        var nonGenericDisplayName = displayName.Trim('?').Split('<')[0];
-
-        return nonGenericDisplayName != wantedTypeFullName ? null : symbolInfo.Symbol.Name;
     }
 }
 
