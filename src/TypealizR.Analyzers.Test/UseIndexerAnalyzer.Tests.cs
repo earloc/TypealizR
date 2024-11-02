@@ -39,67 +39,10 @@ public class UseIndexerAnalyzer_Test
         await Verify.VerifyAnalyzerAsync(test);
     }
 
-    readonly string typeDeclarations = """
-
-        public class Foo {
-        }
-
-        namespace Microsoft.Extensions.Localization {
-            public class LocalizedString {
-                public string Name { get; } = "";
-                public string Value { get; } = "";
-                public bool ResourceNotFound { get; } = false;
-                public string SearchedLocation { get; } = null;
-            }
-        }
-    """;
-
-    readonly string interfaceDeclaration = """
-        namespace Microsoft.Extensions.Localization {
-            public interface IStringLocalizer {
-                LocalizedString this[string name] { get; }
-                LocalizedString this[string name, params object[] arguments] { get; }
-            }
-
-            public interface IStringLocalizer<T> : IStringLocalizer {
-            }
-        }
-    """;
-
-    readonly string generatedExtension = """
-        namespace Microsoft.Extensions.Localization {
-            public static class IStringLocalizerExtensions {
-                public static LocalizedString Bar(this IStringLocalizer that) => that[_Bar];
-                private const string _Bar = "Bar";
-
-                public static LocalizedString Bar_With_Foo(this IStringLocalizer that, string foo, string bar = "bar") => that[_Bar_With_Foo, foo];
-                private const string _Bar_With_Foo = "Bar_With_Foo";
-
-                public static LocalizedString FooBar(this IStringLocalizer<Foo> that) => that[_FooBar];
-                private const string _FooBar = "FooBar";
-            }
-        }
-    """;
-
-    private string TestCode(string testCode)
-    {
-        var test = $$"""
-            using Microsoft.Extensions.Localization;
-
-            {{typeDeclarations}}
-            {{interfaceDeclaration}}
-            {{generatedExtension}}
-
-            {{testCode}}
-        """;
-
-        return test;
-    }
-
     [TestMethod]
     public async Task UseIndexSignature_OnParameter()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -112,7 +55,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -129,7 +72,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_OnLocal()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -147,7 +90,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -169,7 +112,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_OnProperty()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -183,7 +126,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -240,7 +183,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_WithParameter_Literal_1()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -253,7 +196,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -270,7 +213,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_WithParameter_Literal_2()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -283,7 +226,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -300,7 +243,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_WithParameter_Local_1()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -314,7 +257,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -332,7 +275,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_WithParameter_Local_2()
     {
-        var code = TestCode("""
+        var code = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -346,7 +289,7 @@ public class UseIndexerAnalyzer_Test
 
         var expectedDiagnostics = Verify.Diagnostic(TR1000.ToString()).WithLocation(0).WithArguments("Bar_With_Foo");
 
-        var expectedCode = TestCode("""
+        var expectedCode = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
@@ -364,7 +307,7 @@ public class UseIndexerAnalyzer_Test
     [TestMethod]
     public async Task UseIndexSignature_Generic()
     {
-        var test = TestCode("""
+        var test = StringLocalizerTest.Code("""
             namespace ConsoleApplication1 {
                 public class Foo
                 {   
