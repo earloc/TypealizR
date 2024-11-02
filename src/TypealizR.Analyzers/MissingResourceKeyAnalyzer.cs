@@ -44,8 +44,8 @@ public class MissingResourceKeyAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), elementAccessExpression.ArgumentList.Arguments.FirstOrDefault()?.Expression.TryGetInferredMemberName() ?? "??", "asdfasd");
-        context.ReportDiagnostic(diagnostic);
+        //var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), elementAccessExpression.ArgumentList.Arguments.FirstOrDefault()?.Expression.TryGetInferredMemberName() ?? "??", "asdfasd");
+        //context.ReportDiagnostic(diagnostic);
     }
 }
 

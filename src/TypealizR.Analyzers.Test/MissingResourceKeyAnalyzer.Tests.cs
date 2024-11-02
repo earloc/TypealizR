@@ -24,7 +24,7 @@ public class MissingResourceKeyAnalyzer_Test
     }
 
     [TestMethod]
-    public async Task Emits_NoDiagnostics_For_IndexerSyntax()
+    public async Task Emits_NoDiagnostics_For_ElementAccessSyntax()
     {
         var test = $$"""
             using System.Collections.Generic;
