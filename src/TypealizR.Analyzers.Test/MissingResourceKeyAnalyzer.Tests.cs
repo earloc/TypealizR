@@ -1,60 +1,98 @@
 ﻿using System.Threading.Tasks;
+using Microsoft.CodeAnalysis.CSharp.Testing;
+using Microsoft.CodeAnalysis.Diagnostics;
+using Microsoft.CodeAnalysis.Testing;
+using TypealizR.Diagnostics;
 using Xunit;
 using static TypealizR.Diagnostics.DiagnosticsId;
-
-using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
-    TypealizR.Analyzers.MissingResourceKeyAnalyzer,
-    TypealizR.Analyzers.TypealizRCodeFixProvider,
-    Microsoft.CodeAnalysis.Testing.DefaultVerifier>;
+using static TypealizR.Analyzers.Tests.AnalyzerFixture<TypealizR.Analyzers.MissingResourceKeyAnalyzer>;
+using Microsoft.Extensions.Localization;
+using System.Collections.Generic;
+using System.Runtime.CompilerServices;
 
 namespace TypealizR.Analyzers.Tests;
 
-public class MissingResourceKeyAnalyzer_Test
+public record AnalyzerFixture<TAnalyzer> where TAnalyzer : DiagnosticAnalyzer, new()
 {
+    internal string ActualCode { get; set; } = "";
 
-    private readonly StringLocalizerTestCodeBuilder test = new();
+    internal static DiagnosticResult DiagnosticFor(DiagnosticsId id) => CSharpAnalyzerVerifier<TAnalyzer, DefaultVerifier>.Diagnostic(id.ToString());
 
+    internal DiagnosticResult[] ExpectedDiagnostics { get; set; } = [];
+
+    private Task RunAsync()
+    {
+        var test = new CSharpAnalyzerTest<TAnalyzer, DefaultVerifier>();
+
+        var stringLocalizerType = typeof(IStringLocalizer);
+
+        test.ReferenceAssemblies = test.ReferenceAssemblies.WithPackages([
+            new(stringLocalizerType.Namespace!, stringLocalizerType.Assembly.GetName()?.Version?.ToString() ?? "*")
+        ]);
+
+        test.TestCode = ActualCode;
+
+        var verifier = new CSharpAnalyzerVerifier<TAnalyzer, DefaultVerifier>();
+        test.ExpectedDiagnostics.AddRange(ExpectedDiagnostics);
+        return test.RunAsync();
+    }
+
+    public TaskAwaiter GetAwaiter() => this.RunAsync().GetAwaiter();
+}
+
+public class MissingResourceKeyAnalyzer_Test(AnalyzerFixture<MissingResourceKeyAnalyzer> test) : IClassFixture<AnalyzerFixture<MissingResourceKeyAnalyzer>>
+{
     [Fact]
     public async Task Emits_NoDiagnostics_For_EmptySyntax()
     {
-        var test = @"";
-
-        await Verify.VerifyAnalyzerAsync(test);
+        await (
+            test with
+            {
+                ActualCode = ""
+            }
+        );
     }
 
     [Fact]
     public async Task Emits_NoDiagnostics_For_ElementAccessSyntax()
     {
-        var test = $$"""
-            using System.Collections.Generic;
+        await (
+            test with
+            {
+                ActualCode = $$"""
+                    using {{typeof(Dictionary<string, string>).Namespace}};
 
-            public class FooBar {
-                private Dictionary<string, string> _foos = [];
-                public string Bar() {
-                    return _foos[nameof(Bar)];
-                }
+                    public class FooBar {
+                        private Dictionary<string, string> _foos = [];
+                        public string Bar() {
+                            return _foos[nameof(Bar)];
+                        }
+                    }
+                """
             }
-        """;
-
-        await Verify.VerifyAnalyzerAsync(test);
+        );
     }
 
     [Fact]
     public async Task Reports_MissingKey_Bar()
     {
-        var code = test.Code("""
-            namespace ConsoleApplication1 {
-                public class Foo
-                {   
-                    public Foo(IStringLocalizer localizer) {
-                        var x = {|#0:localizer["Bar"]|};
+        await (
+            test with
+            {
+                ActualCode = $$"""
+                    using {{typeof(IStringLocalizer).Namespace}};
+
+                    public class Foo
+                    {   
+                        public Foo(IStringLocalizer localizer) {
+                            var x = {|#0:localizer["Bar"]|};
+                        }
                     }
-                }
-            }
-        """);
-
-        var expectedDiagnostics = Verify.Diagnostic(TR1010.ToString()).WithLocation(0).WithArguments("Bar", "en");
-
-        await Verify.VerifyAnalyzerAsync(code, expectedDiagnostics);
+                """,
+                ExpectedDiagnostics = [
+                    DiagnosticFor(TR1010).WithLocation(0).WithArguments("Bar", "en")
+                ]
+            } 
+        );
     }
 }

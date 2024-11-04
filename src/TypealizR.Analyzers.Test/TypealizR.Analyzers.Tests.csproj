@@ -2,7 +2,7 @@
 
     <PropertyGroup>
         <TargetFramework>net8</TargetFramework>
-
+        <Nullable>enable</Nullable>
         <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
         <GenerateBindingRedirectsOutputType>true</GenerateBindingRedirectsOutputType>
     </PropertyGroup>

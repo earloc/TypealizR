@@ -61,8 +61,6 @@ internal class StringLocalizerTestCodeBuilder
     internal string Code(string code)
     {
         var testCode = $$"""
-            using Microsoft.Extensions.Localization;
-
             {{typeDeclarations}}
             {{interfaceDeclaration}}
             {{generatedExtension}}

@@ -44,8 +44,33 @@ public class MissingResourceKeyAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), "Bar", "en");
-        context.ReportDiagnostic(diagnostic);
+        var targetSymbolName = context.SemanticModel.GetSymbolInfo(elementAccessExpression.Expression).EnsureStringLocalizerSymbolName();
+
+        if (string.IsNullOrEmpty(targetSymbolName))
+        {
+            return;
+        }
+
+        var firstArgument = elementAccessExpression.ArgumentList.Arguments.FirstOrDefault();
+
+        if (firstArgument is null)
+        {
+            return;
+        }
+
+        var argumentValue = firstArgument.Expression switch
+        {
+            LiteralExpressionSyntax literal  => literal.WithoutTrivia().WithoutAnnotations().ToFullString().Trim('"'),
+            _ => default
+        };
+
+        if (argumentValue is null)
+        {
+            return;
+        }
+
+        //var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), argumentValue, "en");
+        //context.ReportDiagnostic(diagnostic);
     }
 }
 

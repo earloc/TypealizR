@@ -48,7 +48,7 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var targetSymbolName = EnsureWantedSymbolName(context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression));
+        var targetSymbolName = context.SemanticModel.GetSymbolInfo(memberAccessExpression.Expression).EnsureStringLocalizerSymbolName();
 
         if (string.IsNullOrEmpty(targetSymbolName))
         {
@@ -57,36 +57,6 @@ public class UseIndexerAnalyzer : DiagnosticAnalyzer
 
         var diagnostic = Diagnostic.Create(Rule, memberAccessExpression.GetLocation(), memberAccessExpression.Name, targetSymbolName);
         context.ReportDiagnostic(diagnostic);
-    }
-
-    const string wantedNameSpace = "Microsoft.Extensions.Localization";
-    const string wantedTypeName = "IStringLocalizer";
-    const string wantedTypeFullName = $"{wantedNameSpace}.{wantedTypeName}";
-
-    private static string? EnsureWantedSymbolName(SymbolInfo symbolInfo)
-    {
-        if (symbolInfo.Symbol is null)
-        {
-            return null;
-        }
-
-        var displayName = symbolInfo.Symbol switch
-        {
-            ILocalSymbol x => x.Type.ToDisplayString(),
-            IMethodSymbol x => x.ReturnType.ToDisplayString(),
-            IPropertySymbol x => x.Type.ToDisplayString(),
-            IParameterSymbol x => x.Type.ToDisplayString(),
-            _ => null
-        };
-
-        if (displayName is null)
-        {
-            return null;
-        }
-
-        var nonGenericDisplayName = displayName.Trim('?').Split('<')[0];
-
-        return nonGenericDisplayName != wantedTypeFullName ? null : symbolInfo.Symbol.Name;
     }
 }
 
