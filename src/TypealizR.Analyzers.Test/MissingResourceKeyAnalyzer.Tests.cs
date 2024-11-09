@@ -74,17 +74,18 @@ public class MissingResourceKeyAnalyzer_Test(AnalyzerFixture<MissingResourceKeyA
     }
 
     [Fact]
-    public async Task Reports_MissingKey_Bar()
+    public async Task Emits_NoDiagnostics_For_MissingKey_Bar()
     {
         await (
             test with
             {
                 ActualCode = $$"""
                     using {{typeof(IStringLocalizer).Namespace}};
+                    namespace TypealizR.Analyzers.Tests;
 
                     public class Foo
                     {   
-                        public Foo(IStringLocalizer localizer) {
+                        public Foo(IStringLocalizer<Foo> localizer) {
                             var x = {|#0:localizer["Bar"]|};
                         }
                     }

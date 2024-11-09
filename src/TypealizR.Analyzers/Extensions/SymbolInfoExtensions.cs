@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Text;
 
 namespace Microsoft.CodeAnalysis;
@@ -9,21 +10,36 @@ internal static class SymbolInfoExtensions
     const string wantedTypeName = "IStringLocalizer";
     const string wantedTypeFullName = $"{wantedNameSpace}.{wantedTypeName}";
 
-    internal static string? EnsureStringLocalizerSymbolName(this SymbolInfo symbolInfo)
+    private static INamedTypeSymbol? TryGetTypeOf(ISymbol symbol)
     {
-        if (symbolInfo.Symbol is null)
-        {
-            return null;
-        }
 
-        var displayName = symbolInfo.Symbol switch
+        var symbolType = symbol switch
         {
-            ILocalSymbol x => x.Type.ToDisplayString(),
-            IMethodSymbol x => x.ReturnType.ToDisplayString(),
-            IPropertySymbol x => x.Type.ToDisplayString(),
-            IParameterSymbol x => x.Type.ToDisplayString(),
+            ILocalSymbol x => x.Type,
+            IMethodSymbol x => x.ReturnType,
+            IPropertySymbol x => x.Type,
+            IParameterSymbol x => x.Type,
             _ => null
         };
+
+
+        if (symbolType is not INamedTypeSymbol namedSymbolType)
+        {
+            return default;
+        }
+
+        return namedSymbolType;
+
+    }
+
+    internal static string? EnsureStringLocalizerSymbolName(this SymbolInfo that)
+    {
+        if (that.Symbol is null)
+        {
+            return default;
+        }
+
+        var displayName = TryGetTypeOf(that.Symbol)?.ToDisplayString();
 
         if (displayName is null)
         {
@@ -32,6 +48,25 @@ internal static class SymbolInfoExtensions
 
         var nonGenericDisplayName = displayName.Trim('?').Split('<')[0];
 
-        return nonGenericDisplayName != wantedTypeFullName ? null : symbolInfo.Symbol.Name;
+        return nonGenericDisplayName != wantedTypeFullName ? null : that.Symbol.Name;
+    }
+
+    internal static ITypeSymbol? TryGetTypeParamForStringLocalizer(this SymbolInfo that)
+    {
+        if (that.Symbol is null)
+        {
+            return default;
+        }
+
+        var symbolType = TryGetTypeOf(that.Symbol);
+
+        if (symbolType is null)
+        {
+            return default;
+        }
+
+        return symbolType.TypeArguments.FirstOrDefault();
+
+
     }
 }

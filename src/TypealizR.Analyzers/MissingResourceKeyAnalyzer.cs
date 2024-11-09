@@ -44,9 +44,9 @@ public class MissingResourceKeyAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        var targetSymbolName = context.SemanticModel.GetSymbolInfo(elementAccessExpression.Expression).EnsureStringLocalizerSymbolName();
+        var targetSymbolName = context.SemanticModel.GetSymbolInfo(elementAccessExpression.Expression).TryGetTypeParamForStringLocalizer();
 
-        if (string.IsNullOrEmpty(targetSymbolName))
+        if (targetSymbolName is null)
         {
             return;
         }
@@ -69,8 +69,8 @@ public class MissingResourceKeyAnalyzer : DiagnosticAnalyzer
             return;
         }
 
-        //var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), argumentValue, "en");
-        //context.ReportDiagnostic(diagnostic);
+        var diagnostic = Diagnostic.Create(Rule, elementAccessExpression.GetLocation(), argumentValue, "en");
+        context.ReportDiagnostic(diagnostic);
     }
 }
 
