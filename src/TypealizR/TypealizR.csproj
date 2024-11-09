@@ -1,16 +1,16 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
-    <PropertyGroup Label="MultilingualAppToolkit">
-        <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
-        <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
-        <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
-        <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
-    </PropertyGroup>
     <PropertyGroup>
         <TargetFramework>netstandard2.0</TargetFramework>
         <Nullable>enable</Nullable>
         <LangVersion>latest</LangVersion>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    </PropertyGroup>
+    <PropertyGroup Label="MultilingualAppToolkit">
+        <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
+        <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
+        <TranslationReport Condition="'$(Configuration)' == 'Release'">true</TranslationReport>
+        <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
     </PropertyGroup>
     <PropertyGroup>
         <PackageId>TypealizR</PackageId>
