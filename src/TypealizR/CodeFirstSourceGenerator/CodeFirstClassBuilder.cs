@@ -4,19 +4,13 @@ using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 
 namespace TypealizR;
-internal class CodeFirstClassBuilder
+internal class CodeFirstClassBuilder(TypeModel typealizedInterface)
 {
     internal readonly List<CodeFirstMethodBuilder> methodBuilders = [];
     internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = [];
 
-    private readonly TypeModel typealizedInterface;
-    private readonly TypeModel type;
-
-    public CodeFirstClassBuilder(TypeModel typealizedInterface)
-    {
-        this.typealizedInterface = typealizedInterface;
-        type = new TypeModel(typealizedInterface.Namespace, typealizedInterface.Name.Trim('I'));
-    }
+    private readonly TypeModel typealizedInterface = typealizedInterface;
+    private readonly TypeModel type = new TypeModel(typealizedInterface.Namespace, typealizedInterface.Name.Trim('I'));
 
     internal CodeFirstClassModel Build()
     {
@@ -30,7 +24,7 @@ internal class CodeFirstClassBuilder
             .ToArray()
         ;
 
-        return new CodeFirstClassModel($"{typealizedInterface.FullName}.g.cs", typealizedInterface, type, methodModels, propertyModels);
+        return new ($"{typealizedInterface.FullName}.g.cs", typealizedInterface, type, methodModels, propertyModels);
     }
 
     internal CodeFirstMethodBuilder WithMethod(string name, string? defaultValue)
