@@ -38,4 +38,12 @@ public class CodeFirstSourceGenerator_Tests
             .Build()
             .Verify()
         ;
+
+    [Fact]
+    public async Task Honors_Interfaces_Declared_As_Inner_Type() => await GeneratorTesterBuilder<CodeFirstSourceGenerator>
+            .Create(BaseDirectory, null)
+            .WithSourceFile("Innerface.cs")
+            .Build()
+            .Verify()
+        ;
 }
