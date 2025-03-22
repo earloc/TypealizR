@@ -30,6 +30,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Where(x => x.Model
                 .GetAttributes()
                 .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal) ?? false)
+                // TODO: getting customized implemention name would go here (probably ;))
             )
         ;
 
@@ -43,6 +44,8 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var options = source.Right;
                 var typealizedInterface = source.Left;
 
+                var containingTypeNames = RecurseOn(typealizedInterface.Model.ContainingType, new());
+
                 var members = typealizedInterface
                     .Declaration
                     .Members;
@@ -50,7 +53,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var builder = new CodeFirstClassBuilder(new TypeModel(
                     typealizedInterface.Model.ContainingNamespace.ToDisplayString(),
                     typealizedInterface.Declaration.Identifier.Text
-                ));
+                ), containingTypeNames);
 
                 List<Diagnostic> diagnostics = [];
 
@@ -62,6 +65,18 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
                 ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
+    }
+
+    private static string[] RecurseOn(INamedTypeSymbol? type, List<string> containingTypeNames)
+    {
+        if (type is null)
+        {
+            return containingTypeNames.ToArray();
+        }
+
+        containingTypeNames.Add(type.Name);
+
+        return RecurseOn(type.ContainingType, containingTypeNames);
     }
 
     private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
