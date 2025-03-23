@@ -8,6 +8,8 @@
         <AssemblyName>tr</AssemblyName>
     </PropertyGroup>
     <PropertyGroup>
+        <OutputType>Exe</OutputType>
+
         <IsPackable>true</IsPackable>
         <PackageId>TypealizR.CLI</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -30,6 +32,7 @@
     <ItemGroup>
       <Content Include="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <DestinationFolder>$(OutputPath)</DestinationFolder>
       </Content>
     </ItemGroup>
     <ItemGroup>
