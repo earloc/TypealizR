@@ -17,8 +17,12 @@ internal class CodeFirstPropertyModel
 
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
-        private const string {{KeyName}} = @"{{key}}";
+
+        {{moreSpaces}}        #region {{key}}-property
+        {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
         {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
         {{moreSpaces}}        public {{returnType}} {{key}} => localizer[{{KeyName}}].Or(localizer[{{FallbackKeyName}}]);
+        {{moreSpaces}}        #endregion
+
         """;
 }

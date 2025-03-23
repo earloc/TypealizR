@@ -20,13 +20,16 @@ internal class CodeFirstMethodModel
 
     private string FallbackKeyName => $"{key}{_.FallBackKeySuffix}";
     private string KeyName => $"{key}{_.KeySuffix}";
-
     private string RawName => $"{key}{_.RawSuffix}";
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
-        private const string {{KeyName}} = @"{{key}}";
+
+        {{moreSpaces}}        #region {{key}}-method
+        {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
         {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
         {{moreSpaces}}        public {{returnType}} {{RawName}} => localizer[{{KeyName}}].Or(localizer[{{FallbackKeyName}}]);
         {{moreSpaces}}        public {{returnType}} {{key}} ({{parameters.ToCharpDeclaration()}}) => localizer[{{KeyName}}, {{parameters.ToCSharpInvocation()}}].Or(localizer[{{FallbackKeyName}}, {{parameters.ToCSharpInvocation()}}]);
+        {{moreSpaces}}        #endregion
+
         """;
 }

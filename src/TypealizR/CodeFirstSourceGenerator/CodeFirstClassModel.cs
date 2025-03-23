@@ -64,8 +64,18 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
     {{spaces}}        public {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
     {{spaces}}          this.localizer = localizer;
     {{spaces}}        }
-    {{spaces}}        {{methods.Select(x => x.ToCSharp(spaces)).ToMultiline($"{spaces}            ", appendNewLineAfterEach: false)}}
-    {{spaces}}        {{properties.Select(x => x.ToCSharp(spaces)).ToMultiline($"{spaces}            ", appendNewLineAfterEach: false)}}
+    {{spaces}}        #region methods
+
+    {{methods.Select(x => x.ToCSharp(spaces)).ToMultiline($"{spaces}            ", appendNewLineAfterEach: false)}}
+
+    {{spaces}}        #endregion
+
+    {{spaces}}        #region properties
+
+    {{properties.Select(x => x.ToCSharp(spaces)).ToMultiline($"{spaces}    ", appendNewLineAfterEach: false)}}
+
+    {{spaces}}        #endregion
+
     {{spaces}}    }
     """;
 }
