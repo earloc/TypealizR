@@ -2,13 +2,13 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net8.0</TargetFramework>
+        <TargetFrameworks>net8.0;net9.0;</TargetFrameworks>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>tr</AssemblyName>
-      
     </PropertyGroup>
     <PropertyGroup>
+        <OutputType>Exe</OutputType>
         <IsPackable>true</IsPackable>
         <PackageId>TypealizR.CLI</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
@@ -22,6 +22,7 @@
         <DevelopmentDependency>true</DevelopmentDependency>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackAsTool>true</PackAsTool>
+        <SelfContained>false</SelfContained>
         <UseAppHost>false</UseAppHost>
     </PropertyGroup>
     <ItemGroup>
@@ -30,6 +31,7 @@
     <ItemGroup>
       <Content Include="appsettings.json">
         <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+        <DestinationFolder>$(OutputPath)</DestinationFolder>
       </Content>
     </ItemGroup>
     <ItemGroup>
