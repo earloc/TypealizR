@@ -62,7 +62,7 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TypealizR.CLI\tr.csproj" />
+        <ProjectReference Include="..\TypealizR.CLI\TypealizR.CLI.csproj" />
         <ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
         <ProjectReference Include="..\TypealizR\TypealizR.csproj" />
     </ItemGroup>
