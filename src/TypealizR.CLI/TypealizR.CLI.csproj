@@ -9,7 +9,6 @@
     </PropertyGroup>
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-
         <IsPackable>true</IsPackable>
         <PackageId>TypealizR.CLI</PackageId>
         <PackageReadmeFile>README.md</PackageReadmeFile>
