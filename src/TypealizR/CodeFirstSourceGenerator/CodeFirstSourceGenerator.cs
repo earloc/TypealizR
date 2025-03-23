@@ -30,7 +30,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Where(x => x.Model
                 .GetAttributes()
                 .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal) ?? false)
-                // TODO: getting customized implemention name would go here (probably ;))
+                // #236: getting customized implemention name would go here (probably ;))
             )
         ;
 
