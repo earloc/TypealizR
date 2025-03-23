@@ -21,7 +21,6 @@
         <DevelopmentDependency>true</DevelopmentDependency>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackAsTool>true</PackAsTool>
-        <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>true</SelfContained>
         <UseAppHost>true</UseAppHost>
     </PropertyGroup>
