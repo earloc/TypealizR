@@ -28,7 +28,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.CodeFirst.Abstrac
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.CodeFirst.Console", "src\Playground.CodeFirst.Console\Playground.CodeFirst.Console.csproj", "{CFFB0876-CC7C-466C-9D76-FB1F025E2B80}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.CLI", "src\TypealizR.CLI\TypealizR.CLI.csproj", "{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TypealizR.CLI", "src\TypealizR.CLI\tr.csproj", "{5E13DDCE-AE5B-4BB3-8D96-25AE77F83C50}"
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Playground.Common", "src\Playground.Common\Playground.Common.csproj", "{0E9B0505-3680-40A2-A0AC-31C9117D1A24}"
 EndProject
