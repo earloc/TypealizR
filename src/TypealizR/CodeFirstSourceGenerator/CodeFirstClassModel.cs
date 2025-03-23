@@ -37,16 +37,16 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
         namespace {{type.Namespace}} {
         """);
 
-        foreach(var type in containingTypes)
+        foreach(var containingType in containingTypes)
         {
             indentation += 4;
             spaces = new string(' ', indentation);
-            builder.AppendLine($$"""{{spaces}}partial class {{type}} {""");
+            builder.AppendLine($$"""{{spaces}}partial class {{containingType}} {""");
         }
 
         builder.AppendLine(GenerateImplementationType(generatorType, spaces));
 
-        foreach(var type in containingTypes)
+        foreach(var containingType in containingTypes)
         {
             builder.AppendLine($$"""{{spaces}}}""");
             indentation -= 4;
