@@ -1,5 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project Sdk="Microsoft.NET.Sdk">
+    <PropertyGroup>
+        <TargetFramework>netstandard2.0</TargetFramework>
+        <Nullable>enable</Nullable>
+        <LangVersion>latest</LangVersion>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    </PropertyGroup>
     <PropertyGroup Label="MultilingualAppToolkit">
         <MultilingualAppToolkitVersion>4.0</MultilingualAppToolkitVersion>
         <MultilingualFallbackLanguage>en</MultilingualFallbackLanguage>
@@ -7,14 +13,8 @@
         <SuppressPseudoWarning Condition="'$(Configuration)' == 'Debug'">true</SuppressPseudoWarning>
     </PropertyGroup>
     <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <Nullable>enable</Nullable>
-        <LangVersion>latest</LangVersion>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-    </PropertyGroup>
-    <PropertyGroup>
-        <IsPackable>true</IsPackable>
         <PackageId>TypealizR</PackageId>
+        <IsPackable>true</IsPackable>
         <PackageReadmeFile>README.md</PackageReadmeFile>
         <Title>TypealizR</Title>
         <Authors>earloc</Authors>
@@ -45,12 +45,12 @@
     </Target>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.3.4" GeneratePathProperty="true">
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" GeneratePathProperty="true">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.3.1" />
-        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="7.0.13" PrivateAssets="all" GeneratePathProperty="true" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.10" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
     <ItemGroup>
         <XliffResource Include="MultilingualResources\TypealizR.de.xlf" />

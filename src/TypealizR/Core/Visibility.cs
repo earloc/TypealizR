@@ -16,5 +16,4 @@ internal static class AccessibilityExtensions
         Accessibility.Public => Visibility.Public,
         _ => Visibility.Internal
     };
-
 }

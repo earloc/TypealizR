@@ -1,0 +1,6 @@
+<!-- https://stackoverflow.com/a/74525130/4136104 -->
+<Project xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+    <Target Name="Build">
+        <Message Text="$(MSBuildProjectName) has been skipped." />
+    </Target>
+</Project>

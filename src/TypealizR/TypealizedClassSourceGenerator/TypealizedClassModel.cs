@@ -15,15 +15,15 @@ internal class TypealizedClassModel
     private readonly TypeModel markerType;
     private readonly IEnumerable<InstanceMemberModel> members;
     private readonly IEnumerable<TypealizedClassModel> groups;
-    private readonly HashSet<string> usings = new()
-    {
+    private readonly HashSet<string> usings =
+    [
         "System",
         "System.CodeDom.Compiler",
         "System.Collections.Generic",
         "System.Diagnostics",
         "System.Diagnostics.CodeAnalysis",
         "Microsoft.Extensions.Localization"
-    };
+    ];
 
     public TypealizedClassModel(string typeName, TypeModel markerType, string rootNamespace, IEnumerable<InstanceMemberModel> members, IEnumerable<TypealizedClassModel> groups)
     {

@@ -5,7 +5,7 @@ The `code-first` approach let´s you specify ordinary, **strongly typed** `Inter
 These `typealized interfaces` then get picked up by the `source-generator`, which generates an implementing class that then can be used f.e. in conjuntion with ordinary `dependency-injection`.
 This way, devlepors do not need to leave their natural habitat (the code-editor), which comes with the benefit of automatic code-refactorings, ultimatley optimizing the [inner-loop](https://notes.serverlessfirst.com/public/The+inner+and+outer+loops+of+software+development+workflow#Inner+loop), even during i18n-tasks.
 
-![GenerateMethod](../assets/demo_TypealizedInterface_GenerateMethod.gif)
+![GenerateMethod](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface_GenerateMethod.gif)
 
 ## pre-requisits
 The consuming target project should at least reference a suitable version of [Microsoft.Extensions.Localization.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Localization.Abstractions)
@@ -16,7 +16,7 @@ The consuming target project should at least reference a suitable version of [Mi
 - install [TypealizR.CodeFirst.Abstractions](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions) via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
 - Author a `Typealized-Interface` which basically is just an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
   
-  ![demo_TypealizedInterface](../assets/demo_TypealizedInterface.png)
+  ![demo_TypealizedInterface](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface.png)
   ```csharp
     using TypealizR.CodeFirst.Abstractions;
     namespace Sample;
@@ -104,7 +104,7 @@ The consuming target project should at least reference a suitable version of [Mi
     > `dotnet tr cf ex some/path/to/a.csproj`
 
   This will extract the following `resx`-file for above sample:
-  ![TypealizedInterface_Resx](../assets//demo_TypealizedInterface_Resx.png?raw=true)
+  ![TypealizedInterface_Resx](https://github.com/earloc/TypealizR/blob/main/docs/assets//demo_TypealizedInterface_Resx.png?raw=true)
   ```xml
     <data name="Hello">
       <value>Hello, fellow developer!</value>

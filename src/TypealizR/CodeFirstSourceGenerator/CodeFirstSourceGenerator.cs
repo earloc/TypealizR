@@ -30,6 +30,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             .Where(x => x.Model
                 .GetAttributes()
                 .Any(x => x.AttributeClass?.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal) ?? false)
+                // #236: getting customized implemention name would go here (probably ;))
             )
         ;
 
@@ -43,6 +44,8 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var options = source.Right;
                 var typealizedInterface = source.Left;
 
+                var containingTypeNames = RecurseOn(typealizedInterface.Model.ContainingType, new());
+
                 var members = typealizedInterface
                     .Declaration
                     .Members;
@@ -50,9 +53,9 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var builder = new CodeFirstClassBuilder(new TypeModel(
                     typealizedInterface.Model.ContainingNamespace.ToDisplayString(),
                     typealizedInterface.Declaration.Identifier.Text
-                ));
+                ), containingTypeNames);
 
-                var diagnostics = new List<Diagnostic>();
+                List<Diagnostic> diagnostics = [];
 
                 TryAddMethods(builder, diagnostics, members, options, ctxt.CancellationToken);
                 TryAddProperties(builder, diagnostics, members, options, ctxt.CancellationToken);
@@ -62,6 +65,18 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
                 ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
+    }
+
+    private static string[] RecurseOn(INamedTypeSymbol? type, List<string> containingTypeNames)
+    {
+        if (type is null)
+        {
+            return containingTypeNames.AsEnumerable().Reverse().ToArray();
+        }
+
+        containingTypeNames.Add(type.Name);
+
+        return RecurseOn(type.ContainingType, containingTypeNames);
     }
 
     private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
@@ -141,7 +156,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             return default;
         }
 
-        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax || x is XmlEmptyElementSyntax).ToArray();
+        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax or XmlEmptyElementSyntax).ToArray();
 
         var builder = new StringBuilder();
 
@@ -149,11 +164,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         {
             var value = xmlNodeSyntax switch
             {
-                (XmlTextSyntax x) => x.TextTokens
+                XmlTextSyntax x => x.TextTokens
                     .Select(_ => _.Text)
                     .Join(),
 
-                (XmlEmptyElementSyntax x) => x.Attributes
+                XmlEmptyElementSyntax x => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
                     .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
                     .ToCommaDelimited(),
