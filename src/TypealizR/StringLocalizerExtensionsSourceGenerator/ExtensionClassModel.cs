@@ -23,13 +23,13 @@ internal class ExtensionClassModel
         usings.Add($"{markertType.Namespace}.TypealizR");
     }
 
-    private readonly HashSet<string> usings = new()
-    {
+    private readonly HashSet<string> usings =
+    [
         "System",
         "System.CodeDom.Compiler",
         "System.Diagnostics",
         "System.Diagnostics.CodeAnalysis"
-    };
+    ];
 
     public string FileName => $"IStringLocalizerExtensions.{markertType.FullName}.g.cs";
 

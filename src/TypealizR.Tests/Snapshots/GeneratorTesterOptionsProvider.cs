@@ -29,10 +29,7 @@ internal sealed class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProv
 
     public override AnalyzerConfigOptions GlobalOptions => globalOptions;
 
-    public override AnalyzerConfigOptions GetOptions(SyntaxTree tree)
-    {
-        throw new NotImplementedException();
-    }
+    public override AnalyzerConfigOptions GetOptions(SyntaxTree tree) => throw new NotImplementedException();
 
     public override AnalyzerConfigOptions GetOptions(AdditionalText textFile)
     {

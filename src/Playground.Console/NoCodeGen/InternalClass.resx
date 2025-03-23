@@ -123,4 +123,7 @@
   <data name="Hello {user:s}, it is {today:d}" xml:space="preserve">
     <value>Hello {0}, today is {1}</value>
   </data>
+  <data name="Hello" xml:space="preserve">
+    <value>Hello</value>
+  </data>
 </root>

@@ -9,19 +9,16 @@ internal class StringFormatterClassBuilder
 
     private readonly string rootNamespace;
 
-    public StringFormatterClassBuilder(string rootNamespace)
-    {
-        this.rootNamespace = rootNamespace;
-    }
+    public StringFormatterClassBuilder(string rootNamespace) => this.rootNamespace = rootNamespace;
 
     private bool isUserModeImplementationProvided;
     internal void UserModeImplementationIsProvided() => isUserModeImplementationProvided = true;
 
     internal string Build(Type generatorType)
     {
-        string stringFormatterStub = GenerateStub(generatorType);
+        var stringFormatterStub = GenerateStub(generatorType);
 
-        var defaultImplementation = default(string?);
+        string? defaultImplementation = default;
         if (isUserModeImplementationProvided)
         {
             defaultImplementation = GenerateDefaultImplementation();

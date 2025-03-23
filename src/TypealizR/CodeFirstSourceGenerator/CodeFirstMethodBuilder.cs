@@ -7,7 +7,7 @@ internal class CodeFirstMethodBuilder
 {
     private readonly string name;
     private readonly string? defaultValue;
-    private readonly List<CodeFirstParameterBuilder> parameterBuilders = new();
+    private readonly List<CodeFirstParameterBuilder> parameterBuilders = [];
 
     public CodeFirstMethodBuilder(string name, string? defaultValue)
     {
@@ -33,7 +33,7 @@ internal class CodeFirstMethodBuilder
 
         if (resourceKey is not null)
         {
-            var indexedParams = parameters.Select((x, i) => new { Name = x.Name, Index = i }).ToArray();
+            var indexedParams = parameters.Select((x, i) => new { x.Name, Index = i }).ToArray();
 
             foreach (var param in indexedParams)
             {

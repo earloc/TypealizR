@@ -23,7 +23,7 @@ public sealed class TypealizedClassSourceGenerator : ResxFileSourceGeneratorBase
     {
         var builder = new TypealizedClassBuilder(file.UseParamNamesInMethodNames, markerType, $"Typealized{markerType.Name}", rootNamespace, severityConfig);
 
-        var diagnostics = new List<Diagnostic>();
+        List<Diagnostic> diagnostics = [];
 
         foreach (var entry in file.Entries)
         {

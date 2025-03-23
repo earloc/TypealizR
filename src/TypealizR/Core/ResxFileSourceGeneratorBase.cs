@@ -61,7 +61,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             throw new ArgumentNullException(nameof(file));
         }
 
-        if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
+        if (options.ProjectDirectory == null || !options.ProjectDirectory.Exists)
         {
             ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
             return;
@@ -106,13 +106,9 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
 
         var matchingMarkerType = Array.Find(possibleMarkerTypeSymbols, x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
-        if (matchingMarkerType is null)
-        {
-            return (nameSpace.Trim('.', ' '), Accessibility.Internal);
-        }
-
-        return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility);
-
+        return matchingMarkerType is null
+            ? ((string, Accessibility))(nameSpace.Trim('.', ' '), Accessibility.Internal)
+            : ((string, Accessibility))(matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility);
     }
 
     protected abstract GeneratedSourceFile GenerateSourceFileFor(
