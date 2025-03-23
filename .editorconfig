@@ -10,6 +10,7 @@ insert_final_newline = true
 
 # CA2016: Forward the 'CancellationToken' parameter to methods
 dotnet_diagnostic.CA2016.severity = error
+dotnet_diagnostic.TR1000.severity = info
 
 #### Core EditorConfig Options ####
 
