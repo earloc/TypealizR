@@ -3,11 +3,15 @@ using TypealizR.CodeFirst.Abstractions;
 
 namespace TypealizR.Tests.CodeFirst;
 
-internal partial class SomeOuterClass {
-
-    [CodeFirstTypealized]
-    internal interface II18n
-    {
-        LocalizedString Hello(string world);
+internal partial class Some {
+    internal partial class Outer {
+        internal partial class NestedClass {
+            [CodeFirstTypealized]
+            internal interface ITranslations
+            {
+                LocalizedString Hello(string world);
+                LocalizedString World { get; }
+            }
+        }
     }
 }
