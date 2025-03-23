@@ -3,7 +3,7 @@
 namespace TypealizR.Tests.CLI.Tests;
 internal sealed class InMemoryStorage : IStorage
 {
-    private Dictionary<string, string> files = new();
+    private readonly Dictionary<string, string> files = [];
     public Task AddAsync(string fileName, string content)
     {
         files.Add(fileName, content);

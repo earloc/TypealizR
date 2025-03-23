@@ -24,7 +24,7 @@ internal class ExtensionMethodBuilder
     public ExtensionMethodModel Build()
     {
         var parameters = parameterBuilder.Build(diagnostics);
-        string sanitizedMethodName = key;
+        var sanitizedMethodName = key;
 
         foreach (var parameter in parameters)
         {

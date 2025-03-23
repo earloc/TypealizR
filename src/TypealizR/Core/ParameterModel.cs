@@ -30,12 +30,7 @@ internal class ParameterModel
                 .ToArray()
         );
 
-        if (!parameterName.First().IsValidInIdentifier())
-        {
-            return $"_{rawParameterName}";
-        }
-
-        return parameterName;
+        return !parameterName.First().IsValidInIdentifier() ? $"_{rawParameterName}" : parameterName;
     }
 }
 

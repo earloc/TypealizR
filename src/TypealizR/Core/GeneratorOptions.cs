@@ -55,7 +55,7 @@ public sealed class GeneratorOptions
     [SuppressMessage("Globalization", "CA1308:Normalize strings to uppercase", Justification = "uppercase would not be valid")]
     private static Dictionary<string, DiagnosticSeverity> ReadSeverityConfig(AnalyzerConfigOptions options)
     {
-        var severityConfig = new Dictionary<string, DiagnosticSeverity>();
+        Dictionary<string, DiagnosticSeverity> severityConfig = [];
 
         var availableDiagnostics = Enum.GetValues(typeof(DiagnosticsId))
             .OfType<DiagnosticsId>()
@@ -68,14 +68,9 @@ public sealed class GeneratorOptions
 
             if (options.TryGetValue(key, out var rawValue))
             {
-                if (Enum.TryParse<DiagnosticSeverity>(rawValue, true, out var severity))
-                {
-                    severityConfig[diagnostic] = severity;
-                }
-                else
-                {
-                    throw new InvalidOperationException($"'{key}' has invalid value '{rawValue}'");
-                }
+                severityConfig[diagnostic] = Enum.TryParse<DiagnosticSeverity>(rawValue, true, out var severity)
+                    ? severity
+                    : throw new InvalidOperationException($"'{key}' has invalid value '{rawValue}'");
             }
         }
 

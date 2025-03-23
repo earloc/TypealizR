@@ -1,21 +1,25 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 
 namespace TypealizR;
+
 internal class CodeFirstClassBuilder
 {
-    internal readonly List<CodeFirstMethodBuilder> methodBuilders = new();
-    internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = new();
-
+    internal readonly List<CodeFirstMethodBuilder> methodBuilders = [];
+    internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = [];
     private readonly TypeModel typealizedInterface;
-    private readonly TypeModel type;
+    private readonly string[] containingTypes;
+    private readonly TypeModel implementationType;
 
-    public CodeFirstClassBuilder(TypeModel typealizedInterface)
+    public CodeFirstClassBuilder(TypeModel typealizedInterface, string[] containingTypes)
     {
         this.typealizedInterface = typealizedInterface;
-        type = new TypeModel(typealizedInterface.Namespace, typealizedInterface.Name.Trim('I'));
+        this.containingTypes = containingTypes;
+        var implementationTypeName = typealizedInterface.Name.Trim('I');
+        implementationType = new TypeModel(typealizedInterface.Namespace, implementationTypeName);
     }
 
     internal CodeFirstClassModel Build()
@@ -30,7 +34,7 @@ internal class CodeFirstClassBuilder
             .ToArray()
         ;
 
-        return new CodeFirstClassModel($"{typealizedInterface.FullName}.g.cs", typealizedInterface, type, methodModels, propertyModels);
+        return new ($"{typealizedInterface.FullName}.g.cs", typealizedInterface, implementationType, containingTypes, methodModels, propertyModels);
     }
 
     internal CodeFirstMethodBuilder WithMethod(string name, string? defaultValue)

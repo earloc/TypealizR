@@ -19,7 +19,5 @@ public class Greeter
 
     public void SayHelloPublic(string name) => Console.WriteLine(publicDuplicate.Hello__name(name));
 
-
     public void GoodMorning(string name) => Console.WriteLine(duplicates.GoodMorning__name(name));
-
 }

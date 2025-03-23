@@ -13,15 +13,9 @@ internal sealed class EmptyFile : AdditionalText
 
     public override string Path { get; }
 
-    public EmptyFile(string path)
-    {
-        Path = path;
-    }
+    public EmptyFile(string path) => Path = path;
 
-    public override SourceText GetText(CancellationToken cancellationToken = new CancellationToken())
-    {
-        return SourceText.From(text);
-    }
+    public override SourceText GetText(CancellationToken cancellationToken = new CancellationToken()) => SourceText.From(text);
 }
 
 public class RessourceFile_Tests
