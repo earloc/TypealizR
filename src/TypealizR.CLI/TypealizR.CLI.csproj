@@ -8,6 +8,7 @@
         <AssemblyName>tr</AssemblyName>
         <PublishSingleFile>true</PublishSingleFile>
         <SelfContained>true</SelfContained>
+        <UseAppHost>true</UseAppHost>
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>true</IsPackable>
