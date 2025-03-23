@@ -6,9 +6,6 @@
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <AssemblyName>tr</AssemblyName>
-        <PublishSingleFile>true</PublishSingleFile>
-        <SelfContained>true</SelfContained>
-        <UseAppHost>true</UseAppHost>
     </PropertyGroup>
     <PropertyGroup>
         <IsPackable>true</IsPackable>
@@ -24,7 +21,9 @@
         <DevelopmentDependency>true</DevelopmentDependency>
         <PackageLicenseExpression>MIT</PackageLicenseExpression>
         <PackAsTool>true</PackAsTool>
-        <UseAppHost>false</UseAppHost>
+        <PublishSingleFile>true</PublishSingleFile>
+        <SelfContained>true</SelfContained>
+        <UseAppHost>true</UseAppHost>
     </PropertyGroup>
     <ItemGroup>
       <None Remove="appsettings.json" />
