@@ -15,13 +15,21 @@ namespace TypealizR.Tests.CodeFirst {
                     public Translations (IStringLocalizer<ITranslations> localizer) {
                       this.localizer = localizer;
                     }
+                    #region methods
+                    #region Hello-method
                     private const string Hello_Key = @"Hello";
                     private const string Hello_FallbackKey = @"Hello {0}";
                     public LocalizedString Hello_Raw => localizer[Hello_Key].Or(localizer[Hello_FallbackKey]);
                     public LocalizedString Hello (string world) => localizer[Hello_Key, world].Or(localizer[Hello_FallbackKey, world]);
+                    #endregion
+                    #endregion
+                    #region properties
+                    #region World-property
                     private const string World_Key = @"World";
                     private const string World_FallbackKey = @"World";
                     public LocalizedString World => localizer[World_Key].Or(localizer[World_FallbackKey]);
+                    #endregion
+                    #endregion
                 }
             }
         }
