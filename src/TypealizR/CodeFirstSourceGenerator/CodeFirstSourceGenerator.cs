@@ -71,7 +71,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
     {
         if (type is null)
         {
-            return containingTypeNames.ToArray();
+            return containingTypeNames.AsEnumerable().Reverse().ToArray();
         }
 
         containingTypeNames.Add(type.Name);
