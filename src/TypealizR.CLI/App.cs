@@ -40,7 +40,7 @@ internal class App
             .UseHost(_ => Host
                 .CreateDefaultBuilder()
                 .ConfigureAppConfiguration(config => config
-                    .AddJsonFile("appsettings.json", optional: false)
+                    .AddJsonFile("appsettings.json", optional: true)
                     .AddCommandLine(args)
                 )
                 , builder => builder
