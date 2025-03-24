@@ -7,9 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 namespace TypealizR.Tests.CodeFirst {
     [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
-    public partial class MethodsWithXmlCommentParameters: IMethodsWithXmlCommentParameters {
+    internal partial class MethodsWithXmlCommentParameters: IMethodsWithXmlCommentParameters {
         private readonly IStringLocalizer<IMethodsWithXmlCommentParameters> localizer;
-        public MethodsWithXmlCommentParameters (IStringLocalizer<IMethodsWithXmlCommentParameters> localizer) {
+        internal MethodsWithXmlCommentParameters (IStringLocalizer<IMethodsWithXmlCommentParameters> localizer) {
           this.localizer = localizer;
         }
         #region methods

@@ -7,9 +7,9 @@ using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 namespace TypealizR.Tests.CodeFirst {
     [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
-    public partial class Translatables: ITranslatables {
+    internal partial class Translatables: ITranslatables {
         private readonly IStringLocalizer<ITranslatables> localizer;
-        public Translatables (IStringLocalizer<ITranslatables> localizer) {
+        internal Translatables (IStringLocalizer<ITranslatables> localizer) {
           this.localizer = localizer;
         }
         #region methods
