@@ -3,10 +3,10 @@ using TypealizR.CodeFirst.Abstractions;
 
 namespace Playground.CodeFirst.Console;
 
-internal partial class Some {
-    internal partial class Inner {
+internal sealed partial class Some {
+    internal sealed partial class Inner {
         [CodeFirstTypealized]
-        internal interface ITranslations {
+        internal interface ISampleInnerface {
             LocalizedString Hello { get; }
             /// <summary>
             /// Hello '<paramref name="world"/>'
