@@ -21,5 +21,6 @@ public class ExportCommand_Tests
 
         storage.Files.Keys.ShouldContain(x => x.EndsWith("ILocalizables.resx"));
         storage.Files.Keys.ShouldContain(x => x.EndsWith("ILocalizablesWithDefaults.resx"));
+        storage.Files.Keys.ShouldContain(x => x.EndsWith("ITranslations.resx"));
     }
 }
