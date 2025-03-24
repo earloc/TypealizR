@@ -18,7 +18,7 @@ Demo(i18n);
 
 var innerface = scope.ServiceProvider.GetRequiredService<Some.Inner.ISampleInnerface>();
 Console.WriteLine(innerface.Hello);
-Console.WriteLine(innerface.World('world'));
+Console.WriteLine(innerface.World("world"));
 
 static void Demo(ILocalizables i18n)
 {
