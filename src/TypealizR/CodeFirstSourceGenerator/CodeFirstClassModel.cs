@@ -44,7 +44,7 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
             builder.AppendLine($$"""{{spaces}}partial class {{containingType}} {""");
         }
 
-        builder.AppendLine(GenerateImplementationType(generatorType, spaces));
+        builder.AppendLine(GenerateImplementationType(generatorType, spaces, type.Accessibility.ToVisibilty().ToString()));
 
         foreach(var containingType in containingTypes)
         {
@@ -57,11 +57,11 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
         return builder.ToString();
     }
 
-    private string GenerateImplementationType(Type generatorType, string spaces) => $$"""
+    private string GenerateImplementationType(Type generatorType, string spaces, string accessibility) => $$"""
     {{spaces}}    {{generatorType.GeneratedCodeAttribute()}}
-    {{spaces}}    public partial class {{type.Name}}: {{implementingInterface.Name}} {
+    {{spaces}}    {{accessibility}} partial class {{type.Name}}: {{implementingInterface.Name}} {
     {{spaces}}        private readonly IStringLocalizer<{{implementingInterface.Name}}> localizer;
-    {{spaces}}        public {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
+    {{spaces}}        {{accessibility}} {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
     {{spaces}}          this.localizer = localizer;
     {{spaces}}        }
     {{spaces}}        #region methods
