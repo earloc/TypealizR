@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TypealizR.Core;
+﻿using TypealizR.Core;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests;
@@ -34,13 +33,13 @@ public class ParameterBuilder_Tests
 
         var actual = sut.Type;
 
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
 
         if (expectInvalidTypeExpression)
         {
-            var warnings = collector.Diagnostics.Select(x => x.Id);
+            var warnings = collector.Diagnostics.Select(x => x.Id).ToArray();
 
-            warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
+            warnings.ShouldBeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
         }
 
     }
@@ -127,7 +126,7 @@ public class ParameterBuilder_Tests
 
         var actual = model.ToDeclarationCSharp();
 
-        actual.Should().BeEquivalentTo(expected.ToCommaDelimited());
+        actual.ShouldBeEquivalentTo(expected.ToCommaDelimited());
     }
 
     [Theory]
@@ -158,7 +157,7 @@ public class ParameterBuilder_Tests
 
         var actual = model.ToDeclarationCSharp();
 
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
     }
 
     [Theory]
@@ -193,7 +192,7 @@ public class ParameterBuilder_Tests
 
         var actual = parameters.Select(x => x.DisplayName).ToCommaDelimited();
 
-        actual.Should().BeEquivalentTo(expected);
+        actual.ShouldBeEquivalentTo(expected);
     }
 }
 
