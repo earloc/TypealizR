@@ -4,10 +4,15 @@ using System.Text;
 using TypealizR.Extensions;
 
 namespace System;
-internal static class StringExtensions
+public static class StringExtensions
 {
     public static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true)
     {
+        if (that is null)
+        {
+            throw new ArgumentNullException(nameof(that));
+        }
+
         var builder = new StringBuilder();
 
         var i = 0;
@@ -37,5 +42,5 @@ internal static class StringExtensions
 
     public static string ReplaceInvalidForMemberNameWith(this string that, char replacement) => new(that.Select(x => x.IsValidInIdentifier(false) ? x : replacement).ToArray());
 
-    public static string Escape(this string that) => that.Replace("\"", "\"\"");
+    public static string Escape(this string that) => that?.Replace("\"", "\"\"") ?? "";
 }

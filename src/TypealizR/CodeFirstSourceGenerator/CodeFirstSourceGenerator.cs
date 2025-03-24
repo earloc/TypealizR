@@ -44,7 +44,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var options = source.Right;
                 var typealizedInterface = source.Left;
 
-                var containingTypeNames = RecurseOn(typealizedInterface.Model.ContainingType, new());
+                var containingTypeNames = typealizedInterface.Model.ContainingType.GetContainingTypesRecursive();
 
                 var members = typealizedInterface
                     .Declaration
@@ -52,7 +52,8 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
                 var builder = new CodeFirstClassBuilder(new TypeModel(
                     typealizedInterface.Model.ContainingNamespace.ToDisplayString(),
-                    typealizedInterface.Declaration.Identifier.Text
+                    typealizedInterface.Declaration.Identifier.Text,
+                    containingTypeNames
                 ), containingTypeNames);
 
                 List<Diagnostic> diagnostics = [];
@@ -67,17 +68,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             });
     }
 
-    private static string[] RecurseOn(INamedTypeSymbol? type, List<string> containingTypeNames)
-    {
-        if (type is null)
-        {
-            return containingTypeNames.AsEnumerable().Reverse().ToArray();
-        }
 
-        containingTypeNames.Add(type.Name);
-
-        return RecurseOn(type.ContainingType, containingTypeNames);
-    }
 
     private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {

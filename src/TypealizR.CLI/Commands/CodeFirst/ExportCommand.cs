@@ -6,6 +6,8 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Resources;
+using Microsoft.CodeAnalysis;
+using System.Linq;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command
@@ -96,13 +98,18 @@ internal class ExportCommand : Command
 
         private static async Task ExportAsync(IConsole console, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
         {
-
             foreach (var type in types)
             {
                 var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
-                var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
+                var fileName = type.ImplementingInterface.Declaration.Identifier.Text;
+                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join("+");
+                if (!string.IsNullOrEmpty(containingTypes)) {
+                    fileName = $"{containingTypes}+{fileName}";
+                }
+
+                var resourcefileName = Path.Combine(interfacePath, $"{fileName}.resx");
 
                 console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
                 console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");

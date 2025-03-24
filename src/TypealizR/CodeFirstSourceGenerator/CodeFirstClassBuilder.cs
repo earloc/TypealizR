@@ -19,7 +19,7 @@ internal class CodeFirstClassBuilder
         this.typealizedInterface = typealizedInterface;
         this.containingTypes = containingTypes;
         var implementationTypeName = typealizedInterface.Name.Trim('I');
-        implementationType = new TypeModel(typealizedInterface.Namespace, implementationTypeName);
+        implementationType = new TypeModel(typealizedInterface.Namespace, implementationTypeName, containingTypes);
     }
 
     internal CodeFirstClassModel Build()
