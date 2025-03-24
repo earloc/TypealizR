@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CLI;
 using TypealizR.CLI.Abstractions;
 
@@ -18,9 +17,9 @@ public class ExportCommand_Tests
         );
         var result = await sut
             .RunAsync();
-        result.Should().Be(0);
+        result.ShouldBe(0);
 
-        storage.Files.Keys.Should().ContainMatch("*ILocalizables.resx");
-        storage.Files.Keys.Should().ContainMatch("*ILocalizablesWithDefaults.resx");
+        storage.Files.Keys.ShouldContain(x => x.EndsWith("ILocalizables.resx"));
+        storage.Files.Keys.ShouldContain(x => x.EndsWith("ILocalizablesWithDefaults.resx"));
     }
 }

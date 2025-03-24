@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TypealizR.Core;
+﻿using TypealizR.Core;
 
 namespace TypealizR.Tests;
 
@@ -26,7 +25,7 @@ public class ExtensionMethodBuilder_Tests
         var method = sut.Build();
 
         var actual = method.Name.ToString();
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
     }
 
     [Theory]
@@ -60,7 +59,7 @@ public class ExtensionMethodBuilder_Tests
         var method = sut.Build();
 
         var actual = method.Name.ToString();
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
     }
 
 }

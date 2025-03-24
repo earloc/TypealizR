@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TypealizR.CLI;
+﻿using TypealizR.CLI;
 
 namespace TypealizR.Tests.CLI.Tests;
 public class App_Tests
@@ -9,6 +8,6 @@ public class App_Tests
     public void CanCreate_Instance_Without_Custom_ServiceConfiguration()
     {
         var sut = new App();
-        sut.Should().NotBeNull();
+        sut.ShouldNotBeNull();
     }
 }

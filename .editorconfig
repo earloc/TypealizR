@@ -10,7 +10,12 @@ insert_final_newline = true
 
 # CA2016: Forward the 'CancellationToken' parameter to methods
 dotnet_diagnostic.CA2016.severity = error
-dotnet_diagnostic.TR1000.severity = info
+# TR1000: The method signature '{0}' can be expressed as an index signature
+dotnet_diagnostic.TR1000.severity = none
+# CA2007: Consider calling ConfigureAwait on the awaited task
+dotnet_diagnostic.CA2007.severity = none
+# CA1707: Identifiers should not contain underscores
+dotnet_diagnostic.CA1707.severity = none
 
 #### Core EditorConfig Options ####
 

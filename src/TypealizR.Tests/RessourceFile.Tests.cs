@@ -1,6 +1,5 @@
 ﻿using System.Collections.Immutable;
 using System.Xml;
-using FluentAssertions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.Text;
 using TypealizR.Core;
@@ -43,7 +42,7 @@ public class RessourceFile_Tests
             .ToArray();
 
         var actual = RessourceFile.From(ImmutableArray.Create(additionalFiles), CancellationToken.None);
-        actual.Should().HaveCount(expected);
+        actual.Count().ShouldBe(expected);
     }
 
     [Theory]
@@ -85,7 +84,7 @@ public class RessourceFile_Tests
 
         var actual = RessourceFile.From(ImmutableArray.Create(additionalFiles), CancellationToken.None);
 
-        actual.Should().HaveCount(expected);
+        actual.Count().ShouldBe(expected);
     }
 
     [Theory]
@@ -104,7 +103,7 @@ public class RessourceFile_Tests
     public void SimpleFileNameOf_Reduces_All_Additional_Extensions(string expected, string input)
     {
         var actual = RessourceFile.GetSimpleFileNameOf(input);
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
     }
 
     [Theory]
@@ -147,8 +146,8 @@ public class RessourceFile_Tests
     {
         var sut = new RessourceFileEntry(input, input, new LineInfo());
         var actualGroupKey = string.Join('.', sut.Groups);
-        actualGroupKey.Should().Be(expectedGroupKey);
+        actualGroupKey.ShouldBe(expectedGroupKey);
 
-        sut.Key.Should().Be(expectedKey);
+        sut.Key.ShouldBe(expectedKey);
     }
 }

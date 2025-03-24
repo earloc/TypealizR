@@ -10,9 +10,9 @@ namespace TypealizR.Tests.CodeFirst {
         partial class Outer {
             partial class NestedClass {
                 [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
-                public partial class Translations: ITranslations {
+                internal partial class Translations: ITranslations {
                     private readonly IStringLocalizer<ITranslations> localizer;
-                    public Translations (IStringLocalizer<ITranslations> localizer) {
+                    internal Translations (IStringLocalizer<ITranslations> localizer) {
                       this.localizer = localizer;
                     }
                     #region methods

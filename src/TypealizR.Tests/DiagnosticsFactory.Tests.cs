@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests;
@@ -19,7 +18,7 @@ public class DiagnosticsFactory_Tests
     {
         var sut = CreateSut(DiagnosticsFactory.TR0002, expected);
         var diagnostic = sut.AmbigiousRessourceKey_0002("someValue");
-        diagnostic.DefaultSeverity.Should().Be(expected);
+        diagnostic.DefaultSeverity.ShouldBe(expected);
     }
 
     [Theory]
@@ -32,7 +31,7 @@ public class DiagnosticsFactory_Tests
     {
         var sut = CreateSut(DiagnosticsFactory.TR0003, expected);
         var diagnostic = sut.UnnamedGenericParameter_0003("someKey");
-        diagnostic.DefaultSeverity.Should().Be(expected);
+        diagnostic.DefaultSeverity.ShouldBe(expected);
     }
 
     [Theory]
@@ -45,6 +44,6 @@ public class DiagnosticsFactory_Tests
     {
         var sut = CreateSut(DiagnosticsFactory.TR0004, expected);
         var diagnostic = sut.UnrecognizedParameterType_0004("s");
-        diagnostic.DefaultSeverity.Should().Be(expected);
+        diagnostic.DefaultSeverity.ShouldBe(expected);
     }
 }
