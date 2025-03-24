@@ -73,7 +73,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
         }
 
         (var targetNamespace, var accessability) = FindNameSpaceAndAccessabilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName, ctxt.CancellationToken);
-        var markerType = new TypeModel(targetNamespace, file.SimpleName, accessability);
+        var markerType = new TypeModel(targetNamespace, file.SimpleName, [], accessability);
 
         var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, markerType, compilation, file, options.SeverityConfig, ctxt.CancellationToken);
 
