@@ -6,8 +6,6 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Resources;
-using Microsoft.CodeAnalysis;
-using System.Linq;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command
