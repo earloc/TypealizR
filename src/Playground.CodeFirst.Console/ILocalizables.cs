@@ -4,7 +4,7 @@ using TypealizR.CodeFirst.Abstractions;
 namespace Playground.CodeFirst.Console;
 
 [CodeFirstTypealized]
-public interface ILocalizables
+internal interface ILocalizables
 {
     LocalizedString Hello(string world);
 
