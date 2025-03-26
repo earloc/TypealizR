@@ -12,16 +12,12 @@ internal class CodeFirstPropertyModel
         this.returnType = returnType;
         this.fallbackKey = fallbackKey;
     }
-    private string FallbackKeyName => $"{key}{_.FallBackKeySuffix}";
-    private string KeyName => $"{key}{_.KeySuffix}";
-
-
     internal string ToCSharp(string moreSpaces = "") => $$"""
 
         {{moreSpaces}}        #region {{key}}-property
-        {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
-        {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
-        {{moreSpaces}}        public {{returnType}} {{key}} => localizer[{{KeyName}}].Or(localizer[{{FallbackKeyName}}]);
+
+        {{moreSpaces}}        public {{returnType}} {{key}} => localizer["{{key}}"].Or(localizer["{{fallbackKey}}"]);
+
         {{moreSpaces}}        #endregion
 
         """;

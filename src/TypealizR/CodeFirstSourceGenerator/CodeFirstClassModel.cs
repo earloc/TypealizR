@@ -63,8 +63,8 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
     private string GenerateImplementationType(Type generatorType, string spaces, string accessibility) => $$"""
     {{spaces}}    {{generatorType.GeneratedCodeAttribute()}}
     {{spaces}}    {{accessibility}} partial class {{type.Name}}: {{implementingInterface.Name}} {
-    {{spaces}}        private readonly IStringLocalizer<{{implementingInterface.Name}}> localizer;
-    {{spaces}}        {{accessibility}} {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
+    {{spaces}}        private IStringLocalizer<{{implementingInterface.Name}}> localizer;
+    {{spaces}}        public {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
     {{spaces}}          this.localizer = localizer;
     {{spaces}}        }
     {{spaces}}        #region methods
