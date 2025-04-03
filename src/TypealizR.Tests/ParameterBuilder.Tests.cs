@@ -194,5 +194,29 @@ public class ParameterBuilder_Tests
 
         actual.ShouldBeEquivalentTo(expected);
     }
+
+    [Theory]
+    [InlineData("{argumentName@ex}")]
+    [InlineData("{argumentName:string@ex}")]
+    [InlineData("{argumentName:s@ex}")]
+    [InlineData("{argumentName:int@ex}")]
+    [InlineData("{argumentName:i@ex}")]
+    [InlineData("{argumentName:DateTime@ex}")]
+    [InlineData("{argumentName:dt@ex}")]
+    [InlineData("{argumentName:DateTimeOffset@ex}")]
+    [InlineData("{argumentName:dto@ex}")]
+    [InlineData("{argumentName:DateOnly@ex}")]
+    [InlineData("{argumentName:d@ex}")]
+    [InlineData("{argumentName:TimeOnly@ex}")]
+    [InlineData("{argumentName:t@ex}")]
+    public void Extracts_Annotation_Extensions(string input)
+    {
+        var sut = new ParameterBuilder(input);
+        var parameters = sut.Build(new("Ressource1.resx", input, 42));
+
+        var actual = parameters.Select(x => x.Extension).ToCommaDelimited();
+
+        actual.ShouldBeEquivalentTo("ex");
+    }
 }
 
