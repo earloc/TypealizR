@@ -27,6 +27,7 @@ internal class ParameterBuilder
             var token = match.Value;
             var name = match.Groups["name"].Value;
             var annotation = match.Groups["annotation"].Value;
+            var extension = match.Groups["extension"].Value;
 
             (var type, var invalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
 
@@ -39,7 +40,7 @@ internal class ParameterBuilder
                 diagnostics.Add(x => x.UnnamedGenericParameter_0003(name));
             }
 
-            models.Add(new(token, name, type));
+            models.Add(new(token, name, type, extension));
         }
 
         return models
@@ -80,5 +81,5 @@ internal class ParameterBuilder
     /// <summary>
     /// matches strings like {0}, {0:12}, {name} usable in format-strings
     /// </summary>
-    internal static readonly Regex parameterExpression = new("{(?<name>([0-9a-zA-Z]*))(:+(?<annotation>[0-9a-zA-Z]*))?}", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+    internal static readonly Regex parameterExpression = new("{(?<name>([0-9a-zA-Z]*))(:+(?<annotation>[0-9a-zA-Z]*))?(@+(?<extension>[0-9a-zA-Z]*))?}", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 }
