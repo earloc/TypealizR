@@ -2,7 +2,9 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
-using TypealizR.Core;namespace TypealizR;
+using TypealizR.Core;
+
+namespace TypealizR;
 internal class ExtensionMethodModel : IMemberModel
 {
     public void DeduplicateWith(int discriminator) => Name = new MemberName($"{Name}{discriminator}");
@@ -36,17 +38,20 @@ internal class ExtensionMethodModel : IMemberModel
             var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => $"{x.Type} {x.DisplayName}"));
             signature = $"({ThisParameterFor(ExtendedType)}, {additionalParameterDeclarations})";
 
-            var parameterCollection = Parameters.Select(x => x.DisplayName).ToCommaDelimited();
-            body = $@"that[{constName}].Format({parameterCollection})";
+            var parameterCollection = Parameters.Select(Invocation).ToCommaDelimited();
+
+            body = $"that[{constName}].Format({parameterCollection})";
         }
         var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
 
-        return $"""
+        return $$"""
 
-            {comment.ToCSharp()}
+            {{comment.ToCSharp()}}
             [DebuggerStepThrough]
-            public static LocalizedString {Name}{signature} => {body};
-            private const string {constName} = "{RawRessourceName}";
+            public static LocalizedString {{Name}}{{signature}} => {{body}};
+            private const string {{constName}} = "{{RawRessourceName}}";
     """;
     }
+
+    private static string Invocation(ParameterModel parameter) => string.IsNullOrEmpty(parameter.Extension) ? parameter.DisplayName : $"""{parameter.DisplayName}.Extend("{parameter.Extension}")""";
 }
