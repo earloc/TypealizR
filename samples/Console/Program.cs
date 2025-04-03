@@ -20,6 +20,9 @@ Console.WriteLine(localize.Hello_World());
 Console.WriteLine(localize.Hello_World1());
 Console.WriteLine(localize.Hello_World2());
 
+Console.WriteLine(localize.Hello__LowerCase("I_AM_LOWER_CASE")); // esac_rewol_ma_i ,olleH 
+
+
 Console.WriteLine(localize.Hello__0("Arthur"));
 Console.WriteLine(localize.Hello__UserName(UserName: "Arthur"));
 var today = DateOnly.FromDateTime(DateTime.Now);
