@@ -34,10 +34,6 @@ services.AddSingleton<Greeter, Greeter>();
 var customNamespace = provider.GetRequiredService<IStringLocalizer<CustomNameSpace>>();
 Console.WriteLine(customNamespace.Hello());
 
-var greeter = provider.GetRequiredService<Greeter>();
-
-greeter.SayHello(arthur);
-greeter.SayHelloPublic(arthur);
 
 var internalLocalizable = provider.GetRequiredService<IStringLocalizer<InternalClass>>();
 
@@ -46,6 +42,7 @@ Console.WriteLine(internalLocalizable.Hello());
 
 Console.WriteLine(internalLocalizable.Hello__name(arthur));
 
+Console.WriteLine(internalLocalizable.HelloToLower__user("USER")); // Hello 'user' with .ToLower()
 
 var publicLocalizable = provider.GetRequiredService<IStringLocalizer<PublicClass>>();
 Console.WriteLine(publicLocalizable.Hello__name(arthur));
