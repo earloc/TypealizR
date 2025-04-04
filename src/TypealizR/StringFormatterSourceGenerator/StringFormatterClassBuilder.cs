@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Linq;
 using System.Text;
 using TypealizR.Extensions;
 
@@ -53,33 +54,40 @@ internal class StringFormatterClassBuilder
 
     private static string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
 
+    private static string GenerateArgumentExtensionOverloads(string body) {
+        var builder = new StringBuilder();
+        foreach(var anotationType in ParameterAnnotation.KonwTypes)
+        {
+            builder.AppendLine($$"""
+
+                    internal static global::{{anotationType}} Extend(global::{{anotationType}} argument, string extension){{body}}
+            """);
+        }
+
+        return builder.ToString();
+    }
     private static string GenerateStub(Type generatorType) => $$"""
         {{generatorType.GeneratedCodeAttribute()}}
         internal static partial class {{TypeName}}
         {
-                [DebuggerStepThrough]
-                internal static LocalizedString Format(this LocalizedString that, params object[] args) => 
-                    new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
+            [DebuggerStepThrough]
+            internal static LocalizedString Format(this LocalizedString that, params object[] args) => new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
 
-                [DebuggerStepThrough]
-                internal static object Extend(this object that, string extension) => ExtendArg(that, extension);
-
-                internal static LocalizedString Or(this LocalizedString that, LocalizedString fallBack) => 
-                    that.ResourceNotFound ? fallBack : that;
+            internal static LocalizedString Or(this LocalizedString that, LocalizedString fallBack) => that.ResourceNotFound ? fallBack : that;
 
             internal static partial string Format(string s, object[] args);
-            internal static partial object ExtendArg(object arg, string annotationExtension);
+            {{GenerateArgumentExtensionOverloads(";")}}
         }
     """;
 
     private static string GenerateDefaultImplementation() => $$"""
-        internal static partial class {{TypeName}} {
-            [DebuggerStepThrough]
-            internal static partial string Format(string s, object[] args) => 
-                string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
 
+        internal static partial class {{TypeName}}
+        {
             [DebuggerStepThrough]
-            internal static partial object ExtendArg(object arg, string annotationExtension) => arg;
+            internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+
+            {{GenerateArgumentExtensionOverloads(" => argument;")}}
         }
     """;
 
