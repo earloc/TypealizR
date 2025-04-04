@@ -4,7 +4,7 @@ using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
 
-public class TypealizedClassSourceGenerator_Tests
+internal class TypealizedClassSourceGenerator_Tests
 {
     private const string BaseDirectory = "../../../TypealizedClassSourceGenerator.Tests";
     private const string RootNamespace = "Some.Root.Namespace";

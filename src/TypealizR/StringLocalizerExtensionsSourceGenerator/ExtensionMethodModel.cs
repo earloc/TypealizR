@@ -29,7 +29,7 @@ internal class ExtensionMethodModel : IMemberModel
     {
         static string ThisParameterFor(TypeModel T) => $"this IStringLocalizer<{T.GlobalFullName}> that";
 
-        var constName = $"_{ Name}";
+        var constName = $"_{Name}";
         var signature = $"({ThisParameterFor(ExtendedType)})";
         var body = $@"that[{constName}]";
 

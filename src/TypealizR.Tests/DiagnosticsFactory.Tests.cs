@@ -3,7 +3,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests;
 
-public class DiagnosticsFactory_Tests
+internal class DiagnosticsFactory_Tests
 {
 
     private static DiagnosticsFactory CreateSut(DiagnosticsEntry entryid, DiagnosticSeverity severity) => new("someFile.resx", "someKey", 42, new Dictionary<string, DiagnosticSeverity>() { { entryid.Id.ToString(), severity } });

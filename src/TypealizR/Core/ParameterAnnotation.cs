@@ -146,7 +146,7 @@ public class ParameterAnnotation
 
         { "g", SupportedTypes[GUID] },
         { "G", SupportedTypes[GUID] },
-        
+
         { URI, SupportedTypes[URI]  },
         { URI.ToUpperInvariant(), SupportedTypes[URI]  },
         

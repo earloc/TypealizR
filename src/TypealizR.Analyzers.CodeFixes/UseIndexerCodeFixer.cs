@@ -15,7 +15,7 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
 
     public async Task<Document> CreateChangedDocumentAsync(Document source, CancellationToken cancellationToken)
     {
-        
+
         if (Root is null)
         {
             return source;

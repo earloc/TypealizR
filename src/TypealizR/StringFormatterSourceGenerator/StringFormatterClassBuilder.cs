@@ -54,9 +54,10 @@ internal class StringFormatterClassBuilder
 
     private static string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
 
-    private static string GenerateArgumentExtensionOverloads(string body) {
+    private static string GenerateArgumentExtensionOverloads(string body)
+    {
         var builder = new StringBuilder();
-        foreach(var annotationType in ParameterAnnotation.SupportedTypes.Keys)
+        foreach (var annotationType in ParameterAnnotation.SupportedTypes.Keys)
         {
             builder.AppendLine($$"""
 

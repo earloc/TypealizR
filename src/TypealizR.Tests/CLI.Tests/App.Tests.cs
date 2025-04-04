@@ -1,7 +1,7 @@
 ﻿using TypealizR.CLI;
 
 namespace TypealizR.Tests.CLI.Tests;
-public class App_Tests
+internal class App_Tests
 {
 
     [Fact]

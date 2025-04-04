@@ -11,5 +11,5 @@ internal class CodeFirstPropertyBuilder
         this.defaultValue = defaultValue ?? name;
     }
 
-    internal CodeFirstPropertyModel Build() => new CodeFirstPropertyModel(name, "LocalizedString", defaultValue);
+    internal CodeFirstPropertyModel Build() => new(name, "LocalizedString", defaultValue);
 }

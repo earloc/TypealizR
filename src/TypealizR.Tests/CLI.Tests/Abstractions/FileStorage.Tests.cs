@@ -1,7 +1,7 @@
 ﻿using TypealizR.CLI.Abstractions;
 
 namespace TypealizR.Tests.CLI.Tests.Abstractions;
-public class FileStorage_Tests
+internal class FileStorage_Tests
 {
 
     [Fact]

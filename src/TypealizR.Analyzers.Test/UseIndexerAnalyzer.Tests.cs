@@ -10,7 +10,7 @@ using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
 namespace TypealizR.Analyzers.Tests;
 
 [TestClass]
-public class UseIndexerAnalyzer_Test
+internal class UseIndexerAnalyzer_Test
 {
     //No diagnostics expected to show up
     [TestMethod]

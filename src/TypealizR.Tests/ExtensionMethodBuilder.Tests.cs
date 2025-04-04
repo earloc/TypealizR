@@ -2,7 +2,7 @@
 
 namespace TypealizR.Tests;
 
-public class ExtensionMethodBuilder_Tests
+internal class ExtensionMethodBuilder_Tests
 {
     private static readonly TypeModel targetType = new("Name.Space", "TypeName", []);
 

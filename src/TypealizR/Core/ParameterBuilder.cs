@@ -61,7 +61,7 @@ internal class ParameterBuilder
         return type is not null ? ((string, string))(type, "") : ((string, string))("object", expression);
     }
 
-    private static string? SanitizeType(string type) 
+    private static string? SanitizeType(string type)
     {
         type = type.ToUpperInvariant();
 
@@ -69,7 +69,7 @@ internal class ParameterBuilder
         {
             return targetType;
         }
-        
+
         return null;
     }
 
