@@ -61,22 +61,17 @@ internal class ParameterBuilder
         return type is not null ? ((string, string))(type, "") : ((string, string))("object", expression);
     }
 
-    private static string? SanitizeType(string type) => type switch
+    private static string? SanitizeType(string type) 
     {
-        "int" => "int",
-        "i" => "int",
-        "string" => "string",
-        "s" => "string",
-        "DateTime" => "DateTime",
-        "dt" => "DateTime",
-        "DateTimeOffset" => "DateTimeOffset",
-        "dto" => "DateTimeOffset",
-        "DateOnly" => "DateOnly",
-        "d" => "DateOnly",
-        "TimeOnly" => "TimeOnly",
-        "t" => "TimeOnly",
-        _ => null
-    };
+        type = type.ToUpperInvariant();
+
+        if (ParameterAnnotation.Mappings.TryGetValue(type, out var targetType))
+        {
+            return targetType;
+        }
+        
+        return null;
+    }
 
     /// <summary>
     /// matches strings like {0}, {0:12}, {name} usable in format-strings

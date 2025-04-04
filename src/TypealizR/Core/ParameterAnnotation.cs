@@ -60,56 +60,116 @@ public class ParameterAnnotation
 
     public static readonly IReadOnlyDictionary<string, string> Mappings = new Dictionary<string, string>() {
         { STRING, SupportedTypes[STRING] },
+        { STRING.ToUpperInvariant(), SupportedTypes[STRING] },
+
         { "s", SupportedTypes[STRING] },
+        { "S", SupportedTypes[STRING] },
 
         { INT, SupportedTypes[INT] },
+        { INT.ToUpperInvariant(), SupportedTypes[INT] },
+
         { "i", SupportedTypes[INT] },
+        { "I", SupportedTypes[INT] },
 
         { UINT, SupportedTypes[UINT] },
+        { UINT.ToUpperInvariant(), SupportedTypes[UINT] },
+
         { "ui", SupportedTypes[UINT] },
+        { "UI", SupportedTypes[UINT] },
 
         { LONG, SupportedTypes[LONG] },
+        { LONG.ToUpperInvariant(), SupportedTypes[LONG] },
+
         { "l", SupportedTypes[LONG] },
+        { "L", SupportedTypes[LONG] },
+
 
         { ULONG, SupportedTypes[ULONG] },
+        { ULONG.ToUpperInvariant(), SupportedTypes[ULONG] },
+
         { "ul", SupportedTypes[ULONG] },
+        { "UL", SupportedTypes[ULONG] },
 
         { SHORT, SupportedTypes[SHORT] },
+        { SHORT.ToUpperInvariant(), SupportedTypes[SHORT] },
+
         { "sh", SupportedTypes[SHORT] },
+        { "SH", SupportedTypes[SHORT] },
 
         { USHORT, SupportedTypes[USHORT] },
+        { USHORT.ToUpperInvariant(), SupportedTypes[USHORT] },
+
         { "ush", SupportedTypes[USHORT] },
+        { "USH", SupportedTypes[USHORT] },
+
 
         { SINGLE, SupportedTypes[SINGLE] },
+        { SINGLE.ToUpperInvariant(), SupportedTypes[SINGLE] },
+
         { "si", SupportedTypes[SINGLE] },
+        { "SI", SupportedTypes[SINGLE] },
 
         { FLOAT, SupportedTypes[FLOAT] },
+        { FLOAT.ToUpperInvariant(), SupportedTypes[FLOAT] },
+
         { "f", SupportedTypes[FLOAT] },
+        { "F", SupportedTypes[FLOAT] },
 
         { DOUBLE, SupportedTypes[DOUBLE] },
-        { "d", SupportedTypes[DOUBLE] },
+        { DOUBLE.ToUpperInvariant(), SupportedTypes[DOUBLE] },
+
+        { "do", SupportedTypes[DOUBLE] },
+        { "DO", SupportedTypes[DOUBLE] },
 
         { DECIMAL, SupportedTypes[DECIMAL] },
+        { DECIMAL.ToUpperInvariant(), SupportedTypes[DECIMAL] },
+
         { "dec", SupportedTypes[DECIMAL] },
+        { "DEC", SupportedTypes[DECIMAL] },
 
         { BOOL, SupportedTypes[BOOL] },
+        { BOOL.ToUpperInvariant(), SupportedTypes[BOOL] },
+
         { "b", SupportedTypes[BOOL] },
+        { "B", SupportedTypes[BOOL] },
 
         { DATETIME, SupportedTypes[DATETIME]  },
+        { DATETIME.ToUpperInvariant(), SupportedTypes[DATETIME]  },
+
         { "dt", SupportedTypes[DATETIME] },
+        { "DT", SupportedTypes[DATETIME] },
 
         { DATETIMEOFFSET, SupportedTypes[DATETIMEOFFSET] },
+        { DATETIMEOFFSET.ToUpperInvariant(), SupportedTypes[DATETIMEOFFSET] },
+
         { "dto", SupportedTypes[DATETIMEOFFSET] },
+        { "DTO", SupportedTypes[DATETIMEOFFSET] },
 
         { GUID, SupportedTypes[GUID] },
+        { GUID.ToUpperInvariant(), SupportedTypes[GUID] },
+
         { "g", SupportedTypes[GUID] },
+        { "G", SupportedTypes[GUID] },
         
-        { URI,SupportedTypes[URI]  },
+        { URI, SupportedTypes[URI]  },
+        { URI.ToUpperInvariant(), SupportedTypes[URI]  },
         
         //TODO: how opt-ing out of > .net6 types
         { DATEONLY, SupportedTypes[DATEONLY]  },
-        { "do", SupportedTypes[DATEONLY] },
+        { DATEONLY.ToUpperInvariant(), SupportedTypes[DATEONLY]  },
+
+        { "d", SupportedTypes[DATEONLY] },
+        { "D", SupportedTypes[DATEONLY] },
+
         { TIMEONLY, SupportedTypes[TIMEONLY] },
+        { TIMEONLY.ToUpperInvariant(), SupportedTypes[TIMEONLY] },
+
+        { "t", SupportedTypes[TIMEONLY]},
+        { "T", SupportedTypes[TIMEONLY]},
+
+        // TODO: possible breaking change, when removing previous
         { "to", SupportedTypes[TIMEONLY]},
+        { "TO", SupportedTypes[TIMEONLY]},
+
     }.ToFrozenDictionary();
 }
