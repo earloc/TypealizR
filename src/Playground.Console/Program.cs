@@ -34,9 +34,7 @@ services.AddSingleton<Greeter, Greeter>();
 var customNamespace = provider.GetRequiredService<IStringLocalizer<CustomNameSpace>>();
 Console.WriteLine(customNamespace.Hello());
 
-
 var internalLocalizable = provider.GetRequiredService<IStringLocalizer<InternalClass>>();
-
 
 Console.WriteLine(internalLocalizable.Hello());
 
