@@ -56,11 +56,11 @@ internal class StringFormatterClassBuilder
 
     private static string GenerateArgumentExtensionOverloads(string body) {
         var builder = new StringBuilder();
-        foreach(var anotationType in ParameterAnnotation.KonwTypes)
+        foreach(var annotationType in ParameterAnnotation.SupportedTypes.Keys)
         {
             builder.AppendLine($$"""
 
-                    internal static global::{{anotationType}} Extend(global::{{anotationType}} argument, string extension){{body}}
+                    internal static partial {{annotationType}} Extend(this {{annotationType}} argument, string extension){{body}}
             """);
         }
 
