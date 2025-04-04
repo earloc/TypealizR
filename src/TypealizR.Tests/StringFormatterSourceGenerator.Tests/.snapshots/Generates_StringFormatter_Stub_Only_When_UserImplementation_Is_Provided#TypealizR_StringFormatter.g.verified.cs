@@ -10,16 +10,23 @@ namespace Some.Root.Namespace {
         internal static LocalizedString Format(this LocalizedString that, params object[] args) => new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
         internal static LocalizedString Or(this LocalizedString that, LocalizedString fallBack) => that.ResourceNotFound ? fallBack : that;
         internal static partial string Format(string s, object[] args);
-        internal static global::System.String Extend(global::System.String argument, string extension);
-        internal static global::System.Int32 Extend(global::System.Int32 argument, string extension);
-        internal static global::System.Int64 Extend(global::System.Int64 argument, string extension);
-        internal static global::System.Single Extend(global::System.Single argument, string extension);
-        internal static global::System.Double Extend(global::System.Double argument, string extension);
-        internal static global::System.Decimal Extend(global::System.Decimal argument, string extension);
-        internal static global::System.Boolean Extend(global::System.Boolean argument, string extension);
-        internal static global::System.DateTime Extend(global::System.DateTime argument, string extension);
-        internal static global::System.DateTimeOffset Extend(global::System.DateTimeOffset argument, string extension);
-        internal static global::System.Guid Extend(global::System.Guid argument, string extension);
-        internal static global::System.Uri Extend(global::System.Uri argument, string extension);
+        internal static partial string Extend(this string argument, string extension);
+        internal static partial int Extend(this int argument, string extension);
+        internal static partial uint Extend(this uint argument, string extension);
+        internal static partial long Extend(this long argument, string extension);
+        internal static partial ulong Extend(this ulong argument, string extension);
+        internal static partial short Extend(this short argument, string extension);
+        internal static partial ushort Extend(this ushort argument, string extension);
+        internal static partial single Extend(this single argument, string extension);
+        internal static partial float Extend(this float argument, string extension);
+        internal static partial double Extend(this double argument, string extension);
+        internal static partial decimal Extend(this decimal argument, string extension);
+        internal static partial bool Extend(this bool argument, string extension);
+        internal static partial DateTime Extend(this DateTime argument, string extension);
+        internal static partial DateTimeOffset Extend(this DateTimeOffset argument, string extension);
+        internal static partial Guid Extend(this Guid argument, string extension);
+        internal static partial Uri Extend(this Uri argument, string extension);
+        internal static partial DateOnly Extend(this DateOnly argument, string extension);
+        internal static partial TimeOnly Extend(this TimeOnly argument, string extension);
     }
 }
