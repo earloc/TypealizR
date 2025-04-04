@@ -3,7 +3,7 @@ using TypealizR.Diagnostics;
 
 namespace TypealizR.Tests;
 
-internal class ParameterBuilder_Tests
+public class ParameterBuilder_Tests
 {
 
     [Theory]

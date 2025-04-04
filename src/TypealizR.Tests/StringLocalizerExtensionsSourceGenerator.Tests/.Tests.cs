@@ -4,7 +4,7 @@ using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
 
-internal class StringLocalizerExtensionsSourceGenerator_Tests
+public class StringLocalizerExtensionsSourceGenerator_Tests
 {
     private const string BaseDirectory = "../../../StringLocalizerExtensionsSourceGenerator.Tests";
     private const string RootNamespace = "Some.Root.Namespace";

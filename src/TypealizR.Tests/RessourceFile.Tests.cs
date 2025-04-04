@@ -17,7 +17,7 @@ internal sealed class EmptyFile : AdditionalText
     public override SourceText GetText(CancellationToken cancellationToken = new CancellationToken()) => SourceText.From(text);
 }
 
-internal class RessourceFile_Tests
+public class RessourceFile_Tests
 {
     private sealed record LineInfo(int LineNumber = 42, int LinePosition = 1337, bool HasLineInfo = true) : IXmlLineInfo
     {

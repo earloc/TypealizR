@@ -1,7 +1,7 @@
 ﻿using TypealizR.Core;
 
 namespace TypealizR.Tests;
-internal class MemberName_Tests
+public class MemberName_Tests
 {
 
     [Theory]

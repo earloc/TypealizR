@@ -3,7 +3,7 @@ using TypealizR.CLI;
 using TypealizR.CLI.Abstractions;
 
 namespace TypealizR.Tests.CLI.Tests;
-internal class ExportCommand_Tests
+public class ExportCommand_Tests
 {
     private static string ProjectFile(string x) => $"../../../../{x}/{x}.csproj";
 

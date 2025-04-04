@@ -2,7 +2,7 @@
 
 namespace TypealizR.Tests;
 
-internal class CodeFirstSourceGenerator_Tests
+public class CodeFirstSourceGenerator_Tests
 {
     private const string BaseDirectory = "../../../CodeFirstSourceGenerator.Tests";
 
