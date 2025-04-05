@@ -17,7 +17,6 @@ namespace Some.Root.Namespace {
         internal static partial ulong Extend(this ulong argument, string extension);
         internal static partial short Extend(this short argument, string extension);
         internal static partial ushort Extend(this ushort argument, string extension);
-        internal static partial single Extend(this single argument, string extension);
         internal static partial float Extend(this float argument, string extension);
         internal static partial double Extend(this double argument, string extension);
         internal static partial decimal Extend(this decimal argument, string extension);
@@ -29,9 +28,8 @@ namespace Some.Root.Namespace {
         internal static partial DateOnly Extend(this DateOnly argument, string extension);
         internal static partial TimeOnly Extend(this TimeOnly argument, string extension);
     }
-    internal static partial class TypealizR_StringFormatter
+    internal static partial class TypealizR_StringFormatters
     {
-        [DebuggerStepThrough]
         internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
         internal static partial string Extend(this string argument, string extension) => argument;
         internal static partial int Extend(this int argument, string extension) => argument;
@@ -40,7 +38,6 @@ namespace Some.Root.Namespace {
         internal static partial ulong Extend(this ulong argument, string extension) => argument;
         internal static partial short Extend(this short argument, string extension) => argument;
         internal static partial ushort Extend(this ushort argument, string extension) => argument;
-        internal static partial single Extend(this single argument, string extension) => argument;
         internal static partial float Extend(this float argument, string extension) => argument;
         internal static partial double Extend(this double argument, string extension) => argument;
         internal static partial decimal Extend(this decimal argument, string extension) => argument;

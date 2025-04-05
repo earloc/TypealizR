@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using TypealizR.Extensions;
@@ -12,17 +13,23 @@ internal class StringFormatterClassBuilder
 
     public StringFormatterClassBuilder(string rootNamespace) => this.rootNamespace = rootNamespace;
 
-    private bool isUserModeImplementationProvided;
-    internal void UserModeImplementationIsProvided() => isUserModeImplementationProvided = true;
+    private bool formatMethodExists;
+
+    private HashSet<string> alreadyExtendedTypes = [];
+    internal void UserModeTypeExists(bool formatMethodExists, HashSet<string> alreadyExtendedTypes)
+    {
+        this.alreadyExtendedTypes = alreadyExtendedTypes;
+        this.formatMethodExists = formatMethodExists;
+    } 
 
     internal string Build(Type generatorType)
     {
         var stringFormatterStub = GenerateStub(generatorType);
 
-        string? defaultImplementation = default;
-        if (isUserModeImplementationProvided)
+        string defaultImplementation = "";
+        if (!formatMethodExists || alreadyExtendedTypes.Count != ParameterAnnotation.SupportedTypes.Count)
         {
-            defaultImplementation = GenerateDefaultImplementation();
+            defaultImplementation = GenerateDefaultImplementation(formatMethodExists, alreadyExtendedTypes);
         }
 
         var builder = new StringBuilder();
@@ -54,10 +61,10 @@ internal class StringFormatterClassBuilder
 
     private static string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
 
-    private static string GenerateArgumentExtensionOverloads(string body)
+    private static string GenerateArgumentExtensionOverloads(string body, HashSet<string> userModeImplementedTypes)
     {
         var builder = new StringBuilder();
-        foreach (var annotationType in ParameterAnnotation.SupportedTypes.Keys)
+        foreach (var annotationType in ParameterAnnotation.SupportedTypes.Keys.Where(x => !userModeImplementedTypes.Contains(x)))
         {
             builder.AppendLine($$"""
 
@@ -77,20 +84,23 @@ internal class StringFormatterClassBuilder
             internal static LocalizedString Or(this LocalizedString that, LocalizedString fallBack) => that.ResourceNotFound ? fallBack : that;
 
             internal static partial string Format(string s, object[] args);
-            {{GenerateArgumentExtensionOverloads(";")}}
+            {{GenerateArgumentExtensionOverloads(";", [])}}
         }
     """;
 
-    private static string GenerateDefaultImplementation() => $$"""
+    private static string GenerateDefaultImplementation(bool formatMethodExists, HashSet<string> userModeImplementedTypes)
+    {
+        var formatImplementation = formatMethodExists ? "" : "internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);";
+        return $$"""
 
-        internal static partial class {{TypeName}}
-        {
-            [DebuggerStepThrough]
-            internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
+            internal static partial class {{TypeName}}s
+            {
+                {{formatImplementation}}
 
-            {{GenerateArgumentExtensionOverloads(" => argument;")}}
-        }
-    """;
+                {{GenerateArgumentExtensionOverloads(" => argument;", userModeImplementedTypes)}}
+            }
+        """;
+    }
 
     private const string CloseNamespace = "}";
 }

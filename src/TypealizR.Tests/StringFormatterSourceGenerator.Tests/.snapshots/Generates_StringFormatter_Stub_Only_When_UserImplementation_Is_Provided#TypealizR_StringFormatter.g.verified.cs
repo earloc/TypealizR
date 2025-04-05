@@ -17,7 +17,6 @@ namespace Some.Root.Namespace {
         internal static partial ulong Extend(this ulong argument, string extension);
         internal static partial short Extend(this short argument, string extension);
         internal static partial ushort Extend(this ushort argument, string extension);
-        internal static partial single Extend(this single argument, string extension);
         internal static partial float Extend(this float argument, string extension);
         internal static partial double Extend(this double argument, string extension);
         internal static partial decimal Extend(this decimal argument, string extension);

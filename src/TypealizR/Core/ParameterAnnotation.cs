@@ -1,5 +1,7 @@
+using System;
 using System.Collections.Frozen;
 using System.Collections.Generic;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 
 namespace TypealizR;
 
@@ -21,7 +23,6 @@ public class ParameterAnnotation
     private const string ULONG = "ulong";
     private const string SHORT = "short";
     private const string USHORT = "ushort";
-    private const string SINGLE = "single";
     private const string FLOAT = "float";
     private const string DOUBLE = "double";
     private const string DECIMAL = "decimal";
@@ -40,7 +41,6 @@ public class ParameterAnnotation
          ULONG,
          SHORT,
          USHORT,
-         SINGLE,
          FLOAT,
          DOUBLE,
          DECIMAL,
@@ -57,24 +57,28 @@ public class ParameterAnnotation
     public static readonly IReadOnlyDictionary<string, string> Mappings = new Dictionary<string, string>() {
         { STRING, SupportedTypes[STRING] },
         { STRING.ToUpperInvariant(), SupportedTypes[STRING] },
+        { typeof(string).Name, SupportedTypes[STRING] },
 
         { "s", SupportedTypes[STRING] },
         { "S", SupportedTypes[STRING] },
 
         { INT, SupportedTypes[INT] },
         { INT.ToUpperInvariant(), SupportedTypes[INT] },
+        { typeof(int).Name, SupportedTypes[INT] },
 
         { "i", SupportedTypes[INT] },
         { "I", SupportedTypes[INT] },
 
         { UINT, SupportedTypes[UINT] },
         { UINT.ToUpperInvariant(), SupportedTypes[UINT] },
+        { typeof(uint).Name, SupportedTypes[UINT] },
 
         { "ui", SupportedTypes[UINT] },
         { "UI", SupportedTypes[UINT] },
 
         { LONG, SupportedTypes[LONG] },
         { LONG.ToUpperInvariant(), SupportedTypes[LONG] },
+        { typeof(long).Name, SupportedTypes[LONG] },
 
         { "l", SupportedTypes[LONG] },
         { "L", SupportedTypes[LONG] },
@@ -82,49 +86,49 @@ public class ParameterAnnotation
 
         { ULONG, SupportedTypes[ULONG] },
         { ULONG.ToUpperInvariant(), SupportedTypes[ULONG] },
+        { typeof(ulong).Name, SupportedTypes[ULONG] },
 
         { "ul", SupportedTypes[ULONG] },
         { "UL", SupportedTypes[ULONG] },
 
         { SHORT, SupportedTypes[SHORT] },
         { SHORT.ToUpperInvariant(), SupportedTypes[SHORT] },
+        {typeof(short).Name, SupportedTypes[SHORT] },
 
         { "sh", SupportedTypes[SHORT] },
         { "SH", SupportedTypes[SHORT] },
 
         { USHORT, SupportedTypes[USHORT] },
         { USHORT.ToUpperInvariant(), SupportedTypes[USHORT] },
+        { typeof(ushort).Name, SupportedTypes[USHORT] },
 
         { "ush", SupportedTypes[USHORT] },
         { "USH", SupportedTypes[USHORT] },
 
-
-        { SINGLE, SupportedTypes[SINGLE] },
-        { SINGLE.ToUpperInvariant(), SupportedTypes[SINGLE] },
-
-        { "si", SupportedTypes[SINGLE] },
-        { "SI", SupportedTypes[SINGLE] },
-
         { FLOAT, SupportedTypes[FLOAT] },
         { FLOAT.ToUpperInvariant(), SupportedTypes[FLOAT] },
+        { typeof(float).Name, SupportedTypes[FLOAT] },
 
         { "f", SupportedTypes[FLOAT] },
         { "F", SupportedTypes[FLOAT] },
 
         { DOUBLE, SupportedTypes[DOUBLE] },
         { DOUBLE.ToUpperInvariant(), SupportedTypes[DOUBLE] },
+        { typeof(double).Name, SupportedTypes[DOUBLE] },
 
         { "do", SupportedTypes[DOUBLE] },
         { "DO", SupportedTypes[DOUBLE] },
 
         { DECIMAL, SupportedTypes[DECIMAL] },
         { DECIMAL.ToUpperInvariant(), SupportedTypes[DECIMAL] },
+        { typeof(decimal).Name, SupportedTypes[DECIMAL] },
 
         { "dec", SupportedTypes[DECIMAL] },
         { "DEC", SupportedTypes[DECIMAL] },
 
         { BOOL, SupportedTypes[BOOL] },
         { BOOL.ToUpperInvariant(), SupportedTypes[BOOL] },
+        { typeof(bool).Name, SupportedTypes[BOOL] },
 
         { "b", SupportedTypes[BOOL] },
         { "B", SupportedTypes[BOOL] },
