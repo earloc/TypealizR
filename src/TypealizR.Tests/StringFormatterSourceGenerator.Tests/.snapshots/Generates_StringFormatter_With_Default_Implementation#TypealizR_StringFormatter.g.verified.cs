@@ -1,4 +1,5 @@
 ﻿//HintName: TypealizR_StringFormatter.g.cs
+using System;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
@@ -28,7 +29,7 @@ namespace Some.Root.Namespace {
         internal static partial DateOnly Extend(this DateOnly argument, string extension);
         internal static partial TimeOnly Extend(this TimeOnly argument, string extension);
     }
-    internal static partial class TypealizR_StringFormatters
+    internal static partial class TypealizR_StringFormatter
     {
         internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
         internal static partial string Extend(this string argument, string extension) => argument;

@@ -1,4 +1,5 @@
 ﻿//HintName: TypealizR_StringFormatter.g.cs
+using System;
 using System.Diagnostics;
 using System.CodeDom.Compiler;
 using Microsoft.Extensions.Localization;
@@ -27,5 +28,8 @@ namespace Some.Root.Namespace {
         internal static partial Uri Extend(this Uri argument, string extension);
         internal static partial DateOnly Extend(this DateOnly argument, string extension);
         internal static partial TimeOnly Extend(this TimeOnly argument, string extension);
+    }
+    internal static partial class TypealizR_StringFormatter
+    {
     }
 }
