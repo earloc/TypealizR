@@ -32,6 +32,16 @@ internal class ExtensionMethodBuilder
             sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, sanitizedParameterName);
         }
 
-        var name = new MemberName(sanitizedMethodName.Trim());        if (!name.IsValidMethodName())        {            var invalidName = name.ToString();            name.MakeCompilable();            diagnostics.Add(x => x.InvalidMemberName_0005(invalidName, name));        }        return new ExtensionMethodModel(markerType, key, value, name, parameters);
+        var name = new MemberName(sanitizedMethodName.Trim());
+
+        if (!name.IsValidMethodName())
+        {
+            var invalidName = name.ToString();
+            name.MakeCompilable();
+
+            diagnostics.Add(x => x.InvalidMemberName_0005(invalidName, name));
+        }
+
+        return new ExtensionMethodModel(markerType, key, value, name, parameters);
     }
 }

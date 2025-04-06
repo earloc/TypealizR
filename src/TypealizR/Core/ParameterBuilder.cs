@@ -15,34 +15,36 @@ internal class ParameterBuilder
 
     internal IEnumerable<ParameterModel> Build(DiagnosticsCollector diagnostics)
     {
-        var matches = parameterExpression.Matches(rawKeyValue);
+        var segments = rawKeyValue.Split('}').Select(x => $$"""{{x}}}""");
+        foreach (var segment in segments) {
+            var matches = parameterExpression.Matches(segment);
 
-        if (matches.Count <= 0)
-        {
-            return Enumerable.Empty<ParameterModel>();
-        }
-
-        foreach (Match match in matches)
-        {
-            var token = match.Value;
-            var name = match.Groups["name"].Value;
-            var annotation = match.Groups["annotation"].Value;
-            var extension = match.Groups["extension"].Value;
-
-            (var type, var invalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
-
-            if (!string.IsNullOrEmpty(invalidTypeAnnotation))
+            if (matches.Count <= 0)
             {
-                diagnostics.Add(x => x.UnrecognizedParameterType_0004(invalidTypeAnnotation));
-            }
-            if (int.TryParse(name, out var _))
-            {
-                diagnostics.Add(x => x.UnnamedGenericParameter_0003(name));
+                continue;
             }
 
-            models.Add(new(token, name, type, extension));
-        }
+            foreach (Match match in matches)
+            {
+                var token = match.Value;
+                var name = match.Groups["name"].Value;
+                var annotation = match.Groups["annotation"].Value.Split('@')[0];
+                var extension = match.Groups["extension"].Value;
 
+                (var type, var invalidTypeAnnotation) = TryDeriveTypeFrom(annotation);
+
+                if (!string.IsNullOrEmpty(invalidTypeAnnotation))
+                {
+                    diagnostics.Add(x => x.UnrecognizedParameterType_0004(invalidTypeAnnotation));
+                }
+                if (int.TryParse(name, out var _))
+                {
+                    diagnostics.Add(x => x.UnnamedGenericParameter_0003(name));
+                }
+
+                models.Add(new(token, name, type, extension));
+            }
+        }
         return models
             .GroupBy(x => x.Name)
             .Select(x => x.First())
@@ -76,5 +78,5 @@ internal class ParameterBuilder
     /// <summary>
     /// matches strings like {0}, {0:12}, {name} usable in format-strings
     /// </summary>
-    internal static readonly Regex parameterExpression = new("{(?<name>([0-9a-zA-Z]*))(:+(?<annotation>[0-9a-zA-Z]*))?(@+(?<extension>[0-9a-zA-Z]*))?}", RegexOptions.None, TimeSpan.FromMilliseconds(100));
+    internal static readonly Regex parameterExpression = new("{(?<name>([0-9a-zA-Z]*))(:+(?<annotation>[0-9a-zA-Z]*))?(@+(?<extension>.*))?}", RegexOptions.None, TimeSpan.FromMilliseconds(100));
 }

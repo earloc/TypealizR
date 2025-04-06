@@ -50,8 +50,8 @@ public class ParameterAnnotation
          GUID,
          URI,
          // TODO: how opt-ing out of > .net6 types
-         DATEONLY,
-         TIMEONLY
+        //  DATEONLY,
+        //  TIMEONLY
     }.ToFrozenDictionary(_ => _, _ => _);
 
     public static readonly IReadOnlyDictionary<string, string> Mappings = new Dictionary<string, string>() {
@@ -155,21 +155,21 @@ public class ParameterAnnotation
         { URI.ToUpperInvariant(), SupportedTypes[URI]  },
         
         //TODO: how opt-ing out of > .net6 types
-        { DATEONLY, SupportedTypes[DATEONLY]  },
-        { DATEONLY.ToUpperInvariant(), SupportedTypes[DATEONLY]  },
+        // { DATEONLY, SupportedTypes[DATEONLY]  },
+        // { DATEONLY.ToUpperInvariant(), SupportedTypes[DATEONLY]  },
 
-        { "d", SupportedTypes[DATEONLY] },
-        { "D", SupportedTypes[DATEONLY] },
+        // { "d", SupportedTypes[DATEONLY] },
+        // { "D", SupportedTypes[DATEONLY] },
 
-        { TIMEONLY, SupportedTypes[TIMEONLY] },
-        { TIMEONLY.ToUpperInvariant(), SupportedTypes[TIMEONLY] },
+        // { TIMEONLY, SupportedTypes[TIMEONLY] },
+        // { TIMEONLY.ToUpperInvariant(), SupportedTypes[TIMEONLY] },
 
-        { "t", SupportedTypes[TIMEONLY]},
-        { "T", SupportedTypes[TIMEONLY]},
+        // { "t", SupportedTypes[TIMEONLY]},
+        // { "T", SupportedTypes[TIMEONLY]},
 
-        // TODO: possible breaking change, when removing previous
-        { "to", SupportedTypes[TIMEONLY]},
-        { "TO", SupportedTypes[TIMEONLY]},
+        // // TODO: possible breaking change, when removing previous
+        // { "to", SupportedTypes[TIMEONLY]},
+        // { "TO", SupportedTypes[TIMEONLY]},
 
     }.ToFrozenDictionary();
 }

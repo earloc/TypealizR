@@ -53,10 +53,11 @@ internal class StringFormatterClassBuilder
     }
 
     private static string GenerateUsings() => $"""
+        using System;
         using System.Diagnostics;
         using System.CodeDom.Compiler;
         using Microsoft.Extensions.Localization;
-
+        
         """;
 
     private static string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
@@ -93,7 +94,7 @@ internal class StringFormatterClassBuilder
         var formatImplementation = formatMethodExists ? "" : "internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);";
         return $$"""
 
-            internal static partial class {{TypeName}}s
+            internal static partial class {{TypeName}}
             {
                 {{formatImplementation}}
 
