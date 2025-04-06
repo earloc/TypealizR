@@ -34,7 +34,7 @@ internal class CodeFirstClassBuilder
             .ToArray()
         ;
 
-        return new ($"{typealizedInterface.FullName}.g.cs", typealizedInterface, implementationType, containingTypes, methodModels, propertyModels);
+        return new($"{typealizedInterface.FullName}.g.cs", typealizedInterface, implementationType, containingTypes, methodModels, propertyModels);
     }
 
     internal CodeFirstMethodBuilder WithMethod(string name, string? defaultValue)

@@ -119,12 +119,31 @@ public class ParameterBuilder_Tests
     "{i:i}   {s:s}       {dt:dt}        {dto:dto}             {d:d}         {t:t}",
     "int i", "string s", "DateTime dt", "DateTimeOffset dto", "DateOnly d", "TimeOnly t"
     )]
-    public void Extracts_Parameters(string input, params string[] expected)
+    [InlineData(
+    "{i:i@x} {s:s@x}     {dt:dt@x}      {dto:dto@x}           {d:d@x}       {t:t@x}",
+    "int i", "string s", "DateTime dt", "DateTimeOffset dto", "DateOnly d", "TimeOnly t"
+    )]
+    public void Extracts_Parameters_Declaration(string input, params string[] expected)
     {
         var sut = new ParameterBuilder(input);
         var model = sut.Build(new("Ressource1.resx", input, 42));
 
         var actual = model.ToDeclarationCSharp();
+
+        actual.ShouldBeEquivalentTo(expected.ToCommaDelimited());
+    }
+
+    [Theory]
+    [InlineData(
+    "{i:i@x} {s:s@x} {dt:dt@x} {dto:dto@x} {d:d@x} {t:t@x}",
+    "i",     "s",    "dt",     "dto",      "d",    "t"
+    )]
+    public void Extracts_Parameters_Names(string input, params string[] expected)
+    {
+        var sut = new ParameterBuilder(input);
+        var model = sut.Build(new("Ressource1.resx", input, 42));
+
+        var actual = model.Select(x => x.Name).ToCommaDelimited();
 
         actual.ShouldBeEquivalentTo(expected.ToCommaDelimited());
     }
@@ -185,6 +204,10 @@ public class ParameterBuilder_Tests
         "{0} {i:i} {s:s} {dt:dt} {dto:dto} {d:d} {t:t} {1}",
         "_0, i, s, dt, dto, d, t, _1"
     )]
+    [InlineData(
+        "Hello {name:string@x}",
+        "name"
+    )]
     public void Passes_Parameters_In_Invocation(string input, string expected)
     {
         var sut = new ParameterBuilder(input);
@@ -193,6 +216,30 @@ public class ParameterBuilder_Tests
         var actual = parameters.Select(x => x.DisplayName).ToCommaDelimited();
 
         actual.ShouldBeEquivalentTo(expected);
+    }
+
+    [Theory]
+    [InlineData("{argumentName@ex}")]
+    [InlineData("{argumentName:string@ex}")]
+    [InlineData("{argumentName:s@ex}")]
+    [InlineData("{argumentName:int@ex}")]
+    [InlineData("{argumentName:i@ex}")]
+    [InlineData("{argumentName:DateTime@ex}")]
+    [InlineData("{argumentName:dt@ex}")]
+    [InlineData("{argumentName:DateTimeOffset@ex}")]
+    [InlineData("{argumentName:dto@ex}")]
+    [InlineData("{argumentName:DateOnly@ex}")]
+    [InlineData("{argumentName:d@ex}")]
+    [InlineData("{argumentName:TimeOnly@ex}")]
+    [InlineData("{argumentName:t@ex}")]
+    public void Extracts_Annotation_Extensions(string input)
+    {
+        var sut = new ParameterBuilder(input);
+        var parameters = sut.Build(new("Ressource1.resx", input, 42));
+
+        var actual = parameters.Select(x => x.Extension).ToCommaDelimited();
+
+        actual.ShouldBeEquivalentTo("ex");
     }
 }
 

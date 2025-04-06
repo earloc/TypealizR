@@ -11,15 +11,17 @@ internal class ParameterModel
     public readonly string Type;
     public readonly string Name;
     public readonly string DisplayName;
+    public readonly string Extension;
 
 
-    public ParameterModel(string token, string name, string type)
+
+    public ParameterModel(string token, string name, string type, string extension)
     {
         Token = token;
         Type = type;
         Name = name;
         DisplayName = SanitizeName(name);
-
+        Extension = extension;
     }
 
     private static string SanitizeName(string rawParameterName)

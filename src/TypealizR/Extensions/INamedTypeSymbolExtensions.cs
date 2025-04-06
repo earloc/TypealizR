@@ -5,7 +5,8 @@ using System.Linq;
 
 namespace Microsoft.CodeAnalysis;
 
-public static class INamedTypeSymbolExtensions {
+public static class INamedTypeSymbolExtensions
+{
     public static string[] GetContainingTypesRecursive(this INamedTypeSymbol? type, IList<string>? containingTypeNames = null)
     {
         if (containingTypeNames is null)
