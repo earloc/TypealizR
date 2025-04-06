@@ -1,4 +1,5 @@
 ﻿#pragma warning disable CA1812 // Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
+using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using My.Super.Special.Namespace;
@@ -6,7 +7,6 @@ using Playground.Common;
 using Playground.Common.Groups;
 using Playground.Common.Groups.TypealizR;
 using Playground.Common.NoCodeGen;
-using Playground.Console;
 using Playground.Console.NoCodeGen;
 using Playground.Console.WithCodeGen;
 
@@ -75,8 +75,6 @@ Console.WriteLine(
     without_Params_In_MethodNames.Goodbye(arthur)
 );
 
-
-
 var g = typealizedGroups;
 
 static void SomeMethod(IStringLocalizer<Ressources> L)
@@ -99,10 +97,17 @@ Console.WriteLine(
 
 
 //analyzer samples
-var localizer = provider.GetRequiredService<IStringLocalizer>();
+// var localizer = provider.GetRequiredService<IStringLocalizer>();
 
-Console.WriteLine(localizer.Bar());
-Console.WriteLine(localizer.Bar("bar"));
-Console.WriteLine(localizer.Foo("foo"));
-Console.WriteLine(localizer.FooBar("fooBar"));
-Console.WriteLine(localizer.Bars("Arthur", 42));
+// Console.WriteLine(localizer.Bar());
+// Console.WriteLine(localizer.Bar("bar"));
+// Console.WriteLine(localizer.Foo("foo"));    
+// Console.WriteLine(localizer.FooBar("fooBar"));
+// Console.WriteLine(localizer.Bars("Arthur", 42));
+
+var annotationExtensions = provider.GetRequiredService<IStringLocalizer<Playground.Console.AnnotationExtensions>>();
+
+
+Console.WriteLine(annotationExtensions); // Hello 'ARTHUR';
+Console.WriteLine(annotationExtensions.Multiplied(2)); // Multiplied '42';
+
