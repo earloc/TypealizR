@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Extensions;
 
 namespace TypealizR;
@@ -10,8 +11,13 @@ internal class StringFormatterClassBuilder
     internal const string TypeName = "TypealizR_StringFormatter";
 
     private readonly string rootNamespace;
+    private readonly bool supportsDateAndTimeOnly;
 
-    public StringFormatterClassBuilder(string rootNamespace) => this.rootNamespace = rootNamespace;
+    public StringFormatterClassBuilder(string rootNamespace, bool supportsDateAndTimeOnly)
+    {
+        this.rootNamespace = rootNamespace;
+        this.supportsDateAndTimeOnly = supportsDateAndTimeOnly;
+    }
 
     private bool formatMethodExists;
 
@@ -24,12 +30,12 @@ internal class StringFormatterClassBuilder
 
     internal string Build(Type generatorType)
     {
-        var stringFormatterStub = GenerateStub(generatorType);
+        var stringFormatterStub = GenerateStub(generatorType, supportsDateAndTimeOnly);
 
         string defaultImplementation = "";
-        if (!formatMethodExists || alreadyExtendedTypes.Count != ParameterAnnotation.SupportedTypes.Count)
+        if (!formatMethodExists || alreadyExtendedTypes.Count != ParameterAnnotation.NetStandard20SupportedTypes.Count)
         {
-            defaultImplementation = GenerateDefaultImplementation(formatMethodExists, alreadyExtendedTypes);
+            defaultImplementation = GenerateDefaultImplementation(formatMethodExists, alreadyExtendedTypes, supportsDateAndTimeOnly);
         }
 
         var builder = new StringBuilder();
@@ -62,10 +68,13 @@ internal class StringFormatterClassBuilder
 
     private static string OpenNamespace(string rootNamespace) => $@"namespace {rootNamespace} {{";
 
-    private static string GenerateArgumentExtensionOverloads(string body, HashSet<string> userModeImplementedTypes)
+    private static string GenerateArgumentExtensionOverloads(string body, HashSet<string> userModeImplementedTypes, bool supportsDateAndTimeOnly)
     {
         var builder = new StringBuilder();
-        foreach (var annotationType in ParameterAnnotation.SupportedTypes.Keys.Where(x => !userModeImplementedTypes.Contains(x)))
+
+        var typeCandidates = supportsDateAndTimeOnly ? ParameterAnnotation.Net60SupportedTypes : ParameterAnnotation.NetStandard20SupportedTypes;
+
+        foreach (var annotationType in typeCandidates.Keys.Where(x => !userModeImplementedTypes.Contains(x)))
         {
             builder.AppendLine($$"""
 
@@ -75,7 +84,7 @@ internal class StringFormatterClassBuilder
 
         return builder.ToString();
     }
-    private static string GenerateStub(Type generatorType) => $$"""
+    private static string GenerateStub(Type generatorType, bool supportsDateAndTimeOnly) => $$"""
         {{generatorType.GeneratedCodeAttribute()}}
         internal static partial class {{TypeName}}
         {
@@ -85,11 +94,11 @@ internal class StringFormatterClassBuilder
             internal static LocalizedString Or(this LocalizedString that, LocalizedString fallBack) => that.ResourceNotFound ? fallBack : that;
 
             internal static partial string Format(string s, object[] args);
-            {{GenerateArgumentExtensionOverloads(";", [])}}
+            {{GenerateArgumentExtensionOverloads(";", [], supportsDateAndTimeOnly)}}
         }
     """;
 
-    private static string GenerateDefaultImplementation(bool formatMethodExists, HashSet<string> userModeImplementedTypes)
+    private static string GenerateDefaultImplementation(bool formatMethodExists, HashSet<string> userModeImplementedTypes, bool supportsDateAndTimeOnly)
     {
         var formatImplementation = formatMethodExists ? "" : "internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);";
         return $$"""
@@ -98,7 +107,7 @@ internal class StringFormatterClassBuilder
             {
                 {{formatImplementation}}
 
-                {{GenerateArgumentExtensionOverloads(" => argument;", userModeImplementedTypes)}}
+                {{GenerateArgumentExtensionOverloads(" => argument;", userModeImplementedTypes, supportsDateAndTimeOnly)}}
             }
         """;
     }

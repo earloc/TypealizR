@@ -16,9 +16,14 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
             var compilation = providers.Left;
             var options = providers.Right;
 
+            var dateOnlyType = compilation.GetTypeByMetadataName("System.DateOnly");
+            var timeOnlyType = compilation.GetTypeByMetadataName("System.TimeOnly");
+
+            var supportsDateAndTimeOnly = dateOnlyType is not null && timeOnlyType is not null;
+
             var hasUserModeImplementation = compilation.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type, cancel);
            
-            var empty = new { Exists = false, HasFormatMethod = false, ExtendedTypes = Array.Empty<string>() };
+            var empty = new { Exists = false, HasFormatMethod = false, ExtendedTypes = Array.Empty<string>(), SupportsDateAndTimeOnly = supportsDateAndTimeOnly };
 
             if (!hasUserModeImplementation) {
                 return empty;
@@ -54,7 +59,7 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
 
             var extendedTypes = extendMethodImplemetations.Select(method => method.ReturnType.Name).ToArray() ?? [];
            
-            return new { Exists = true, HasFormatMethod = hasFormatMethod, ExtendedTypes = extendedTypes };
+            return new { Exists = true, HasFormatMethod = hasFormatMethod, ExtendedTypes = extendedTypes, SupportsDateAndTimeOnly = supportsDateAndTimeOnly };
         });
 
 
@@ -65,13 +70,13 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
                 var userProvidedImplementation = source.Right;
                 var options = source.Left;
 
-                AddStringFormatterClass(ctxt, options, userProvidedImplementation.Exists, userProvidedImplementation.HasFormatMethod, userProvidedImplementation.ExtendedTypes);
+                AddStringFormatterClass(ctxt, options, userProvidedImplementation.Exists, userProvidedImplementation.HasFormatMethod, userProvidedImplementation.ExtendedTypes, userProvidedImplementation.SupportsDateAndTimeOnly);
             });
     }
 
-    private void AddStringFormatterClass(SourceProductionContext ctxt, GeneratorOptions options, bool stringFormatterExists, bool formatMethodExists, string[] extendedTypes)
+    private void AddStringFormatterClass(SourceProductionContext ctxt, GeneratorOptions options, bool stringFormatterExists, bool formatMethodExists, string[] extendedTypes, bool SupportsDateAndTimeOnly)
     {
-        var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace);
+        var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace, SupportsDateAndTimeOnly);
         if (stringFormatterExists)
         {
             var normalizedTypes = extendedTypes.Select(x => {
