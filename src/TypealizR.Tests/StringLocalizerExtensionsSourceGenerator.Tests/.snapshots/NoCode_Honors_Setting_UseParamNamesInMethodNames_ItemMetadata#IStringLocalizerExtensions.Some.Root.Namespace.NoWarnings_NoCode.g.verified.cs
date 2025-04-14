@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings_today_is(this IStringLocalizer<global::Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date) => that[_Greetings_today_is].Format(name, date);
+        public static LocalizedString Greetings_today_is(this IStringLocalizer<global::Some.Root.Namespace.NoWarnings_NoCode> that, object name, object date) => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(that[_Greetings_today_is], name, date);
         private const string _Greetings_today_is = "Greetings {name}, today is {date}";
         /// <summary>
         /// Looks up a localized string similar to 'Hello'
@@ -39,7 +39,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello_today_is(this IStringLocalizer<global::Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date) => that[_Hello_today_is].Format(name, date);
+        public static LocalizedString Hello_today_is(this IStringLocalizer<global::Some.Root.Namespace.NoWarnings_NoCode> that, string name, DateOnly date) => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(that[_Hello_today_is], name, date);
         private const string _Hello_today_is = "Hello {name:s}, today is {date:d}";
         /// <summary>
         /// wraps the specified <see cref="IStringLocalizer{NoWarnings_NoCode}"/> into a generated type providing properties to access [Some.Nested.Group]: via properties

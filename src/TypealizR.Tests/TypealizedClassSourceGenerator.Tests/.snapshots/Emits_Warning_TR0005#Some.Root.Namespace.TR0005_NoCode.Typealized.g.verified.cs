@@ -30,7 +30,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Greetings {0}'
         /// </returns>
         public LocalizedString _class(string name)
-            => localizer["class {name:s}"].Format(name);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["class {name:s}"], name);
         /// <summary>
         /// Looks up a localized string similar to '[Log.Warning] class {brother:s}'
         /// </summary>
@@ -38,7 +38,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Warn-a-{0}'
         /// </returns>
         public LocalizedString LogWarning_class(string brother)
-            => localizer["[Log.Warning] class {brother:s}"].Format(brother);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Log.Warning] class {brother:s}"], brother);
         /// <summary>
         /// Gets the string resource with the given name.
         /// </summary>

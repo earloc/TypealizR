@@ -16,21 +16,70 @@ namespace TypealizR.Tests.CodeFirst {
         #region Hello-method
         private const string Hello_Key = @"Hello";
         private const string Hello_FallbackKey = @"Hello {0}";
-        public LocalizedString Hello_Raw => localizer[Hello_Key].Or(localizer[Hello_FallbackKey]);
-        public LocalizedString Hello (string world) => localizer[Hello_Key, world].Or(localizer[Hello_FallbackKey, world]);
+        public LocalizedString Hello_Raw
+        {
+            get
+            {
+              var localizedString = localizer[Hello_Key];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[Hello_FallbackKey];
+            }
+        }
+        public LocalizedString Hello (string world) 
+        {
+            var localizedString = localizer[Hello_Key, world];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[Hello_FallbackKey, world];
+        }
         #endregion
         #region Hello-method
         private const string Hello_Key = @"Hello";
         private const string Hello_FallbackKey = @"Hello {0} {1} {2} {3}";
-        public LocalizedString Hello_Raw => localizer[Hello_Key].Or(localizer[Hello_FallbackKey]);
-        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) => localizer[Hello_Key, user, world, visitCount, dontPanic].Or(localizer[Hello_FallbackKey, user, world, visitCount, dontPanic]);
+        public LocalizedString Hello_Raw
+        {
+            get
+            {
+              var localizedString = localizer[Hello_Key];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[Hello_FallbackKey];
+            }
+        }
+        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) 
+        {
+            var localizedString = localizer[Hello_Key, user, world, visitCount, dontPanic];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[Hello_FallbackKey, user, world, visitCount, dontPanic];
+        }
         #endregion
         #endregion
         #region properties
         #region Greeting-property
         private const string Greeting_Key = @"Greeting";
         private const string Greeting_FallbackKey = @"Greeting";
-        public LocalizedString Greeting => localizer[Greeting_Key].Or(localizer[Greeting_FallbackKey]);
+        public LocalizedString Greeting
+        {
+          get
+            {
+              var localizedString = localizer[Greeting_Key];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[Greeting_FallbackKey];
+          }
+        }
         #endregion
         #endregion
     }

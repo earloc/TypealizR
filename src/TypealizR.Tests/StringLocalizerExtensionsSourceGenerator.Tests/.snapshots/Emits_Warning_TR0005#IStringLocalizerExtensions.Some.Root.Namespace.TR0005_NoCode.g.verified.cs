@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString _class(this IStringLocalizer<global::Some.Root.Namespace.TR0005_NoCode> that, string name) => that[__class].Format(name);
+        public static LocalizedString _class(this IStringLocalizer<global::Some.Root.Namespace.TR0005_NoCode> that, string name) => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(that[__class], name);
         private const string __class = "class {name:s}";
         /// <summary>
         /// wraps the specified <see cref="IStringLocalizer{TR0005_NoCode}"/> into a generated type providing properties to access [Some.Nested.Group]: via properties
