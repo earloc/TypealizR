@@ -33,7 +33,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         public LocalizedString Greetings_today_is(object name, object date)
-            => localizer["Greetings {name}, today is {date}"].Format(name, date);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["Greetings {name}, today is {date}"], name, date);
         /// <summary>
         /// Looks up a localized string similar to 'Hello'
         /// </summary>
@@ -49,7 +49,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         public LocalizedString Hello_today_is(string name, DateOnly date)
-            => localizer["Hello {name:s}, today is {date:d}"].Format(name, date);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["Hello {name:s}, today is {date:d}"], name, date);
         /// <summary>
         /// Gets the Log translator group.
         /// </summary>
@@ -109,7 +109,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Failed to delete {0}'
         /// </returns>
         public LocalizedString Failed_to_delete(string UserName)
-            => localizer["[Log.Critical]: Failed to delete {UserName:s}"].Format(UserName);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Log.Critical]: Failed to delete {UserName:s}"], UserName);
             }
              /// <summary>
              /// Nested class created to provide grouped translations.
@@ -133,7 +133,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Could not find {0}'
         /// </returns>
         public LocalizedString Could_not_find(string UserName)
-            => localizer["[Log.Warning]: Could not find {UserName:s}"].Format(UserName);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Log.Warning]: Could not find {UserName:s}"], UserName);
         /// <summary>
         /// Looks up a localized string similar to '[Log.Warning]: Unknown error'
         /// </summary>
@@ -174,7 +174,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Continue to delete {0}?'
         /// </returns>
         public LocalizedString Continue_to_delete(string UserName)
-            => localizer["[Question]: Continue to delete {UserName:s}?"].Format(UserName);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Question]: Continue to delete {UserName:s}?"], UserName);
         }
          /// <summary>
          /// Nested class created to provide grouped translations.
@@ -198,7 +198,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of '{0} will be deleted'
         /// </returns>
         public LocalizedString will_be_deleted(string UserName)
-            => localizer["[Warning]: {UserName:s} will be deleted!"].Format(UserName);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Warning]: {UserName:s} will be deleted!"], UserName);
         }
         /// <summary>
         /// Gets the string resource with the given name.

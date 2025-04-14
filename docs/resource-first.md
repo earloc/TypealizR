@@ -256,6 +256,27 @@ internal static partial class TypealizR_StringFormatter
 ```
 
 With this implementation, every localized string would be reversed. (Even if that doesn´t make any sense ;P)
+## custom annotation extensions
+Starting with [v0.12](https://github.com/earloc/TypealizR/releases/tag/v0.12.0), formatting of type-annotatios can be "extended", utilizing custom extensions to type-annotations.
+Such extensions are introduced with `@`within a type-annotation, which then get's passed through to custom implementations, which gives the oppurtunity for interesting use-cases, completely under control of user-code.
+
+### example
+Give the following resource-keys:
+```hello {user:string@toUpper}```
+```hello {user:string@toLower}```
+
+and a custom partial implementation in `TypealizR_StringFormatter` like
+```
+    internal static partial string Extend(string argument, string extension) => extension switch
+    {
+        "toUpper" => argument?.ToString().ToUpper() ?? argument,
+        "toLower" => argument?.ToString().ToLower() ?? argument,
+        // more cases, provider by user code
+        _ => argument
+    };
+```
+
+See [TypealizR_StringFormatter](../src/Playground.Console/TypealizR_StringFormatter.cs) for more showcases.
 
 # configuration
 

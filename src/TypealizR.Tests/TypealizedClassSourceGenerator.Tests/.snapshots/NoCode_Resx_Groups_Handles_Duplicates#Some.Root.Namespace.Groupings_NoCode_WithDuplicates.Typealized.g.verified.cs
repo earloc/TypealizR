@@ -70,7 +70,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Could not find {0}'
         /// </returns>
         public LocalizedString Could_not_find__UserName(string UserName)
-            => localizer["[Log.Warning]: Could not find {UserName:s}"].Format(UserName);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Log.Warning]: Could not find {UserName:s}"], UserName);
         /// <summary>
         /// Looks up a localized string similar to '[Log.Warning]: Could not find {UserName:s}!'
         /// </summary>
@@ -78,7 +78,7 @@ namespace Some.Root.Namespace.TypealizR
         /// A localized version of the current default value of 'Could not find {0}!'
         /// </returns>
         public LocalizedString Could_not_find__UserName1(string UserName)
-            => localizer["[Log.Warning]: Could not find {UserName:s}!"].Format(UserName);
+            => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(localizer["[Log.Warning]: Could not find {UserName:s}!"], UserName);
         /// <summary>
         /// Looks up a localized string similar to '[Log.Warning]: Unknown error'
         /// </summary>

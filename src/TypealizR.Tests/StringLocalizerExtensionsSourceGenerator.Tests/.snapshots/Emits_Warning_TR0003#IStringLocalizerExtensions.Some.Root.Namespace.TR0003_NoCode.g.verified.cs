@@ -21,7 +21,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Greetings {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Greetings__0__today_is__1(this IStringLocalizer<global::Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1) => that[_Greetings__0__today_is__1].Format(_0, _1);
+        public static LocalizedString Greetings__0__today_is__1(this IStringLocalizer<global::Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1) => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(that[_Greetings__0__today_is__1], _0, _1);
         private const string _Greetings__0__today_is__1 = "Greetings {0}, today is {1}";
         /// <summary>
         /// Looks up a localized string similar to 'Hello {0}, today is {1}'
@@ -30,7 +30,7 @@ namespace Microsoft.Extensions.Localization
         /// A localized version of the current default value of 'Hello {0}, today is {1}'
         /// </returns>
         [DebuggerStepThrough]
-        public static LocalizedString Hello__0__today_is__1(this IStringLocalizer<global::Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1) => that[_Hello__0__today_is__1].Format(_0, _1);
+        public static LocalizedString Hello__0__today_is__1(this IStringLocalizer<global::Some.Root.Namespace.TR0003_NoCode> that, object _0, object _1) => global::Some.Root.Namespace.TypealizR_StringFormatter.Format(that[_Hello__0__today_is__1], _0, _1);
         private const string _Hello__0__today_is__1 = "Hello {0}, today is {1}";
         /// <summary>
         /// wraps the specified <see cref="IStringLocalizer{TR0003_NoCode}"/> into a generated type providing properties to access [Some.Nested.Group]: via properties

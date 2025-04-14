@@ -17,7 +17,7 @@ internal class ExportCommand : Command
         AddArgument(projectArgument);
     }
 
-    public class Implementation : ICommandHandler
+    internal class Implementation : ICommandHandler
     {
         private readonly IConsole console;
         private readonly IStorage storage;
@@ -103,7 +103,8 @@ internal class ExportCommand : Command
 
                 var fileName = type.ImplementingInterface.Declaration.Identifier.Text;
                 var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join("+");
-                if (!string.IsNullOrEmpty(containingTypes)) {
+                if (!string.IsNullOrEmpty(containingTypes))
+                {
                     fileName = $"{containingTypes}+{fileName}";
                 }
 

@@ -117,40 +117,16 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="?asd {:::??34}" xml:space="preserve">
-    <value>?asd {0}</value>
+  <data name="Hello {name:string@toUpper}" xml:space="preserve">
+    <value>Hello '{0}'.</value>
     <comment/>
   </data>
-  <data name="Broken {xy:z}" xml:space="preserve">
-    <value>Broken</value>
+  <data name="Rounded {value:double@round:2}" xml:space="preserve">
+    <value>Rounded value is '{0}'</value>
     <comment/>
   </data>
-  <data name="Hello {name:s}, today is {now:d}" xml:space="preserve">
-    <value>Hello {0}, today is {1}</value>
-    <comment/>
-  </data>
-  <data name="Hello, World!" xml:space="preserve">
-    <value>Hello, World!</value>
-    <comment/>
-  </data>
-  <data name="Hello, World." xml:space="preserve">
-    <value>Hello, World.</value>
-    <comment/>
-  </data>
-  <data name="Hello, World?" xml:space="preserve">
-    <value>Hello, World?</value>
-    <comment/>
-  </data>
-  <data name="Hello, {0}" xml:space="preserve">
-    <value>Hello, {0}</value>
-    <comment/>
-  </data>
-  <data name="Hello, {UserName}" xml:space="preserve">
-    <value>Hello, {0}</value>
-    <comment/>
-  </data>
-  <data name="Hello, {LowerCase:s@MyCustomExtension}" xml:space="preserve">
-    <value>Hello, {0}</value>
+  <data name="Multiplied {value:int@*:21}" xml:space="preserve">
+    <value>Multiplied value is '{0}'</value>
     <comment/>
   </data>
 </root>
