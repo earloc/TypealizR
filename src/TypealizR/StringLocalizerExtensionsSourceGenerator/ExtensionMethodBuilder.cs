@@ -8,11 +8,13 @@ internal class ExtensionMethodBuilder
     private readonly string key;
     private readonly string value;
     private readonly DiagnosticsCollector diagnostics;
+    private readonly string rootNameSpace;
     private readonly bool useParametersInMethodNames;
     private readonly ParameterBuilder parameterBuilder;
 
-    public ExtensionMethodBuilder(bool useParametersInMethodNames, TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics)
+    public ExtensionMethodBuilder(string rootNameSpace, bool useParametersInMethodNames, TypeModel markerType, string key, string value, DiagnosticsCollector diagnostics)
     {
+        this.rootNameSpace = rootNameSpace;
         this.useParametersInMethodNames = useParametersInMethodNames;
         this.markerType = markerType;
         this.key = key;
@@ -42,6 +44,6 @@ internal class ExtensionMethodBuilder
             diagnostics.Add(x => x.InvalidMemberName_0005(invalidName, name));
         }
 
-        return new ExtensionMethodModel(markerType, key, value, name, parameters);
+        return new ExtensionMethodModel(rootNameSpace, markerType, key, value, name, parameters);
     }
 }

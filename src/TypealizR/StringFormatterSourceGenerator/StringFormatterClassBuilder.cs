@@ -10,6 +10,10 @@ internal class StringFormatterClassBuilder
 {
     internal const string TypeName = "TypealizR_StringFormatter";
 
+    public static string FullTypeName(string rootNamespace) => $"{rootNamespace}.{TypeName}";
+    public static string GlobalFullTypeName(string rootNamespace) => $"global::{FullTypeName(rootNamespace)}";
+
+
     private readonly string rootNamespace;
     private readonly bool supportsDateAndTimeOnly;
 
@@ -78,7 +82,7 @@ internal class StringFormatterClassBuilder
         {
             builder.AppendLine($$"""
 
-                    internal static partial {{annotationType}} Extend(this {{annotationType}} argument, string extension){{body}}
+                    internal static partial {{annotationType}} Extend({{annotationType}} argument, string extension){{body}}
             """);
         }
 
@@ -89,9 +93,7 @@ internal class StringFormatterClassBuilder
         internal static partial class {{TypeName}}
         {
             [DebuggerStepThrough]
-            internal static LocalizedString Format(this LocalizedString that, params object[] args) => new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
-
-            internal static LocalizedString Or(this LocalizedString that, LocalizedString fallBack) => that.ResourceNotFound ? fallBack : that;
+            internal static LocalizedString Format(LocalizedString that, params object[] args) => new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
 
             internal static partial string Format(string s, object[] args);
             {{GenerateArgumentExtensionOverloads(";", [], supportsDateAndTimeOnly)}}

@@ -24,7 +24,7 @@ public class ExtensionMethodBuilder_Tests
 
     public void Ensures_Compilable_ExtensionMethodName(string input, string expected)
     {
-        var sut = new ExtensionMethodBuilder(true, targetType, input, input, new("Ressource1.resx", input, 42));
+        var sut = new ExtensionMethodBuilder("Some.Name.Space", true, targetType, input, input, new("Ressource1.resx", input, 42));
         var method = sut.Build();
 
         var actual = method.Name.ToString();
@@ -62,7 +62,7 @@ public class ExtensionMethodBuilder_Tests
     [InlineData("Hello {name:int@ex}", "Hello")]
     public void Strips_ParameterNames_From_ExtensionMethodName(string input, string expected)
     {
-        var sut = new ExtensionMethodBuilder(false, targetType, input, input, new("Ressource1.resx", input, 42));
+        var sut = new ExtensionMethodBuilder("Some.Name.Space", false, targetType, input, input, new("Ressource1.resx", input, 42));
         var method = sut.Build();
 
         var actual = method.Name.ToString();

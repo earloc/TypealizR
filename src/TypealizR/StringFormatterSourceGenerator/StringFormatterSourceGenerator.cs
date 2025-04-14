@@ -28,7 +28,7 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
             if (!hasUserModeImplementation) {
                 return empty;
             }
-            var typeSymbol = compilation.GetTypeByMetadataName($"{options.RootNamespace}.{StringFormatterClassBuilder.TypeName}");
+            var typeSymbol = compilation.GetTypeByMetadataName(StringFormatterClassBuilder.FullTypeName(options.RootNamespace));
 
             if (typeSymbol == null) {
                 return empty;
@@ -41,7 +41,6 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
                 .Where(method => method.Parameters.Length == 2)
             ;
 
-
             var hasFormatMethod = methods
                 .Where(method => method.Name == "Format")
                 .Where(method => method.Parameters[0].Type.SpecialType == SpecialType.System_String)
@@ -52,7 +51,6 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
 
             var extendMethodImplemetations = methods
                 .Where(method => method.Name == "Extend")
-                .Where(method => method.IsExtensionMethod)
                 .Where(method => SymbolEqualityComparer.Default.Equals(method.ReturnType, method.Parameters[0].Type))
                 .ToArray()
             ;

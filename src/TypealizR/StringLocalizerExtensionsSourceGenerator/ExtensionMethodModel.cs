@@ -16,13 +16,16 @@ internal class ExtensionMethodModel : IMemberModel
 
     public readonly IEnumerable<ParameterModel> Parameters;
 
-    public ExtensionMethodModel(TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, MemberName name, IEnumerable<ParameterModel> parameters)
+    private readonly string stringFormatterTypeName;
+
+    public ExtensionMethodModel(string rootNamespace, TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, MemberName name, IEnumerable<ParameterModel> parameters)
     {
         ExtendedType = extendedType;
         RawRessourceName = rawRessourceName;
         RessourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
         Name = name;
         Parameters = parameters;
+        stringFormatterTypeName = StringFormatterClassBuilder.GlobalFullTypeName(rootNamespace);
     }
 
     public string ToCSharp()
@@ -40,7 +43,7 @@ internal class ExtensionMethodModel : IMemberModel
 
             var parameterCollection = Parameters.Select(Invocation).ToCommaDelimited();
 
-            body = $"that[{constName}].Format({parameterCollection})";
+            body = $"{stringFormatterTypeName}.Format(that[{constName}], {parameterCollection})";
         }
         var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
 
@@ -53,5 +56,8 @@ internal class ExtensionMethodModel : IMemberModel
     """;
     }
 
-    private static string Invocation(ParameterModel parameter) => string.IsNullOrEmpty(parameter.Extension) ? parameter.DisplayName : $"""{parameter.DisplayName}.Extend("{parameter.Extension}")""";
+    private string Invocation(ParameterModel parameter) => string.IsNullOrEmpty(parameter.Extension) 
+        ? parameter.DisplayName 
+        : $"""{stringFormatterTypeName}.Extend({parameter.DisplayName}, "{parameter.Extension}")"""
+    ;
 }
