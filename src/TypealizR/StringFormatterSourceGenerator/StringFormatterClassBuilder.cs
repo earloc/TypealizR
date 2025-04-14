@@ -92,7 +92,6 @@ internal class StringFormatterClassBuilder
         {{generatorType.GeneratedCodeAttribute()}}
         internal static partial class {{TypeName}}
         {
-            [DebuggerStepThrough]
             internal static LocalizedString Format(LocalizedString that, params object[] args) => new LocalizedString(that.Name, Format(that.Value, args), that.ResourceNotFound, searchedLocation: that.SearchedLocation);
 
             internal static partial string Format(string s, object[] args);
