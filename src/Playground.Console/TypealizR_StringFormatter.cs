@@ -3,13 +3,13 @@ namespace Playground.Console;
 internal static partial class TypealizR_StringFormatter
 {
     internal static partial string Format(string s, object[] args) => string.Format(s, args);
-    internal static partial string Extend(this string argument, string extension) => extension switch
+    internal static partial string Extend(string argument, string extension) => extension switch
     {
         "toUpper" => argument?.ToString().ToUpper() ?? argument,
         _ => argument
     };
 
-    internal static partial double Extend(this double argument, string extension) => extension switch
+    internal static partial double Extend(double argument, string extension) => extension switch
     {
         "round0" => Math.Round(argument, 0),
         "round1" => Math.Round(argument, 1),
@@ -17,7 +17,7 @@ internal static partial class TypealizR_StringFormatter
         _ => argument
     };
 
-    internal static partial int Extend(this int argument, string extension)
+    internal static partial int Extend(int argument, string extension)
     {
         var extensionArgs = extension.Split(':');
         if (extensionArgs.Length != 2)
