@@ -8,6 +8,7 @@
         <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
         <IsPackable>false</IsPackable>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <SonarQubeExclude>true</SonarQubeExclude>
   </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
