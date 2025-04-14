@@ -55,7 +55,7 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
                 .ToArray()
             ;
 
-            var extendedTypes = extendMethodImplemetations.Select(method => method.ReturnType.Name).ToArray() ?? [];
+            var extendedTypes = extendMethodImplemetations.Select(method => method.ReturnType.Name).ToArray();
            
             return new { Exists = true, HasFormatMethod = hasFormatMethod, ExtendedTypes = extendedTypes, SupportsDateAndTimeOnly = supportsDateAndTimeOnly };
         });

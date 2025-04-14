@@ -169,7 +169,6 @@ public class ParameterAnnotation
         { "t", Net60SupportedTypes[TIMEONLY]},
         { "T", Net60SupportedTypes[TIMEONLY]},
 
-        // TODO: possible breaking change, when removing previous
         { "to", Net60SupportedTypes[TIMEONLY]},
         { "TO", Net60SupportedTypes[TIMEONLY]},
 
