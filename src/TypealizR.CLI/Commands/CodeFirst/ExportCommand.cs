@@ -6,6 +6,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Resources;
+using TypealizR.Core.Writer;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command
@@ -19,13 +20,13 @@ internal class ExportCommand : Command
 
     internal class Implementation : ICommandHandler
     {
-        private readonly IConsole console;
+        private readonly IndentableWriter writer;
         private readonly IStorage storage;
         public FileInfo? Project { get; set; }
 
         public Implementation(IConsole console, IStorage storage)
         {
-            this.console = console;
+            writer = new(console.WriteLine);
             this.storage = storage;
         }
 
@@ -47,20 +48,22 @@ internal class ExportCommand : Command
 
             using var w = MSBuildWorkspace.Create();
 
-            console.WriteLine($"📖 opening {Project.FullName}");
-
+            writer.WriteLine($"📖 opening {Project.FullName}");
             var project = await w.OpenProjectAsync(Project.FullName, cancellationToken: cancellationToken);
 
-            await ExportAsync(console, project, storage, cancellationToken);
+            using (writer.Indent())
+            {
+                await ExportAsync(writer, project, storage, cancellationToken);
+            }
 
             return 0;
         }
 
         private const string MarkerAttributeName = "CodeFirstTypealized";
 
-        private static async Task ExportAsync(IConsole console, Project project, IStorage storage, CancellationToken cancellationToken)
+        private static async Task ExportAsync(IndentableWriter writer, Project project, IStorage storage, CancellationToken cancellationToken)
         {
-            console.WriteLine($"  🚀 building");
+            writer.WriteLine($"🚀 building");
 
             var compilation = await project.GetCompilationAsync(cancellationToken);
 
@@ -71,30 +74,33 @@ internal class ExportCommand : Command
 
             var directory = Directory.GetParent(project.FilePath ?? "")?.FullName ?? "";
 
-            console.WriteLine($"  🔍 scanning");
+            writer.WriteLine($"🔍 scanning");
 
             var allNamespaces = FindNamespaces(compilation, cancellationToken).ToArray();
             if (allNamespaces.Length == 0)
             {
-                console.WriteLine("  ⚠️ no namespaces found");
+                writer.WriteLine("⚠️ no namespaces found");
             }
 
             var markedInterfaces = FindInterfaces(compilation, allNamespaces, cancellationToken).ToArray();
             if (markedInterfaces.Length == 0)
             {
-                console.WriteLine("  ⚠️ no typealized interfaces found");
+                writer.WriteLine("⚠️ no typealized interfaces found");
             }
 
             var typesImplementingMarkedInterfaces = FindClasses(compilation, allNamespaces, markedInterfaces, cancellationToken).ToArray();
             if (typesImplementingMarkedInterfaces.Length == 0)
             {
-                console.WriteLine("  ⚠️ no classes implementing typealized interfaces found");
+                writer.WriteLine("⚠️ no classes implementing typealized interfaces found");
             }
 
-            await ExportAsync(console, directory, typesImplementingMarkedInterfaces, storage);
+            using (writer.Indent())
+            {
+                await ExportAsync(writer, directory, typesImplementingMarkedInterfaces, storage);
+            }
         }
 
-        private static async Task ExportAsync(IConsole console, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
+        private static async Task ExportAsync(IndentableWriter writer, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
         {
             foreach (var type in types)
             {
@@ -110,22 +116,27 @@ internal class ExportCommand : Command
 
                 var resourcefileName = Path.Combine(interfacePath, $"{fileName}.resx");
 
-                console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
-                console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");
-
-                var builder = new ResxBuilder();
-
-                foreach (var property in type.Declaration.Members
-                    .OfType<PropertyDeclarationSyntax>()
-                    .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
-                )
+                writer.WriteLine($"👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
+                using (writer.Indent())
                 {
-                    AddProperty(console, type, builder, property);
+                    writer.WriteLine($"🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");
                 }
 
-                foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
+                var builder = new ResxBuilder();
+                using (writer.Indent())
                 {
-                    AddMethod(console, type, builder, method);
+                    foreach (var property in type.Declaration.Members
+                    .OfType<PropertyDeclarationSyntax>()
+                    .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
+                    )
+                    {
+                        AddProperty(writer, type, builder, property);
+                    }
+
+                    foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
+                    {
+                        AddMethod(writer, type, builder, method);
+                    }
                 }
 
                 var content = builder.Build();
@@ -224,7 +235,7 @@ internal class ExportCommand : Command
                         .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
                 ;
 
-        private static void AddProperty(IConsole console, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax property)
+        private static void AddProperty(IndentableWriter writer, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax property)
         {
             var key = FindKeyOf(type, property);
             var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
@@ -232,26 +243,26 @@ internal class ExportCommand : Command
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
                 builder.Add(property.Identifier.Text, sanitizedValue);
-                console.WriteLine($"        ✔️ {property.Identifier.Text}");
+                writer.WriteLine($"✔️ {property.Identifier.Text}");
             }
             else
             {
-                console.WriteLine($"        ⚠️ {property.Identifier.Text} - invalid key");
+                writer.WriteLine($"⚠️ {property.Identifier.Text} - invalid key");
             }
         }
 
-        private static void AddMethod(IConsole console, TypeInfo type, ResxBuilder builder, MethodDeclarationSyntax method)
+        private static void AddMethod(IndentableWriter writer, TypeInfo type, ResxBuilder builder, MethodDeclarationSyntax method)
         {
             var key = FindKeyOf(type, method);
             var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
                 builder.Add(method.Identifier.Text, sanitizedValue);
-                console.WriteLine($"        ✔️ {method.Identifier.Text}()");
+                writer.WriteLine($"✔️ {method.Identifier.Text}()");
             }
             else
             {
-                console.WriteLine($"        ⚠️ {method.Identifier.Text} - invalid key");
+                writer.WriteLine($"⚠️ {method.Identifier.Text} - invalid key");
             }
         }
     }
