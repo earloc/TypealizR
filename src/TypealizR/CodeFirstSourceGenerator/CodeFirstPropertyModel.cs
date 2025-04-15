@@ -21,7 +21,18 @@ internal class CodeFirstPropertyModel
         {{moreSpaces}}        #region {{key}}-property
         {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
         {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
-        {{moreSpaces}}        public {{returnType}} {{key}} => localizer[{{KeyName}}].Or(localizer[{{FallbackKeyName}}]);
+        {{moreSpaces}}        public {{returnType}} {{key}}
+        {{moreSpaces}}        {
+        {{moreSpaces}}          get
+        {{moreSpaces}}            {
+        {{moreSpaces}}              var localizedString = localizer[{{KeyName}}];
+        {{moreSpaces}}              if (!localizedString.ResourceNotFound)
+        {{moreSpaces}}              {
+        {{moreSpaces}}                  return localizedString;
+        {{moreSpaces}}              }
+        {{moreSpaces}}              return localizer[{{FallbackKeyName}}];
+        {{moreSpaces}}          }
+        {{moreSpaces}}        }
         {{moreSpaces}}        #endregion
 
         """;

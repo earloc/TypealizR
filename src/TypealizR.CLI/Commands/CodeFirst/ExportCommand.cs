@@ -17,7 +17,7 @@ internal class ExportCommand : Command
         AddArgument(projectArgument);
     }
 
-    public class Implementation : ICommandHandler
+    internal class Implementation : ICommandHandler
     {
         private readonly IConsole console;
         private readonly IStorage storage;
@@ -96,13 +96,19 @@ internal class ExportCommand : Command
 
         private static async Task ExportAsync(IConsole console, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
         {
-
             foreach (var type in types)
             {
                 var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
-                var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
+                var fileName = type.ImplementingInterface.Declaration.Identifier.Text;
+                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join("+");
+                if (!string.IsNullOrEmpty(containingTypes))
+                {
+                    fileName = $"{containingTypes}+{fileName}";
+                }
+
+                var resourcefileName = Path.Combine(interfacePath, $"{fileName}.resx");
 
                 console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
                 console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");
@@ -131,10 +137,10 @@ internal class ExportCommand : Command
                         .Where(x => x.GetRoot() is CompilationUnitSyntax)
                         .Select(x => (CompilationUnitSyntax)x.GetRoot(cancellationToken))
                         .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
-                ;
+        ;
 
         private static IEnumerable<InterfaceInfo> FindInterfaces(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, CancellationToken cancellationToken) => allNamespaces
-                        .SelectMany(x => x.Members.OfType<InterfaceDeclarationSyntax>())
+                        .SelectMany(x => GetAllInterfaceDeclarations(x.Members))
                         .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
                         .Select(x => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
                         .Where(x => x.Symbol is not null)
@@ -143,14 +149,32 @@ internal class ExportCommand : Command
                             .GetAttributes()
                             .Any(x => x.AttributeClass is not null && x.AttributeClass!.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal))
                         )
-                ;
+        ;
+
+        private static IEnumerable<InterfaceDeclarationSyntax> GetAllInterfaceDeclarations(SyntaxList<MemberDeclarationSyntax> members)
+        {
+            foreach (var member in members)
+            {
+                if (member is InterfaceDeclarationSyntax interfaceDeclaration)
+                {
+                    yield return interfaceDeclaration;
+                }
+                else if (member is ClassDeclarationSyntax classDeclaration)
+                {
+                    foreach (var innerInterface in GetAllInterfaceDeclarations(classDeclaration.Members))
+                    {
+                        yield return innerInterface;
+                    }
+                }
+            }
+        }
 
         private static IEnumerable<TypeInfo> FindClasses(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, IEnumerable<InterfaceInfo> markedInterfacesIdentifier, CancellationToken cancellationToken)
         {
             var interfaces = markedInterfacesIdentifier.ToDictionary(x => x.Symbol, SymbolEqualityComparer.Default);
 
             return allNamespaces
-                .SelectMany(x => x.Members.OfType<ClassDeclarationSyntax>())
+                .SelectMany(x => GetAllClassDeclarations(x.Members))
                 .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
                 .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) as INamedTypeSymbol })
                 .Where(x => x.Symbol is not null)
@@ -165,6 +189,23 @@ internal class ExportCommand : Command
                 .Where(x => x.Interface is not null)
                 .Select(x => new TypeInfo(x.Declaration, interfaces[x.Interface!]))
             ;
+        }
+
+        private static IEnumerable<ClassDeclarationSyntax> GetAllClassDeclarations(SyntaxList<MemberDeclarationSyntax> members)
+        {
+            foreach (var member in members)
+            {
+                if (member is ClassDeclarationSyntax classDeclaration)
+                {
+                    yield return classDeclaration;
+
+                    // Recursively search for inner classes
+                    foreach (var innerClass in GetAllClassDeclarations(classDeclaration.Members))
+                    {
+                        yield return innerClass;
+                    }
+                }
+            }
         }
 
         private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyDeclarationSyntax propertySyntax) => type.Declaration.Members

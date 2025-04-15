@@ -6,12 +6,19 @@ services.AddLogging();
 services.AddLocalization();
 
 services.AddScoped<ILocalizables, Localizables>();
+services.AddScoped<Some.Inner.ISampleInnerface, Some.Inner.SampleInnerface>();
+
 var provider = services.BuildServiceProvider();
 using var scope = provider.CreateScope();
 
 var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
 
+
 Demo(i18n);
+
+var innerface = scope.ServiceProvider.GetRequiredService<Some.Inner.ISampleInnerface>();
+Console.WriteLine(innerface.Hello);
+Console.WriteLine(innerface.World("world"));
 
 static void Demo(ILocalizables i18n)
 {

@@ -4,7 +4,7 @@ using TypealizR.CodeFirst.Abstractions;
 namespace Playground.CodeFirst.Console;
 
 [CodeFirstTypealized]
-public interface ILocalizablesWithDefaults
+internal interface ILocalizablesWithDefaults
 {
     ///<summary>
     /// 42

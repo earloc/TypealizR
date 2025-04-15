@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
 using TypealizR.Diagnostics;
 using TypealizR.Tests.Snapshots;
 
@@ -20,19 +19,18 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
         ;
 
     [Fact]
-    public async Task Throws_For_Invalid_SeverityConfig() => await this.Invoking(async (x) =>
-                                                                      await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
-                                                                          .Create(BaseDirectory, null)
-                                                                          .WithSeverityConfig(DiagnosticsId.TR0001, "invalid")
-                                                                          .WithResxFile("Empty_NoCode.resx")
-                                                                          .Build()
-                                                                          .Verify()
-        )
-        .Should()
-        .ThrowAsync<InvalidOperationException>()
-        .WithMessage("'dotnet_diagnostic_tr0001_severity' has invalid value 'invalid'")
-        ;
-
+    public async Task Throws_For_Invalid_SeverityConfig()
+    {
+        var actual = await Should.ThrowAsync<InvalidOperationException>(async () =>
+            await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+                .Create(BaseDirectory, null)
+                .WithSeverityConfig(DiagnosticsId.TR0001, "invalid")
+                .WithResxFile("Empty_NoCode.resx")
+                .Build()
+                .Verify()
+        );
+        actual.Message.ShouldBe("'dotnet_diagnostic_tr0001_severity' has invalid value 'invalid'");
+    }
 
     [Fact]
     public async Task Emits_Error_TR0001() => await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>

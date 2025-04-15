@@ -45,6 +45,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
     public GeneratorTesterBuilder<TGenerator> WithSourceFile(string fileName)
     {
+
         var path = Path.Combine(baseDirectory.FullName, fileName);
 
         var fileInfo = new FileInfo(path);
@@ -89,7 +90,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
         return this;
     }
 
-    public IVerifiable Build()
+    public IVerifiable Build(bool withDateAndTimeOnly = true)
     {
         var syntaxTrees = sourceFiles
             .Select(x => new { Path = x.FullName, Content = File.ReadAllText(x.FullName) })
@@ -101,6 +102,13 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
             syntaxTrees: syntaxTrees
         );
 
+        if (withDateAndTimeOnly)
+        {
+            compilation = compilation.AddReferences(
+                MetadataReference.CreateFromFile(typeof(DateOnly).Assembly.Location)
+            );
+        }
+
         var additionalTexts = resxFiles
             .Select(x => new ResxFile(x.FullName) as AdditionalText)
             .ToArray()
@@ -108,7 +116,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
         var generator = new TGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
-            .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
+            .AddAdditionalTexts([.. additionalTexts])
             .WithUpdatedAnalyzerConfigOptions(
                 new GeneratorTesterOptionsProvider(
                     withoutMsBuildProjectDirectory ? null : baseDirectory,
@@ -121,7 +129,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
                 )
         );
 
-        var generatorDriver = driver.RunGenerators(compilation);
+        var generatorDriver = driver.RunGenerators(compilation.AddReferences());
 
         return new GeneratorTester(generatorDriver, Path.Combine(baseDirectory.FullName, ".snapshots"));
     }

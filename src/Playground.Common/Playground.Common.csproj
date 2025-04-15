@@ -5,6 +5,7 @@
         <LangVersion>Latest</LangVersion>
         <IsPackable>false</IsPackable>
         <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+        <SonarQubeExclude>true</SonarQubeExclude>
     </PropertyGroup>
 
     <ItemGroup>
