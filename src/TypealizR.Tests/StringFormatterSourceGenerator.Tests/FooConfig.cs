@@ -13,7 +13,7 @@ public class Config
     private static void Configure(Arguments arg)
     {
         arg.Foo = true;
-        arg.Bar = "hello from user space";
+        arg.Bar = "hello from user-space";
     }
   
 }

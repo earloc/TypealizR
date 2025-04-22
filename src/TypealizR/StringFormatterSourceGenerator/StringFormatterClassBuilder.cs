@@ -32,7 +32,7 @@ internal class StringFormatterClassBuilder
         this.formatMethodExists = formatMethodExists;
     } 
 
-    internal string Build(Type generatorType)
+    internal string Build(Type generatorType, string sample)
     {
         var stringFormatterStub = GenerateStub(generatorType, supportsDateAndTimeOnly);
 
@@ -45,6 +45,7 @@ internal class StringFormatterClassBuilder
         var builder = new StringBuilder();
 
         builder.Append(GenerateUsings());
+        builder.AppendLine($"// {sample}");
         builder.AppendLine(OpenNamespace(this.rootNamespace));
 
         builder.AppendLine();
