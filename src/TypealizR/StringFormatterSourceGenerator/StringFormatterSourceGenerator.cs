@@ -1,9 +1,25 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Linq;
+using System.Reflection;
+using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.CodeAnalysis.Scripting;
+using Microsoft.CodeAnalysis.CSharp.Scripting;
 using TypealizR.Core;
 
 namespace TypealizR;
+public class Arguments
+{
+    public bool Foo { get; set;}
+    public string Bar { get; set;} = "";
+}
+
+public class ScriptContext
+{
+    public Arguments arg { get; set; } = new();
+}
 
 [Generator(LanguageNames.CSharp)]
 public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
@@ -21,9 +37,20 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
 
             var supportsDateAndTimeOnly = dateOnlyType is not null && timeOnlyType is not null;
 
+            var fooType = compilation.GetTypeByMetadataName("Foo.Config");
+
+            var member = fooType?.GetMembers().Where(x => x.GetAttributes().Any(y => y?.AttributeClass?.Name == nameof(CLSCompliantAttribute))).FirstOrDefault();
+            var methodSyntax = member as IMethodSymbol;
+            var userProvidedString = "empty";
+            if (methodSyntax is not null)
+            {
+               var result = Execute(methodSyntax).Result;
+               userProvidedString = result ?? "none";
+            }
+
             var hasUserModeImplementation = compilation.ContainsSymbolsWithName(StringFormatterClassBuilder.TypeName, SymbolFilter.Type, cancel);
            
-            var empty = new { Exists = false, HasFormatMethod = false, ExtendedTypes = Array.Empty<string>(), SupportsDateAndTimeOnly = supportsDateAndTimeOnly };
+            var empty = new { Exists = false, HasFormatMethod = false, ExtendedTypes = Array.Empty<string>(), SupportsDateAndTimeOnly = supportsDateAndTimeOnly, UserProvidedString = userProvidedString };
 
             if (!hasUserModeImplementation) {
                 return empty;
@@ -57,7 +84,7 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
 
             var extendedTypes = extendMethodImplemetations.Select(method => method.ReturnType.Name).ToArray();
            
-            return new { Exists = true, HasFormatMethod = hasFormatMethod, ExtendedTypes = extendedTypes, SupportsDateAndTimeOnly = supportsDateAndTimeOnly };
+            return new { Exists = true, HasFormatMethod = hasFormatMethod, ExtendedTypes = extendedTypes, SupportsDateAndTimeOnly = supportsDateAndTimeOnly, UserProvidedString = userProvidedString };
         });
 
 
@@ -68,11 +95,48 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
                 var userProvidedImplementation = source.Right;
                 var options = source.Left;
 
-                AddStringFormatterClass(ctxt, options, userProvidedImplementation.Exists, userProvidedImplementation.HasFormatMethod, userProvidedImplementation.ExtendedTypes, userProvidedImplementation.SupportsDateAndTimeOnly);
+                AddStringFormatterClass(ctxt, options, userProvidedImplementation.Exists, userProvidedImplementation.HasFormatMethod, userProvidedImplementation.ExtendedTypes, userProvidedImplementation.SupportsDateAndTimeOnly, userProvidedImplementation.UserProvidedString);
             });
     }
 
-    private void AddStringFormatterClass(SourceProductionContext ctxt, GeneratorOptions options, bool stringFormatterExists, bool formatMethodExists, string[] extendedTypes, bool SupportsDateAndTimeOnly)
+    private async Task<string?> Execute(IMethodSymbol methodSymbol)
+    {
+        var syntaxReference = methodSymbol.DeclaringSyntaxReferences.FirstOrDefault();
+        if (syntaxReference == null)
+        {
+            return null;
+        }
+
+        var syntaxNode = syntaxReference.GetSyntax();
+        if (syntaxNode is not MethodDeclarationSyntax methodDeclaration)
+        {
+            return null;
+        }
+
+        var body = methodDeclaration.Body?.ToFullString().Replace("{", "").Replace("}", "");
+        if (body == null)
+        {
+            return null;
+        }
+
+        try
+        {
+            var options = ScriptOptions.Default
+                .AddReferences(typeof(Arguments).Assembly)
+                .AddImports("System", "TypealizR");
+
+            var context = new ScriptContext();
+            await CSharpScript.EvaluateAsync(body, options, context);
+            return context.arg.Bar;
+        }
+        catch (CompilationErrorException ex)
+        {
+            Debug.WriteLine($"Script compilation failed: {ex.Message}");
+            return null;
+        }
+    }
+
+    private void AddStringFormatterClass(SourceProductionContext ctxt, GeneratorOptions options, bool stringFormatterExists, bool formatMethodExists, string[] extendedTypes, bool SupportsDateAndTimeOnly, string sample)
     {
         var stringFormatterBuilder = new StringFormatterClassBuilder(options.RootNamespace, SupportsDateAndTimeOnly);
         if (stringFormatterExists)
@@ -89,6 +153,6 @@ public sealed class StringFormatterSourceGenerator : IIncrementalGenerator
             stringFormatterBuilder.UserModeTypeExists(formatMethodExists, [.. normalizedTypes]);
         }
 
-        ctxt.AddSource($"{StringFormatterClassBuilder.TypeName}.g.cs", stringFormatterBuilder.Build(GetType()));
+        ctxt.AddSource($"{StringFormatterClassBuilder.TypeName}.g.cs", stringFormatterBuilder.Build(GetType(), sample));
     }
 }

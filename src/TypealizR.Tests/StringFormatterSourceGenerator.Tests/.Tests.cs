@@ -9,16 +9,24 @@ public class StringFormatterSourceGenerator_Tests
 
     [Fact]
     public async Task Generates_StringFormatter_With_Default_Implementation() => await GeneratorTesterBuilder<StringFormatterSourceGenerator>
-            .Create(BaseDirectory, RootNamespace)
-            .Build()
-            .Verify()
-        ;
+        .Create(BaseDirectory, RootNamespace)
+        .Build()
+        .Verify()
+    ;
 
     [Fact]
     public async Task Generates_StringFormatter_Stub_Only_When_UserImplementation_Is_Provided() => await GeneratorTesterBuilder<StringFormatterSourceGenerator>
-            .Create(BaseDirectory, RootNamespace)
-            .WithSourceFile("StringFormatter.cs")
-            .Build()
-            .Verify()
-        ;
+        .Create(BaseDirectory, RootNamespace)
+        .WithSourceFile("StringFormatter.cs")
+        .Build()
+        .Verify()
+    ;
+
+    [Fact]
+    public async Task CanFoo() => await GeneratorTesterBuilder<StringFormatterSourceGenerator>
+        .Create(BaseDirectory, RootNamespace)
+        .WithSourceFile("FooConfig.cs")
+        .Build()
+        .Verify()
+    ;
 }
