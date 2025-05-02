@@ -7,8 +7,8 @@ namespace Microsoft.Extensions.DependencyInjection
         {
             return 
             [
-                sp.GetRequiredService<IStringLocalizer<global::FooBar.ConstructorArguments.Foo>>(),
-                sp.GetRequiredService<IStringLocalizer<global::FooBar.ConstructorArguments.Bar>>()
+                sp.GetRequiredService<global::Microsoft.Extensions.Localization.IStringLocalizer<global::FooBar.ConstructorArguments.Foo>>(),
+                sp.GetRequiredService<global::Microsoft.Extensions.Localization.IStringLocalizer<global::FooBar.ConstructorArguments.Bar>>()
             ]
         }
     }

@@ -18,9 +18,16 @@ public class DiscoverUsageSourceGenerator_Tests
         .Verify()
     ;
 
-     [Fact]
+    [Fact]
     public async Task Generates_Extension_ForConstructorArguments() => await Create()
         .WithSourceFile("FooBar_ConstructorArguments.cs")
+        .Build()
+        .Verify()
+    ;
+
+    [Fact]
+    public async Task Generates_Extension_ForFull() => await Create()
+        .WithSourceFile("FooBar_Full.cs")
         .Build()
         .Verify()
     ;
