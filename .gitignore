@@ -353,3 +353,4 @@ MigrationBackup/
 **/coverage.opencover.xml
 **/.snapshots/*.received.*
 
+.DS_Store
