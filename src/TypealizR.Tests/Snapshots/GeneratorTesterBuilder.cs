@@ -7,7 +7,8 @@ namespace TypealizR.Tests.Snapshots;
 
 internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IIncrementalGenerator, new()
 {
-    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
+    internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null, bool discoveryEnabled = false) 
+        => new(baseDirectory, rootNamespace, useParamNamesInMethodNames, discoveryEnabled);
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = [];
@@ -17,8 +18,9 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
     private readonly string? rootNamespace;
     private readonly string? useParamNamesInMethodNamesBuildProperty;
+    private readonly bool discoveryEnabled;
 
-    public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null)
+    public GeneratorTesterBuilder(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null, bool discoveryEnabled = false)
     {
         this.baseDirectory = new DirectoryInfo(baseDirectory);
 
@@ -29,6 +31,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
         this.rootNamespace = rootNamespace;
         useParamNamesInMethodNamesBuildProperty = useParamNamesInMethodNames;
+        this.discoveryEnabled = discoveryEnabled;
     }
 
     private bool withoutMsBuildProjectDirectory;
@@ -125,7 +128,8 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
                     severityConfig,
                     customToolNamespaces,
                     useParamNamesInMethodNames,
-                    useParamNamesInMethodNamesBuildProperty
+                    useParamNamesInMethodNamesBuildProperty,
+                    discoveryEnabled
                 )
         );
 

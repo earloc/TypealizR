@@ -17,10 +17,11 @@ internal sealed class GeneratorTesterOptionsProvider : AnalyzerConfigOptionsProv
         Dictionary<DiagnosticsId, string> severityConfig,
         Dictionary<string, string> customToolNamespaces,
         Dictionary<string, string> useParamNamesInMethodNames,
-        string? useParamNamesInMethodNamesBuildProperty
+        string? useParamNamesInMethodNamesBuildProperty,
+        bool discoveryEnabled
     )
     {
-        globalOptions = new GeneratorTesterOptions(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig, useParamNamesInMethodNamesBuildProperty);
+        globalOptions = new GeneratorTesterOptions(baseDirectory, alternativeProjectDirectory, rootNamespace, severityConfig, useParamNamesInMethodNamesBuildProperty, discoveryEnabled);
         this.customToolNamespaces = customToolNamespaces;
         this.useParamNamesInMethodNames = useParamNamesInMethodNames;
     }
