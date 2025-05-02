@@ -5,7 +5,7 @@ namespace Microsoft.Extensions.DependencyInjection
     {
         public static IStringLocalizer[] GetRequiredLocalizers(this IServiceProvider sp)
         {
-            return [sp.GetRequiredService<IStringLocalizer<FooBarSpace.Foo>>(),sp.GetRequiredService<IStringLocalizer<FooBarSpace.Bar>>(),]
+            return [sp.GetRequiredService<global::IStringLocalizer<FooBar.Properties.Foo>>(),sp.GetRequiredService<IStringLocalizer<global::FooBar.Properties.Bar>>()]
         }
     }
 }

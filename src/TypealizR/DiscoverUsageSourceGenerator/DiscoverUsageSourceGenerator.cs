@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -17,46 +18,44 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
 
         var optionsProvider = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
 
-        var typeProvider = context.CompilationProvider.Select((compilation, cancel) => 
-        {
-            var typeArguments = new HashSet<IdentifierNameSyntax>();
-
-            foreach (var tree in compilation.SyntaxTrees)
+        var propertySyntaxProvider = context.SyntaxProvider.CreateSyntaxProvider((syntax, cancel) => {
+            if (syntax is not PropertyDeclarationSyntax propertyDeclarationSyntax)
             {
-                var semanticModel = compilation.GetSemanticModel(tree);
-                var root = tree.GetRoot(cancel);
-
-                var propertyDeclarations = root.DescendantNodes()
-                    .OfType<PropertyDeclarationSyntax>();
-
-                foreach (var property in propertyDeclarations)
-                {
-                    var propertyType = property.Type;
-                    if (propertyType is NullableTypeSyntax nullableType)
-                    {
-                        propertyType = nullableType.ElementType;
-                    }
-
-                    if (propertyType is not GenericNameSyntax name)
-                    {
-                        continue;
-                    }
-
-                    var typeName = name.Identifier.Text;
-                    if (!typeName.StartsWith("IStringLocalizer", System.StringComparison.InvariantCultureIgnoreCase))
-                    {
-                        continue;
-                    }
-                    foreach (var argument in name.TypeArgumentList.Arguments.OfType<IdentifierNameSyntax>())
-                    {
-                        typeArguments.Add(argument);
-                    }
-                }
+                return false;
             }
-            return typeArguments.ToArray();
+
+            var propertyType = propertyDeclarationSyntax.Type;
+            if (propertyType is NullableTypeSyntax nullableType)
+            {
+                propertyType = nullableType.ElementType;
+            }
+
+            if (propertyType is not GenericNameSyntax name)
+            {
+                return false;
+            }
+
+            var typeName = name.Identifier.Text;
+            if (!typeName.StartsWith("IStringLocalizer", System.StringComparison.InvariantCultureIgnoreCase))
+            {
+                return false;
+            }
+            return true;
+        }, (ctxt, cancel) => {
+            
+            var propertyDeclarationSyntax = (PropertyDeclarationSyntax)ctxt.Node;
+            var propertyType = propertyDeclarationSyntax.Type;
+            if (propertyType is NullableTypeSyntax nullableType)
+            {
+                propertyType = nullableType.ElementType;
+            }
+
+            var genericType = (GenericNameSyntax)propertyType;
+
+            return genericType.TypeArgumentList.Arguments.OfType<IdentifierNameSyntax>();
         });
 
-        context.RegisterSourceOutput(optionsProvider.Combine(typeProvider), (ctxt, source) => 
+        context.RegisterSourceOutput(optionsProvider.Combine(propertySyntaxProvider.Collect()), (ctxt, source) => 
         {
             var options = source.Left;
             if (!options.DiscoveryEnabled)
@@ -65,18 +64,22 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             }
             var types = source.Right;
 
-            var typeCalls = types.Select(x => $"sp.GetRequiredService<IStringLocalizer<{x.Identifier.Text}>>()").ToArray();
+            var set = types.SelectMany(x => x).Distinct().ToArray();
 
-            var calls = string.Join(",", typeCalls);
+            var typeCalls = set.Select(x => $"sp.GetRequiredService<IStringLocalizer<{x.Identifier.Text}>>(),").ToArray();
 
-            ctxt.AddSource("sample.g.cs", $$"""
+            var calls = typeCalls.ToMultiline("                ", trimLast: ',');
+
+            ctxt.AddSource("TypealzR.GetRequiredLocalizersExtensions.g.cs", $$"""
             namespace Microsoft.Extensions.DependencyInjection
             {
-                public static class TypealizRExtensions
+                public static class TypealzR_GetRequiredLocalizersExtensions
                 {
                     public static IStringLocalizer[] GetRequiredLocalizers(this IServiceProvider sp)
                     {
-                        return [{{calls}}]
+                        return [
+                            {{calls}}
+                        ]
                     }
                 }
             }

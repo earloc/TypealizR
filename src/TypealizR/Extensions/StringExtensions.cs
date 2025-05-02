@@ -6,7 +6,7 @@ using TypealizR.Extensions;
 namespace System;
 public static class StringExtensions
 {
-    internal static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true)
+    internal static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true, char? trimLast = null)
     {
         if (that is null)
         {
@@ -16,13 +16,22 @@ public static class StringExtensions
         var builder = new StringBuilder();
 
         var i = 0;
-        foreach (var line in that)
+        var lines = that.ToArray();
+
+        foreach (var line in lines)
         {
+            var current = line;
+             if (trimLast.HasValue && i == lines.Length - 1)
+            {
+                current = line.Trim(trimLast.Value);
+            }
+
             if (i++ > 0)
             {
                 builder.Append(prependLinesWith);
             }
-            builder.AppendLine(line);
+           
+            builder.AppendLine(current);
             if (appendNewLineAfterEach)
             {
                 builder.AppendLine();
