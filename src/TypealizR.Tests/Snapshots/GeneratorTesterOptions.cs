@@ -32,8 +32,7 @@ internal sealed class GeneratorTesterOptions : AnalyzerConfigOptions
         DirectoryInfo? alternativeProjectDirectory,
         string? rootNamespace,
         Dictionary<DiagnosticsId, string> severityConfig,
-        string? useParamNamesInMethodNames = null,
-        bool discoveryEnabled = false
+        string? useParamNamesInMethodNames = null
     )
     {
         if (baseDirectory is not null)
@@ -50,8 +49,6 @@ internal sealed class GeneratorTesterOptions : AnalyzerConfigOptions
         {
             options.Add(Core.GeneratorOptions.rootNamespace_BuildProperty, rootNamespace);
         }
-
-        options.Add(Core.GeneratorOptions.discoveryEnabled_BuildProperty, discoveryEnabled.ToString());
 
         foreach (var severityOverride in severityConfig)
         {

@@ -5,5 +5,5 @@ namespace Playground;
 public partial class Discoverer
 {
     [TypealizR.EnumerateLocalizers]
-    internal partial IStringLocalizer[] GetAll(IServiceProvider sp);
+    internal partial IEnumerable<IStringLocalizer> GetAll(IServiceProvider sp);
 }

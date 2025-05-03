@@ -137,8 +137,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
                     severityConfig,
                     customToolNamespaces,
                     useParamNamesInMethodNames,
-                    useParamNamesInMethodNamesBuildProperty,
-                    discoveryEnabled
+                    useParamNamesInMethodNamesBuildProperty
                 )
         );
 

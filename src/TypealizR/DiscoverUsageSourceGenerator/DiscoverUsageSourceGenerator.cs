@@ -5,6 +5,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
+using TypealizR.Extensions;
 
 namespace TypealizR;
 
@@ -52,10 +53,7 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             {
                 return;
             }
-            // if (!options.DiscoveryEnabled)
-            // {
-            //     return;
-            // }
+
             var generics = source.Right;
 
             var set = generics
@@ -64,25 +62,24 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
                 .ToArray()
             ;
 
-            var typeCalls = set.Select(type => $"sp.GetRequiredService<IStringLocalizer<{type}>>(),").ToArray();
+            var typeCalls = set.Select(type => $"yield return sp.GetRequiredService<IStringLocalizer<{type}>>();").ToArray();
 
-            var calls = typeCalls.ToMultiline("                ", trimLast: ',');
+            var calls = typeCalls.ToMultiline("                ", appendNewLineAfterEach: false);
 
             ctxt.AddSource($"{info.Class.FullName}.g.cs", $$"""
 
+            using System.CodeDom.Compiler;
             using Microsoft.Extensions.DependencyInjection;
             using Microsoft.Extensions.Localization;
 
             namespace {{info.Class.Namespace}}
             {
+                {{typeof(DiscoverUsageSourceGenerator).GeneratedCodeAttribute()}}
                 {{info.Class.Accessibility.ToVisibilty().ToString().ToLower()}} partial class {{info.Class.Name}}
                 {
-                    {{info.Method.Accessibility.ToVisibilty().ToString().ToLower()}} partial IStringLocalizer[] {{info.Method.Name}}(System.IServiceProvider sp)
+                    {{info.Method.Accessibility.ToVisibilty().ToString().ToLower()}} partial IEnumerable<IStringLocalizer> {{info.Method.Name}}(System.IServiceProvider sp)
                     {
-                        return 
-                        [
                             {{calls}}
-                        ];
                     }
                 }
             }
@@ -112,12 +109,17 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             return false;
         }
 
-        if (methodDeclaration.ReturnType is not ArrayTypeSyntax arrayType)
+        if (methodDeclaration.ReturnType is not GenericNameSyntax genericType)
         {
             return false;
         }
 
-        if (arrayType.ElementType is not IdentifierNameSyntax elementTypeName)
+        if (genericType.Identifier.Text != "IEnumerable")
+        {
+            return false;
+        }
+
+        if (genericType.TypeArgumentList.Arguments.FirstOrDefault() is not IdentifierNameSyntax elementTypeName)
         {
             return false;
         }

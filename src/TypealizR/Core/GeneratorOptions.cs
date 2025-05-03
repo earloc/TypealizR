@@ -14,13 +14,10 @@ public sealed class GeneratorOptions
     public const string msBuildProjectDirectory_BuildProperty = "build_property.msbuildprojectdirectory";
     public const string projectDir_BuildProperty = "build_property.projectdir";
     public const string rootNamespace_BuildProperty = "build_property.rootnamespace";
-    public const string discoveryEnabled_BuildProperty = "build_property.discoveryenabled";
-
-    public GeneratorOptions(string? projectDirectory, string rootNamespace, bool discoveryEnabled, IDictionary<string, DiagnosticSeverity> severityConfig)
+    public GeneratorOptions(string? projectDirectory, string rootNamespace, IDictionary<string, DiagnosticSeverity> severityConfig)
     {
         RootNamespace = rootNamespace;
         SeverityConfig = severityConfig;
-        DiscoveryEnabled = discoveryEnabled;
         if (projectDirectory is not null)
         {
             ProjectDirectory = new DirectoryInfo(projectDirectory);
@@ -29,7 +26,6 @@ public sealed class GeneratorOptions
 
     public DirectoryInfo? ProjectDirectory { get; }
     public string RootNamespace { get; }
-    public bool DiscoveryEnabled { get; }
 
     public IDictionary<string, DiagnosticSeverity> SeverityConfig { get; }
 
@@ -47,21 +43,12 @@ public sealed class GeneratorOptions
 
         options.TryGetValue(rootNamespace_BuildProperty, out var rootNamespace);
 
-        var discoveryEnabled = false;
-        if (options.TryGetValue(discoveryEnabled_BuildProperty, out var discoveryEnabledValue))
-        {
-            if (bool.TryParse(discoveryEnabledValue, out var discoveryEnabledOption))
-            {
-                discoveryEnabled = discoveryEnabledOption;
-            }
-        }
 
         var severityConfig = ReadSeverityConfig(options);
 
         return new(
             projectDirectory: projectDirectory,
             rootNamespace: rootNamespace ?? "",
-            discoveryEnabled: discoveryEnabled,
             severityConfig: severityConfig
         );
     }
