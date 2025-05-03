@@ -28,6 +28,17 @@ public class DiscoverUsageSourceGenerator_Tests
     [Fact]
     public async Task Generates_Extension_ForFull() => await Create()
         .WithSourceFile("FooBar_Full.cs")
+        .WithSource($$"""
+            using Microsoft.Extensions.Localization;
+
+            namespace FooBar.Extensions;
+
+            public partial class FooBarExtensions
+            {
+                [EnumerateLocalizers]
+                public partial IStringLocalizer[] GetAll(IServiceProvider sp);
+            }
+        """)
         .Build()
         .Verify()
     ;

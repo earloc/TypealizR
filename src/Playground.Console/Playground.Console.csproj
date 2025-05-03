@@ -9,6 +9,8 @@
         <IsPackable>false</IsPackable>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <SonarQubeExclude>true</SonarQubeExclude>
+        <EmitCompilerGeneratedFiles>true</EmitCompilerGeneratedFiles>
+        <CompilerGeneratedFilesOutputPath>$(BaseIntermediateOutputPath)Generated</CompilerGeneratedFilesOutputPath>
   </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />

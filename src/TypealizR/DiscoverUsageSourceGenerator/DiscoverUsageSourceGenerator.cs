@@ -1,18 +1,230 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.IO;
+using System.CodeDom.Compiler;
 using System.Linq;
-using System.Threading;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
-using TypealizR.Diagnostics;
 
 namespace TypealizR;
 
 [Generator(LanguageNames.CSharp)]
 public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
 {
+    public void Initialize(IncrementalGeneratorInitializationContext context)
+    {
+        context.RegisterPostInitializationOutput(ctxt => {
+            ctxt.AddSource("TypealizR.EnumerateLocalizersAttribute.g.cs", $$"""
+
+            using System;
+
+            namespace TypealizR
+            {
+                [AttributeUsage(AttributeTargets.Method)]
+                // [GeneratedCode("TypealizR.DiscoverUsageSourceGenerator", "1.0.0")]
+                public class EnumerateLocalizersAttribute : Attribute
+                {
+                }
+            }
+            """);
+        });
+
+        var methodProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
+            fullyQualifiedMetadataName: "TypealizR.EnumerateLocalizersAttribute",
+            predicate: static (syntax, _) => IsPartialMethodDeclarationSyntax(syntax),
+            transform: static (ctxt, _) => TransformMethodDeclaration(ctxt)
+        );
+
+        var genericsProvider = context.SyntaxProvider.CreateSyntaxProvider(
+            predicate: static (syntax, _) => DiscoverGenericNames(syntax), 
+            transform: static (ctxt, _) => TransformGenericNames(ctxt)
+        );
+
+        var providers = methodProvider
+            .Combine(genericsProvider.Collect())
+        ;
+
+        context.RegisterSourceOutput(providers, (ctxt, source) => 
+        {
+            var info = source.Left;
+
+            if (info is null)
+            {
+                return;
+            }
+            // if (!options.DiscoveryEnabled)
+            // {
+            //     return;
+            // }
+            var generics = source.Right;
+
+            var set = generics
+                .SelectMany(x => x)
+                .Distinct()
+                .ToArray()
+            ;
+
+            var typeCalls = set.Select(type => $"sp.GetRequiredService<IStringLocalizer<{type}>>(),").ToArray();
+
+            var calls = typeCalls.ToMultiline("                ", trimLast: ',');
+
+            ctxt.AddSource($"{info.Class.FullName}.g.cs", $$"""
+
+            using Microsoft.Extensions.DependencyInjection;
+            using Microsoft.Extensions.Localization;
+
+            namespace {{info.Class.Namespace}}
+            {
+                {{info.Class.Accessibility.ToVisibilty().ToString().ToLower()}} partial class {{info.Class.Name}}
+                {
+                    {{info.Method.Accessibility.ToVisibilty().ToString().ToLower()}} partial IStringLocalizer[] {{info.Method.Name}}(System.IServiceProvider sp)
+                    {
+                        return 
+                        [
+                            {{calls}}
+                        ];
+                    }
+                }
+            }
+            """);
+        });
+    }
+
+    private static bool IsPartialMethodDeclarationSyntax(SyntaxNode syntax)
+    {
+        if (syntax is not MethodDeclarationSyntax methodDeclaration)
+        {
+            return false;
+        }
+
+
+        var classDeclarations = methodDeclaration.Ancestors()
+            .OfType<ClassDeclarationSyntax>()
+        ;
+
+        if (!classDeclarations.All(x => x.Modifiers.Any(SyntaxKind.PartialKeyword)))
+        {
+            return false;
+        }
+
+        if (!methodDeclaration.Modifiers.Any(SyntaxKind.PartialKeyword))
+        {
+            return false;
+        }
+
+        if (methodDeclaration.ReturnType is not ArrayTypeSyntax arrayType)
+        {
+            return false;
+        }
+
+        if (arrayType.ElementType is not IdentifierNameSyntax elementTypeName)
+        {
+            return false;
+        }
+
+        if (!elementTypeName.Identifier.Text.EndsWith("IStringLocalizer", StringComparison.InvariantCultureIgnoreCase))
+        {
+            return false;
+        }
+
+        return true;
+    }
+
+    internal record MethodModel(string Name, Accessibility Accessibility);
+    private record MethodImplementationInfo (TypeModel Class, MethodModel Method);
+    private static MethodImplementationInfo TransformMethodDeclaration(GeneratorAttributeSyntaxContext ctxt)
+    {
+        var methodDeclaration = (MethodDeclarationSyntax)ctxt.TargetNode;
+
+        var classDeclaration = methodDeclaration.Ancestors()
+            .OfType<ClassDeclarationSyntax>()
+            .First()
+        ;
+
+        var className = classDeclaration.Identifier.Text;
+
+        if (className is null)
+        {
+            return null;
+        }
+
+         var classAccessibility = classDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword) ? Accessibility.Public :
+            classDeclaration.Modifiers.Any(SyntaxKind.InternalKeyword) ? Accessibility.Internal :
+            classDeclaration.Modifiers.Any(SyntaxKind.ProtectedKeyword) ? Accessibility.Protected :
+            classDeclaration.Modifiers.Any(SyntaxKind.PrivateKeyword) ? Accessibility.Private :
+            Accessibility.NotApplicable;
+
+        var namespaceDeclaration = methodDeclaration.Ancestors()
+            .OfType<BaseNamespaceDeclarationSyntax>()
+        .FirstOrDefault();
+
+         var namespaceName = namespaceDeclaration switch
+        {
+            NamespaceDeclarationSyntax ns => ns.Name.ToString(),
+            FileScopedNamespaceDeclarationSyntax fs => fs.Name.ToString(),
+            _ => null
+        };
+
+        if (namespaceName is null)
+        {
+            return null;
+        }
+
+       var classModel = new TypeModel (namespaceName, className, containingTypeNames: [], accessibility: classAccessibility);
+
+        var methodAccessibility = methodDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword) ? Accessibility.Public :
+            methodDeclaration.Modifiers.Any(SyntaxKind.InternalKeyword) ? Accessibility.Internal :
+            methodDeclaration.Modifiers.Any(SyntaxKind.ProtectedKeyword) ? Accessibility.Protected :
+            methodDeclaration.Modifiers.Any(SyntaxKind.PrivateKeyword) ? Accessibility.Private :
+            Accessibility.NotApplicable;
+
+       var methodModel = new MethodModel(methodDeclaration.Identifier.Text, methodAccessibility);
+
+        return new (classModel, methodModel );
+    }
+
+    private static bool DiscoverGenericNames(SyntaxNode syntax)
+    {
+        if (syntax is NullableTypeSyntax nullableType)
+        {
+            syntax = nullableType.ElementType;
+        }
+
+        if (syntax is not GenericNameSyntax genericName)
+        {
+            return false;
+        }
+
+        var type = TryGetType(genericName);
+        if (type is null)
+        {
+            return false;
+        }
+
+        return IsStringLocalizer(type);
+    }
+
+    private static string[] TransformGenericNames(GeneratorSyntaxContext ctxt)
+    {
+        var syntax = ctxt.Node;
+        if (syntax is NullableTypeSyntax nullableType)
+        {
+            syntax = nullableType.ElementType;
+        }
+
+        if (syntax is not GenericNameSyntax genericName)
+        {
+            return [];
+        }
+
+        return genericName
+            .TypeArgumentList
+            .Arguments
+            .OfType<IdentifierNameSyntax>()
+            .Select(x => FullyQualifiedName(ctxt, x))
+            .ToArray()
+        ;
+    }
 
     private static GenericNameSyntax? TryGetType(TypeSyntax? typeSyntax)
     {
@@ -27,194 +239,6 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
         }
 
         return name;
-    }
-
-    public void Initialize(IncrementalGeneratorInitializationContext context)
-    {
-
-        var optionsProvider = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
-
-        var variablesProvider = context.SyntaxProvider.CreateSyntaxProvider(DiscoverVariables, TransformVariables);
-        var propertySyntaxProvider = context.SyntaxProvider.CreateSyntaxProvider(DiscoverProperties, TransformProperties);
-        var constructorArgumentProvider = context.SyntaxProvider.CreateSyntaxProvider(DiscoverConstructorArguments, TransformConstructorArguments);
-
-        var providers = optionsProvider
-            .Combine(propertySyntaxProvider.Collect())
-            .Combine(constructorArgumentProvider.Collect())
-            .Combine(variablesProvider.Collect())
-        ;
-
-        context.RegisterSourceOutput(providers, (ctxt, source) => 
-        {
-            var options = source.Left.Left.Left;
-            if (!options.DiscoveryEnabled)
-            {
-                return;
-            }
-            var constructorArgs = source.Left.Left.Right;
-            var properties = source.Left.Right;
-            var variables = source.Right;
-
-            var set = constructorArgs
-                .SelectMany(x => x)
-                .Distinct()
-                .ToArray()
-                .Concat(variables
-                    .SelectMany(x => x)
-                    .Distinct()
-                    .ToArray()
-                )
-                .Concat(properties
-                    .SelectMany(x => x)
-                    .Distinct()
-                    .ToArray()
-                )
-                .Distinct()
-                .ToArray()
-            ;
-
-            var typeCalls = set.Select(type => $"sp.GetRequiredService<global::Microsoft.Extensions.Localization.IStringLocalizer<{type}>>(),").ToArray();
-
-            var calls = typeCalls.ToMultiline("                ", trimLast: ',');
-
-            ctxt.AddSource("TypealzR.GetRequiredLocalizersExtensions.g.cs", $$"""
-            namespace Microsoft.Extensions.DependencyInjection
-            {
-                public static class TypealzR_GetRequiredLocalizersExtensions
-                {
-                    public static global::Microsoft.Extensions.Localization.IStringLocalizer[] GetRequiredLocalizers(this global::Microsoft.Extensions.DependencyInjection.ServiceProvider sp)
-                    {
-                        return 
-                        [
-                            {{calls}}
-                        ];
-                    }
-                }
-            }
-            """);
-        });
-    }
-
-    private static bool DiscoverVariables(SyntaxNode syntax, CancellationToken cancellationToken)
-    {
-        if (syntax is not VariableDeclarationSyntax declarationSyntax)
-        {
-            return false;
-        }
-
-        var type = TryGetType(declarationSyntax.Type);
-        if (type is null)
-        {
-            return false;
-        }
-
-        return IsStringLocalizer(type);
-    }
-
-    private static string[] TransformVariables(GeneratorSyntaxContext ctxt, CancellationToken cancellationToken)
-    {
-        var declarationSyntax = (VariableDeclarationSyntax)ctxt.Node;
-
-        var genericType = TryGetType(declarationSyntax.Type);
-
-        if (genericType is null)
-        {
-            //TODO: emit diagnostic
-            return [];
-        }
-
-        return genericType
-            .TypeArgumentList
-            .Arguments
-            .OfType<IdentifierNameSyntax>()
-            .Select(x => FullyQualifiedName(ctxt, x))
-            .ToArray()
-        ;
-    }
-
-    private static bool DiscoverProperties(SyntaxNode syntax, CancellationToken cancellationToken)
-    {
-        if (syntax is not PropertyDeclarationSyntax declarationSyntax)
-        {
-            return false;
-        }
-
-        var type = TryGetType(declarationSyntax.Type);
-        if (type is null)
-        {
-            return false;
-        }
-
-        return IsStringLocalizer(type);
-    }
-
-    private static string[] TransformProperties(GeneratorSyntaxContext ctxt, CancellationToken cancellationToken)
-    {
-        var declarationSyntax = (PropertyDeclarationSyntax)ctxt.Node;
-
-        var genericType = TryGetType(declarationSyntax.Type);
-
-        if (genericType is null)
-        {
-            //TODO: emit diagnostic
-            return [];
-        }
-
-        return genericType
-            .TypeArgumentList
-            .Arguments
-            .OfType<IdentifierNameSyntax>()
-            .Select(x => FullyQualifiedName(ctxt, x))
-            .ToArray()
-        ;
-    }
-
-    
-
-    private static bool DiscoverConstructorArguments(SyntaxNode syntax, CancellationToken cancellationToken)
-    {
-        if (syntax is not ConstructorDeclarationSyntax declarationSyntax)
-        {
-            return false;
-        }
-
-        foreach (var parameter in declarationSyntax.ParameterList.Parameters)
-        {
-            if (parameter.Type is null) 
-            {
-                continue;
-            }
-
-            var type = TryGetType(parameter.Type);
-            if (type is null)
-            {
-                continue;
-            }
-            if (IsStringLocalizer(type))
-            {
-                return true;
-            }
-        }
-
-        return false;
-    }
-
-    private static string[] TransformConstructorArguments(GeneratorSyntaxContext ctxt, CancellationToken cancellationToken)
-    {
-        var declarationSyntax = (ConstructorDeclarationSyntax)ctxt.Node;
-
-        var parameters = declarationSyntax
-            .ParameterList
-            .Parameters
-            .Select(x => TryGetType(x.Type))
-            .Where(IsStringLocalizer)
-            .OfType<GenericNameSyntax>()
-            .SelectMany(x => x.TypeArgumentList.Arguments)
-            .OfType<IdentifierNameSyntax>()
-            .Select(x => FullyQualifiedName(ctxt, x))
-            .ToArray()
-        ;
-        return parameters;
     }
 
     private static bool IsStringLocalizer(GenericNameSyntax? type)

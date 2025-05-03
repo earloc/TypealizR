@@ -12,6 +12,8 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
     private readonly DirectoryInfo baseDirectory;
     private readonly List<FileInfo> sourceFiles = [];
+    private readonly List<string> sources = [];
+
     private readonly List<FileInfo> resxFiles = [];
     private readonly Dictionary<string, string> customToolNamespaces = [];
     private readonly Dictionary<string, string> useParamNamesInMethodNames = [];
@@ -61,6 +63,12 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
         return this;
     }
 
+    public GeneratorTesterBuilder<TGenerator> WithSource(string source)
+    {
+        sources.Add(source);
+        return this;
+    }
+
     public GeneratorTesterBuilder<TGenerator> WithResxFile(
         string fileName,
         bool andDesignerFile = false,
@@ -98,6 +106,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
         var syntaxTrees = sourceFiles
             .Select(x => new { Path = x.FullName, Content = File.ReadAllText(x.FullName) })
             .Select(x => CSharpSyntaxTree.ParseText(x.Content, path: x.Path))
+            .Concat(sources.Select(x => CSharpSyntaxTree.ParseText(x)))
             .ToArray();
 
         var compilation = CSharpCompilation.Create(
