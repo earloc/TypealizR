@@ -3,6 +3,7 @@ using Microsoft.CodeAnalysis;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Localization;
 using My.Super.Special.Namespace;
+using Playground;
 using Playground.Common;
 using Playground.Common.Groups;
 using Playground.Common.Groups.TypealizR;
@@ -93,6 +94,18 @@ Console.WriteLine(
 );
 
 var sp = services.BuildServiceProvider();
+
+
+System.Console.WriteLine("===========");
+var x = new Discoverer();
+
+var strings = x.GetAll(sp).SelectMany(x => x.GetAllStrings(true));
+foreach (var s in strings)
+{
+    Console.WriteLine(s.Name);
+}
+
+
 // var locs = sp.GetRequiredLocalizers();
 
 
