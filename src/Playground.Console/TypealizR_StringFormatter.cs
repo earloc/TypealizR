@@ -2,10 +2,10 @@
 namespace Playground.Console;
 internal static partial class TypealizR_StringFormatter
 {
-    internal static partial string Format(string s, object[] args) => string.Format(s, args);
+    internal static partial string Format(string s, object[] args) => string.Format(System.Globalization.CultureInfo.CurrentCulture, s, args);
     internal static partial string Extend(string argument, string extension) => extension switch
     {
-        "toUpper" => argument?.ToString().ToUpper() ?? argument,
+        "toUpper" => argument?.ToString().ToUpper(System.Globalization.CultureInfo.CurrentCulture) ?? argument ?? "",
         _ => argument
     };
 

@@ -10,7 +10,7 @@ using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
 namespace TypealizR.Analyzers.Tests;
 #pragma warning disable CA1812 //'UseIndexerAnalyzer_Test' is an internal class that is apparently never instantiated. If so, remove the code from the assembly. If this class is intended to contain only static members, make it 'static' (Module in Visual Basic)
 [TestClass]
-internal sealed class UseIndexerAnalyzer_Test
+public sealed class UseIndexerAnalyzer_Test
 {
     //No diagnostics expected to show up
     [TestMethod]
@@ -97,7 +97,7 @@ internal sealed class UseIndexerAnalyzer_Test
     }
 
     [TestMethod]
-    public async Task UseIndexSignature_OnParameter()
+    public async Task UseIndexSignatureOnParameter()
     {
         var code = TestCode("""
             namespace ConsoleApplication1 {

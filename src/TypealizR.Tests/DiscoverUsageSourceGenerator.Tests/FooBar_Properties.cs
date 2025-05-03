@@ -2,17 +2,17 @@ using Microsoft.Extensions.Localization;
 
 namespace FooBar.Properties;
 
-public class Foo
+public sealed class Foo
 {
 
 }
 
-public class Bar
+public sealed class Bar
 {
 
 }
 
-public class FooBar
+public sealed class FooBarClass
 {
 #pragma warning disable CS8618 // Non-nullable field must contain a non-null value when exiting constructor. Consider adding the 'required' modifier or declaring as nullable.
     public IStringLocalizer<Foo> FooCalizer { get; }

@@ -13,6 +13,7 @@ using var scope = provider.CreateScope();
 
 var i18n = scope.ServiceProvider.GetRequiredService<ILocalizables>();
 
+// scope.ServiceProvider.GetRequiredLocalizers();
 
 Demo(i18n);
 

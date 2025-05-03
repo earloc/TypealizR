@@ -34,29 +34,37 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
 
         var optionsProvider = context.AnalyzerConfigOptionsProvider.Select((x, cancel) => GeneratorOptions.From(x.GlobalOptions));
 
+        var variablesProvider = context.SyntaxProvider.CreateSyntaxProvider(DiscoverVariables, TransformVariables);
         var propertySyntaxProvider = context.SyntaxProvider.CreateSyntaxProvider(DiscoverProperties, TransformProperties);
         var constructorArgumentProvider = context.SyntaxProvider.CreateSyntaxProvider(DiscoverConstructorArguments, TransformConstructorArguments);
 
         var providers = optionsProvider
             .Combine(propertySyntaxProvider.Collect())
             .Combine(constructorArgumentProvider.Collect())
+            .Combine(variablesProvider.Collect())
         ;
 
         context.RegisterSourceOutput(providers, (ctxt, source) => 
         {
-            var options = source.Left.Left;
+            var options = source.Left.Left.Left;
             if (!options.DiscoveryEnabled)
             {
                 return;
             }
-            var constructorArgs = source.Left.Right;
-            var properties = source.Right;
+            var constructorArgs = source.Left.Left.Right;
+            var properties = source.Left.Right;
+            var variables = source.Right;
 
-            var set = properties
+            var set = constructorArgs
                 .SelectMany(x => x)
                 .Distinct()
                 .ToArray()
-                .Concat(constructorArgs
+                .Concat(variables
+                    .SelectMany(x => x)
+                    .Distinct()
+                    .ToArray()
+                )
+                .Concat(properties
                     .SelectMany(x => x)
                     .Distinct()
                     .ToArray()
@@ -74,17 +82,54 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             {
                 public static class TypealzR_GetRequiredLocalizersExtensions
                 {
-                    public static IStringLocalizer[] GetRequiredLocalizers(this IServiceProvider sp)
+                    public static global::Microsoft.Extensions.Localization.IStringLocalizer[] GetRequiredLocalizers(this global::Microsoft.Extensions.DependencyInjection.ServiceProvider sp)
                     {
                         return 
                         [
                             {{calls}}
-                        ]
+                        ];
                     }
                 }
             }
             """);
         });
+    }
+
+    private static bool DiscoverVariables(SyntaxNode syntax, CancellationToken cancellationToken)
+    {
+        if (syntax is not VariableDeclarationSyntax declarationSyntax)
+        {
+            return false;
+        }
+
+        var type = TryGetType(declarationSyntax.Type);
+        if (type is null)
+        {
+            return false;
+        }
+
+        return IsStringLocalizer(type);
+    }
+
+    private static string[] TransformVariables(GeneratorSyntaxContext ctxt, CancellationToken cancellationToken)
+    {
+        var declarationSyntax = (VariableDeclarationSyntax)ctxt.Node;
+
+        var genericType = TryGetType(declarationSyntax.Type);
+
+        if (genericType is null)
+        {
+            //TODO: emit diagnostic
+            return [];
+        }
+
+        return genericType
+            .TypeArgumentList
+            .Arguments
+            .OfType<IdentifierNameSyntax>()
+            .Select(x => FullyQualifiedName(ctxt, x))
+            .ToArray()
+        ;
     }
 
     private static bool DiscoverProperties(SyntaxNode syntax, CancellationToken cancellationToken)
@@ -119,10 +164,12 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             .TypeArgumentList
             .Arguments
             .OfType<IdentifierNameSyntax>()
-            .Select(x => x.Identifier.Text)
+            .Select(x => FullyQualifiedName(ctxt, x))
             .ToArray()
         ;
     }
+
+    
 
     private static bool DiscoverConstructorArguments(SyntaxNode syntax, CancellationToken cancellationToken)
     {
@@ -164,10 +211,10 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             .OfType<GenericNameSyntax>()
             .SelectMany(x => x.TypeArgumentList.Arguments)
             .OfType<IdentifierNameSyntax>()
-            .Select(x => x.Identifier.Text)
+            .Select(x => FullyQualifiedName(ctxt, x))
+            .ToArray()
         ;
-
-        return parameters.ToArray();
+        return parameters;
     }
 
     private static bool IsStringLocalizer(GenericNameSyntax? type)
@@ -178,5 +225,11 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
         }
         var typeName = type.Identifier.Text;
         return typeName.StartsWith("IStringLocalizer", StringComparison.InvariantCultureIgnoreCase);
+    }
+
+    private static string FullyQualifiedName(GeneratorSyntaxContext ctxt, IdentifierNameSyntax x)
+    {
+        var symbol = ctxt.SemanticModel.GetSymbolInfo(x).Symbol as INamedTypeSymbol;
+        return symbol?.ToDisplayString(SymbolDisplayFormat.FullyQualifiedFormat) ?? x.Identifier.Text;
     }
 }
