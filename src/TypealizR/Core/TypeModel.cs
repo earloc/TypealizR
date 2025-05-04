@@ -3,12 +3,13 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.Core;
-public class TypeModel(string @namespace, string name, string[] containingTypeNames, Accessibility accessibility = Accessibility.Internal)
+public class TypeModel(string @namespace, string name, string[] containingTypeNames, Accessibility accessibility = Accessibility.Internal, bool isStatic = false)
 {
     public string Namespace { get; } = @namespace;
     public string Name { get; } = name;
 
     public Accessibility Accessibility { get; } = accessibility;
+    public bool IsStatic { get; } = isStatic;
 
     public string FullName => $"{Namespace}.{ContainingTypes}{Name}";
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.CodeDom.Compiler;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
@@ -10,7 +9,7 @@ using TypealizR.Extensions;
 namespace TypealizR;
 
 [Generator(LanguageNames.CSharp)]
-public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
+public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
 {
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
@@ -18,11 +17,12 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             ctxt.AddSource("TypealizR.EnumerateLocalizersAttribute.g.cs", $$"""
 
             using System;
+            using System.CodeDom.Compiler;
 
             namespace TypealizR
             {
                 [AttributeUsage(AttributeTargets.Method)]
-                // [GeneratedCode("TypealizR.DiscoverUsageSourceGenerator", "1.0.0")]
+                {{typeof(EnumerateLocalizersSourceGenerator).GeneratedCodeAttribute()}}
                 public class EnumerateLocalizersAttribute : Attribute
                 {
                 }
@@ -34,7 +34,8 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             fullyQualifiedMetadataName: "TypealizR.EnumerateLocalizersAttribute",
             predicate: static (syntax, _) => IsPartialMethodDeclarationSyntax(syntax),
             transform: static (ctxt, _) => TransformMethodDeclaration(ctxt)
-        );
+        )
+        .Where(x => x is not null);
 
         var genericsProvider = context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (syntax, _) => DiscoverGenericNames(syntax), 
@@ -65,7 +66,8 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             var typeCalls = set.Select(type => $"yield return sp.GetRequiredService<IStringLocalizer<{type}>>();").ToArray();
 
             var calls = typeCalls.ToMultiline("                ", appendNewLineAfterEach: false);
-
+            var staticClass = info.Class.IsStatic ? " static" : "";
+            var staticMethod = info.Method.IsStatic ? " static" : "";
             ctxt.AddSource($"{info.Class.FullName}.g.cs", $$"""
 
             using System.CodeDom.Compiler;
@@ -74,10 +76,10 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
 
             namespace {{info.Class.Namespace}}
             {
-                {{typeof(DiscoverUsageSourceGenerator).GeneratedCodeAttribute()}}
-                {{info.Class.Accessibility.ToVisibilty().ToString().ToLower()}} partial class {{info.Class.Name}}
+                {{typeof(EnumerateLocalizersSourceGenerator).GeneratedCodeAttribute()}}
+                {{info.Class.Accessibility.ToCSharp()}}{{staticClass}} partial class {{info.Class.Name}}
                 {
-                    {{info.Method.Accessibility.ToVisibilty().ToString().ToLower()}} partial IEnumerable<IStringLocalizer> {{info.Method.Name}}(System.IServiceProvider sp)
+                    {{info.Method.Accessibility.ToCSharp()}}{{staticMethod}} partial IEnumerable<IStringLocalizer> {{info.Method.Name}}(System.IServiceProvider sp)
                     {
                             {{calls}}
                     }
@@ -132,9 +134,10 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
         return true;
     }
 
-    internal record MethodModel(string Name, Accessibility Accessibility);
-    private record MethodImplementationInfo (TypeModel Class, MethodModel Method);
-    private static MethodImplementationInfo TransformMethodDeclaration(GeneratorAttributeSyntaxContext ctxt)
+    internal record MethodModel(string Name, Accessibility Accessibility, bool IsStatic);
+    private record MethodImplementationInfo(TypeModel Class, MethodModel Method);
+
+    private static MethodImplementationInfo? TransformMethodDeclaration(GeneratorAttributeSyntaxContext ctxt)
     {
         var methodDeclaration = (MethodDeclarationSyntax)ctxt.TargetNode;
 
@@ -172,7 +175,9 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             return null;
         }
 
-       var classModel = new TypeModel (namespaceName, className, containingTypeNames: [], accessibility: classAccessibility);
+        var isClassStatic = classDeclaration.Modifiers.Any(SyntaxKind.StaticKeyword);
+
+        var classModel = new TypeModel (namespaceName, className, containingTypeNames: [], accessibility: classAccessibility, isStatic: isClassStatic);
 
         var methodAccessibility = methodDeclaration.Modifiers.Any(SyntaxKind.PublicKeyword) ? Accessibility.Public :
             methodDeclaration.Modifiers.Any(SyntaxKind.InternalKeyword) ? Accessibility.Internal :
@@ -180,9 +185,10 @@ public sealed class DiscoverUsageSourceGenerator : IIncrementalGenerator
             methodDeclaration.Modifiers.Any(SyntaxKind.PrivateKeyword) ? Accessibility.Private :
             Accessibility.NotApplicable;
 
-       var methodModel = new MethodModel(methodDeclaration.Identifier.Text, methodAccessibility);
+        var isMethodStatic = methodDeclaration.Modifiers.Any(SyntaxKind.StaticKeyword);
+       var methodModel = new MethodModel(methodDeclaration.Identifier.Text, methodAccessibility, isMethodStatic);
 
-        return new (classModel, methodModel );
+        return new (classModel, methodModel);
     }
 
     private static bool DiscoverGenericNames(SyntaxNode syntax)

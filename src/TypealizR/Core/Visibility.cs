@@ -16,4 +16,14 @@ internal static class AccessibilityExtensions
         Accessibility.Public => Visibility.Public,
         _ => Visibility.Internal
     };
+
+    public static string ToCSharp(this Accessibility that) => that switch
+    {
+        Accessibility.Private => "private",
+        Accessibility.ProtectedAndInternal => "protected internal",
+        Accessibility.Protected => "protected",
+        Accessibility.Internal => "internal",
+        Accessibility.Public => "public",
+        _ => ""
+    };
 }

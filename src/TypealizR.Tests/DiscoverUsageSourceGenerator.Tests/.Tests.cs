@@ -7,8 +7,8 @@ public class DiscoverUsageSourceGenerator_Tests
     private const string BaseDirectory = "../../../DiscoverUsageSourceGenerator.Tests";
     private const string RootNamespace = "Some.Root.Namespace";
 
-    private static GeneratorTesterBuilder<DiscoverUsageSourceGenerator> Create() => 
-        GeneratorTesterBuilder<DiscoverUsageSourceGenerator>
+    private static GeneratorTesterBuilder<EnumerateLocalizersSourceGenerator> Create() => 
+        GeneratorTesterBuilder<EnumerateLocalizersSourceGenerator>
         .Create(BaseDirectory, RootNamespace, discoveryEnabled: true);
 
     [Fact]
