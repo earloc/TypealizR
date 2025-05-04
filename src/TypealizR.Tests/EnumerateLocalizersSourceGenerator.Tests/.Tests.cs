@@ -2,9 +2,9 @@
 
 namespace TypealizR.Tests;
 
-public class DiscoverUsageSourceGenerator_Tests
+public class EnumerateLocalizersSourceGenerator_Tests
 {
-    private const string BaseDirectory = "../../../DiscoverUsageSourceGenerator.Tests";
+    private const string BaseDirectory = "../../../EnumerateLocalizersSourceGenerator.Tests";
     private const string RootNamespace = "Some.Root.Namespace";
 
     private static GeneratorTesterBuilder<EnumerateLocalizersSourceGenerator> Create() => 
