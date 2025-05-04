@@ -23,7 +23,7 @@ public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
             {
                 [AttributeUsage(AttributeTargets.Method)]
                 {{typeof(EnumerateLocalizersSourceGenerator).GeneratedCodeAttribute()}}
-                public class EnumerateLocalizersAttribute : Attribute
+                internal sealed class EnumerateLocalizersAttribute : Attribute
                 {
                 }
             }
@@ -32,38 +32,35 @@ public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
 
         var methodProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
             fullyQualifiedMetadataName: "TypealizR.EnumerateLocalizersAttribute",
-            predicate: static (syntax, _) => IsPartialMethodDeclarationSyntax(syntax),
-            transform: static (ctxt, _) => TransformMethodDeclaration(ctxt)
+            predicate: (syntax, _) => IsPartialMethodDeclarationSyntax(syntax),
+            transform: (ctxt, _) => TransformMethodDeclaration(ctxt)
         )
         .Where(x => x is not null);
 
         var genericsProvider = context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (syntax, _) => DiscoverGenericNames(syntax), 
             transform: static (ctxt, _) => TransformGenericNames(ctxt)
-        );
+        )
+            .SelectMany(static (x, _) => x)
+            .Select(static (x, _) => x.Distinct())
+        ;
 
-        var providers = methodProvider
-            .Combine(genericsProvider.Collect())
+        var providers = genericsProvider
+            .Combine(methodProvider.Collect())
         ;
 
         context.RegisterSourceOutput(providers, (ctxt, source) => 
         {
-            var info = source.Left;
+            var info = source.Right.FirstOrDefault();
 
             if (info is null)
             {
                 return;
             }
 
-            var generics = source.Right;
+            var generics = source.Left;
 
-            var set = generics
-                .SelectMany(x => x)
-                .Distinct()
-                .ToArray()
-            ;
-
-            var typeCalls = set.Select(type => $"yield return sp.GetRequiredService<IStringLocalizer<{type}>>();").ToArray();
+            var typeCalls = generics.Select(type => $"yield return sp.GetRequiredService<IStringLocalizer<{type}>>();").ToArray();
 
             var calls = typeCalls.ToMultiline("                ", appendNewLineAfterEach: false);
             var staticClass = info.Class.IsStatic ? " static" : "";

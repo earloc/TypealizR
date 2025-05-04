@@ -9,7 +9,8 @@ public class EnumerateLocalizersSourceGenerator_Tests
 
     private static GeneratorTesterBuilder<EnumerateLocalizersSourceGenerator> Create() => 
         GeneratorTesterBuilder<EnumerateLocalizersSourceGenerator>
-        .Create(BaseDirectory, RootNamespace, discoveryEnabled: true);
+        .Create(BaseDirectory, RootNamespace, discoveryEnabled: true)
+    ;
 
     [Fact]
     public async Task Generates_Extension_ForProperties() => await Create()
@@ -21,6 +22,15 @@ public class EnumerateLocalizersSourceGenerator_Tests
     [Fact]
     public async Task Generates_Extension_ForConstructorArguments() => await Create()
         .WithSourceFile("FooBar_ConstructorArguments.cs")
+        .WithSource($$"""
+            namespace FooBar.Extensions;
+
+            internal partial class FooBarExtensions
+            {
+                [EnumerateLocalizers2]
+                internal static partial IEnumerable<IStringLocalizer> GetAll(IServiceProvider sp);
+            }
+        """)
         .Build()
         .Verify()
     ;
@@ -29,14 +39,12 @@ public class EnumerateLocalizersSourceGenerator_Tests
     public async Task Generates_Extension_ForFull() => await Create()
         .WithSourceFile("FooBar_Full.cs")
         .WithSource($$"""
-            using Microsoft.Extensions.Localization;
-
             namespace FooBar.Extensions;
 
-            public partial class FooBarExtensions
+            internal partial class FooBarExtensions
             {
                 [EnumerateLocalizers]
-                public partial IStringLocalizer[] GetAll(IServiceProvider sp);
+                internal static partial IEnumerable<IStringLocalizer> GetAll(IServiceProvider sp);
             }
         """)
         .Build()
