@@ -49,7 +49,7 @@
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
         </PackageReference>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" />
         <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.10" PrivateAssets="all" GeneratePathProperty="true" />
     </ItemGroup>
     <ItemGroup>
