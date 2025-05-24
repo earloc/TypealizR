@@ -353,3 +353,5 @@ MigrationBackup/
 **/coverage.opencover.xml
 **/.snapshots/*.received.*
 
+#ignore stupid macos-files
+.DS_Store
