@@ -15,7 +15,7 @@ internal sealed class GeneratorTester : IVerifiable
     }
 
     public Task Verify([CallerMemberName] string caller = "") => Verifier
-        .Verify(driver)
+        .Verify(driver.GetRunResult())
         .ScrubEmptyLines()
         .UseFileName(caller)
         .UseDirectory(snapshotDirectory)

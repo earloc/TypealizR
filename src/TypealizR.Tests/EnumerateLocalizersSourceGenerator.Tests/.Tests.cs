@@ -12,8 +12,19 @@ public class EnumerateLocalizersSourceGenerator_Tests
         .Create(BaseDirectory, RootNamespace, discoveryEnabled: true)
     ;
 
+    private static readonly string staticExtensionStaticMethod = $$"""
+        namespace FooBar.Extensions;
+
+        internal partial class FooBarExtensions
+        {
+            [EnumerateLocalizers]
+            internal static partial IEnumerable<IStringLocalizer> GetAll(IServiceProvider sp);
+        }
+    """;
+
     [Fact]
     public async Task Generates_Extension_ForProperties() => await Create()
+        .WithSource(staticExtensionStaticMethod)
         .WithSourceFile("FooBar_Properties.cs")
         .Build()
         .Verify()
@@ -21,30 +32,31 @@ public class EnumerateLocalizersSourceGenerator_Tests
 
     [Fact]
     public async Task Generates_Extension_ForConstructorArguments() => await Create()
+        .WithSource(staticExtensionStaticMethod)
         .WithSourceFile("FooBar_ConstructorArguments.cs")
-        .WithSource($$"""
-            namespace FooBar.Extensions;
-
-            internal partial class FooBarExtensions
-            {
-                [EnumerateLocalizers2]
-                internal static partial IEnumerable<IStringLocalizer> GetAll(IServiceProvider sp);
-            }
-        """)
         .Build()
         .Verify()
     ;
 
     [Fact]
     public async Task Generates_Extension_ForFull() => await Create()
+        .WithSource(staticExtensionStaticMethod)
         .WithSourceFile("FooBar_Full.cs")
-        .WithSource($$"""
-            namespace FooBar.Extensions;
+        .Build()
+        .Verify()
+    ;
 
-            internal partial class FooBarExtensions
+     [Fact]
+    public async Task Generates_Extension_ForRazor() => await Create()
+        .WithSource(staticExtensionStaticMethod)
+        .WithRazor("FooPage.razor", $$"""
+            @page "FooPage"
+            @using Foo.Bar
+            @inject IStringLocalizer<Foo> fooCalizer
+
+            @code
             {
-                [EnumerateLocalizers]
-                internal static partial IEnumerable<IStringLocalizer> GetAll(IServiceProvider sp);
+                private IStringLocalizer<Bar>? barCalizer = null;
             }
         """)
         .Build()

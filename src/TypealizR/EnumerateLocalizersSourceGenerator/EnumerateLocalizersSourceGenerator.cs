@@ -1,5 +1,7 @@
 ﻿using System;
+using System.IO;
 using System.Linq;
+using System.Text.RegularExpressions;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
@@ -11,58 +13,102 @@ namespace TypealizR;
 [Generator(LanguageNames.CSharp)]
 public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
 {
+    private readonly static Regex theRegex = new (" IStringLocalizer<.*> ");
     public void Initialize(IncrementalGeneratorInitializationContext context)
     {
+        const string attributeNamespace = nameof(TypealizR);
+        const string attributeClassName = "EnumerateLocalizersAttribute";
+        const string attributeFullName = $"{attributeNamespace}.{attributeClassName}";
+
         context.RegisterPostInitializationOutput(ctxt => {
-            ctxt.AddSource("TypealizR.EnumerateLocalizersAttribute.g.cs", $$"""
+            ctxt.AddSource($"{attributeFullName}.g.cs", $$"""
 
             using System;
             using System.CodeDom.Compiler;
 
-            namespace TypealizR
+            namespace {{attributeNamespace}}
             {
                 [AttributeUsage(AttributeTargets.Method)]
                 {{typeof(EnumerateLocalizersSourceGenerator).GeneratedCodeAttribute()}}
-                internal sealed class EnumerateLocalizersAttribute : Attribute
-                {
-                }
+                internal sealed class {{attributeClassName}} : Attribute { }
             }
             """);
         });
 
-        var methodProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
-            fullyQualifiedMetadataName: "TypealizR.EnumerateLocalizersAttribute",
+        // var methodProvider = context.SyntaxProvider.ForAttributeWithMetadataName(
+        //     fullyQualifiedMetadataName: attributeFullName,
+        //     predicate: static (syntax, _) => IsPartialMethodDeclarationSyntax(syntax),
+        //     transform: static (ctxt, _) => TransformMethodDeclaration(ctxt.TargetNode)
+        // )
+        // .Where(x => x is not null);
+
+        var methodProvider = context.SyntaxProvider.CreateSyntaxProvider(
             predicate: (syntax, _) => IsPartialMethodDeclarationSyntax(syntax),
-            transform: (ctxt, _) => TransformMethodDeclaration(ctxt)
+            transform: (ctxt, _) => TransformMethodDeclaration(ctxt.Node)
         )
         .Where(x => x is not null);
+
+        var razorProvider = context
+            .AdditionalTextsProvider
+            .Where(static (text) => text.Path.EndsWith("razor", StringComparison.InvariantCultureIgnoreCase))
+            .Select(static (x, cancel) => 
+            {
+                var text =  x.GetText(cancel);
+                if (text is null)
+                {
+                    return null;
+                }
+                var content = text.ToString();
+
+                var matches = theRegex.Matches(content);
+
+                return matches
+                    .OfType<Match>()
+                    .Select(x => x.Value)
+                    .ToArray()
+                ;
+            });
 
         var genericsProvider = context.SyntaxProvider.CreateSyntaxProvider(
             predicate: static (syntax, _) => DiscoverGenericNames(syntax), 
             transform: static (ctxt, _) => TransformGenericNames(ctxt)
-        )
-            .SelectMany(static (x, _) => x)
-            .Select(static (x, _) => x.Distinct())
-        ;
+        );
 
-        var providers = genericsProvider
-            .Combine(methodProvider.Collect())
+        var providers = methodProvider
+            .Combine(genericsProvider.Collect())
+            .Combine(razorProvider.Collect())
         ;
 
         context.RegisterSourceOutput(providers, (ctxt, source) => 
         {
-            var info = source.Right.FirstOrDefault();
+            var info = source.Left.Left;
 
             if (info is null)
             {
                 return;
             }
 
-            var generics = source.Left;
+            var generics = source.Left.Right
+                .SelectMany(x => x)
+                .Distinct()
+                .ToArray()
+            ;
 
-            var typeCalls = generics.Select(type => $"yield return sp.GetRequiredService<IStringLocalizer<{type}>>();").ToArray();
+            var razors = source.Right
+                .SelectMany(x => x)
+                .Distinct()
+                .ToArray()
+            ;
 
-            var calls = typeCalls.ToMultiline("                ", appendNewLineAfterEach: false);
+            var typeCalls = generics
+                .Select(type => $"yield return sp.GetRequiredService<IStringLocalizer<{type}>>();")
+                .Concat(
+                    razors.Select(x => $"yield return sp.GetRequiredService<{x}>();")
+                )
+                .ToArray()
+            ;
+
+            var calls = typeCalls.ToMultiline("            ", appendNewLineAfterEach: false);
             var staticClass = info.Class.IsStatic ? " static" : "";
             var staticMethod = info.Method.IsStatic ? " static" : "";
             ctxt.AddSource($"{info.Class.FullName}.g.cs", $$"""
@@ -78,7 +124,7 @@ public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
                 {
                     {{info.Method.Accessibility.ToCSharp()}}{{staticMethod}} partial IEnumerable<IStringLocalizer> {{info.Method.Name}}(System.IServiceProvider sp)
                     {
-                            {{calls}}
+                        {{calls}}
                     }
                 }
             }
@@ -92,7 +138,6 @@ public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
         {
             return false;
         }
-
 
         var classDeclarations = methodDeclaration.Ancestors()
             .OfType<ClassDeclarationSyntax>()
@@ -132,11 +177,11 @@ public sealed class EnumerateLocalizersSourceGenerator : IIncrementalGenerator
     }
 
     internal record MethodModel(string Name, Accessibility Accessibility, bool IsStatic);
-    private record MethodImplementationInfo(TypeModel Class, MethodModel Method);
+    private record ImplementationInfo(TypeModel Class, MethodModel Method);
 
-    private static MethodImplementationInfo? TransformMethodDeclaration(GeneratorAttributeSyntaxContext ctxt)
+    private static ImplementationInfo? TransformMethodDeclaration(SyntaxNode syntax)
     {
-        var methodDeclaration = (MethodDeclarationSyntax)ctxt.TargetNode;
+        var methodDeclaration = (MethodDeclarationSyntax)syntax;
 
         var classDeclaration = methodDeclaration.Ancestors()
             .OfType<ClassDeclarationSyntax>()

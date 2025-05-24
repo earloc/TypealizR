@@ -69,6 +69,13 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
         return this;
     }
 
+    private List<AdditionalText> razors = new();
+    public GeneratorTesterBuilder<TGenerator> WithRazor(string path, string content)
+    {
+        razors.Add(new AdditionalTextFile(path, content));
+        return this;
+    }
+
     public GeneratorTesterBuilder<TGenerator> WithResxFile(
         string fileName,
         bool andDesignerFile = false,
@@ -128,7 +135,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
         var generator = new TGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
-            .AddAdditionalTexts([.. additionalTexts])
+            .AddAdditionalTexts([.. additionalTexts, ..razors])
             .WithUpdatedAnalyzerConfigOptions(
                 new GeneratorTesterOptionsProvider(
                     withoutMsBuildProjectDirectory ? null : baseDirectory,
