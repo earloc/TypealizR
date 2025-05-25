@@ -7,8 +7,11 @@ public class ExportCommand_Tests
 {
     private static string ProjectFile(string x) => $"../../../../{x}/{x}.csproj";
 
-    [Fact]
-    public async Task Export_Generates_ResxFiles()
+    [Theory]
+    [InlineData("ILocalizables.resx")]
+    [InlineData("ILocalizablesWithDefaults.resx")]
+    [InlineData("Some+Inner+ISampleInnerface.resx")]
+    public async Task Export_Generates_ResxFiles(string fileName)
     {
         var storage = new InMemoryStorage();
         var sut = new App(
@@ -19,8 +22,7 @@ public class ExportCommand_Tests
             .RunAsync();
         result.ShouldBe(0);
 
-        storage.Files.Keys.ShouldContain(x => x.EndsWith("ILocalizables.resx"));
-        storage.Files.Keys.ShouldContain(x => x.EndsWith("ILocalizablesWithDefaults.resx"));
-        storage.Files.Keys.ShouldContain(x => x.EndsWith("Some+Inner+ISampleInnerface.resx"));
+        var file = storage.Files.First(x => x.Key.EndsWith(fileName, StringComparison.InvariantCulture));
+        await Verify(file.Value).UseParameters(fileName);
     }
 }
