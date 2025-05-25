@@ -184,7 +184,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             }
         }
 
-        //TODO: optimize here!
+        //TODO: https://github.com/earloc/TypealizR/issues/277 optimize: reading (multiline) remarks
         remarks = remarks.Replace('\n', ' ');
         remarks = remarks.Replace('/', ' ');
         remarks = remarks.Trim();
