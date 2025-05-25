@@ -45,4 +45,12 @@ public class CodeFirstSourceGenerator_Tests
             .Build()
             .Verify()
     ;
+
+    [Fact]
+    public async Task Honors_Interfaces_Accessibility() => await GeneratorTesterBuilder<CodeFirstSourceGenerator>
+            .Create(BaseDirectory, null)
+            .WithSourceFile("IPublicInterface.cs")
+            .Build()
+            .Verify()
+    ;
 }
