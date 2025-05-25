@@ -28,7 +28,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[Greet_FallbackKey];
             }
         }
-        public LocalizedString Greet (string user, DateTimeOffset now) 
+        public LocalizedString Greet (string user, DateTimeOffset now)
         {
             var localizedString = localizer[Greet_Key, user, now];
             if (!localizedString.ResourceNotFound)
@@ -53,7 +53,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[Farewell_FallbackKey];
             }
         }
-        public LocalizedString Farewell (string user, DateTimeOffset now) 
+        public LocalizedString Farewell (string user, DateTimeOffset now)
         {
             var localizedString = localizer[Farewell_Key, user, now];
             if (!localizedString.ResourceNotFound)
@@ -78,7 +78,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[CallForBeetlejuice_FallbackKey];
             }
         }
-        public LocalizedString CallForBeetlejuice (string name) 
+        public LocalizedString CallForBeetlejuice (string name)
         {
             var localizedString = localizer[CallForBeetlejuice_Key, name];
             if (!localizedString.ResourceNotFound)
@@ -103,7 +103,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[DoIt_FallbackKey];
             }
         }
-        public LocalizedString DoIt (string name, string verb) 
+        public LocalizedString DoIt (string name, string verb)
         {
             var localizedString = localizer[DoIt_Key, name, verb];
             if (!localizedString.ResourceNotFound)
