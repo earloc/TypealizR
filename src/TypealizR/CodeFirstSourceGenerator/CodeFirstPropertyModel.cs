@@ -7,7 +7,7 @@ internal class CodeFirstPropertyModel
     private readonly string fallbackKey;
     private readonly string remarksComment;
 
-    public CodeFirstPropertyModel(string key, string returnType, string fallbackKey, string remarks)
+    public CodeFirstPropertyModel(string key, string returnType, string fallbackKey, string? remarks)
     {
         this.key = key;
         this.returnType = returnType;
