@@ -28,7 +28,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[Hello_FallbackKey];
             }
         }
-        public LocalizedString Hello (string world) 
+        public LocalizedString Hello (string world)
         {
             var localizedString = localizer[Hello_Key, world];
             if (!localizedString.ResourceNotFound)
@@ -53,7 +53,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[Hello_FallbackKey];
             }
         }
-        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) 
+        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic)
         {
             var localizedString = localizer[Hello_Key, user, world, visitCount, dontPanic];
             if (!localizedString.ResourceNotFound)
