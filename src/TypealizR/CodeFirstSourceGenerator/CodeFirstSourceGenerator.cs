@@ -53,7 +53,8 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var builder = new CodeFirstClassBuilder(new TypeModel(
                     typealizedInterface.Model.ContainingNamespace.ToDisplayString(),
                     typealizedInterface.Declaration.Identifier.Text,
-                    containingTypeNames
+                    containingTypeNames,
+                    typealizedInterface.Declaration.Modifiers.InferrAccessibility()
                 ), containingTypeNames);
 
                 List<Diagnostic> diagnostics = [];
