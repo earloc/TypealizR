@@ -7,12 +7,14 @@ internal class CodeFirstMethodBuilder
 {
     private readonly string name;
     private readonly string? defaultValue;
+    private readonly string? remarks;
     private readonly List<CodeFirstParameterBuilder> parameterBuilders = [];
 
-    public CodeFirstMethodBuilder(string name, string? defaultValue)
+    public CodeFirstMethodBuilder(string name, string? defaultValue, string? remarks)
     {
         this.name = name;
         this.defaultValue = defaultValue;
+        this.remarks = remarks;
     }
 
     public CodeFirstMethodBuilder WithParameter(string name, string type)
@@ -41,7 +43,7 @@ internal class CodeFirstMethodBuilder
             }
         }
 
-        var method = new CodeFirstMethodModel(name, parameters, "LocalizedString", resourceKey);
+        var method = new CodeFirstMethodModel(name, parameters, "LocalizedString", resourceKey, remarks);
 
         return method;
     }

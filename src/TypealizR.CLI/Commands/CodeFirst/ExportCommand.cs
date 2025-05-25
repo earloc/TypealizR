@@ -2,6 +2,7 @@
 using System.CommandLine.Invocation;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
@@ -144,22 +145,29 @@ internal class ExportCommand : Command
             }
         }
 
-        private static IEnumerable<BaseNamespaceDeclarationSyntax> FindNamespaces(Compilation compilation, CancellationToken cancellationToken) => compilation.SyntaxTrees
-                        .Where(x => x.GetRoot() is CompilationUnitSyntax)
-                        .Select(x => (CompilationUnitSyntax)x.GetRoot(cancellationToken))
-                        .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
+        private static IEnumerable<BaseNamespaceDeclarationSyntax> FindNamespaces(Compilation compilation, CancellationToken cancellationToken)
+            => compilation.SyntaxTrees
+                .Where(x => x.GetRoot() is CompilationUnitSyntax)
+                .Select(x => (CompilationUnitSyntax)x.GetRoot(cancellationToken))
+                .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
         ;
 
-        private static IEnumerable<InterfaceInfo> FindInterfaces(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, CancellationToken cancellationToken) => allNamespaces
-                        .SelectMany(x => GetAllInterfaceDeclarations(x.Members))
-                        .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
-                        .Select(x => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
-                        .Where(x => x.Symbol is not null)
-                        .Select(x => new InterfaceInfo(x.Declaration, x.Symbol!))
-                        .Where(x => x.Symbol
-                            .GetAttributes()
-                            .Any(x => x.AttributeClass is not null && x.AttributeClass!.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal))
-                        )
+        private static IEnumerable<InterfaceInfo> FindInterfaces
+        (
+            Compilation compilation,
+            IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces,
+            CancellationToken cancellationToken
+        )
+            => allNamespaces
+                .SelectMany(x => GetAllInterfaceDeclarations(x.Members))
+                .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
+                .Select(x => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
+                .Where(x => x.Symbol is not null)
+                .Select(x => new InterfaceInfo(x.Declaration, x.Symbol!))
+                .Where(x => x.Symbol
+                    .GetAttributes()
+                    .Any(x => x.AttributeClass is not null && x.AttributeClass!.Name.StartsWith(MarkerAttributeName, StringComparison.Ordinal))
+                )
         ;
 
         private static IEnumerable<InterfaceDeclarationSyntax> GetAllInterfaceDeclarations(SyntaxList<MemberDeclarationSyntax> members)
@@ -180,7 +188,12 @@ internal class ExportCommand : Command
             }
         }
 
-        private static IEnumerable<TypeInfo> FindClasses(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, IEnumerable<InterfaceInfo> markedInterfacesIdentifier, CancellationToken cancellationToken)
+        private static IEnumerable<TypeInfo> FindClasses(
+                Compilation compilation,
+                IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces,
+                IEnumerable<InterfaceInfo> markedInterfacesIdentifier,
+                CancellationToken cancellationToken
+        )
         {
             var interfaces = markedInterfacesIdentifier.ToDictionary(x => x.Symbol, SymbolEqualityComparer.Default);
 
@@ -219,30 +232,35 @@ internal class ExportCommand : Command
             }
         }
 
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyDeclarationSyntax propertySyntax) => type.Declaration.Members
-                        .OfType<FieldDeclarationSyntax>()
-                        .Where(x => x.Modifiers.Any(y => y.Text == "const"))
-                        .Select(x => x.Declaration.Variables.SingleOrDefault())
-                        .Where(x => x is not null).Select(x => x!)
-                        .FirstOrDefault(x => x.Identifier.Text == $"{propertySyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
-                ;
+        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyDeclarationSyntax propertySyntax)
+            => type.Declaration.Members
+                .OfType<FieldDeclarationSyntax>()
+                .Where(x => x.Modifiers.Any(y => y.Text == "const"))
+                .Select(x => x.Declaration.Variables.SingleOrDefault())
+                .Where(x => x is not null).Select(x => x!)
+                .FirstOrDefault(x => x.Identifier.Text == $"{propertySyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
+        ;
 
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodDeclarationSyntax methodSyntax) => type.Declaration.Members
-                        .OfType<FieldDeclarationSyntax>()
-                        .Where(x => x.Modifiers.Any(y => y.Text == "const"))
-                        .Select(x => x.Declaration.Variables.SingleOrDefault())
-                        .Where(x => x is not null).Select(x => x!)
-                        .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
-                ;
+        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodDeclarationSyntax methodSyntax)
+            => type.Declaration.Members
+                .OfType<FieldDeclarationSyntax>()
+                .Where(x => x.Modifiers.Any(y => y.Text == "const"))
+                .Select(x => x.Declaration.Variables.SingleOrDefault())
+                .Where(x => x is not null).Select(x => x!)
+                .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
+        ;
 
         private static void AddProperty(IndentableWriter writer, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax property)
         {
             var key = FindKeyOf(type, property);
             var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
-
+            
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
-                builder.Add(property.Identifier.Text, sanitizedValue);
+                var commentTrivia = property.Identifier.GetAllTrivia().FirstOrDefault(t => t.IsKind(SyntaxKind.SingleLineCommentTrivia));
+                var commentText = commentTrivia.ToFullString()?.Replace("//", "", StringComparison.InvariantCulture);
+                
+                builder.Add(property.Identifier.Text, sanitizedValue, commentText);
                 writer.WriteLine($"✔️ {property.Identifier.Text}");
             }
             else
@@ -255,9 +273,13 @@ internal class ExportCommand : Command
         {
             var key = FindKeyOf(type, method);
             var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+            
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
-                builder.Add(method.Identifier.Text, sanitizedValue);
+                var commentTrivia = method.DescendantTrivia(null, true).FirstOrDefault(t => t.IsKind(SyntaxKind.SingleLineCommentTrivia));
+                var commentText = commentTrivia.ToFullString()?.Replace("//", "", StringComparison.InvariantCulture);
+                
+                builder.Add(method.Identifier.Text, sanitizedValue, commentText);
                 writer.WriteLine($"✔️ {method.Identifier.Text}()");
             }
             else

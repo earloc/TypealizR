@@ -88,7 +88,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
             var defaultValue = TryGetDefaultValueFrom(method, cancellationToken);
 
-            var methodBuilder = builder.WithMethod(method.Identifier.Text, defaultValue);
+            var methodBuilder = builder.WithMethod(method.Identifier.Text, defaultValue.Value, defaultValue.Remarks);
 
             foreach (var parameter in method.ParameterList.Parameters)
             {
@@ -117,13 +117,13 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
             var defaultValue = TryGetDefaultValueFrom(property, cancellationToken);
 
-            builder.WithProperty(name, defaultValue);
+            builder.WithProperty(name, defaultValue.Value, defaultValue.Remarks);
 
             diagnostics.AddRange(collector.Diagnostics);
         }
     }
 
-    private static string? TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
+    private static (string Value, string Remarks) TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
     {
         var allTrivias = declaration.GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
 
@@ -140,14 +140,25 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             return default;
         }
 
-        var comment = structure.Content.OfType<XmlElementSyntax>().FirstOrDefault();
+        var xmlTagComments = structure.Content
+            .OfType<XmlElementSyntax>()
+            .Select(x => new
+            {
+                Name = x.StartTag.ToString(),
+                Tag = x
+            })
+            .ToArray()
+        ;
 
-        if (comment is null)
+        var summary = xmlTagComments.FirstOrDefault(x => x.Name == "<summary>");
+        if (summary is null)
         {
             return default;
         }
 
-        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax or XmlEmptyElementSyntax).ToArray();
+        var remarks = xmlTagComments.FirstOrDefault(x => x.Name == "<remarks>")?.Tag.Content.ToString() ?? "";
+
+        var xmlComments = summary.Tag.Content.Where(x => x is XmlTextSyntax or XmlEmptyElementSyntax).ToArray();
 
         var builder = new StringBuilder();
 
@@ -173,6 +184,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             }
         }
 
-        return builder.ToString().Trim().Escape();
+        //TODO: optimize here!
+        remarks = remarks.Replace('\n', ' ');
+        remarks = remarks.Replace('/', ' ');
+        remarks = remarks.Trim();
+
+        return (builder.ToString().Trim().Escape(), remarks);
     }
 }

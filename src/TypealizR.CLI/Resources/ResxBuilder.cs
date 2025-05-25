@@ -5,10 +5,12 @@ internal class ResxBuilder
 {
     private const string resHeader = "resheader";
     private const string value = "value";
-    private readonly Dictionary<string, string> entries = [];
-    public ResxBuilder Add(string key, string value)
+    private const string comment = "comment";
+
+    private readonly Dictionary<string, (string Value, string? Comment)> entries = [];
+    public ResxBuilder Add(string key, string value, string? comment)
     {
-        entries.Add(key, value);
+        entries.Add(key, (value, comment?.Trim()));
         return this;
     }
 
@@ -31,7 +33,8 @@ internal class ResxBuilder
                 entries.Select(x =>
                     new XElement("data",
                             new XAttribute("name", x.Key),
-                        new XElement(value, x.Value)
+                                new XElement(value, x.Value.Value),
+                                !string.IsNullOrEmpty(x.Value.Comment) ? new XElement(comment, x.Value.Comment) : null
                     )
                 ).ToArray()
             )
