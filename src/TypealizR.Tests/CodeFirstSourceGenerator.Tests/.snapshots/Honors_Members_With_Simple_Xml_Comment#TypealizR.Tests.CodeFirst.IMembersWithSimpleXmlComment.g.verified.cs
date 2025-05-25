@@ -28,7 +28,7 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[Hello_FallbackKey];
             }
         }
-        public LocalizedString Hello (string world) 
+        public LocalizedString Hello (string world) // greets someone
         {
             var localizedString = localizer[Hello_Key, world];
             if (!localizedString.ResourceNotFound)
@@ -43,7 +43,7 @@ namespace TypealizR.Tests.CodeFirst {
         #region HelloProperty-property
         private const string HelloProperty_Key = @"HelloProperty";
         private const string HelloProperty_FallbackKey = @"Hello world!";
-        public LocalizedString HelloProperty
+        public LocalizedString HelloProperty // greets someone with a property
         {
           get
             {
@@ -59,7 +59,7 @@ namespace TypealizR.Tests.CodeFirst {
         #region Greeting-property
         private const string Greeting_Key = @"Greeting";
         private const string Greeting_FallbackKey = @"Greetings, fellow developer!";
-        public LocalizedString Greeting
+        public LocalizedString Greeting // the greeting
         {
           get
             {
@@ -77,7 +77,7 @@ namespace TypealizR.Tests.CodeFirst {
         private const string GreetingWithMultilineComment_FallbackKey = @"Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
  And also this one, even with newlines #wowh@x0r!";
-        public LocalizedString GreetingWithMultilineComment
+        public LocalizedString GreetingWithMultilineComment // a multiline greeting
         {
           get
             {

@@ -45,7 +45,7 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
             spaces = new string(' ', indentation);
             builder.AppendLine($$"""{{spaces}}partial class {{containingType}} {""");
         }
-        var accessibility = type.Accessibility.ToVisibilty().ToString().ToLower(codeCulture);
+        var accessibility = implementingInterface.Accessibility.ToVisibilty().ToString().ToLower(codeCulture);
 
         builder.AppendLine(GenerateImplementationType(generatorType, spaces, accessibility));
 

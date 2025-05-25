@@ -19,7 +19,7 @@ internal class CodeFirstClassBuilder
         this.typealizedInterface = typealizedInterface;
         this.containingTypes = containingTypes;
         var implementationTypeName = typealizedInterface.Name.Trim('I');
-        implementationType = new TypeModel(typealizedInterface.Namespace, implementationTypeName, containingTypes);
+        implementationType = new TypeModel(typealizedInterface.Namespace, implementationTypeName, containingTypes, typealizedInterface.Accessibility);
     }
 
     internal CodeFirstClassModel Build()
@@ -37,16 +37,16 @@ internal class CodeFirstClassBuilder
         return new($"{typealizedInterface.FullName}.g.cs", typealizedInterface, implementationType, containingTypes, methodModels, propertyModels);
     }
 
-    internal CodeFirstMethodBuilder WithMethod(string name, string? defaultValue)
+    internal CodeFirstMethodBuilder WithMethod(string name, string? defaultValue, string? remarks)
     {
-        var builder = new CodeFirstMethodBuilder(name, defaultValue);
+        var builder = new CodeFirstMethodBuilder(name, defaultValue, remarks);
         methodBuilders.Add(builder);
         return builder;
     }
 
-    internal CodeFirstPropertyBuilder WithProperty(string name, string? defaultValue)
+    internal CodeFirstPropertyBuilder WithProperty(string name, string? defaultValue, string? remarks)
     {
-        var builder = new CodeFirstPropertyBuilder(name, defaultValue);
+        var builder = new CodeFirstPropertyBuilder(name, defaultValue, remarks);
         propertyBuilders.Add(builder);
         return builder;
     }
