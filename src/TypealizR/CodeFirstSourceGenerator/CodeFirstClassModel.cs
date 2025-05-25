@@ -64,7 +64,7 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
     {{spaces}}    {{generatorType.GeneratedCodeAttribute()}}
     {{spaces}}    {{accessibility}} partial class {{type.Name}}: {{implementingInterface.Name}} {
     {{spaces}}        private readonly IStringLocalizer<{{implementingInterface.Name}}> localizer;
-    {{spaces}}        {{accessibility}} {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
+    {{spaces}}        public {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
     {{spaces}}          this.localizer = localizer;
     {{spaces}}        }
     {{spaces}}        #region methods
