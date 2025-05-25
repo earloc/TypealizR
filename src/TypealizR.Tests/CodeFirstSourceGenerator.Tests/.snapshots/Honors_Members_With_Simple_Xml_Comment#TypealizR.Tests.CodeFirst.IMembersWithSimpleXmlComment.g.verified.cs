@@ -9,7 +9,7 @@ namespace TypealizR.Tests.CodeFirst {
     [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
     internal partial class MembersWithSimpleXmlComment: IMembersWithSimpleXmlComment {
         private readonly IStringLocalizer<IMembersWithSimpleXmlComment> localizer;
-        internal MembersWithSimpleXmlComment (IStringLocalizer<IMembersWithSimpleXmlComment> localizer) {
+        public MembersWithSimpleXmlComment (IStringLocalizer<IMembersWithSimpleXmlComment> localizer) {
           this.localizer = localizer;
         }
         #region methods

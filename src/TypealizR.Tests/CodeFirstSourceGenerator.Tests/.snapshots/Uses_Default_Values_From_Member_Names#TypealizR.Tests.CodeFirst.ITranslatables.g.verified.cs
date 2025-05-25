@@ -9,7 +9,7 @@ namespace TypealizR.Tests.CodeFirst {
     [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
     internal partial class Translatables: ITranslatables {
         private readonly IStringLocalizer<ITranslatables> localizer;
-        internal Translatables (IStringLocalizer<ITranslatables> localizer) {
+        public Translatables (IStringLocalizer<ITranslatables> localizer) {
           this.localizer = localizer;
         }
         #region methods
