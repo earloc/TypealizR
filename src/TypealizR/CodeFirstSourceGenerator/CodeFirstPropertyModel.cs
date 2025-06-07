@@ -3,35 +3,38 @@
 internal class CodeFirstPropertyModel
 {
     private readonly string key;
+    private readonly string escapedKey;
+    private readonly string escapedFallbackKey;
     private readonly string returnType;
-    private readonly string fallbackKey;
     private readonly string remarksComment;
 
     public CodeFirstPropertyModel(string key, string returnType, string fallbackKey, string? remarks)
     {
         this.key = key;
+        escapedKey = $@"""{key}""";
+
         this.returnType = returnType;
-        this.fallbackKey = fallbackKey;
+        escapedFallbackKey = $@"""{fallbackKey}""";
+
         this.remarksComment = string.IsNullOrEmpty(remarks) ? "" : $" // {remarks}";
     }
-    private string FallbackKeyName => $"{key}{_.FallBackKeySuffix}";
-    private string KeyName => $"{key}{_.KeySuffix}";
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
 
-        {{moreSpaces}}        #region {{key}}-property
-        {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
-        {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
+        {{moreSpaces}}        #region typealized {{key}}
+        {{moreSpaces}}        /// <summary>
+        {{moreSpaces}}        /// {{escapedFallbackKey}}
+        {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{key}}{{remarksComment}}
         {{moreSpaces}}        {
         {{moreSpaces}}          get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer[{{KeyName}}];
+        {{moreSpaces}}              var localizedString = localizer[{{escapedKey}}];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer[{{FallbackKeyName}}];
+        {{moreSpaces}}              return localizer[$""{{escapedFallbackKey}}""];
         {{moreSpaces}}          }
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion

@@ -7,5 +7,10 @@ public static class ModuleInitializer
 #pragma warning restore CA1515 // Consider making public types internal
 {
     [ModuleInitializer]
-    public static void Init() => VerifySourceGenerators.Initialize();
+    public static void Init()
+    {
+        DiffEngine.DiffTools.UseOrder(DiffEngine.DiffTool.VisualStudioCode);
+
+        VerifySourceGenerators.Initialize();
+    }
 }

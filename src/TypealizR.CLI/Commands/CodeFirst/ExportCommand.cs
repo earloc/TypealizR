@@ -127,16 +127,16 @@ internal class ExportCommand : Command
                 using (writer.Indent())
                 {
                     foreach (var property in type.Declaration.Members
-                    .OfType<PropertyDeclarationSyntax>()
-                    .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
+                        .OfType<PropertyDeclarationSyntax>()
+                        .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
                     )
                     {
-                        AddProperty(writer, type, builder, property);
+                        AddProperty(writer, builder, property);
                     }
 
                     foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
                     {
-                        AddMethod(writer, type, builder, method);
+                        AddMethod(writer, builder, method);
                     }
                 }
 
@@ -200,7 +200,7 @@ internal class ExportCommand : Command
             return allNamespaces
                 .SelectMany(x => GetAllClassDeclarations(x.Members))
                 .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
-                .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) as INamedTypeSymbol })
+                .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
                 .Where(x => x.Symbol is not null)
                 .Select(x => new
                 {
@@ -232,28 +232,12 @@ internal class ExportCommand : Command
             }
         }
 
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyDeclarationSyntax propertySyntax)
-            => type.Declaration.Members
-                .OfType<FieldDeclarationSyntax>()
-                .Where(x => x.Modifiers.Any(y => y.Text == "const"))
-                .Select(x => x.Declaration.Variables.SingleOrDefault())
-                .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{propertySyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
-        ;
-
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodDeclarationSyntax methodSyntax)
-            => type.Declaration.Members
-                .OfType<FieldDeclarationSyntax>()
-                .Where(x => x.Modifiers.Any(y => y.Text == "const"))
-                .Select(x => x.Declaration.Variables.SingleOrDefault())
-                .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
-        ;
-
-        private static void AddProperty(IndentableWriter writer, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax property)
+        private static void AddProperty(IndentableWriter writer, ResxBuilder builder, PropertyDeclarationSyntax property)
         {
-            var key = FindKeyOf(type, property);
-            var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+            var result = CodeFirstSourceGenerator.TryGetDefaultValueFrom(property, default);
+
+            var key = result.Value;
+            var sanitizedValue = key.ToResourceKey();
             
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
@@ -269,10 +253,12 @@ internal class ExportCommand : Command
             }
         }
 
-        private static void AddMethod(IndentableWriter writer, TypeInfo type, ResxBuilder builder, MethodDeclarationSyntax method)
+        private static void AddMethod(IndentableWriter writer, ResxBuilder builder, MethodDeclarationSyntax method)
         {
-            var key = FindKeyOf(type, method);
-            var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+            var result = CodeFirstSourceGenerator.TryGetDefaultValueFrom(method, default);
+
+            var key = result.Value;
+            var sanitizedValue = key.ToResourceKey();
             
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
