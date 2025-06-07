@@ -13,104 +13,120 @@ namespace TypealizR.Tests.CodeFirst {
           this.localizer = localizer;
         }
         #region methods
-        #region Greet-method
-        private const string Greet_Key = @"Greet";
-        private const string Greet_FallbackKey = @"Hello {0}, the current time is: {1}";
+        #region typealized Greet
+        /// <summary>
+        /// Hello {0}, the current time is: {1}
+        /// <summary>
         public LocalizedString Greet_Raw
         {
             get
             {
-              var localizedString = localizer[Greet_Key];
+              var localizedString = localizer["Greet"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Greet_FallbackKey];
+              return localizer[@"Hello {0}, the current time is: {1}"];
             }
         }
+        /// <summary>
+        /// Hello {0}, the current time is: {1}
+        /// <summary>
         public LocalizedString Greet (string user, DateTimeOffset now)
         {
-            var localizedString = localizer[Greet_Key, user, now];
+            var localizedString = localizer[@"Greet", user, now];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[Greet_FallbackKey, user, now];
+          return localizer[@"Hello {0}, the current time is: {1}", user, now];
         }
         #endregion
-        #region Farewell-method
-        private const string Farewell_Key = @"Farewell";
-        private const string Farewell_FallbackKey = @"The current time is: {1}, goodbye '{0}'";
+        #region typealized Farewell
+        /// <summary>
+        /// The current time is: {1}, goodbye '{0}'
+        /// <summary>
         public LocalizedString Farewell_Raw
         {
             get
             {
-              var localizedString = localizer[Farewell_Key];
+              var localizedString = localizer["Farewell"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Farewell_FallbackKey];
+              return localizer[@"The current time is: {1}, goodbye '{0}'"];
             }
         }
+        /// <summary>
+        /// The current time is: {1}, goodbye '{0}'
+        /// <summary>
         public LocalizedString Farewell (string user, DateTimeOffset now)
         {
-            var localizedString = localizer[Farewell_Key, user, now];
+            var localizedString = localizer[@"Farewell", user, now];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[Farewell_FallbackKey, user, now];
+          return localizer[@"The current time is: {1}, goodbye '{0}'", user, now];
         }
         #endregion
-        #region CallForBeetlejuice-method
-        private const string CallForBeetlejuice_Key = @"CallForBeetlejuice";
-        private const string CallForBeetlejuice_FallbackKey = @"1.{0} 2.{0} 3.{0}";
+        #region typealized CallForBeetlejuice
+        /// <summary>
+        /// 1.{0} 2.{0} 3.{0}
+        /// <summary>
         public LocalizedString CallForBeetlejuice_Raw
         {
             get
             {
-              var localizedString = localizer[CallForBeetlejuice_Key];
+              var localizedString = localizer["CallForBeetlejuice"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[CallForBeetlejuice_FallbackKey];
+              return localizer[@"1.{0} 2.{0} 3.{0}"];
             }
         }
+        /// <summary>
+        /// 1.{0} 2.{0} 3.{0}
+        /// <summary>
         public LocalizedString CallForBeetlejuice (string name)
         {
-            var localizedString = localizer[CallForBeetlejuice_Key, name];
+            var localizedString = localizer[@"CallForBeetlejuice", name];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[CallForBeetlejuice_FallbackKey, name];
+          return localizer[@"1.{0} 2.{0} 3.{0}", name];
         }
         #endregion
-        #region DoIt-method
-        private const string DoIt_Key = @"DoIt";
-        private const string DoIt_FallbackKey = @"{1}, {0}. {1}!!";
+        #region typealized DoIt
+        /// <summary>
+        /// {1}, {0}. {1}!!
+        /// <summary>
         public LocalizedString DoIt_Raw
         {
             get
             {
-              var localizedString = localizer[DoIt_Key];
+              var localizedString = localizer["DoIt"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[DoIt_FallbackKey];
+              return localizer[@"{1}, {0}. {1}!!"];
             }
         }
+        /// <summary>
+        /// {1}, {0}. {1}!!
+        /// <summary>
         public LocalizedString DoIt (string name, string verb)
         {
-            var localizedString = localizer[DoIt_Key, name, verb];
+            var localizedString = localizer[@"DoIt", name, verb];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[DoIt_FallbackKey, name, verb];
+          return localizer[@"{1}, {0}. {1}!!", name, verb];
         }
         #endregion
         #endregion

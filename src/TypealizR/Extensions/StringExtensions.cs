@@ -6,7 +6,7 @@ using TypealizR.Extensions;
 namespace System;
 public static class StringExtensions
 {
-    internal static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true)
+    internal static string ToMultiline(this IEnumerable<string> that, string prependLinesWith = "", bool appendNewLineAfterEach = true, bool trimEach = false)
     {
         if (that is null)
         {
@@ -22,7 +22,7 @@ public static class StringExtensions
             {
                 builder.Append(prependLinesWith);
             }
-            builder.AppendLine(line);
+            builder.AppendLine(trimEach ? line.Trim() : line);
             if (appendNewLineAfterEach)
             {
                 builder.AppendLine();
@@ -41,6 +41,4 @@ public static class StringExtensions
     internal static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join) => string.Join(join, s.Split(new[] { seperator }, StringSplitOptions.RemoveEmptyEntries));
 
     internal static string ReplaceInvalidForMemberNameWith(this string that, char replacement) => new(that.Select(x => x.IsValidInIdentifier(false) ? x : replacement).ToArray());
-
-    internal static string Escape(this string that) => that?.Replace("\"", "\"\"") ?? "";
 }

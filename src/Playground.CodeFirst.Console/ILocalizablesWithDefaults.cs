@@ -31,7 +31,7 @@ internal interface ILocalizablesWithDefaults
     LocalizedString Farewell(string user);
 
     /// <summary>
-    /// <paramref name="right"/> greets <paramref name="left"/>, and <paramref name="left"/> answers: "Hi!".
+    /// <paramref name="right"/> greets <paramref name="left"/>, and <paramref name="left"/> answers: 'Hi!'.
     /// </summary>
     /// <remarks>
     /// A sample conversation

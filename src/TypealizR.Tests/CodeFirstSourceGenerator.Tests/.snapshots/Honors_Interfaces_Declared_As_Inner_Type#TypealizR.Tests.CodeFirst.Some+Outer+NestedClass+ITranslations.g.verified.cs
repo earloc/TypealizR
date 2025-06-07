@@ -16,46 +16,51 @@ namespace TypealizR.Tests.CodeFirst {
                       this.localizer = localizer;
                     }
                     #region methods
-                    #region Hello-method
-                    private const string Hello_Key = @"Hello";
-                    private const string Hello_FallbackKey = @"Hello {0}";
+                    #region typealized Hello
+                    /// <summary>
+                    /// Hello {0}
+                    /// <summary>
                     public LocalizedString Hello_Raw
                     {
                         get
                         {
-                          var localizedString = localizer[Hello_Key];
+                          var localizedString = localizer["Hello"];
                           if (!localizedString.ResourceNotFound)
                           {
                               return localizedString;
                           }
-                          return localizer[Hello_FallbackKey];
+                          return localizer[@"Hello {0}"];
                         }
                     }
+                    /// <summary>
+                    /// Hello {0}
+                    /// <summary>
                     public LocalizedString Hello (string world)
                     {
-                        var localizedString = localizer[Hello_Key, world];
+                        var localizedString = localizer[@"Hello", world];
                         if (!localizedString.ResourceNotFound)
                         {
                             return localizedString;
                         }
-                      return localizer[Hello_FallbackKey, world];
+                      return localizer[@"Hello {0}", world];
                     }
                     #endregion
                     #endregion
                     #region properties
-                    #region World-property
-                    private const string World_Key = @"World";
-                    private const string World_FallbackKey = @"World";
+                    #region typealized World
+                    /// <summary>
+                    /// World
+                    /// <summary>
                     public LocalizedString World
                     {
                       get
                         {
-                          var localizedString = localizer[World_Key];
+                          var localizedString = localizer["World"];
                           if (!localizedString.ResourceNotFound)
                           {
                               return localizedString;
                           }
-                          return localizer[World_FallbackKey];
+                          return localizer[@"World"];
                       }
                     }
                     #endregion

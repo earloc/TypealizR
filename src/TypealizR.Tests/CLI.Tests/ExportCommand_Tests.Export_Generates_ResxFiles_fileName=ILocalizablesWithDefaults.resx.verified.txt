@@ -24,7 +24,7 @@
     <comment>What someone says to someone else when they depart</comment>
   </data>
   <data name="Greet">
-    <value>{1} greets {0}, and {0} answers: ""Hi!"".</value>
+    <value>{1} greets {0}, and {0} answers: 'Hi!'.</value>
     <comment>A sample conversation</comment>
   </data>
 </root>
