@@ -14,24 +14,20 @@ internal class CodeFirstPropertyModel
         this.fallbackKey = fallbackKey;
         this.remarksComment = string.IsNullOrEmpty(remarks) ? "" : $" // {remarks}";
     }
-    private string FallbackKeyName => $"{key}{_.FallBackKeySuffix}";
-    private string KeyName => $"{key}{_.KeySuffix}";
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
 
         {{moreSpaces}}        #region {{key}}-property
-        {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
-        {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
         {{moreSpaces}}        public {{returnType}} {{key}}{{remarksComment}}
         {{moreSpaces}}        {
         {{moreSpaces}}          get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer[{{KeyName}}];
+        {{moreSpaces}}              var localizedString = localizer["{{key}}"];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer[{{FallbackKeyName}}];
+        {{moreSpaces}}              return localizer["{{fallbackKey}}"];
         {{moreSpaces}}          }
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion

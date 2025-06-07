@@ -20,35 +20,31 @@ internal class CodeFirstMethodModel
         this.remarksComment = string.IsNullOrEmpty(remarks)? "" : $" // {remarks}";
     }
 
-    private string FallbackKeyName => $"{key}{_.FallBackKeySuffix}";
-    private string KeyName => $"{key}{_.KeySuffix}";
     private string RawName => $"{key}{_.RawSuffix}";
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
 
         {{moreSpaces}}        #region {{key}}-method
-        {{moreSpaces}}        private const string {{KeyName}} = @"{{key}}";
-        {{moreSpaces}}        private const string {{FallbackKeyName}} = @"{{fallbackKey}}";
         {{moreSpaces}}        public {{returnType}} {{RawName}}
         {{moreSpaces}}        {
         {{moreSpaces}}            get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer[{{KeyName}}];
+        {{moreSpaces}}              var localizedString = localizer["{{key}}"];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer[{{FallbackKeyName}}];
+        {{moreSpaces}}              return localizer["{{fallbackKey}}"];
         {{moreSpaces}}            }
         {{moreSpaces}}        }
         {{moreSpaces}}        public {{returnType}} {{key}} ({{parameters.ToCharpDeclaration()}}){{remarksComment}}
         {{moreSpaces}}        {
-        {{moreSpaces}}            var localizedString = localizer[{{KeyName}}, {{parameters.ToCSharpInvocation()}}];
+        {{moreSpaces}}            var localizedString = localizer["{{key}}", {{parameters.ToCSharpInvocation()}}];
         {{moreSpaces}}            if (!localizedString.ResourceNotFound)
         {{moreSpaces}}            {
         {{moreSpaces}}                return localizedString;
         {{moreSpaces}}            }
-        {{moreSpaces}}          return localizer[{{FallbackKeyName}}, {{parameters.ToCSharpInvocation()}}];
+        {{moreSpaces}}          return localizer["{{fallbackKey}}", {{parameters.ToCSharpInvocation()}}];
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion
 
