@@ -1,9 +1,12 @@
-﻿namespace TypealizR;
+﻿using System;
+
+namespace TypealizR;
 
 internal class CodeFirstPropertyModel
 {
     private readonly string key;
     private readonly string escapedKey;
+    private readonly string fallbackKey;
     private readonly string escapedFallbackKey;
     private readonly string returnType;
     private readonly string remarksComment;
@@ -11,11 +14,15 @@ internal class CodeFirstPropertyModel
     public CodeFirstPropertyModel(string key, string returnType, string fallbackKey, string? remarks)
     {
         this.key = key;
+        this.fallbackKey = fallbackKey.Trim();
+
         escapedKey = $@"""{key}""";
-
         this.returnType = returnType;
-        escapedFallbackKey = $@"""{fallbackKey}""";
+        escapedFallbackKey = $$""""
+            @"{{this.fallbackKey}}"
+            """";
 
+        
         this.remarksComment = string.IsNullOrEmpty(remarks) ? "" : $" // {remarks}";
     }
 
@@ -23,7 +30,7 @@ internal class CodeFirstPropertyModel
 
         {{moreSpaces}}        #region typealized {{key}}
         {{moreSpaces}}        /// <summary>
-        {{moreSpaces}}        /// {{escapedFallbackKey}}
+        {{moreSpaces}}        /// {{fallbackKey.Split('\n').ToMultiline($"{moreSpaces}        /// ", true, true)}}
         {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{key}}{{remarksComment}}
         {{moreSpaces}}        {
@@ -34,7 +41,7 @@ internal class CodeFirstPropertyModel
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer[$""{{escapedFallbackKey}}""];
+        {{moreSpaces}}              return localizer[{{escapedFallbackKey}}];
         {{moreSpaces}}          }
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion

@@ -21,7 +21,7 @@
     <value>Goodbye, {0}</value>
   </data>
   <data name="Greet">
-    <value>{1} greets {0}, and {0} answers: "Hi!".</value>
+    <value>{1} greets {0}, and {0} answers: 'Hi!'.</value>
   </data>
   <data name="Goodbye">
     <value>Goodbye, {0} and thx for all the fish!</value>

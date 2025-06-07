@@ -15,7 +15,7 @@ namespace TypealizR.Tests.CodeFirst {
         #region methods
         #region typealized Hello
         /// <summary>
-        /// "Hello {0}!"
+        /// Hello {0}!
         /// <summary>
         public LocalizedString Hello_Raw
         {
@@ -26,11 +26,11 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""Hello {0}!"""];
+              return localizer[@"Hello {0}!"];
             }
         }
         /// <summary>
-        /// "Hello {0}!"
+        /// Hello {0}!
         /// <summary>
         public LocalizedString Hello (string world) // greets someone
         {
@@ -39,14 +39,14 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[$"""Hello {0}!""", world];
+          return localizer[@"Hello {0}!", world];
         }
         #endregion
         #endregion
         #region properties
         #region typealized HelloProperty
         /// <summary>
-        /// "Hello world!"
+        /// Hello world!
         /// <summary>
         public LocalizedString HelloProperty // greets someone with a property
         {
@@ -57,13 +57,13 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""Hello world!"""];
+              return localizer[@"Hello world!"];
           }
         }
         #endregion
         #region typealized Greeting
         /// <summary>
-        /// "Greetings, fellow developer!"
+        /// Greetings, fellow developer!
         /// <summary>
         public LocalizedString Greeting // the greeting
         {
@@ -74,15 +74,15 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""Greetings, fellow developer!"""];
+              return localizer[@"Greetings, fellow developer!"];
           }
         }
         #endregion
         #region typealized GreetingWithMultilineComment
         /// <summary>
-        /// "Greetings, fellow developer!
- This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!"
+        /// Greetings, fellow developer!
+        /// This line here will be in the generated default resource-key, also.
+        /// And also this one, even with newlines #wowh@x0r!
         /// <summary>
         public LocalizedString GreetingWithMultilineComment // a multiline greeting
         {
@@ -93,9 +93,9 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""Greetings, fellow developer!
+              return localizer[@"Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!"""];
+ And also this one, even with newlines #wowh@x0r!"];
           }
         }
         #endregion

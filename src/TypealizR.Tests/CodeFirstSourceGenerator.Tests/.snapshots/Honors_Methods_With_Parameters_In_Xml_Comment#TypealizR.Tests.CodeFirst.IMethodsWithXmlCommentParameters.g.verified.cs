@@ -15,7 +15,7 @@ namespace TypealizR.Tests.CodeFirst {
         #region methods
         #region typealized Greet
         /// <summary>
-        /// "Hello {0}, the current time is: {1}"
+        /// Hello {0}, the current time is: {1}
         /// <summary>
         public LocalizedString Greet_Raw
         {
@@ -26,11 +26,11 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""Hello {0}, the current time is: {1}"""];
+              return localizer[@"Hello {0}, the current time is: {1}"];
             }
         }
         /// <summary>
-        /// "Hello {0}, the current time is: {1}"
+        /// Hello {0}, the current time is: {1}
         /// <summary>
         public LocalizedString Greet (string user, DateTimeOffset now)
         {
@@ -39,12 +39,12 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[$"""Hello {0}, the current time is: {1}""", user, now];
+          return localizer[@"Hello {0}, the current time is: {1}", user, now];
         }
         #endregion
         #region typealized Farewell
         /// <summary>
-        /// "The current time is: {1}, goodbye '{0}'"
+        /// The current time is: {1}, goodbye '{0}'
         /// <summary>
         public LocalizedString Farewell_Raw
         {
@@ -55,11 +55,11 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""The current time is: {1}, goodbye '{0}'"""];
+              return localizer[@"The current time is: {1}, goodbye '{0}'"];
             }
         }
         /// <summary>
-        /// "The current time is: {1}, goodbye '{0}'"
+        /// The current time is: {1}, goodbye '{0}'
         /// <summary>
         public LocalizedString Farewell (string user, DateTimeOffset now)
         {
@@ -68,12 +68,12 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[$"""The current time is: {1}, goodbye '{0}'""", user, now];
+          return localizer[@"The current time is: {1}, goodbye '{0}'", user, now];
         }
         #endregion
         #region typealized CallForBeetlejuice
         /// <summary>
-        /// "1.{0} 2.{0} 3.{0}"
+        /// 1.{0} 2.{0} 3.{0}
         /// <summary>
         public LocalizedString CallForBeetlejuice_Raw
         {
@@ -84,11 +84,11 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""1.{0} 2.{0} 3.{0}"""];
+              return localizer[@"1.{0} 2.{0} 3.{0}"];
             }
         }
         /// <summary>
-        /// "1.{0} 2.{0} 3.{0}"
+        /// 1.{0} 2.{0} 3.{0}
         /// <summary>
         public LocalizedString CallForBeetlejuice (string name)
         {
@@ -97,12 +97,12 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[$"""1.{0} 2.{0} 3.{0}""", name];
+          return localizer[@"1.{0} 2.{0} 3.{0}", name];
         }
         #endregion
         #region typealized DoIt
         /// <summary>
-        /// "{1}, {0}. {1}!!"
+        /// {1}, {0}. {1}!!
         /// <summary>
         public LocalizedString DoIt_Raw
         {
@@ -113,11 +113,11 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer[$"""{1}, {0}. {1}!!"""];
+              return localizer[@"{1}, {0}. {1}!!"];
             }
         }
         /// <summary>
-        /// "{1}, {0}. {1}!!"
+        /// {1}, {0}. {1}!!
         /// <summary>
         public LocalizedString DoIt (string name, string verb)
         {
@@ -126,7 +126,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[$"""{1}, {0}. {1}!!""", name, verb];
+          return localizer[@"{1}, {0}. {1}!!", name, verb];
         }
         #endregion
         #endregion

@@ -7,6 +7,7 @@ internal class CodeFirstMethodModel
 {
     private readonly string key;
     private readonly string escapedKey;
+    private readonly string fallbackKey;
     private readonly string escapedFallbackKey;
 
     private readonly string? remarksComment;
@@ -17,11 +18,14 @@ internal class CodeFirstMethodModel
     {
         this.key = key;
         escapedKey = $@"""{key}""";
+        this.fallbackKey = fallbackKey ?? $"{key} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}".Trim();
+
+        escapedFallbackKey = $$""""
+            @"{{this.fallbackKey.Trim()}}"
+            """".Trim();
 
         this.parameters = parameters;
         this.returnType = returnType;
-        fallbackKey = fallbackKey ?? $"{key} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}";
-        escapedFallbackKey = $@"""{fallbackKey}""";
 
         this.remarksComment = string.IsNullOrEmpty(remarks)? "" : $" // {remarks}";
     }
@@ -32,7 +36,7 @@ internal class CodeFirstMethodModel
 
         {{moreSpaces}}        #region typealized {{key}}
         {{moreSpaces}}        /// <summary>
-        {{moreSpaces}}        /// {{escapedFallbackKey}}
+        {{moreSpaces}}        /// {{fallbackKey.Split('\n').ToMultiline($"{moreSpaces}        /// ", true, true)}}
         {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{RawName}}
         {{moreSpaces}}        {
@@ -43,12 +47,12 @@ internal class CodeFirstMethodModel
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer[$""{{escapedFallbackKey}}""];
+        {{moreSpaces}}              return localizer[{{escapedFallbackKey}}];
         {{moreSpaces}}            }
         {{moreSpaces}}        }
         {{moreSpaces}}        
         {{moreSpaces}}        /// <summary>
-        {{moreSpaces}}        /// {{escapedFallbackKey}}
+        {{moreSpaces}}        /// {{fallbackKey.Split('\n').ToMultiline($"{moreSpaces}        /// ", true, true)}}
         {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{key}} ({{parameters.ToCharpDeclaration()}}){{remarksComment}}
         {{moreSpaces}}        {
@@ -57,7 +61,7 @@ internal class CodeFirstMethodModel
         {{moreSpaces}}            {
         {{moreSpaces}}                return localizedString;
         {{moreSpaces}}            }
-        {{moreSpaces}}          return localizer[$""{{escapedFallbackKey}}"", {{parameters.ToCSharpInvocation()}}];
+        {{moreSpaces}}          return localizer[{{escapedFallbackKey}}, {{parameters.ToCSharpInvocation()}}];
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion
 
