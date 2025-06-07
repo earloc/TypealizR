@@ -43,7 +43,7 @@ internal class CodeFirstMethodModel
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer[{{escapedFallbackKey}}];
+        {{moreSpaces}}              return localizer[$""{{escapedFallbackKey}}""];
         {{moreSpaces}}            }
         {{moreSpaces}}        }
         {{moreSpaces}}        
@@ -57,7 +57,7 @@ internal class CodeFirstMethodModel
         {{moreSpaces}}            {
         {{moreSpaces}}                return localizedString;
         {{moreSpaces}}            }
-        {{moreSpaces}}          return localizer[{{escapedFallbackKey}}, {{parameters.ToCSharpInvocation()}}];
+        {{moreSpaces}}          return localizer[$""{{escapedFallbackKey}}"", {{parameters.ToCSharpInvocation()}}];
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion
 
