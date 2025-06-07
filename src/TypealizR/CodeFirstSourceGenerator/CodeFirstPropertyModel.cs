@@ -3,6 +3,7 @@
 internal class CodeFirstPropertyModel
 {
     private readonly string key;
+    private readonly string escapedKey;
     private readonly string returnType;
     private readonly string fallbackKey;
     private readonly string remarksComment;
@@ -10,6 +11,11 @@ internal class CodeFirstPropertyModel
     public CodeFirstPropertyModel(string key, string returnType, string fallbackKey, string? remarks)
     {
         this.key = key;
+        escapedKey = $$$"""
+            @"{{{key}}}"
+            """
+        ;
+
         this.returnType = returnType;
         this.fallbackKey = fallbackKey;
         this.remarksComment = string.IsNullOrEmpty(remarks) ? "" : $" // {remarks}";
@@ -25,7 +31,7 @@ internal class CodeFirstPropertyModel
         {{moreSpaces}}        {
         {{moreSpaces}}          get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer[@"{{key}}"];
+        {{moreSpaces}}              var localizedString = localizer[{{escapedKey}}];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;

@@ -6,6 +6,7 @@ namespace TypealizR;
 internal class CodeFirstMethodModel
 {
     private readonly string key;
+    private readonly string escapedKey;
     private readonly string fallbackKey;
     private readonly string? remarksComment;
     private readonly CodeFirstParameterModel[] parameters;
@@ -14,6 +15,11 @@ internal class CodeFirstMethodModel
     public CodeFirstMethodModel(string key, CodeFirstParameterModel[] parameters, string returnType, string? fallbackKey, string? remarks)
     {
         this.key = key;
+        escapedKey = $$$"""
+            @"{{{key}}}"
+            """
+        ;
+
         this.parameters = parameters;
         this.returnType = returnType;
         this.fallbackKey = fallbackKey ?? $"{key} {parameters.Select((x, i) => $$"""{{{i}}}""").ToSpaceDelimited()}";
@@ -32,7 +38,7 @@ internal class CodeFirstMethodModel
         {{moreSpaces}}        {
         {{moreSpaces}}            get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer[@"{{key}}"];
+        {{moreSpaces}}              var localizedString = localizer[{{escapedKey}}];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
