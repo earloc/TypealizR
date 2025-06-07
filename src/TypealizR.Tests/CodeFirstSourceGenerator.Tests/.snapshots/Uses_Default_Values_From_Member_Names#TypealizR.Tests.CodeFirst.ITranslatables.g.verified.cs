@@ -13,7 +13,10 @@ namespace TypealizR.Tests.CodeFirst {
           this.localizer = localizer;
         }
         #region methods
-        #region Hello-method
+        #region typealized Hello
+        /// <summary>
+        /// Hello {0}
+        /// <summary>
         public LocalizedString Hello_Raw
         {
             get
@@ -26,6 +29,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"Hello {0}"];
             }
         }
+        /// <summary>
+        /// Hello {0}
+        /// <summary>
         public LocalizedString Hello (string world)
         {
             var localizedString = localizer[@"Hello", world];
@@ -36,7 +42,10 @@ namespace TypealizR.Tests.CodeFirst {
           return localizer[@"Hello {0}", world];
         }
         #endregion
-        #region Hello-method
+        #region typealized Hello
+        /// <summary>
+        /// Hello {0} {1} {2} {3}
+        /// <summary>
         public LocalizedString Hello_Raw
         {
             get
@@ -49,6 +58,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"Hello {0} {1} {2} {3}"];
             }
         }
+        /// <summary>
+        /// Hello {0} {1} {2} {3}
+        /// <summary>
         public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic)
         {
             var localizedString = localizer[@"Hello", user, world, visitCount, dontPanic];
@@ -61,7 +73,10 @@ namespace TypealizR.Tests.CodeFirst {
         #endregion
         #endregion
         #region properties
-        #region Greeting-property
+        #region typealized Greeting
+        /// <summary>
+        /// Greeting
+        /// <summary>
         public LocalizedString Greeting
         {
           get

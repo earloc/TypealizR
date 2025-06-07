@@ -13,7 +13,10 @@ namespace TypealizR.Tests.CodeFirst {
           this.localizer = localizer;
         }
         #region methods
-        #region Hello-method
+        #region typealized Hello
+        /// <summary>
+        /// Hello {0}!
+        /// <summary>
         public LocalizedString Hello_Raw
         {
             get
@@ -26,6 +29,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"Hello {0}!"];
             }
         }
+        /// <summary>
+        /// Hello {0}!
+        /// <summary>
         public LocalizedString Hello (string world) // greets someone
         {
             var localizedString = localizer[@"Hello", world];
@@ -38,7 +44,10 @@ namespace TypealizR.Tests.CodeFirst {
         #endregion
         #endregion
         #region properties
-        #region HelloProperty-property
+        #region typealized HelloProperty
+        /// <summary>
+        /// Hello world!
+        /// <summary>
         public LocalizedString HelloProperty // greets someone with a property
         {
           get
@@ -52,7 +61,10 @@ namespace TypealizR.Tests.CodeFirst {
           }
         }
         #endregion
-        #region Greeting-property
+        #region typealized Greeting
+        /// <summary>
+        /// Greetings, fellow developer!
+        /// <summary>
         public LocalizedString Greeting // the greeting
         {
           get
@@ -66,7 +78,12 @@ namespace TypealizR.Tests.CodeFirst {
           }
         }
         #endregion
-        #region GreetingWithMultilineComment-property
+        #region typealized GreetingWithMultilineComment
+        /// <summary>
+        /// Greetings, fellow developer!
+ This line here will be in the generated default resource-key, also.
+ And also this one, even with newlines #wowh@x0r!
+        /// <summary>
         public LocalizedString GreetingWithMultilineComment // a multiline greeting
         {
           get

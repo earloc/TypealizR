@@ -13,7 +13,10 @@ namespace TypealizR.Tests.CodeFirst {
           this.localizer = localizer;
         }
         #region methods
-        #region Greet-method
+        #region typealized Greet
+        /// <summary>
+        /// Hello {0}, the current time is: {1}
+        /// <summary>
         public LocalizedString Greet_Raw
         {
             get
@@ -26,6 +29,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"Hello {0}, the current time is: {1}"];
             }
         }
+        /// <summary>
+        /// Hello {0}, the current time is: {1}
+        /// <summary>
         public LocalizedString Greet (string user, DateTimeOffset now)
         {
             var localizedString = localizer[@"Greet", user, now];
@@ -36,7 +42,10 @@ namespace TypealizR.Tests.CodeFirst {
           return localizer[@"Hello {0}, the current time is: {1}", user, now];
         }
         #endregion
-        #region Farewell-method
+        #region typealized Farewell
+        /// <summary>
+        /// The current time is: {1}, goodbye '{0}'
+        /// <summary>
         public LocalizedString Farewell_Raw
         {
             get
@@ -49,6 +58,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"The current time is: {1}, goodbye '{0}'"];
             }
         }
+        /// <summary>
+        /// The current time is: {1}, goodbye '{0}'
+        /// <summary>
         public LocalizedString Farewell (string user, DateTimeOffset now)
         {
             var localizedString = localizer[@"Farewell", user, now];
@@ -59,7 +71,10 @@ namespace TypealizR.Tests.CodeFirst {
           return localizer[@"The current time is: {1}, goodbye '{0}'", user, now];
         }
         #endregion
-        #region CallForBeetlejuice-method
+        #region typealized CallForBeetlejuice
+        /// <summary>
+        /// 1.{0} 2.{0} 3.{0}
+        /// <summary>
         public LocalizedString CallForBeetlejuice_Raw
         {
             get
@@ -72,6 +87,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"1.{0} 2.{0} 3.{0}"];
             }
         }
+        /// <summary>
+        /// 1.{0} 2.{0} 3.{0}
+        /// <summary>
         public LocalizedString CallForBeetlejuice (string name)
         {
             var localizedString = localizer[@"CallForBeetlejuice", name];
@@ -82,7 +100,10 @@ namespace TypealizR.Tests.CodeFirst {
           return localizer[@"1.{0} 2.{0} 3.{0}", name];
         }
         #endregion
-        #region DoIt-method
+        #region typealized DoIt
+        /// <summary>
+        /// {1}, {0}. {1}!!
+        /// <summary>
         public LocalizedString DoIt_Raw
         {
             get
@@ -95,6 +116,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"{1}, {0}. {1}!!"];
             }
         }
+        /// <summary>
+        /// {1}, {0}. {1}!!
+        /// <summary>
         public LocalizedString DoIt (string name, string verb)
         {
             var localizedString = localizer[@"DoIt", name, verb];

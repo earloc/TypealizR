@@ -13,7 +13,10 @@ namespace TypealizR.Tests.CodeFirst {
           this.localizer = localizer;
         }
         #region methods
-        #region PublicHello-method
+        #region typealized PublicHello
+        /// <summary>
+        /// PublicHello {0}
+        /// <summary>
         public LocalizedString PublicHello_Raw
         {
             get
@@ -26,6 +29,9 @@ namespace TypealizR.Tests.CodeFirst {
               return localizer[@"PublicHello {0}"];
             }
         }
+        /// <summary>
+        /// PublicHello {0}
+        /// <summary>
         public LocalizedString PublicHello (string world)
         {
             var localizedString = localizer[@"PublicHello", world];
