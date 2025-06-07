@@ -14,28 +14,26 @@ namespace TypealizR.Tests.CodeFirst {
         }
         #region methods
         #region PublicHello-method
-        private const string PublicHello_Key = @"PublicHello";
-        private const string PublicHello_FallbackKey = @"PublicHello {0}";
         public LocalizedString PublicHello_Raw
         {
             get
             {
-              var localizedString = localizer[PublicHello_Key];
+              var localizedString = localizer[@"PublicHello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[PublicHello_FallbackKey];
+              return localizer[@"PublicHello {0}"];
             }
         }
         public LocalizedString PublicHello (string world)
         {
-            var localizedString = localizer[PublicHello_Key, world];
+            var localizedString = localizer[@"PublicHello", world];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[PublicHello_FallbackKey, world];
+          return localizer[@"PublicHello {0}", world];
         }
         #endregion
         #endregion

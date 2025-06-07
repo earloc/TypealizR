@@ -14,79 +14,71 @@ namespace TypealizR.Tests.CodeFirst {
         }
         #region methods
         #region Hello-method
-        private const string Hello_Key = @"Hello";
-        private const string Hello_FallbackKey = @"Hello {0}!";
         public LocalizedString Hello_Raw
         {
             get
             {
-              var localizedString = localizer[Hello_Key];
+              var localizedString = localizer[@"Hello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Hello_FallbackKey];
+              return localizer[@"Hello {0}!"];
             }
         }
         public LocalizedString Hello (string world) // greets someone
         {
-            var localizedString = localizer[Hello_Key, world];
+            var localizedString = localizer[@"Hello", world];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[Hello_FallbackKey, world];
+          return localizer[@"Hello {0}!", world];
         }
         #endregion
         #endregion
         #region properties
         #region HelloProperty-property
-        private const string HelloProperty_Key = @"HelloProperty";
-        private const string HelloProperty_FallbackKey = @"Hello world!";
         public LocalizedString HelloProperty // greets someone with a property
         {
           get
             {
-              var localizedString = localizer[HelloProperty_Key];
+              var localizedString = localizer[@"HelloProperty"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[HelloProperty_FallbackKey];
+              return localizer[@"Hello world!"];
           }
         }
         #endregion
         #region Greeting-property
-        private const string Greeting_Key = @"Greeting";
-        private const string Greeting_FallbackKey = @"Greetings, fellow developer!";
         public LocalizedString Greeting // the greeting
         {
           get
             {
-              var localizedString = localizer[Greeting_Key];
+              var localizedString = localizer[@"Greeting"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Greeting_FallbackKey];
+              return localizer[@"Greetings, fellow developer!"];
           }
         }
         #endregion
         #region GreetingWithMultilineComment-property
-        private const string GreetingWithMultilineComment_Key = @"GreetingWithMultilineComment";
-        private const string GreetingWithMultilineComment_FallbackKey = @"Greetings, fellow developer!
- This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!";
         public LocalizedString GreetingWithMultilineComment // a multiline greeting
         {
           get
             {
-              var localizedString = localizer[GreetingWithMultilineComment_Key];
+              var localizedString = localizer[@"GreetingWithMultilineComment"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[GreetingWithMultilineComment_FallbackKey];
+              return localizer[@"Greetings, fellow developer!
+ This line here will be in the generated default resource-key, also.
+ And also this one, even with newlines #wowh@x0r!"];
           }
         }
         #endregion
