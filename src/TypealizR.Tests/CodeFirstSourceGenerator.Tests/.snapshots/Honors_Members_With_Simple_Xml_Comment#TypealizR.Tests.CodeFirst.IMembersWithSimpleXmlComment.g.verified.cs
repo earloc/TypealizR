@@ -26,7 +26,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["Hello {0}!"];
+              return localizer[$"""Hello {0}!"""];
             }
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer["Hello {0}!", world];
+          return localizer[$"""Hello {0}!""", world];
         }
         #endregion
         #endregion
@@ -57,7 +57,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["Hello world!"];
+              return localizer[$"""Hello world!"""];
           }
         }
         #endregion
@@ -74,7 +74,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["Greetings, fellow developer!"];
+              return localizer[$"""Greetings, fellow developer!"""];
           }
         }
         #endregion
@@ -93,9 +93,9 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["Greetings, fellow developer!
+              return localizer[$"""Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!"];
+ And also this one, even with newlines #wowh@x0r!"""];
           }
         }
         #endregion

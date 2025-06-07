@@ -26,7 +26,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["PublicHello {0}"];
+              return localizer[$"""PublicHello {0}"""];
             }
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer["PublicHello {0}", world];
+          return localizer[$"""PublicHello {0}""", world];
         }
         #endregion
         #endregion

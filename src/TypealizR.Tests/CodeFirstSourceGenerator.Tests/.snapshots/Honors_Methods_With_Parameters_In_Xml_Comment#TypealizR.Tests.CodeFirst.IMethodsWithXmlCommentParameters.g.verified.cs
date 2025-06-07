@@ -26,7 +26,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["Hello {0}, the current time is: {1}"];
+              return localizer[$"""Hello {0}, the current time is: {1}"""];
             }
         }
         /// <summary>
@@ -39,7 +39,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer["Hello {0}, the current time is: {1}", user, now];
+          return localizer[$"""Hello {0}, the current time is: {1}""", user, now];
         }
         #endregion
         #region typealized Farewell
@@ -55,7 +55,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["The current time is: {1}, goodbye '{0}'"];
+              return localizer[$"""The current time is: {1}, goodbye '{0}'"""];
             }
         }
         /// <summary>
@@ -68,7 +68,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer["The current time is: {1}, goodbye '{0}'", user, now];
+          return localizer[$"""The current time is: {1}, goodbye '{0}'""", user, now];
         }
         #endregion
         #region typealized CallForBeetlejuice
@@ -84,7 +84,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["1.{0} 2.{0} 3.{0}"];
+              return localizer[$"""1.{0} 2.{0} 3.{0}"""];
             }
         }
         /// <summary>
@@ -97,7 +97,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer["1.{0} 2.{0} 3.{0}", name];
+          return localizer[$"""1.{0} 2.{0} 3.{0}""", name];
         }
         #endregion
         #region typealized DoIt
@@ -113,7 +113,7 @@ namespace TypealizR.Tests.CodeFirst {
               {
                   return localizedString;
               }
-              return localizer["{1}, {0}. {1}!!"];
+              return localizer[$"""{1}, {0}. {1}!!"""];
             }
         }
         /// <summary>
@@ -126,7 +126,7 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer["{1}, {0}. {1}!!", name, verb];
+          return localizer[$"""{1}, {0}. {1}!!""", name, verb];
         }
         #endregion
         #endregion
