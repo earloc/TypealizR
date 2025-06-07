@@ -15,22 +15,22 @@ namespace TypealizR.Tests.CodeFirst {
         #region methods
         #region typealized Hello
         /// <summary>
-        /// Hello {0}!
+        /// "Hello {0}!"
         /// <summary>
         public LocalizedString Hello_Raw
         {
             get
             {
-              var localizedString = localizer[@"Hello"];
+              var localizedString = localizer["Hello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Hello {0}!"];
+              return localizer["Hello {0}!"];
             }
         }
         /// <summary>
-        /// Hello {0}!
+        /// "Hello {0}!"
         /// <summary>
         public LocalizedString Hello (string world) // greets someone
         {
@@ -39,61 +39,61 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[@"Hello {0}!", world];
+          return localizer["Hello {0}!", world];
         }
         #endregion
         #endregion
         #region properties
         #region typealized HelloProperty
         /// <summary>
-        /// Hello world!
+        /// "Hello world!"
         /// <summary>
         public LocalizedString HelloProperty // greets someone with a property
         {
           get
             {
-              var localizedString = localizer[@"HelloProperty"];
+              var localizedString = localizer["HelloProperty"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Hello world!"];
+              return localizer["Hello world!"];
           }
         }
         #endregion
         #region typealized Greeting
         /// <summary>
-        /// Greetings, fellow developer!
+        /// "Greetings, fellow developer!"
         /// <summary>
         public LocalizedString Greeting // the greeting
         {
           get
             {
-              var localizedString = localizer[@"Greeting"];
+              var localizedString = localizer["Greeting"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Greetings, fellow developer!"];
+              return localizer["Greetings, fellow developer!"];
           }
         }
         #endregion
         #region typealized GreetingWithMultilineComment
         /// <summary>
-        /// Greetings, fellow developer!
+        /// "Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!
+ And also this one, even with newlines #wowh@x0r!"
         /// <summary>
         public LocalizedString GreetingWithMultilineComment // a multiline greeting
         {
           get
             {
-              var localizedString = localizer[@"GreetingWithMultilineComment"];
+              var localizedString = localizer["GreetingWithMultilineComment"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Greetings, fellow developer!
+              return localizer["Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
  And also this one, even with newlines #wowh@x0r!"];
           }

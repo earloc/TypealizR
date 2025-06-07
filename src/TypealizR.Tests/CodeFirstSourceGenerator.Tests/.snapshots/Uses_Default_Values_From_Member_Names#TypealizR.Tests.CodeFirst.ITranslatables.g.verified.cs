@@ -15,22 +15,22 @@ namespace TypealizR.Tests.CodeFirst {
         #region methods
         #region typealized Hello
         /// <summary>
-        /// Hello {0}
+        /// "Hello {0}"
         /// <summary>
         public LocalizedString Hello_Raw
         {
             get
             {
-              var localizedString = localizer[@"Hello"];
+              var localizedString = localizer["Hello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Hello {0}"];
+              return localizer["Hello {0}"];
             }
         }
         /// <summary>
-        /// Hello {0}
+        /// "Hello {0}"
         /// <summary>
         public LocalizedString Hello (string world)
         {
@@ -39,27 +39,27 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[@"Hello {0}", world];
+          return localizer["Hello {0}", world];
         }
         #endregion
         #region typealized Hello
         /// <summary>
-        /// Hello {0} {1} {2} {3}
+        /// "Hello {0} {1} {2} {3}"
         /// <summary>
         public LocalizedString Hello_Raw
         {
             get
             {
-              var localizedString = localizer[@"Hello"];
+              var localizedString = localizer["Hello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Hello {0} {1} {2} {3}"];
+              return localizer["Hello {0} {1} {2} {3}"];
             }
         }
         /// <summary>
-        /// Hello {0} {1} {2} {3}
+        /// "Hello {0} {1} {2} {3}"
         /// <summary>
         public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic)
         {
@@ -68,25 +68,25 @@ namespace TypealizR.Tests.CodeFirst {
             {
                 return localizedString;
             }
-          return localizer[@"Hello {0} {1} {2} {3}", user, world, visitCount, dontPanic];
+          return localizer["Hello {0} {1} {2} {3}", user, world, visitCount, dontPanic];
         }
         #endregion
         #endregion
         #region properties
         #region typealized Greeting
         /// <summary>
-        /// Greeting
+        /// "Greeting"
         /// <summary>
         public LocalizedString Greeting
         {
           get
             {
-              var localizedString = localizer[@"Greeting"];
+              var localizedString = localizer["Greeting"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[@"Greeting"];
+              return localizer["Greeting"];
           }
         }
         #endregion
