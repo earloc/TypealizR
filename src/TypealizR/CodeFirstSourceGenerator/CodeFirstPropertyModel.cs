@@ -17,17 +17,20 @@ internal class CodeFirstPropertyModel
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
 
-        {{moreSpaces}}        #region {{key}}-property
+        {{moreSpaces}}        #region typealized {{key}}
+        {{moreSpaces}}        /// <summary>
+        {{moreSpaces}}        /// {{fallbackKey}}
+        {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{key}}{{remarksComment}}
         {{moreSpaces}}        {
         {{moreSpaces}}          get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer["{{key}}"];
+        {{moreSpaces}}              var localizedString = localizer[@"{{key}}"];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer["{{fallbackKey}}"];
+        {{moreSpaces}}              return localizer[@"{{fallbackKey}}"];
         {{moreSpaces}}          }
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion

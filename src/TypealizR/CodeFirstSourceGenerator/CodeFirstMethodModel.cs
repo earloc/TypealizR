@@ -24,27 +24,34 @@ internal class CodeFirstMethodModel
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
 
-        {{moreSpaces}}        #region {{key}}-method
+        {{moreSpaces}}        #region typealized {{key}}
+        {{moreSpaces}}        /// <summary>
+        {{moreSpaces}}        /// {{fallbackKey}}
+        {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{RawName}}
         {{moreSpaces}}        {
         {{moreSpaces}}            get
         {{moreSpaces}}            {
-        {{moreSpaces}}              var localizedString = localizer["{{key}}"];
+        {{moreSpaces}}              var localizedString = localizer[@"{{key}}"];
         {{moreSpaces}}              if (!localizedString.ResourceNotFound)
         {{moreSpaces}}              {
         {{moreSpaces}}                  return localizedString;
         {{moreSpaces}}              }
-        {{moreSpaces}}              return localizer["{{fallbackKey}}"];
+        {{moreSpaces}}              return localizer[@"{{fallbackKey}}"];
         {{moreSpaces}}            }
         {{moreSpaces}}        }
+        {{moreSpaces}}        
+        {{moreSpaces}}        /// <summary>
+        {{moreSpaces}}        /// {{fallbackKey}}
+        {{moreSpaces}}        /// <summary>
         {{moreSpaces}}        public {{returnType}} {{key}} ({{parameters.ToCharpDeclaration()}}){{remarksComment}}
         {{moreSpaces}}        {
-        {{moreSpaces}}            var localizedString = localizer["{{key}}", {{parameters.ToCSharpInvocation()}}];
+        {{moreSpaces}}            var localizedString = localizer[@"{{key}}", {{parameters.ToCSharpInvocation()}}];
         {{moreSpaces}}            if (!localizedString.ResourceNotFound)
         {{moreSpaces}}            {
         {{moreSpaces}}                return localizedString;
         {{moreSpaces}}            }
-        {{moreSpaces}}          return localizer["{{fallbackKey}}", {{parameters.ToCSharpInvocation()}}];
+        {{moreSpaces}}          return localizer[@"{{fallbackKey}}", {{parameters.ToCSharpInvocation()}}];
         {{moreSpaces}}        }
         {{moreSpaces}}        #endregion
 

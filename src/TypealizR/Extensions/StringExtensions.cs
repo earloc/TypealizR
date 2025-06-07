@@ -41,6 +41,4 @@ public static class StringExtensions
     internal static string RemoveAndReplaceDuplicatesOf(this string s, string seperator, string join) => string.Join(join, s.Split(new[] { seperator }, StringSplitOptions.RemoveEmptyEntries));
 
     internal static string ReplaceInvalidForMemberNameWith(this string that, char replacement) => new(that.Select(x => x.IsValidInIdentifier(false) ? x : replacement).ToArray());
-
-    internal static string Escape(this string that) => that?.Replace("\"", "\"\"") ?? "";
 }

@@ -124,10 +124,14 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
     }
 
-    private static (string Value, string Remarks) TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
+    public static (string Value, string Remarks) TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
     {
+        if (declaration is null)
+        {
+            return default;
+        }
+        
         var allTrivias = declaration.GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
-
         if (allTrivias.Length == 0)
         {
             var tree = CSharpSyntaxTree.ParseText(declaration.ToFullString(), cancellationToken: cancellationToken);
@@ -135,7 +139,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
 
         var documentation = Array.Find(allTrivias, x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
-
         if (documentation.GetStructure() is not DocumentationCommentTriviaSyntax structure)
         {
             return default;
@@ -171,11 +174,12 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                     .Select(_ => _.Text)
                     .Join(),
 
+                //WTF??
                 XmlEmptyElementSyntax x => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
                     .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
                     .ToCommaDelimited(),
-
+                    
                 _ => ""
             };
 
@@ -190,6 +194,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         remarks = remarks.Replace('/', ' ');
         remarks = remarks.Trim();
 
-        return (builder.ToString().Trim().Escape(), remarks);
+        return (builder.ToString().Trim(), remarks);
     }
 }
