@@ -19,7 +19,7 @@ public class TypeModel(string @namespace, string name, string[] containingTypeNa
 
     public string GlobalFullName => $"global::{FullName}";
 
-    public string FullNameForClassName => FullName.Replace(".", "");
+    public string FullNameForClassName => FullName.Replace(".", "").Replace("+", "_");
 
 
 }
