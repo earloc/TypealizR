@@ -14,7 +14,7 @@ public class TypeModel(string @namespace, string name, string[] containingTypeNa
 
     internal string ContainingTypes => containingTypeNames.Length <= 0
         ? string.Empty
-        : containingTypeNames.Join("+") + "+"
+        : containingTypeNames.Join("_") + "_"
     ;
 
     public string GlobalFullName => $"global::{FullName}";
