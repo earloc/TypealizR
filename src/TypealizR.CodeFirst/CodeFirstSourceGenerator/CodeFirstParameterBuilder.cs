@@ -1,4 +1,4 @@
-﻿namespace TypealizR;
+﻿namespace TypealizR.CodeFirst;
 
 internal class CodeFirstParameterBuilder
 {

@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 internal class CodeFirstPropertyModel
 {

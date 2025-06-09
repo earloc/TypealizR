@@ -9,7 +9,7 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 [Generator(LanguageNames.CSharp)]
 public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
@@ -68,8 +68,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
     }
-
-
 
     private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {

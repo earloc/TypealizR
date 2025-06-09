@@ -1,7 +1,6 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 internal class CodeFirstMethodModel
 {

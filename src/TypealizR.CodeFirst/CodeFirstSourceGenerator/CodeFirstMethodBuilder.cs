@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 internal class CodeFirstMethodBuilder
 {
     private readonly string name;
