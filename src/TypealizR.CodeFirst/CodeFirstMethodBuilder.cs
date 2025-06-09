@@ -3,7 +3,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 
 namespace TypealizR.CodeFirst;
-internal class CodeFirstMethodBuilder
+internal sealed class CodeFirstMethodBuilder
 {
     private readonly string name;
     private readonly string? defaultValue;

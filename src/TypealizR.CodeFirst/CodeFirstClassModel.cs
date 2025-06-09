@@ -8,7 +8,7 @@ using TypealizR.Extensions;
 
 namespace TypealizR.CodeFirst;
 
-internal class CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, string[] containingTypes, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
+internal sealed class CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, string[] containingTypes, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
 {
     private static CultureInfo codeCulture = new("en-US", false);
     private readonly TypeModel implementingInterface = implementingInterface;

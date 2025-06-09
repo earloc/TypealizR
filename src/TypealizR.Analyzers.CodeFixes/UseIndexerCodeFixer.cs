@@ -5,6 +5,7 @@ using System.Threading.Tasks;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TypealizR.Extensions;
 using Document = Microsoft.CodeAnalysis.Document;
 
 namespace TypealizR.Analyzers;
@@ -87,7 +88,7 @@ public class UseIndexerCodeFixer(SyntaxNode root, Diagnostic diagnostic) : ICode
 
         var stringLocalizerInstanceName = memberSyntax.Identifier.Text;
 
-        var arguments = string.Join(", ", Root.ArgumentList.Arguments.Select(_ => _.ToString()).ToArray());
+        var arguments = Root.ArgumentList.Arguments.Select(_ => _.ToString()).ToCommaDelimited();
 
         var indexSignatureCode = $"""{stringLocalizerInstanceName}[{localizableStringKey}]""";
         if (!string.IsNullOrEmpty(arguments))

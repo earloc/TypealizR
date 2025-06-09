@@ -7,7 +7,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Resources;
+using TypealizR.CodeFirst;
 using TypealizR.Core.Writer;
+using TypealizR.Extensions;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command

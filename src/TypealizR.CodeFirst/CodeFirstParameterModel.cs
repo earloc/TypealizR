@@ -4,7 +4,7 @@ using System.Linq;
 
 namespace TypealizR.CodeFirst;
 
-internal class CodeFirstParameterModel
+internal sealed class CodeFirstParameterModel
 {
 
     public CodeFirstParameterModel(string name, string type)
@@ -19,7 +19,7 @@ internal class CodeFirstParameterModel
 
 internal static class CodeFirstParameterModelExtensions
 {
-    public static string ToCharpDeclaration(this IEnumerable<CodeFirstParameterModel> that) => that.Select(x => $"{x.Type} {x.Name}").ToCommaDelimited();
+    public static string ToCharpDeclaration(this IEnumerable<CodeFirstParameterModel> that) => string.Join(", ", that.Select(x => $"{x.Type} {x.Name}"));
 
-    public static string ToCSharpInvocation(this IEnumerable<CodeFirstParameterModel> that) => that.Select(x => x.Name).ToCommaDelimited();
+    public static string ToCSharpInvocation(this IEnumerable<CodeFirstParameterModel> that) => string.Join(", ", that.Select(x => x.Name));
 }

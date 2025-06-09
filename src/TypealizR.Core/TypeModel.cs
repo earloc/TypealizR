@@ -1,6 +1,5 @@
-﻿using System;
-using System.Linq;
-using Microsoft.CodeAnalysis;
+﻿using Microsoft.CodeAnalysis;
+using TypealizR.Extensions;
 
 namespace TypealizR.Core;
 public class TypeModel(string @namespace, string name, string[] containingTypeNames, Accessibility accessibility)
@@ -14,7 +13,7 @@ public class TypeModel(string @namespace, string name, string[] containingTypeNa
 
     internal string ContainingTypes => containingTypeNames.Length <= 0
         ? string.Empty
-        : containingTypeNames.Join("_") + "_"
+        :  containingTypeNames.Join("_") + "_"
     ;
 
     public string GlobalFullName => $"global::{FullName}";

@@ -1,8 +1,10 @@
 ﻿using System.Linq;
+using TypealizR.Core;
+using TypealizR.Extensions;
 
 namespace TypealizR.CodeFirst;
 
-internal class CodeFirstMethodModel
+internal sealed class CodeFirstMethodModel
 {
     private readonly string key;
     private readonly string escapedKey;
@@ -29,7 +31,7 @@ internal class CodeFirstMethodModel
         this.remarksComment = string.IsNullOrEmpty(remarks)? "" : $" // {remarks}";
     }
 
-    private string RawName => $"{key}{_.RawSuffix}";
+    private string RawName => $"{key}{Constants.RawSuffix}";
 
     internal string ToCSharp(string moreSpaces = "") => $$"""
 

@@ -6,7 +6,7 @@ using TypealizR.Core;
 
 namespace TypealizR.CodeFirst;
 
-internal class CodeFirstClassBuilder
+internal sealed class CodeFirstClassBuilder
 {
     internal readonly List<CodeFirstMethodBuilder> methodBuilders = [];
     internal readonly List<CodeFirstPropertyBuilder> propertyBuilders = [];

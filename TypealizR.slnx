@@ -22,6 +22,7 @@
   </Folder>
   <Folder Name="/Solution Items/workflows/" />
   <Project Path="src/TypealizR.CodeFirst/TypealizR.CodeFirst.csproj" />
+  <Project Path="src/TypealizR.Core/TypealizR.Core.csproj" />
   <Project Path="src/TypealizR.Analyzers.CodeFixes/TypealizR.Analyzers.CodeFixes.csproj" />
   <Project Path="src/TypealizR.Analyzers.Test/TypealizR.Analyzers.Tests.csproj" />
   <Project Path="src/TypealizR.Analyzers.Vsix/TypealizR.Analyzers.Vsix.csproj">

@@ -1,4 +1,5 @@
-﻿using TypealizR.Tests.Snapshots;
+﻿using TypealizR.CodeFirst;
+using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;
 

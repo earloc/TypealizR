@@ -53,6 +53,8 @@
 
 
     <ItemGroup>
+      <ProjectReference Include="../TypealizR.CodeFirst/TypealizR.CodeFirst.csproj" />
+      <ProjectReference Include="../TypealizR.Core/TypealizR.Core.csproj" />
       <ProjectReference Include="..\TypealizR\TypealizR.csproj" />
     </ItemGroup>
 

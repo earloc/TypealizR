@@ -8,6 +8,7 @@ using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
 using TypealizR.Diagnostics;
+using TypealizR.Extensions;
 
 namespace TypealizR.CodeFirst;
 
@@ -171,13 +172,10 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 XmlTextSyntax x => x.TextTokens
                     .Select(_ => _.Text)
                     .Join(),
-
-                //WTF??
                 XmlEmptyElementSyntax x => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
                     .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
                     .ToCommaDelimited(),
-                    
                 _ => ""
             };
 

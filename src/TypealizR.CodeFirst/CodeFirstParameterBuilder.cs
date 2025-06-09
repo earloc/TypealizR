@@ -1,6 +1,6 @@
 ﻿namespace TypealizR.CodeFirst;
 
-internal class CodeFirstParameterBuilder
+internal sealed class CodeFirstParameterBuilder
 {
     private readonly string name;
     private readonly string type;

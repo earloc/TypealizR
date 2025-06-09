@@ -1,8 +1,9 @@
 ﻿using System;
+using TypealizR.Extensions;
 
 namespace TypealizR.CodeFirst;
 
-internal class CodeFirstPropertyModel
+internal sealed class CodeFirstPropertyModel
 {
     private readonly string key;
     private readonly string escapedKey;
@@ -22,7 +23,6 @@ internal class CodeFirstPropertyModel
             @"{{this.fallbackKey}}"
             """";
 
-        
         this.remarksComment = string.IsNullOrEmpty(remarks) ? "" : $" // {remarks}";
     }
 
