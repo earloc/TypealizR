@@ -1,0 +1,40 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+      <TargetFramework>netstandard2.0</TargetFramework>
+      <Nullable>enable</Nullable>
+      <LangVersion>latest</LangVersion>
+      <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+  </PropertyGroup>
+
+  <PropertyGroup>
+        <PackageId>TypealizR.CodeFirst</PackageId>
+        <IsPackable>true</IsPackable>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Title>TypealizR.CodeFirst</Title>
+        <Authors>earloc</Authors>
+        <Product>TypealizR</Product>
+        <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageOutputPath>../../bin</PackageOutputPath>
+        <DevelopmentDependency>true</DevelopmentDependency>
+        <IsRoslynComponent>true</IsRoslynComponent>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <IncludeBuildOutput>false</IncludeBuildOutput>
+    </PropertyGroup>
+    <ItemGroup>
+        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+    </ItemGroup>
+        <ItemGroup>
+        <None Include="../../README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    <ItemGroup>
+        <PackageReference Include="Microsoft.CodeAnalysis.Analyzers" Version="3.11.0" GeneratePathProperty="true">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
+    </ItemGroup>
+
+</Project>
