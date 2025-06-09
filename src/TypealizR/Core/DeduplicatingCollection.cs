@@ -1,5 +1,5 @@
 ﻿using System.Collections.Generic;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR.Core;
 internal class DeduplicatingCollection<T> where T : IMemberModel

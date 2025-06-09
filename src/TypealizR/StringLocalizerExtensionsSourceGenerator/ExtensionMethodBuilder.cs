@@ -1,5 +1,5 @@
 ﻿using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR;
 internal class ExtensionMethodBuilder

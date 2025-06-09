@@ -1,4 +1,4 @@
-﻿namespace TypealizR.Diagnostics;
+﻿namespace TypealizR.Core.Diagnostics;
 public sealed class DiagnosticsEntry
 {
     public DiagnosticsEntry(DiagnosticsId id, string title)

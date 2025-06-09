@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
-using id = TypealizR.Diagnostics.DiagnosticsId;
+using id = TypealizR.Core.Diagnostics.DiagnosticsId;
 
-namespace TypealizR.Diagnostics;
+namespace TypealizR.Core.Diagnostics;
 
 public sealed class DiagnosticsCollector
 {
