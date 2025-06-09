@@ -4,7 +4,7 @@ using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 internal class CodeFirstClassBuilder
 {

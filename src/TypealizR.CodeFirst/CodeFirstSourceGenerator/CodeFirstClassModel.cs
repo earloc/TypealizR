@@ -6,7 +6,7 @@ using System.Text;
 using TypealizR.Core;
 using TypealizR.Extensions;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 internal class CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, string[] containingTypes, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
 {
