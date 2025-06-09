@@ -109,10 +109,10 @@ internal class ExportCommand : Command
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
                 var fileName = type.ImplementingInterface.Declaration.Identifier.Text;
-                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join("+");
+                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join(".");
                 if (!string.IsNullOrEmpty(containingTypes))
                 {
-                    fileName = $"{containingTypes}+{fileName}";
+                    fileName = $"{containingTypes}.{fileName}";
                 }
 
                 var resourcefileName = Path.Combine(interfacePath, $"{fileName}.resx");

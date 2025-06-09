@@ -10,7 +10,7 @@ public class ExportCommand_Tests
     [Theory]
     [InlineData("ILocalizables.resx")]
     [InlineData("ILocalizablesWithDefaults.resx")]
-    [InlineData("Some+Inner+ISampleInnerface.resx")]
+    [InlineData("Some.Inner.ISampleInnerface.resx")]
     public async Task Export_Generates_ResxFiles(string fileName)
     {
         var storage = new InMemoryStorage();
