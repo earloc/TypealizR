@@ -1,13 +1,11 @@
 
-using System;
-using System.Collections.Generic;
-using System.Linq;
+using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using Microsoft.CodeAnalysis.CSharp.Syntax;
+using TypealizR.Core;
 
-namespace Microsoft.CodeAnalysis;
+namespace TypealizR.Extensions;
 
-public static class INamedTypeSymbolExtensions
+public static class MicrosoftCodeAnalysisExtensions
 {
     public static string[] GetContainingTypesRecursive(this INamedTypeSymbol? type, IList<string>? containingTypeNames = null)
     {
@@ -26,7 +24,7 @@ public static class INamedTypeSymbolExtensions
         return type.ContainingType.GetContainingTypesRecursive(containingTypeNames);
     }
 
-    internal static Accessibility InferrAccessibility(this SyntaxTokenList modifiers)
+    public static Accessibility InferrAccessibility(this SyntaxTokenList modifiers)
     {
         if (modifiers.Any(m => m.IsKind(SyntaxKind.PublicKeyword)))
         {
@@ -46,4 +44,10 @@ public static class INamedTypeSymbolExtensions
         }
         return Accessibility.Internal;
     }
+
+    public static Visibility ToVisibilty(this Accessibility that) => that switch
+    {
+        Accessibility.Public => Visibility.Public,
+        _ => Visibility.Internal
+    };
 }

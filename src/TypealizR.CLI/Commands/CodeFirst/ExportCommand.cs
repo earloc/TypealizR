@@ -7,7 +7,9 @@ using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Resources;
+using TypealizR.CodeFirst;
 using TypealizR.Core.Writer;
+using TypealizR.Extensions;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command
@@ -109,10 +111,10 @@ internal class ExportCommand : Command
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
                 var fileName = type.ImplementingInterface.Declaration.Identifier.Text;
-                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join("+");
+                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join(".");
                 if (!string.IsNullOrEmpty(containingTypes))
                 {
-                    fileName = $"{containingTypes}+{fileName}";
+                    fileName = $"{containingTypes}.{fileName}";
                 }
 
                 var resourcefileName = Path.Combine(interfacePath, $"{fileName}.resx");

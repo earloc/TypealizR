@@ -12,7 +12,8 @@ The consuming target project should at least reference a suitable version of [Mi
 
 ## getting started
 
-- install [TypealizR](https://www.nuget.org/packages/TypealizR)  via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+- install [TypealizR.CodeFirst](https://www.nuget.org/packages/TypealizR.CodeFirst)  via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst)](https://www.nuget.org/packages/TypealizR.CodeFirst)
+  > when targeting versions below `v0.14.*`, use [TypealizR](https://www.nuget.org/packages/TypealizR) instead. 
 - install [TypealizR.CodeFirst.Abstractions](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions) via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
 - Author a `Typealized-Interface` which basically is just an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
   

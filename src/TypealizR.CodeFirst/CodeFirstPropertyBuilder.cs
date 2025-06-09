@@ -1,6 +1,6 @@
-﻿namespace TypealizR;
+﻿namespace TypealizR.CodeFirst;
 
-internal class CodeFirstPropertyBuilder
+internal sealed class CodeFirstPropertyBuilder
 {
     private readonly string name;
     private readonly string defaultValue;

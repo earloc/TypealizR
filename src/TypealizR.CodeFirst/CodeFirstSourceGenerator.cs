@@ -7,9 +7,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
+using TypealizR.Extensions;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 [Generator(LanguageNames.CSharp)]
 public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
@@ -68,8 +69,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
     }
-
-
 
     private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {
@@ -173,13 +172,10 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 XmlTextSyntax x => x.TextTokens
                     .Select(_ => _.Text)
                     .Join(),
-
-                //WTF??
                 XmlEmptyElementSyntax x => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
                     .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
                     .ToCommaDelimited(),
-                    
                 _ => ""
             };
 

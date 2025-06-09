@@ -1,5 +1,5 @@
 ﻿using Microsoft.CodeAnalysis;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 using TypealizR.Tests.Snapshots;
 
 namespace TypealizR.Tests;

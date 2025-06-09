@@ -27,10 +27,10 @@ internal class MemberName
                 .ToArray()
         );
 
-        value = string.Join(" ",
+        value = 
                 value.Split(separator, StringSplitOptions.RemoveEmptyEntries)
                     .Where(x => !string.IsNullOrEmpty(x))
-                )
+                .ToSpaceDelimited()
                 .Replace("___", "__")
                 .ReplaceInvalidForMemberNameWith('_');
 

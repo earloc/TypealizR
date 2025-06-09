@@ -2,8 +2,8 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 
-namespace TypealizR;
-internal class CodeFirstMethodBuilder
+namespace TypealizR.CodeFirst;
+internal sealed class CodeFirstMethodBuilder
 {
     private readonly string name;
     private readonly string? defaultValue;

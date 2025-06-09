@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
+using TypealizR.Extensions;
 
 namespace TypealizR;
 internal class ExtensionMethodModel : IMemberModel
@@ -38,7 +39,7 @@ internal class ExtensionMethodModel : IMemberModel
 
         if (Parameters.Any())
         {
-            var additionalParameterDeclarations = string.Join(", ", Parameters.Select(x => $"{x.Type} {x.DisplayName}"));
+            var additionalParameterDeclarations = Parameters.Select(x => $"{x.Type} {x.DisplayName}").ToCommaDelimited();
             signature = $"({ThisParameterFor(ExtendedType)}, {additionalParameterDeclarations})";
 
             var parameterCollection = Parameters.Select(Invocation).ToCommaDelimited();
