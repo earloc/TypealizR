@@ -9,7 +9,7 @@ namespace TypealizR.Tests.CodeFirst {
     partial class Some {
         partial class Outer {
             partial class NestedClass {
-                [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
+                [GeneratedCode("TypealizR.CodeFirst.CodeFirstSourceGenerator", "1.0.0.0")]
                 internal partial class Translations: ITranslations {
                     private readonly IStringLocalizer<ITranslations> localizer;
                     public Translations (IStringLocalizer<ITranslations> localizer) {
