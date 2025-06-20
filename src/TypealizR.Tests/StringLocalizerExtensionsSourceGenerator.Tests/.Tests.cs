@@ -218,4 +218,12 @@ public class StringLocalizerExtensionsSourceGenerator_Tests
         .Build()
         .Verify()
     ;
+
+    [Fact]
+    public async Task Resx_With_Blanks_SubstitutesSpaces() => await GeneratorTesterBuilder<StringLocalizerExtensionsSourceGenerator>
+        .Create(BaseDirectory, RootNamespace)
+        .WithResxFile("Simple   with Blanks.resx", useParamNamesInMethodNames: "false")
+        .Build()
+        .Verify()
+    ;
 }
