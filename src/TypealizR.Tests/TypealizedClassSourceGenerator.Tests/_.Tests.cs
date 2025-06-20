@@ -58,4 +58,12 @@ public class TypealizedClassSourceGenerator_Tests
         .Verify()
     ;
 
+    [Fact]
+    public async Task Resx_With_Blanks_SubstitutesSpaces() => await GeneratorTesterBuilder<TypealizedClassSourceGenerator>
+        .Create(BaseDirectory, RootNamespace)
+        .WithResxFile("Simple   with Blanks.resx", useParamNamesInMethodNames: "false")
+        .Build()
+        .Verify()
+    ;
+
 }
