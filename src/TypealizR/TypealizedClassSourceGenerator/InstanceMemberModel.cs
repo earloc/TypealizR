@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
+using TypealizR.Extensions;
 
 namespace TypealizR;
 internal class InstanceMemberModel : IMemberModel
@@ -34,7 +35,7 @@ internal class InstanceMemberModel : IMemberModel
 
         if (parameters.Any())
         {
-            var additionalParameterDeclarations = string.Join(", ", parameters.Select(x => $"{x.Type} {x.DisplayName}"));
+            var additionalParameterDeclarations = parameters.Select(x => $"{x.Type} {x.DisplayName}").ToCommaDelimited();
             signature = $"({additionalParameterDeclarations})";
 
             var parameterCollection = parameters.Select(x => x.DisplayName).ToCommaDelimited();

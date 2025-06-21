@@ -2,7 +2,7 @@
 using System.Linq;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR;
 internal partial class TypealizedClassBuilder

@@ -1,5 +1,6 @@
 ﻿using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
+using TypealizR.Extensions;
 
 namespace TypealizR.Tests;
 

@@ -18,8 +18,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <ProjectReference Include="..\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
-        <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="../TypealizR.CodeFirst.Abstractions/TypealizR.CodeFirst.Abstractions.csproj" />
+        <ProjectReference Include="../TypealizR.Core/TypealizR.Core.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
+        <ProjectReference Include="../TypealizR.CodeFirst/TypealizR.CodeFirst.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" PrivateAssets="all" />
     </ItemGroup>
 
 </Project>

@@ -42,8 +42,8 @@
         <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.4" />
         <PackageReference Include="NuGet.Frameworks" Version="6.13.2" />
         <PackageReference Include="Shouldly" Version="4.3.0" />
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.13.0" PrivateAssets="all" />
-        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="8.0.10" />
+        <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" PrivateAssets="all" />
+        <PackageReference Include="Microsoft.Extensions.Localization.Abstractions" Version="9.0.5" />
         <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.13.0" />
         <PackageReference Include="Verify.SourceGenerators" Version="2.5.0" />
         <PackageReference Include="Verify.Xunit" Version="30.0.0" />

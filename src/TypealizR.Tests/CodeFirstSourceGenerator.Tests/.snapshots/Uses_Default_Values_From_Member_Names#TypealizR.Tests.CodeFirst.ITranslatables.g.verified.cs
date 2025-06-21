@@ -6,78 +6,87 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 namespace TypealizR.Tests.CodeFirst {
-    [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
+    [GeneratedCode("TypealizR.CodeFirst.CodeFirstSourceGenerator", "1.0.0.0")]
     internal partial class Translatables: ITranslatables {
         private readonly IStringLocalizer<ITranslatables> localizer;
-        internal Translatables (IStringLocalizer<ITranslatables> localizer) {
+        public Translatables (IStringLocalizer<ITranslatables> localizer) {
           this.localizer = localizer;
         }
         #region methods
-        #region Hello-method
-        private const string Hello_Key = @"Hello";
-        private const string Hello_FallbackKey = @"Hello {0}";
+        #region typealized Hello
+        /// <summary>
+        /// Hello {0}
+        /// <summary>
         public LocalizedString Hello_Raw
         {
             get
             {
-              var localizedString = localizer[Hello_Key];
+              var localizedString = localizer["Hello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Hello_FallbackKey];
+              return localizer[@"Hello {0}"];
             }
         }
-        public LocalizedString Hello (string world) 
+        /// <summary>
+        /// Hello {0}
+        /// <summary>
+        public LocalizedString Hello (string world)
         {
-            var localizedString = localizer[Hello_Key, world];
+            var localizedString = localizer[@"Hello", world];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[Hello_FallbackKey, world];
+          return localizer[@"Hello {0}", world];
         }
         #endregion
-        #region Hello-method
-        private const string Hello_Key = @"Hello";
-        private const string Hello_FallbackKey = @"Hello {0} {1} {2} {3}";
+        #region typealized Hello
+        /// <summary>
+        /// Hello {0} {1} {2} {3}
+        /// <summary>
         public LocalizedString Hello_Raw
         {
             get
             {
-              var localizedString = localizer[Hello_Key];
+              var localizedString = localizer["Hello"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Hello_FallbackKey];
+              return localizer[@"Hello {0} {1} {2} {3}"];
             }
         }
-        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic) 
+        /// <summary>
+        /// Hello {0} {1} {2} {3}
+        /// <summary>
+        public LocalizedString Hello (string user, string world, int visitCount, bool dontPanic)
         {
-            var localizedString = localizer[Hello_Key, user, world, visitCount, dontPanic];
+            var localizedString = localizer[@"Hello", user, world, visitCount, dontPanic];
             if (!localizedString.ResourceNotFound)
             {
                 return localizedString;
             }
-          return localizer[Hello_FallbackKey, user, world, visitCount, dontPanic];
+          return localizer[@"Hello {0} {1} {2} {3}", user, world, visitCount, dontPanic];
         }
         #endregion
         #endregion
         #region properties
-        #region Greeting-property
-        private const string Greeting_Key = @"Greeting";
-        private const string Greeting_FallbackKey = @"Greeting";
+        #region typealized Greeting
+        /// <summary>
+        /// Greeting
+        /// <summary>
         public LocalizedString Greeting
         {
           get
             {
-              var localizedString = localizer[Greeting_Key];
+              var localizedString = localizer["Greeting"];
               if (!localizedString.ResourceNotFound)
               {
                   return localizedString;
               }
-              return localizer[Greeting_FallbackKey];
+              return localizer[@"Greeting"];
           }
         }
         #endregion

@@ -6,9 +6,9 @@ using System.Text;
 using TypealizR.Core;
 using TypealizR.Extensions;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
-internal class CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, string[] containingTypes, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
+internal sealed class CodeFirstClassModel(string fileName, TypeModel implementingInterface, TypeModel type, string[] containingTypes, IEnumerable<CodeFirstMethodModel> methods, IEnumerable<CodeFirstPropertyModel> properties)
 {
     private static CultureInfo codeCulture = new("en-US", false);
     private readonly TypeModel implementingInterface = implementingInterface;
@@ -45,7 +45,7 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
             spaces = new string(' ', indentation);
             builder.AppendLine($$"""{{spaces}}partial class {{containingType}} {""");
         }
-        var accessibility = type.Accessibility.ToVisibilty().ToString().ToLower(codeCulture);
+        var accessibility = implementingInterface.Accessibility.ToVisibilty().ToString().ToLower(codeCulture);
 
         builder.AppendLine(GenerateImplementationType(generatorType, spaces, accessibility));
 
@@ -64,7 +64,7 @@ internal class CodeFirstClassModel(string fileName, TypeModel implementingInterf
     {{spaces}}    {{generatorType.GeneratedCodeAttribute()}}
     {{spaces}}    {{accessibility}} partial class {{type.Name}}: {{implementingInterface.Name}} {
     {{spaces}}        private readonly IStringLocalizer<{{implementingInterface.Name}}> localizer;
-    {{spaces}}        {{accessibility}} {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
+    {{spaces}}        public {{type.Name}} (IStringLocalizer<{{implementingInterface.Name}}> localizer) {
     {{spaces}}          this.localizer = localizer;
     {{spaces}}        }
     {{spaces}}        #region methods

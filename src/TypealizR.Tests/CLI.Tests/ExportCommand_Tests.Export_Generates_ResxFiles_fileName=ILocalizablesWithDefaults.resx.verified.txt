@@ -1,0 +1,30 @@
+﻿<root>
+  <resheader name="resmimetype">
+    <value>text/microsoft-resx</value>
+  </resheader>
+  <resheader name="version">
+    <value>2.0</value>
+  </resheader>
+  <resheader name="reader">
+    <value>System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <resheader name="writer">
+    <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
+  </resheader>
+  <data name="WhatIsTheMeaningOfLifeTheUniverseAndEverything">
+    <value>42</value>
+    <comment>The famous answer to the lesser known question...</comment>
+  </data>
+  <data name="Hello">
+    <value>Greetings to you, {0}</value>
+    <comment>What someone says to someone else when they meet</comment>
+  </data>
+  <data name="Farewell">
+    <value>Goodbye, {0}</value>
+    <comment>What someone says to someone else when they depart</comment>
+  </data>
+  <data name="Greet">
+    <value>{1} greets {0}, and {0} answers: 'Hi!'.</value>
+    <comment>A sample conversation</comment>
+  </data>
+</root>

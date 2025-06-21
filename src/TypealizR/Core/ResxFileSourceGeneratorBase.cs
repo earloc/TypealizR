@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR.Core;
 

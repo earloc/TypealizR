@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 

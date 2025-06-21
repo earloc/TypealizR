@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
 using Microsoft.CodeAnalysis;
-using id = TypealizR.Diagnostics.DiagnosticsId;
+using id = TypealizR.Core.Diagnostics.DiagnosticsId;
 
-namespace TypealizR.Diagnostics;
+namespace TypealizR.Core.Diagnostics;
 
-internal class DiagnosticsCollector
+public sealed class DiagnosticsCollector
 {
     private readonly DiagnosticsFactory factory;
 
@@ -13,12 +13,12 @@ internal class DiagnosticsCollector
 
     private readonly List<Diagnostic> diagnostics = [];
 
-    internal void Add(Func<DiagnosticsFactory, Diagnostic> create) => diagnostics.Add(create(factory));
+    public void Add(Func<DiagnosticsFactory, Diagnostic> create) => diagnostics.Add(create(factory));
 
     public IEnumerable<Diagnostic> Diagnostics => diagnostics;
 }
 
-internal class DiagnosticsFactory
+public sealed class DiagnosticsFactory
 {
     private const string readabilityCategory = "Readability";
 
@@ -37,8 +37,8 @@ internal class DiagnosticsFactory
 
     private DiagnosticSeverity? SeverityFor(id id) => severityConfig.TryGetValue(id.ToString(), out var value) ? value : null;
 
-    internal static readonly DiagnosticsEntry TR0001 = new(id.TR0001, "TargetProjectRootDirectoryNotFound");
-    internal static Diagnostic TargetProjectRootDirectoryNotFound_0001() => Diagnostic.Create(
+    public static readonly DiagnosticsEntry TR0001 = new(id.TR0001, "TargetProjectRootDirectoryNotFound");
+    public static Diagnostic TargetProjectRootDirectoryNotFound_0001() => Diagnostic.Create(
             new(id: TR0001.Id.ToString(),
                 title: TR0001.Title,
                 messageFormat: Strings.TR0001_MessageFormat,
@@ -52,8 +52,8 @@ internal class DiagnosticsFactory
             DiagnosticsEntry.LinkToDocs(TR0001)
         );
 
-    internal static readonly DiagnosticsEntry TR0002 = new(id.TR0002, "AmbigiousRessourceKey");
-    internal Diagnostic AmbigiousRessourceKey_0002(string fallback) => Diagnostic.Create(
+    public static readonly DiagnosticsEntry TR0002 = new(id.TR0002, "AmbigiousRessourceKey");
+    public Diagnostic AmbigiousRessourceKey_0002(string fallback) => Diagnostic.Create(
             new(id: TR0002.Id.ToString(),
                 title: TR0002.Title,
                 messageFormat: Strings.TR0002_MessageFormat,
@@ -73,8 +73,8 @@ internal class DiagnosticsFactory
             rawRessourceKey, fallback, DiagnosticsEntry.LinkToDocs(TR0002)
         );
 
-    internal static readonly DiagnosticsEntry TR0003 = new(id.TR0003, "UnnamedGenericParameter");
-    internal Diagnostic UnnamedGenericParameter_0003(string parameterName) => Diagnostic.Create(
+    public static readonly DiagnosticsEntry TR0003 = new(id.TR0003, "UnnamedGenericParameter");
+    public Diagnostic UnnamedGenericParameter_0003(string parameterName) => Diagnostic.Create(
             new(id: TR0003.Id.ToString(),
                 title: TR0003.Title,
                 messageFormat: Strings.TR0003_MessageFormat,
@@ -94,9 +94,9 @@ internal class DiagnosticsFactory
             rawRessourceKey, parameterName, DiagnosticsEntry.LinkToDocs(TR0003)
         );
 
-    internal static readonly DiagnosticsEntry TR0004 = new(id.TR0004, "UnrecognizedParameterType");
+    public static readonly DiagnosticsEntry TR0004 = new(id.TR0004, "UnrecognizedParameterType");
 
-    internal Diagnostic UnrecognizedParameterType_0004(string parameterTypeAnnotation) => Diagnostic.Create(
+    public Diagnostic UnrecognizedParameterType_0004(string parameterTypeAnnotation) => Diagnostic.Create(
             new(id: TR0004.Id.ToString(),
                 title: TR0004.Title,
                 messageFormat: Strings.TR0004_MessageFormat,
@@ -116,9 +116,9 @@ internal class DiagnosticsFactory
             rawRessourceKey, parameterTypeAnnotation, DiagnosticsEntry.LinkToDocs(TR0004)
         );
 
-    internal static readonly DiagnosticsEntry TR0005 = new(id.TR0005, "InvalidMemberName");
+    public static readonly DiagnosticsEntry TR0005 = new(id.TR0005, "InvalidMemberName");
 
-    internal Diagnostic InvalidMemberName_0005(string source, string replacement) => Diagnostic.Create(
+    public Diagnostic InvalidMemberName_0005(string source, string replacement) => Diagnostic.Create(
             new(id: TR0005.Id.ToString(),
                 title: TR0005.Title,
                 messageFormat: Strings.TR0005_MessageFormat,

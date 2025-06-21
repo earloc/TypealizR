@@ -1,6 +1,6 @@
 ﻿using System.Threading.Tasks;
 using Microsoft.VisualStudio.TestTools.UnitTesting;
-using static TypealizR.Diagnostics.DiagnosticsId;
+using static TypealizR.Core.Diagnostics.DiagnosticsId;
 
 using Verify = Microsoft.CodeAnalysis.CSharp.Testing.CSharpCodeFixVerifier<
     TypealizR.Analyzers.UseIndexerAnalyzer,

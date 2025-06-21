@@ -7,9 +7,10 @@ using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
+using TypealizR.Extensions;
 
-namespace TypealizR;
+namespace TypealizR.CodeFirst;
 
 [Generator(LanguageNames.CSharp)]
 public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
@@ -53,7 +54,8 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 var builder = new CodeFirstClassBuilder(new TypeModel(
                     typealizedInterface.Model.ContainingNamespace.ToDisplayString(),
                     typealizedInterface.Declaration.Identifier.Text,
-                    containingTypeNames
+                    containingTypeNames,
+                    typealizedInterface.Declaration.Modifiers.InferrAccessibility()
                 ), containingTypeNames);
 
                 List<Diagnostic> diagnostics = [];
@@ -67,8 +69,6 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 ctxt.AddSource(generatedFile.FileName, generatedFile.Content);
             });
     }
-
-
 
     private static void TryAddMethods(CodeFirstClassBuilder builder, List<Diagnostic> diagnostics, SyntaxList<MemberDeclarationSyntax> members, GeneratorOptions options, CancellationToken cancellationToken)
     {
@@ -88,7 +88,7 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
             var defaultValue = TryGetDefaultValueFrom(method, cancellationToken);
 
-            var methodBuilder = builder.WithMethod(method.Identifier.Text, defaultValue);
+            var methodBuilder = builder.WithMethod(method.Identifier.Text, defaultValue.Value, defaultValue.Remarks);
 
             foreach (var parameter in method.ParameterList.Parameters)
             {
@@ -117,16 +117,20 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
 
             var defaultValue = TryGetDefaultValueFrom(property, cancellationToken);
 
-            builder.WithProperty(name, defaultValue);
+            builder.WithProperty(name, defaultValue.Value, defaultValue.Remarks);
 
             diagnostics.AddRange(collector.Diagnostics);
         }
     }
 
-    private static string? TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
+    public static (string Value, string Remarks) TryGetDefaultValueFrom(SyntaxNode declaration, CancellationToken cancellationToken)
     {
+        if (declaration is null)
+        {
+            return default;
+        }
+        
         var allTrivias = declaration.GetLeadingTrivia().Where(x => x.HasStructure).ToArray();
-
         if (allTrivias.Length == 0)
         {
             var tree = CSharpSyntaxTree.ParseText(declaration.ToFullString(), cancellationToken: cancellationToken);
@@ -134,20 +138,30 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
         }
 
         var documentation = Array.Find(allTrivias, x => x.IsKind(SyntaxKind.SingleLineDocumentationCommentTrivia));
-
         if (documentation.GetStructure() is not DocumentationCommentTriviaSyntax structure)
         {
             return default;
         }
 
-        var comment = structure.Content.OfType<XmlElementSyntax>().FirstOrDefault();
+        var xmlTagComments = structure.Content
+            .OfType<XmlElementSyntax>()
+            .Select(x => new
+            {
+                Name = x.StartTag.ToString(),
+                Tag = x
+            })
+            .ToArray()
+        ;
 
-        if (comment is null)
+        var summary = xmlTagComments.FirstOrDefault(x => x.Name == "<summary>");
+        if (summary is null)
         {
             return default;
         }
 
-        var xmlComments = comment.Content.Where(x => x is XmlTextSyntax or XmlEmptyElementSyntax).ToArray();
+        var remarks = xmlTagComments.FirstOrDefault(x => x.Name == "<remarks>")?.Tag.Content.ToString() ?? "";
+
+        var xmlComments = summary.Tag.Content.Where(x => x is XmlTextSyntax or XmlEmptyElementSyntax).ToArray();
 
         var builder = new StringBuilder();
 
@@ -158,12 +172,10 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
                 XmlTextSyntax x => x.TextTokens
                     .Select(_ => _.Text)
                     .Join(),
-
                 XmlEmptyElementSyntax x => x.Attributes
                     .OfType<XmlNameAttributeSyntax>()
                     .Select(a => $$"""{{{a.Identifier.Identifier.ValueText}}}""")
                     .ToCommaDelimited(),
-
                 _ => ""
             };
 
@@ -173,6 +185,11 @@ public sealed class CodeFirstSourceGenerator : IIncrementalGenerator
             }
         }
 
-        return builder.ToString().Trim().Escape();
+        //TODO: https://github.com/earloc/TypealizR/issues/277 optimize: reading (multiline) remarks
+        remarks = remarks.Replace('\n', ' ');
+        remarks = remarks.Replace('/', ' ');
+        remarks = remarks.Trim();
+
+        return (builder.ToString().Trim(), remarks);
     }
 }
