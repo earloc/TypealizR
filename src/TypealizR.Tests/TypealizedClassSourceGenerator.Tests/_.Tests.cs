@@ -66,6 +66,7 @@ public class TypealizedClassSourceGenerator_Tests
         .Verify()
     ;
 
+    [Fact]
     public async Task Emits_Valid_XmlComments()
     {
         await GeneratorTesterBuilder<TypealizedClassSourceGenerator>
