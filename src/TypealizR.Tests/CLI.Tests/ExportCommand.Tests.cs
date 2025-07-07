@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TypealizR.CLI;
 using TypealizR.CLI.Abstractions;
 
@@ -8,8 +7,11 @@ public class ExportCommand_Tests
 {
     private static string ProjectFile(string x) => $"../../../../{x}/{x}.csproj";
 
-    [Fact]
-    public async Task Export_Generates_ResxFiles()
+    [Theory]
+    [InlineData("ILocalizables.resx")]
+    [InlineData("ILocalizablesWithDefaults.resx")]
+    [InlineData("Some.Inner.ISampleInnerface.resx")]
+    public async Task Export_Generates_ResxFiles(string fileName)
     {
         var storage = new InMemoryStorage();
         var sut = new App(
@@ -18,9 +20,9 @@ public class ExportCommand_Tests
         );
         var result = await sut
             .RunAsync();
-        result.Should().Be(0);
+        result.ShouldBe(0);
 
-        storage.Files.Keys.Should().ContainMatch("*ILocalizables.resx");
-        storage.Files.Keys.Should().ContainMatch("*ILocalizablesWithDefaults.resx");
+        var file = storage.Files.First(x => x.Key.EndsWith(fileName, StringComparison.InvariantCulture));
+        await Verify(file.Value).UseParameters(fileName);
     }
 }

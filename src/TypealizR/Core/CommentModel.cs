@@ -1,4 +1,4 @@
-﻿using System.Security;
+using System.Security;
 using System.Xml.Linq;
 
 namespace TypealizR.Core;

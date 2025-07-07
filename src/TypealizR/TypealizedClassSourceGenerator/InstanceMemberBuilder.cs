@@ -1,13 +1,21 @@
-﻿using TypealizR.Core;using TypealizR.Diagnostics;
-namespace TypealizR;
+﻿using TypealizR.Core;
+using TypealizR.Core.Diagnostics;
+
+namespace TypealizR;
 internal class InstanceMemberBuilder
-{    private readonly bool useParametersInMethodNames;    private readonly string key;
+{
+    private readonly string rootNameSpace;
+    private readonly bool useParametersInMethodNames;
+    private readonly string key;
     private readonly string rawKey;
     private readonly string value;
     private readonly ParameterBuilder parameterBuilder;
 
-    public InstanceMemberBuilder(bool useParametersInMethodNames, string key, string rawKey, string value)
-    {        this.useParametersInMethodNames = useParametersInMethodNames;        this.key = key;
+    public InstanceMemberBuilder(string rootNameSpace, bool useParametersInMethodNames, string key, string rawKey, string value)
+    {
+        this.rootNameSpace = rootNameSpace;
+        this.useParametersInMethodNames = useParametersInMethodNames;
+        this.key = key;
         this.rawKey = rawKey;
         this.value = value;
         parameterBuilder = new(key);
@@ -20,12 +28,22 @@ internal class InstanceMemberBuilder
         var sanitizedMethodName = key;
 
         foreach (var parameter in parameters)
-        {            var sanitizedParameterName = useParametersInMethodNames ? $"_{parameter.Name}_" : " ";
+        {
+            var sanitizedParameterName = useParametersInMethodNames ? $"_{parameter.Name}_" : " ";
             sanitizedMethodName = sanitizedMethodName.Replace(parameter.Token, sanitizedParameterName);
         }
 
-        var name = new MemberName(sanitizedMethodName.Trim());        if (!name.IsValidMethodName())        {            var invalidName = name.ToString();            name.MakeCompilable();            diagnostics.Add(x => x.InvalidMemberName_0005(invalidName, name));        }
+        var name = new MemberName(sanitizedMethodName.Trim());
 
-        return new InstanceMemberModel(rawKey, value, name, parameters);    }
+        if (!name.IsValidMethodName())
+        {
+            var invalidName = name.ToString();
+            name.MakeCompilable();
+
+            diagnostics.Add(x => x.InvalidMemberName_0005(invalidName, name));
+        }
+
+        return new InstanceMemberModel(rootNameSpace, rawKey, value, name, parameters);
+    }
 
 }

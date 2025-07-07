@@ -3,10 +3,14 @@
 namespace TypealizR.CLI.Resources;
 internal class ResxBuilder
 {
-    private readonly Dictionary<string, string> entries = new();
-    public ResxBuilder Add(string key, string value)
+    private const string resHeader = "resheader";
+    private const string value = "value";
+    private const string comment = "comment";
+
+    private readonly Dictionary<string, (string Value, string? Comment)> entries = [];
+    public ResxBuilder Add(string key, string value, string? comment)
     {
-        entries.Add(key, value);
+        entries.Add(key, (value, comment?.Trim()));
         return this;
     }
 
@@ -14,22 +18,23 @@ internal class ResxBuilder
     {
         var document = new XDocument(
             new XElement("root",
-                new XElement("resheader", new XAttribute("name", "resmimetype"),
-                    new XElement("value", "text/microsoft-resx")
+                new XElement(resHeader, new XAttribute("name", "resmimetype"),
+                    new XElement(value, "text/microsoft-resx")
                 ),
-                new XElement("resheader", new XAttribute("name", "version"),
-                    new XElement("value", "2.0")
+                new XElement(resHeader, new XAttribute("name", "version"),
+                    new XElement(value, "2.0")
                 ),
-                new XElement("resheader", new XAttribute("name", "reader"),
-                    new XElement("value", "System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
+                new XElement(resHeader, new XAttribute("name", "reader"),
+                    new XElement(value, "System.Resources.ResXResourceReader, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
                 ),
-                new XElement("resheader", new XAttribute("name", "writer"),
-                    new XElement("value", "System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
+                new XElement(resHeader, new XAttribute("name", "writer"),
+                    new XElement(value, "System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089")
                 ),
                 entries.Select(x =>
                     new XElement("data",
                             new XAttribute("name", x.Key),
-                        new XElement("value", x.Value)
+                                new XElement(value, x.Value.Value),
+                                !string.IsNullOrEmpty(x.Value.Comment) ? new XElement(comment, x.Value.Comment) : null
                     )
                 ).ToArray()
             )

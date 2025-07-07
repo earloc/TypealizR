@@ -1,5 +1,4 @@
-﻿using FluentAssertions;
-using TypealizR.CLI.Abstractions;
+﻿using TypealizR.CLI.Abstractions;
 
 namespace TypealizR.Tests.CLI.Tests.Abstractions;
 public class FileStorage_Tests
@@ -11,15 +10,15 @@ public class FileStorage_Tests
         var sut = new FileStorage();
 
         var fileName = $"{Guid.NewGuid()}.txt";
-        File.Exists(fileName).Should().BeFalse();
+        File.Exists(fileName).ShouldBeFalse();
 
         var expected = Guid.NewGuid().ToString();
         await sut.AddAsync(fileName, expected);
 
-        File.Exists(fileName).Should().BeTrue();
+        File.Exists(fileName).ShouldBeTrue();
 
-        var actual = File.ReadAllText(fileName);
-        actual.Should().Be(expected);
+        var actual = await File.ReadAllTextAsync(fileName);
+        actual.ShouldBe(expected);
     }
 
 }

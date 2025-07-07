@@ -4,7 +4,7 @@ using System.IO;
 using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR.Core;
 
@@ -61,7 +61,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             throw new ArgumentNullException(nameof(file));
         }
 
-        if (options.ProjectDirectory == null || !(options.ProjectDirectory.Exists))
+        if (options.ProjectDirectory == null || !options.ProjectDirectory.Exists)
         {
             ctxt.ReportDiagnostic(DiagnosticsFactory.TargetProjectRootDirectoryNotFound_0001());
             return;
@@ -73,7 +73,7 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
         }
 
         (var targetNamespace, var accessability) = FindNameSpaceAndAccessabilityOf(compilation, options.RootNamespace, file, options.ProjectDirectory.FullName, ctxt.CancellationToken);
-        var markerType = new TypeModel(targetNamespace, file.SimpleName, accessability);
+        var markerType = new TypeModel(targetNamespace, file.SimpleName, [], accessability);
 
         var generatedClass = GenerateSourceFileFor(options.ProjectDirectory, options.RootNamespace, markerType, compilation, file, options.SeverityConfig, ctxt.CancellationToken);
 
@@ -99,20 +99,16 @@ public abstract class ResxFileSourceGeneratorBase : IIncrementalGenerator
             nameSpace = $"{rootNameSpace}.{nameSpace}".Trim('.');
         }
 
-        if (!possibleMarkerTypeSymbols.Any())
+        if (possibleMarkerTypeSymbols.Length == 0)
         {
             return (nameSpace.Trim('.', ' '), Accessibility.Internal);
         }
 
         var matchingMarkerType = Array.Find(possibleMarkerTypeSymbols, x => x.ContainingNamespace.OriginalDefinition.ToDisplayString() == nameSpace);
 
-        if (matchingMarkerType is null)
-        {
-            return (nameSpace.Trim('.', ' '), Accessibility.Internal);
-        }
-
-        return (matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility);
-
+        return matchingMarkerType is null
+            ? ((string, Accessibility))(nameSpace.Trim('.', ' '), Accessibility.Internal)
+            : ((string, Accessibility))(matchingMarkerType.ContainingNamespace.OriginalDefinition.ToDisplayString(), matchingMarkerType.DeclaredAccessibility);
     }
 
     protected abstract GeneratedSourceFile GenerateSourceFileFor(

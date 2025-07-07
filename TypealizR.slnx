@@ -1,0 +1,37 @@
+<Solution>
+  <Configurations>
+    <Platform Name="Any CPU" />
+    <Platform Name="x64" />
+    <Platform Name="x86" />
+  </Configurations>
+  <Folder Name="/Playgrounds/">
+    <Project Path="src/Playground.CodeFirst.Console/Playground.CodeFirst.Console.csproj" />
+    <Project Path="src/Playground.Common/Playground.Common.csproj" />
+    <Project Path="src/Playground.Console/Playground.Console.csproj" />
+  </Folder>
+  <Folder Name="/Solution Items/">
+    <File Path=".editorconfig" />
+    <File Path=".github/workflows/build.yml" />
+    <File Path=".github/workflows/codeql.yml" />
+    <File Path=".github/workflows/publish.yml" />
+    <File Path=".github/workflows/samples_lts.yml" />
+    <File Path=".github/workflows/samples_sts.yml" />
+    <File Path="package.json" />
+    <File Path="src/Directory.Build.props" />
+    <File Path="src/Version.props" />
+  </Folder>
+  <Folder Name="/Solution Items/workflows/" />
+  <Project Path="src/TypealizR.CodeFirst/TypealizR.CodeFirst.csproj" />
+  <Project Path="src/TypealizR.Core/TypealizR.Core.csproj" />
+  <Project Path="src/TypealizR.Analyzers.CodeFixes/TypealizR.Analyzers.CodeFixes.csproj" />
+  <Project Path="src/TypealizR.Analyzers.Test/TypealizR.Analyzers.Tests.csproj" />
+  <Project Path="src/TypealizR.Analyzers.Vsix/TypealizR.Analyzers.Vsix.csproj">
+    <Deploy Solution="*|Any CPU" />
+  </Project>
+  <Project Path="src/TypealizR.Analyzers/TypealizR.Analyzers.csproj" />
+  <Project Path="src/TypealizR.Benchmarks/TypealizR.Benchmarks.csproj" />
+  <Project Path="src/TypealizR.CLI/TypealizR.CLI.csproj" />
+  <Project Path="src/TypealizR.CodeFirst.Abstractions/TypealizR.CodeFirst.Abstractions.csproj" />
+  <Project Path="src/TypealizR.Tests/TypealizR.Tests.csproj" />
+  <Project Path="src/TypealizR/TypealizR.csproj" />
+</Solution>

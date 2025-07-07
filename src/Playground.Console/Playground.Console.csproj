@@ -2,17 +2,20 @@
 
     <PropertyGroup>
         <OutputType>Exe</OutputType>
-        <TargetFramework>net6.0</TargetFramework>
+        <TargetFramework>net9.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
         <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
         <IsPackable>false</IsPackable>
+        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+        <SonarQubeExclude>true</SonarQubeExclude>
         <GenerateDocumentationFile>true</GenerateDocumentationFile>
-    </PropertyGroup>
-
+  </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
-        <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\TypealizR.Analyzers.CodeFixes\TypealizR.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\TypealizR.Analyzers\TypealizR.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+        <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
     </ItemGroup>
 
     <PropertyGroup>
@@ -26,9 +29,9 @@
     </ItemGroup>
 
     <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="7.0.0" />
-        <PackageReference Include="Microsoft.Extensions.Localization" Version="7.0.13" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="7.0.0" />
+        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.6" />
+        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
     </ItemGroup>
 
     <ItemGroup>
@@ -68,6 +71,8 @@
             <LastGenOutput>Without_Params_In_MethodNames.Designer.cs</LastGenOutput>
             <TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
         </EmbeddedResource>
+        <EmbeddedResource Update="AnnotationExtensions.resx">
+            <TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
+        </EmbeddedResource>
     </ItemGroup>
-
 </Project>

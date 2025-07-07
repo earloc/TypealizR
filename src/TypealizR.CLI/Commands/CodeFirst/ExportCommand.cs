@@ -2,10 +2,14 @@
 using System.CommandLine.Invocation;
 using Microsoft.Build.Locator;
 using Microsoft.CodeAnalysis;
+using Microsoft.CodeAnalysis.CSharp;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
 using Microsoft.CodeAnalysis.MSBuild;
 using TypealizR.CLI.Abstractions;
 using TypealizR.CLI.Resources;
+using TypealizR.CodeFirst;
+using TypealizR.Core.Writer;
+using TypealizR.Extensions;
 
 namespace TypealizR.CLI.Commands.CodeFirst;
 internal class ExportCommand : Command
@@ -17,22 +21,19 @@ internal class ExportCommand : Command
         AddArgument(projectArgument);
     }
 
-    public class Implementation : ICommandHandler
+    internal class Implementation : ICommandHandler
     {
-        private readonly IConsole console;
+        private readonly IndentableWriter writer;
         private readonly IStorage storage;
         public FileInfo? Project { get; set; }
 
         public Implementation(IConsole console, IStorage storage)
         {
-            this.console = console;
+            writer = new(console.WriteLine);
             this.storage = storage;
         }
 
-        public int Invoke(InvocationContext context)
-        {
-            throw new NotImplementedException();
-        }
+        public int Invoke(InvocationContext context) => throw new NotImplementedException();
 
         public async Task<int> InvokeAsync(InvocationContext context)
         {
@@ -50,20 +51,22 @@ internal class ExportCommand : Command
 
             using var w = MSBuildWorkspace.Create();
 
-            console.WriteLine($"📖 opening {Project.FullName}");
-
+            writer.WriteLine($"📖 opening {Project.FullName}");
             var project = await w.OpenProjectAsync(Project.FullName, cancellationToken: cancellationToken);
 
-            await ExportAsync(console, project, storage, cancellationToken);
+            using (writer.Indent())
+            {
+                await ExportAsync(writer, project, storage, cancellationToken);
+            }
 
             return 0;
         }
 
         private const string MarkerAttributeName = "CodeFirstTypealized";
 
-        private static async Task ExportAsync(IConsole console, Project project, IStorage storage, CancellationToken cancellationToken)
+        private static async Task ExportAsync(IndentableWriter writer, Project project, IStorage storage, CancellationToken cancellationToken)
         {
-            console.WriteLine($"  🚀 building");
+            writer.WriteLine($"🚀 building");
 
             var compilation = await project.GetCompilationAsync(cancellationToken);
 
@@ -74,55 +77,69 @@ internal class ExportCommand : Command
 
             var directory = Directory.GetParent(project.FilePath ?? "")?.FullName ?? "";
 
-            console.WriteLine($"  🔍 scanning");
+            writer.WriteLine($"🔍 scanning");
 
             var allNamespaces = FindNamespaces(compilation, cancellationToken).ToArray();
-            if (!allNamespaces.Any())
+            if (allNamespaces.Length == 0)
             {
-                console.WriteLine("  ⚠️ no namespaces found");
+                writer.WriteLine("⚠️ no namespaces found");
             }
 
             var markedInterfaces = FindInterfaces(compilation, allNamespaces, cancellationToken).ToArray();
-            if (!markedInterfaces.Any())
+            if (markedInterfaces.Length == 0)
             {
-                console.WriteLine("  ⚠️ no typealized interfaces found");
+                writer.WriteLine("⚠️ no typealized interfaces found");
             }
 
             var typesImplementingMarkedInterfaces = FindClasses(compilation, allNamespaces, markedInterfaces, cancellationToken).ToArray();
-            if (!typesImplementingMarkedInterfaces.Any())
+            if (typesImplementingMarkedInterfaces.Length == 0)
             {
-                console.WriteLine("  ⚠️ no classes implementing typealized interfaces found");
+                writer.WriteLine("⚠️ no classes implementing typealized interfaces found");
             }
 
-            await ExportAsync(console, directory, typesImplementingMarkedInterfaces, storage);
+            using (writer.Indent())
+            {
+                await ExportAsync(writer, directory, typesImplementingMarkedInterfaces, storage);
+            }
         }
 
-        private static async Task ExportAsync(IConsole console, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
+        private static async Task ExportAsync(IndentableWriter writer, string baseDirectory, IEnumerable<TypeInfo> types, IStorage storage)
         {
-
             foreach (var type in types)
             {
                 var interfaceFile = type.ImplementingInterface.Declaration.SyntaxTree.FilePath;
                 var interfacePath = Path.GetDirectoryName(interfaceFile) ?? "";
 
-                var resourcefileName = Path.Combine(interfacePath, $"{type.ImplementingInterface.Declaration.Identifier.Text}.resx");
-
-                console.WriteLine($"    👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
-                console.WriteLine($"      🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");
-
-                var builder = new ResxBuilder();
-
-                foreach (var property in type.Declaration.Members
-                    .OfType<PropertyDeclarationSyntax>()
-                    .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
-                )
+                var fileName = type.ImplementingInterface.Declaration.Identifier.Text;
+                var containingTypes = type.ImplementingInterface.Symbol.ContainingType.GetContainingTypesRecursive().Join(".");
+                if (!string.IsNullOrEmpty(containingTypes))
                 {
-                    AddProperty(console, type, builder, property);
+                    fileName = $"{containingTypes}.{fileName}";
                 }
 
-                foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
+                var resourcefileName = Path.Combine(interfacePath, $"{fileName}.resx");
+
+                writer.WriteLine($"👀 found        {interfaceFile.Replace(baseDirectory, "", StringComparison.Ordinal)}");
+                using (writer.Indent())
                 {
-                    AddMethod(console, type, builder, method);
+                    writer.WriteLine($"🆕 generating {resourcefileName.Replace(baseDirectory, "", StringComparison.Ordinal)}");
+                }
+
+                var builder = new ResxBuilder();
+                using (writer.Indent())
+                {
+                    foreach (var property in type.Declaration.Members
+                        .OfType<PropertyDeclarationSyntax>()
+                        .Where(x => !x.Identifier.Text.EndsWith("_Raw", StringComparison.Ordinal))
+                    )
+                    {
+                        AddProperty(writer, builder, property);
+                    }
+
+                    foreach (var method in type.Declaration.Members.OfType<MethodDeclarationSyntax>())
+                    {
+                        AddMethod(writer, builder, method);
+                    }
                 }
 
                 var content = builder.Build();
@@ -137,9 +154,14 @@ internal class ExportCommand : Command
                 .SelectMany(x => x.Members.OfType<BaseNamespaceDeclarationSyntax>())
         ;
 
-        private static IEnumerable<InterfaceInfo> FindInterfaces(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, CancellationToken cancellationToken)
+        private static IEnumerable<InterfaceInfo> FindInterfaces
+        (
+            Compilation compilation,
+            IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces,
+            CancellationToken cancellationToken
+        )
             => allNamespaces
-                .SelectMany(x => x.Members.OfType<InterfaceDeclarationSyntax>())
+                .SelectMany(x => GetAllInterfaceDeclarations(x.Members))
                 .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
                 .Select(x => new { x.Declaration, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
                 .Where(x => x.Symbol is not null)
@@ -150,14 +172,37 @@ internal class ExportCommand : Command
                 )
         ;
 
-        private static IEnumerable<TypeInfo> FindClasses(Compilation compilation, IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces, IEnumerable<InterfaceInfo> markedInterfacesIdentifier, CancellationToken cancellationToken)
+        private static IEnumerable<InterfaceDeclarationSyntax> GetAllInterfaceDeclarations(SyntaxList<MemberDeclarationSyntax> members)
+        {
+            foreach (var member in members)
+            {
+                if (member is InterfaceDeclarationSyntax interfaceDeclaration)
+                {
+                    yield return interfaceDeclaration;
+                }
+                else if (member is ClassDeclarationSyntax classDeclaration)
+                {
+                    foreach (var innerInterface in GetAllInterfaceDeclarations(classDeclaration.Members))
+                    {
+                        yield return innerInterface;
+                    }
+                }
+            }
+        }
+
+        private static IEnumerable<TypeInfo> FindClasses(
+                Compilation compilation,
+                IEnumerable<BaseNamespaceDeclarationSyntax> allNamespaces,
+                IEnumerable<InterfaceInfo> markedInterfacesIdentifier,
+                CancellationToken cancellationToken
+        )
         {
             var interfaces = markedInterfacesIdentifier.ToDictionary(x => x.Symbol, SymbolEqualityComparer.Default);
 
             return allNamespaces
-                .SelectMany(x => x.Members.OfType<ClassDeclarationSyntax>())
+                .SelectMany(x => GetAllClassDeclarations(x.Members))
                 .Select(x => new { Declaration = x, Model = compilation.GetSemanticModel(x.SyntaxTree) })
-                .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) as INamedTypeSymbol })
+                .Select(x => new { x.Declaration, x.Model, Symbol = x.Model.GetDeclaredSymbol(x.Declaration, cancellationToken) })
                 .Where(x => x.Symbol is not null)
                 .Select(x => new
                 {
@@ -172,52 +217,62 @@ internal class ExportCommand : Command
             ;
         }
 
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, PropertyDeclarationSyntax propertySyntax)
-            => type.Declaration.Members
-                .OfType<FieldDeclarationSyntax>()
-                .Where(x => x.Modifiers.Any(y => y.Text == "const"))
-                .Select(x => x.Declaration.Variables.SingleOrDefault())
-                .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{propertySyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
-        ;
-
-        private static VariableDeclaratorSyntax? FindKeyOf(TypeInfo type, MethodDeclarationSyntax methodSyntax)
-            => type.Declaration.Members
-                .OfType<FieldDeclarationSyntax>()
-                .Where(x => x.Modifiers.Any(y => y.Text == "const"))
-                .Select(x => x.Declaration.Variables.SingleOrDefault())
-                .Where(x => x is not null).Select(x => x!)
-                .FirstOrDefault(x => x.Identifier.Text == $"{methodSyntax.Identifier.Text}{TypealizR._.FallBackKeySuffix}")
-        ;
-
-        private static void AddProperty(IConsole console, TypeInfo type, ResxBuilder builder, PropertyDeclarationSyntax property)
+        private static IEnumerable<ClassDeclarationSyntax> GetAllClassDeclarations(SyntaxList<MemberDeclarationSyntax> members)
         {
-            var key = FindKeyOf(type, property);
-            var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+            foreach (var member in members)
+            {
+                if (member is ClassDeclarationSyntax classDeclaration)
+                {
+                    yield return classDeclaration;
 
-            if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
-            {
-                builder.Add(property.Identifier.Text, sanitizedValue);
-                console.WriteLine($"        ✔️ {property.Identifier.Text}");
-            }
-            else
-            {
-                console.WriteLine($"        ⚠️ {property.Identifier.Text} - invalid key");
+                    // Recursively search for inner classes
+                    foreach (var innerClass in GetAllClassDeclarations(classDeclaration.Members))
+                    {
+                        yield return innerClass;
+                    }
+                }
             }
         }
 
-        private static void AddMethod(IConsole console, TypeInfo type, ResxBuilder builder, MethodDeclarationSyntax method)
+        private static void AddProperty(IndentableWriter writer, ResxBuilder builder, PropertyDeclarationSyntax property)
         {
-            var key = FindKeyOf(type, method);
-            var sanitizedValue = key?.Initializer?.Value?.ToResourceKey() ?? "";
+            var result = CodeFirstSourceGenerator.TryGetDefaultValueFrom(property, default);
+
+            var key = result.Value;
+            var sanitizedValue = key.ToResourceKey();
+            
             if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
             {
-                builder.Add(method.Identifier.Text, sanitizedValue);
-                console.WriteLine($"        ✔️ {method.Identifier.Text}()");
+                var commentTrivia = property.Identifier.GetAllTrivia().FirstOrDefault(t => t.IsKind(SyntaxKind.SingleLineCommentTrivia));
+                var commentText = commentTrivia.ToFullString()?.Replace("//", "", StringComparison.InvariantCulture);
+                
+                builder.Add(property.Identifier.Text, sanitizedValue, commentText);
+                writer.WriteLine($"✔️ {property.Identifier.Text}");
             }
             else
             {
-                console.WriteLine($"        ⚠️ {method.Identifier.Text} - invalid key");
+                writer.WriteLine($"⚠️ {property.Identifier.Text} - invalid key");
+            }
+        }
+
+        private static void AddMethod(IndentableWriter writer, ResxBuilder builder, MethodDeclarationSyntax method)
+        {
+            var result = CodeFirstSourceGenerator.TryGetDefaultValueFrom(method, default);
+
+            var key = result.Value;
+            var sanitizedValue = key.ToResourceKey();
+            
+            if (key is not null && !string.IsNullOrEmpty(sanitizedValue))
+            {
+                var commentTrivia = method.DescendantTrivia(null, true).FirstOrDefault(t => t.IsKind(SyntaxKind.SingleLineCommentTrivia));
+                var commentText = commentTrivia.ToFullString()?.Replace("//", "", StringComparison.InvariantCulture);
+                
+                builder.Add(method.Identifier.Text, sanitizedValue, commentText);
+                writer.WriteLine($"✔️ {method.Identifier.Text}()");
+            }
+            else
+            {
+                writer.WriteLine($"⚠️ {method.Identifier.Text} - invalid key");
             }
         }
     }

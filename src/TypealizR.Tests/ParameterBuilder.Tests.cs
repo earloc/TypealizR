@@ -1,6 +1,6 @@
-﻿using FluentAssertions;
-using TypealizR.Core;
-using TypealizR.Diagnostics;
+﻿using TypealizR.Core;
+using TypealizR.Core.Diagnostics;
+using TypealizR.Extensions;
 
 namespace TypealizR.Tests;
 
@@ -34,13 +34,13 @@ public class ParameterBuilder_Tests
 
         var actual = sut.Type;
 
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
 
         if (expectInvalidTypeExpression)
         {
-            var warnings = collector.Diagnostics.Select(x => x.Id);
+            var warnings = collector.Diagnostics.Select(x => x.Id).ToArray();
 
-            warnings.Should().BeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
+            warnings.ShouldBeEquivalentTo(new[] { DiagnosticsFactory.TR0004.Id.ToString() });
         }
 
     }
@@ -120,14 +120,33 @@ public class ParameterBuilder_Tests
     "{i:i}   {s:s}       {dt:dt}        {dto:dto}             {d:d}         {t:t}",
     "int i", "string s", "DateTime dt", "DateTimeOffset dto", "DateOnly d", "TimeOnly t"
     )]
-    public void Extracts_Parameters(string input, params string[] expected)
+    [InlineData(
+    "{i:i@x} {s:s@x}     {dt:dt@x}      {dto:dto@x}           {d:d@x}       {t:t@x}",
+    "int i", "string s", "DateTime dt", "DateTimeOffset dto", "DateOnly d", "TimeOnly t"
+    )]
+    public void Extracts_Parameters_Declaration(string input, params string[] expected)
     {
         var sut = new ParameterBuilder(input);
         var model = sut.Build(new("Ressource1.resx", input, 42));
 
         var actual = model.ToDeclarationCSharp();
 
-        actual.Should().BeEquivalentTo(expected.ToCommaDelimited());
+        actual.ShouldBeEquivalentTo(expected.ToCommaDelimited());
+    }
+
+    [Theory]
+    [InlineData(
+    "{i:i@x} {s:s@x} {dt:dt@x} {dto:dto@x} {d:d@x} {t:t@x}",
+    "i",     "s",    "dt",     "dto",      "d",    "t"
+    )]
+    public void Extracts_Parameters_Names(string input, params string[] expected)
+    {
+        var sut = new ParameterBuilder(input);
+        var model = sut.Build(new("Ressource1.resx", input, 42));
+
+        var actual = model.Select(x => x.Name).ToCommaDelimited();
+
+        actual.ShouldBeEquivalentTo(expected.ToCommaDelimited());
     }
 
     [Theory]
@@ -158,7 +177,7 @@ public class ParameterBuilder_Tests
 
         var actual = model.ToDeclarationCSharp();
 
-        actual.Should().Be(expected);
+        actual.ShouldBe(expected);
     }
 
     [Theory]
@@ -186,6 +205,10 @@ public class ParameterBuilder_Tests
         "{0} {i:i} {s:s} {dt:dt} {dto:dto} {d:d} {t:t} {1}",
         "_0, i, s, dt, dto, d, t, _1"
     )]
+    [InlineData(
+        "Hello {name:string@x}",
+        "name"
+    )]
     public void Passes_Parameters_In_Invocation(string input, string expected)
     {
         var sut = new ParameterBuilder(input);
@@ -193,7 +216,31 @@ public class ParameterBuilder_Tests
 
         var actual = parameters.Select(x => x.DisplayName).ToCommaDelimited();
 
-        actual.Should().BeEquivalentTo(expected);
+        actual.ShouldBeEquivalentTo(expected);
+    }
+
+    [Theory]
+    [InlineData("{argumentName@ex}")]
+    [InlineData("{argumentName:string@ex}")]
+    [InlineData("{argumentName:s@ex}")]
+    [InlineData("{argumentName:int@ex}")]
+    [InlineData("{argumentName:i@ex}")]
+    [InlineData("{argumentName:DateTime@ex}")]
+    [InlineData("{argumentName:dt@ex}")]
+    [InlineData("{argumentName:DateTimeOffset@ex}")]
+    [InlineData("{argumentName:dto@ex}")]
+    [InlineData("{argumentName:DateOnly@ex}")]
+    [InlineData("{argumentName:d@ex}")]
+    [InlineData("{argumentName:TimeOnly@ex}")]
+    [InlineData("{argumentName:t@ex}")]
+    public void Extracts_Annotation_Extensions(string input)
+    {
+        var sut = new ParameterBuilder(input);
+        var parameters = sut.Build(new("Ressource1.resx", input, 42));
+
+        var actual = parameters.Select(x => x.Extension).ToCommaDelimited();
+
+        actual.ShouldBeEquivalentTo("ex");
     }
 }
 

@@ -4,7 +4,7 @@ using TypealizR.CodeFirst.Abstractions;
 namespace Playground.CodeFirst.Console;
 
 [CodeFirstTypealized]
-public interface ILocalizables
+internal interface ILocalizables
 {
     LocalizedString Hello(string world);
 
@@ -19,7 +19,7 @@ public interface ILocalizables
     LocalizedString Farewell(string user);
 
     /// <summary>
-    /// <paramref name="right"/> greets <paramref name="left"/>, and <paramref name="left"/> answers: "Hi!".
+    /// <paramref name="right"/> greets <paramref name="left"/>, and <paramref name="left"/> answers: 'Hi!'.
     /// </summary>
     LocalizedString Greet(string left, string right);
 

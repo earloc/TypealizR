@@ -6,27 +6,131 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 namespace TypealizR.Tests.CodeFirst {
-    [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
-    public partial class MethodsWithXmlCommentParameters: IMethodsWithXmlCommentParameters {
+    [GeneratedCode("TypealizR.CodeFirst.CodeFirstSourceGenerator", "1.0.0.0")]
+    internal partial class MethodsWithXmlCommentParameters: IMethodsWithXmlCommentParameters {
         private readonly IStringLocalizer<IMethodsWithXmlCommentParameters> localizer;
         public MethodsWithXmlCommentParameters (IStringLocalizer<IMethodsWithXmlCommentParameters> localizer) {
-            this.localizer = localizer;
+          this.localizer = localizer;
         }
-        private const string Greet_Key = @"Greet";
-        private const string Greet_FallbackKey = @"Hello {0}, the current time is: {1}";
-        public LocalizedString Greet_Raw => localizer[Greet_Key].Or(localizer[Greet_FallbackKey]);
-        public LocalizedString Greet (string user, DateTimeOffset now) => localizer[Greet_Key, user, now].Or(localizer[Greet_FallbackKey, user, now]);
-        private const string Farewell_Key = @"Farewell";
-        private const string Farewell_FallbackKey = @"The current time is: {1}, goodbye '{0}'";
-        public LocalizedString Farewell_Raw => localizer[Farewell_Key].Or(localizer[Farewell_FallbackKey]);
-        public LocalizedString Farewell (string user, DateTimeOffset now) => localizer[Farewell_Key, user, now].Or(localizer[Farewell_FallbackKey, user, now]);
-        private const string CallForBeetlejuice_Key = @"CallForBeetlejuice";
-        private const string CallForBeetlejuice_FallbackKey = @"1.{0} 2.{0} 3.{0}";
-        public LocalizedString CallForBeetlejuice_Raw => localizer[CallForBeetlejuice_Key].Or(localizer[CallForBeetlejuice_FallbackKey]);
-        public LocalizedString CallForBeetlejuice (string name) => localizer[CallForBeetlejuice_Key, name].Or(localizer[CallForBeetlejuice_FallbackKey, name]);
-        private const string DoIt_Key = @"DoIt";
-        private const string DoIt_FallbackKey = @"{1}, {0}. {1}!!";
-        public LocalizedString DoIt_Raw => localizer[DoIt_Key].Or(localizer[DoIt_FallbackKey]);
-        public LocalizedString DoIt (string name, string verb) => localizer[DoIt_Key, name, verb].Or(localizer[DoIt_FallbackKey, name, verb]);
+        #region methods
+        #region typealized Greet
+        /// <summary>
+        /// Hello {0}, the current time is: {1}
+        /// <summary>
+        public LocalizedString Greet_Raw
+        {
+            get
+            {
+              var localizedString = localizer["Greet"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"Hello {0}, the current time is: {1}"];
+            }
+        }
+        /// <summary>
+        /// Hello {0}, the current time is: {1}
+        /// <summary>
+        public LocalizedString Greet (string user, DateTimeOffset now)
+        {
+            var localizedString = localizer[@"Greet", user, now];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[@"Hello {0}, the current time is: {1}", user, now];
+        }
+        #endregion
+        #region typealized Farewell
+        /// <summary>
+        /// The current time is: {1}, goodbye '{0}'
+        /// <summary>
+        public LocalizedString Farewell_Raw
+        {
+            get
+            {
+              var localizedString = localizer["Farewell"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"The current time is: {1}, goodbye '{0}'"];
+            }
+        }
+        /// <summary>
+        /// The current time is: {1}, goodbye '{0}'
+        /// <summary>
+        public LocalizedString Farewell (string user, DateTimeOffset now)
+        {
+            var localizedString = localizer[@"Farewell", user, now];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[@"The current time is: {1}, goodbye '{0}'", user, now];
+        }
+        #endregion
+        #region typealized CallForBeetlejuice
+        /// <summary>
+        /// 1.{0} 2.{0} 3.{0}
+        /// <summary>
+        public LocalizedString CallForBeetlejuice_Raw
+        {
+            get
+            {
+              var localizedString = localizer["CallForBeetlejuice"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"1.{0} 2.{0} 3.{0}"];
+            }
+        }
+        /// <summary>
+        /// 1.{0} 2.{0} 3.{0}
+        /// <summary>
+        public LocalizedString CallForBeetlejuice (string name)
+        {
+            var localizedString = localizer[@"CallForBeetlejuice", name];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[@"1.{0} 2.{0} 3.{0}", name];
+        }
+        #endregion
+        #region typealized DoIt
+        /// <summary>
+        /// {1}, {0}. {1}!!
+        /// <summary>
+        public LocalizedString DoIt_Raw
+        {
+            get
+            {
+              var localizedString = localizer["DoIt"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"{1}, {0}. {1}!!"];
+            }
+        }
+        /// <summary>
+        /// {1}, {0}. {1}!!
+        /// <summary>
+        public LocalizedString DoIt (string name, string verb)
+        {
+            var localizedString = localizer[@"DoIt", name, verb];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[@"{1}, {0}. {1}!!", name, verb];
+        }
+        #endregion
+        #endregion
+        #region properties
+        #endregion
     }
 }

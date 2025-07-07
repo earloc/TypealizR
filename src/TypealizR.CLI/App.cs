@@ -30,17 +30,17 @@ internal class App
 
         codeFirstCommand.AddAlias("cf");
 
-        var rootCommand = new RootCommand()
-        {
+        RootCommand rootCommand =
+        [
             codeFirstCommand
-        };
+        ];
 
         runner = new CommandLineBuilder(rootCommand)
             .UseDefaults()
             .UseHost(_ => Host
                 .CreateDefaultBuilder()
                 .ConfigureAppConfiguration(config => config
-                    .AddJsonFile("appsettings.json", optional: false)
+                    .AddJsonFile("appsettings.json", optional: true)
                     .AddCommandLine(args)
                 )
                 , builder => builder

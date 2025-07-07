@@ -4,7 +4,7 @@ using System.Linq;
 using System.Threading;
 using Microsoft.CodeAnalysis;
 using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR;
 
@@ -23,7 +23,7 @@ public sealed class TypealizedClassSourceGenerator : ResxFileSourceGeneratorBase
     {
         var builder = new TypealizedClassBuilder(file.UseParamNamesInMethodNames, markerType, $"Typealized{markerType.Name}", rootNamespace, severityConfig);
 
-        var diagnostics = new List<Diagnostic>();
+        List<Diagnostic> diagnostics = [];
 
         foreach (var entry in file.Entries)
         {

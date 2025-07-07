@@ -14,8 +14,5 @@ internal sealed class ResxFile : AdditionalText
         text = File.ReadAllText(path);
     }
 
-    public override SourceText GetText(CancellationToken cancellationToken = new CancellationToken())
-    {
-        return SourceText.From(text);
-    }
+    public override SourceText GetText(CancellationToken cancellationToken = new CancellationToken()) => SourceText.From(text);
 }

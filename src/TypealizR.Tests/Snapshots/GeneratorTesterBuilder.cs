@@ -1,7 +1,7 @@
 ﻿using System.Collections.Immutable;
 using Microsoft.CodeAnalysis;
 using Microsoft.CodeAnalysis.CSharp;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
@@ -10,10 +10,10 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
     internal static GeneratorTesterBuilder<TGenerator> Create(string baseDirectory, string? rootNamespace = null, string? useParamNamesInMethodNames = null) => new(baseDirectory, rootNamespace, useParamNamesInMethodNames);
 
     private readonly DirectoryInfo baseDirectory;
-    private readonly List<FileInfo> sourceFiles = new();
-    private readonly List<FileInfo> resxFiles = new();
-    private readonly Dictionary<string, string> customToolNamespaces = new();
-    private readonly Dictionary<string, string> useParamNamesInMethodNames = new();
+    private readonly List<FileInfo> sourceFiles = [];
+    private readonly List<FileInfo> resxFiles = [];
+    private readonly Dictionary<string, string> customToolNamespaces = [];
+    private readonly Dictionary<string, string> useParamNamesInMethodNames = [];
 
     private readonly string? rootNamespace;
     private readonly string? useParamNamesInMethodNamesBuildProperty;
@@ -45,6 +45,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
     public GeneratorTesterBuilder<TGenerator> WithSourceFile(string fileName)
     {
+
         var path = Path.Combine(baseDirectory.FullName, fileName);
 
         var fileInfo = new FileInfo(path);
@@ -89,7 +90,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
         return this;
     }
 
-    public IVerifiable Build()
+    public IVerifiable Build(bool withDateAndTimeOnly = true)
     {
         var syntaxTrees = sourceFiles
             .Select(x => new { Path = x.FullName, Content = File.ReadAllText(x.FullName) })
@@ -101,6 +102,13 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
             syntaxTrees: syntaxTrees
         );
 
+        if (withDateAndTimeOnly)
+        {
+            compilation = compilation.AddReferences(
+                MetadataReference.CreateFromFile(typeof(DateOnly).Assembly.Location)
+            );
+        }
+
         var additionalTexts = resxFiles
             .Select(x => new ResxFile(x.FullName) as AdditionalText)
             .ToArray()
@@ -108,7 +116,7 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
 
         var generator = new TGenerator();
         var driver = CSharpGeneratorDriver.Create(generator)
-            .AddAdditionalTexts(ImmutableArray.CreateRange(additionalTexts))
+            .AddAdditionalTexts([.. additionalTexts])
             .WithUpdatedAnalyzerConfigOptions(
                 new GeneratorTesterOptionsProvider(
                     withoutMsBuildProjectDirectory ? null : baseDirectory,
@@ -121,15 +129,14 @@ internal sealed class GeneratorTesterBuilder<TGenerator> where TGenerator : IInc
                 )
         );
 
-        var generatorDriver = driver.RunGenerators(compilation);
+        var generatorDriver = driver.RunGenerators(compilation.AddReferences());
 
         return new GeneratorTester(generatorDriver, Path.Combine(baseDirectory.FullName, ".snapshots"));
     }
 
-    private readonly Dictionary<DiagnosticsId, string> severityConfig = new();
+    private readonly Dictionary<DiagnosticsId, string> severityConfig = [];
 
-    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity)
-        => WithSeverityConfig(id, severity.ToString());
+    internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, DiagnosticSeverity severity) => WithSeverityConfig(id, severity.ToString());
 
     internal GeneratorTesterBuilder<TGenerator> WithSeverityConfig(DiagnosticsId id, string severity)
     {

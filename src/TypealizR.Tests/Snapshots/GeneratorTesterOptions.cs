@@ -1,14 +1,14 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Microsoft.CodeAnalysis.Diagnostics;
 using TypealizR.Core;
-using TypealizR.Diagnostics;
+using TypealizR.Core.Diagnostics;
 
 namespace TypealizR.Tests.Snapshots;
 
 internal sealed class GeneratorTesterOptions : AnalyzerConfigOptions
 {
 
-    private readonly Dictionary<string, string> options = new();
+    private readonly Dictionary<string, string> options = [];
 
     public GeneratorTesterOptions(AnalyzerConfigOptions source)
     {

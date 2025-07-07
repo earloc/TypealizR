@@ -1,16 +1,20 @@
 ﻿{
   Diagnostics: [
     {
-      Id: TR0005,
-      Title: InvalidMemberName,
+      Location: {ProjectDirectory}StringLocalizerExtensionsSourceGenerator.Tests\TR0005_NoCode.resx: (119,0)-(119,13),
+      Message: Ressource-key 'class {name:s}' reduced to 'class' would be non-compilable. Falling back to '_class'. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0005_InvalidMemberName.md,
       Severity: Warning,
       WarningLevel: 1,
-      Location: {ProjectDirectory}StringLocalizerExtensionsSourceGenerator.Tests/TR0005_NoCode.resx: (119,0)-(119,13),
-      Description: MemberName would be un-compilable,
-      HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0005_InvalidMemberName.md,
-      MessageFormat: Ressource-key '{0}' reduced to '{1}' would be non-compilable. Falling back to '{2}'. See {3},
-      Message: Ressource-key 'class {name:s}' reduced to 'class' would be non-compilable. Falling back to '_class'. See https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0005_InvalidMemberName.md,
-      Category: Readability
+      Descriptor: {
+        Id: TR0005,
+        Title: InvalidMemberName,
+        Description: MemberName would be un-compilable,
+        HelpLink: https://github.com/earloc/TypealizR/blob/main/docs/reference/TR0005_InvalidMemberName.md,
+        MessageFormat: Ressource-key '{0}' reduced to '{1}' would be non-compilable. Falling back to '{2}'. See {3},
+        Category: Readability,
+        DefaultSeverity: Warning,
+        IsEnabledByDefault: true
+      }
     }
   ]
 }

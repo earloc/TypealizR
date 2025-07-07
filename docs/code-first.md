@@ -5,18 +5,19 @@ The `code-first` approach let´s you specify ordinary, **strongly typed** `Inter
 These `typealized interfaces` then get picked up by the `source-generator`, which generates an implementing class that then can be used f.e. in conjuntion with ordinary `dependency-injection`.
 This way, devlepors do not need to leave their natural habitat (the code-editor), which comes with the benefit of automatic code-refactorings, ultimatley optimizing the [inner-loop](https://notes.serverlessfirst.com/public/The+inner+and+outer+loops+of+software+development+workflow#Inner+loop), even during i18n-tasks.
 
-![GenerateMethod](../assets/demo_TypealizedInterface_GenerateMethod.gif)
+![GenerateMethod](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface_GenerateMethod.gif)
 
 ## pre-requisits
 The consuming target project should at least reference a suitable version of [Microsoft.Extensions.Localization.Abstractions](https://www.nuget.org/packages/Microsoft.Extensions.Localization.Abstractions)
 
 ## getting started
 
-- install [TypealizR](https://www.nuget.org/packages/TypealizR)  via [![NuGet](https://img.shields.io/nuget/v/TypealizR)](https://www.nuget.org/packages/TypealizR)
+- install [TypealizR.CodeFirst](https://www.nuget.org/packages/TypealizR.CodeFirst)  via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst)](https://www.nuget.org/packages/TypealizR.CodeFirst)
+  > when targeting versions below `v0.14.*`, use [TypealizR](https://www.nuget.org/packages/TypealizR) instead. 
 - install [TypealizR.CodeFirst.Abstractions](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions) via [![NuGet](https://img.shields.io/nuget/v/TypealizR.CodeFirst.Abstractions)](https://www.nuget.org/packages/TypealizR.CodeFirst.Abstractions)
 - Author a `Typealized-Interface` which basically is just an ordinary `interface`, marked with `CodeFirstTypealizedAttribute` somewhere within your project.
   
-  ![demo_TypealizedInterface](../assets/demo_TypealizedInterface.png)
+  ![demo_TypealizedInterface](https://github.com/earloc/TypealizR/blob/main/docs/assets/demo_TypealizedInterface.png)
   ```csharp
     using TypealizR.CodeFirst.Abstractions;
     namespace Sample;
@@ -104,7 +105,7 @@ The consuming target project should at least reference a suitable version of [Mi
     > `dotnet tr cf ex some/path/to/a.csproj`
 
   This will extract the following `resx`-file for above sample:
-  ![TypealizedInterface_Resx](../assets//demo_TypealizedInterface_Resx.png?raw=true)
+  ![TypealizedInterface_Resx](https://github.com/earloc/TypealizR/blob/main/docs/assets//demo_TypealizedInterface_Resx.png?raw=true)
   ```xml
     <data name="Hello">
       <value>Hello, fellow developer!</value>
@@ -114,3 +115,44 @@ The consuming target project should at least reference a suitable version of [Mi
     </data>
   ```
   > executing this will OVERWRITE any existing file at the moment. In the future, TypealizR will be aware of existing files and provide a way to synchronize code with those files, in order to not loose any customizations done within them. Follow [the discussion](https://github.com/earloc/TypealizR/discussions/78) and let´s define together, what workflows would be needed to make code-first-i18n a real game-changer in the future!
+
+### comments
+In order to also generate comments within `resx`-files (which may give potential translators some context), leverage the [remarks](https://learn.microsoft.com/en-us/dotnet/csharp/language-reference/xmldoc/recommended-tags#remarks)-element within a structured XML-comment:
+
+```csharp
+    [CodeFirstTypealized]
+    public interface ILocalizables
+    {
+        /// <summary>
+        /// Hello, fellow developer!
+        /// </summary>
+        /// <remarks>
+        /// a simple greeting at application startup
+        /// </remarks>
+        public LocalizedString Hello { get; }
+
+        /// <summary>
+        /// Hey <paramref name="userName"/>, welcome to <paramref name="planetName"/> 👍!
+        /// </summary>
+        /// <remarks>
+        /// a demo greeting conversation, shown at demo-time ;)
+        /// </remarks>
+        public LocalizedString Greet(string userName, string planetName);
+    }
+
+```
+
+Exporting this, will result in the following resx:
+
+```xml
+  ```xml
+    <data name="Hello">
+      <value>Hello, fellow developer!</value>
+      <comment>a simple greeting at application startup</comment>
+    </data>
+    <data name="Greet">
+      <value>Hey {0}, welcome to {1} 👍!</value>
+      <comment>a demo greeting conversation, shown at demo-time ;)</comment>
+    </data>
+  ```
+```

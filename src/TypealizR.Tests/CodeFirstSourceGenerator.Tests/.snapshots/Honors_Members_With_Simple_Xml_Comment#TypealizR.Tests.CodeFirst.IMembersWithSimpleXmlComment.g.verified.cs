@@ -6,26 +6,99 @@ using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
 using Microsoft.Extensions.Localization;
 namespace TypealizR.Tests.CodeFirst {
-    [GeneratedCode("TypealizR.CodeFirstSourceGenerator", "1.0.0.0")]
-    public partial class MembersWithSimpleXmlComment: IMembersWithSimpleXmlComment {
+    [GeneratedCode("TypealizR.CodeFirst.CodeFirstSourceGenerator", "1.0.0.0")]
+    internal partial class MembersWithSimpleXmlComment: IMembersWithSimpleXmlComment {
         private readonly IStringLocalizer<IMembersWithSimpleXmlComment> localizer;
         public MembersWithSimpleXmlComment (IStringLocalizer<IMembersWithSimpleXmlComment> localizer) {
-            this.localizer = localizer;
+          this.localizer = localizer;
         }
-        private const string Hello_Key = @"Hello";
-        private const string Hello_FallbackKey = @"Hello {0}!";
-        public LocalizedString Hello_Raw => localizer[Hello_Key].Or(localizer[Hello_FallbackKey]);
-        public LocalizedString Hello (string world) => localizer[Hello_Key, world].Or(localizer[Hello_FallbackKey, world]);
-        private const string HelloProperty_Key = @"HelloProperty";
-        private const string HelloProperty_FallbackKey = @"Hello world!";
-        public LocalizedString HelloProperty => localizer[HelloProperty_Key].Or(localizer[HelloProperty_FallbackKey]);
-        private const string Greeting_Key = @"Greeting";
-        private const string Greeting_FallbackKey = @"Greetings, fellow developer!";
-        public LocalizedString Greeting => localizer[Greeting_Key].Or(localizer[Greeting_FallbackKey]);
-        private const string GreetingWithMultilineComment_Key = @"GreetingWithMultilineComment";
-        private const string GreetingWithMultilineComment_FallbackKey = @"Greetings, fellow developer!
+        #region methods
+        #region typealized Hello
+        /// <summary>
+        /// Hello {0}!
+        /// <summary>
+        public LocalizedString Hello_Raw
+        {
+            get
+            {
+              var localizedString = localizer["Hello"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"Hello {0}!"];
+            }
+        }
+        /// <summary>
+        /// Hello {0}!
+        /// <summary>
+        public LocalizedString Hello (string world) // greets someone
+        {
+            var localizedString = localizer[@"Hello", world];
+            if (!localizedString.ResourceNotFound)
+            {
+                return localizedString;
+            }
+          return localizer[@"Hello {0}!", world];
+        }
+        #endregion
+        #endregion
+        #region properties
+        #region typealized HelloProperty
+        /// <summary>
+        /// Hello world!
+        /// <summary>
+        public LocalizedString HelloProperty // greets someone with a property
+        {
+          get
+            {
+              var localizedString = localizer["HelloProperty"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"Hello world!"];
+          }
+        }
+        #endregion
+        #region typealized Greeting
+        /// <summary>
+        /// Greetings, fellow developer!
+        /// <summary>
+        public LocalizedString Greeting // the greeting
+        {
+          get
+            {
+              var localizedString = localizer["Greeting"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"Greetings, fellow developer!"];
+          }
+        }
+        #endregion
+        #region typealized GreetingWithMultilineComment
+        /// <summary>
+        /// Greetings, fellow developer!
+        /// This line here will be in the generated default resource-key, also.
+        /// And also this one, even with newlines #wowh@x0r!
+        /// <summary>
+        public LocalizedString GreetingWithMultilineComment // a multiline greeting
+        {
+          get
+            {
+              var localizedString = localizer["GreetingWithMultilineComment"];
+              if (!localizedString.ResourceNotFound)
+              {
+                  return localizedString;
+              }
+              return localizer[@"Greetings, fellow developer!
  This line here will be in the generated default resource-key, also.
- And also this one, even with newlines #wowh@x0r!";
-        public LocalizedString GreetingWithMultilineComment => localizer[GreetingWithMultilineComment_Key].Or(localizer[GreetingWithMultilineComment_FallbackKey]);
+ And also this one, even with newlines #wowh@x0r!"];
+          }
+        }
+        #endregion
+        #endregion
     }
 }
