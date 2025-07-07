@@ -117,14 +117,6 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <data name="Goodbye {user}" xml:space="preserve">
-    <value>Farewell, {0}...see you soon!!</value>
-    <comment/>
-  </data>
-  <data name="Hello {world:s}" xml:space="preserve">
-    <value>Hello {0}</value>
-    <comment/>
-  </data>
   <data name="CS1570" xml:space="preserve">
     <value>Hello "&lt;&gt;&amp;%</value>
     <comment/>

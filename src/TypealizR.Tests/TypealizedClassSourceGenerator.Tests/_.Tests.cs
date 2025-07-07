@@ -66,4 +66,16 @@ public class TypealizedClassSourceGenerator_Tests
         .Verify()
     ;
 
+    [Fact]
+    public async Task Emits_Valid_XmlComments()
+    {
+        await GeneratorTesterBuilder<TypealizedClassSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithSeverityConfig(DiagnosticsId.TR0005, DiagnosticSeverity.Error)
+            .WithResxFile("CS1570.resx", useParamNamesInMethodNames: "false")
+            .Build()
+            .Verify()
+        ;
+    }
+
 }

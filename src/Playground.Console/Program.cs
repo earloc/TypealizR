@@ -28,7 +28,6 @@ Console.WriteLine(typealized.Messages.Info.Info3);
 Console.WriteLine(typealized.Questions.What_to_do);
 Console.WriteLine(typealized.Questions.What_to_do__now(DateTime.Now));
 
-
 services.AddSingleton<Greeter, Greeter>();
 
 var customNamespace = provider.GetRequiredService<IStringLocalizer<CustomNameSpace>>();
@@ -74,6 +73,20 @@ Console.WriteLine(
 Console.WriteLine(
     without_Params_In_MethodNames.Goodbye(arthur)
 );
+
+Console.WriteLine(
+    without_Params_In_MethodNames.CS1570()
+);
+
+#pragma warning restore CA1812 // Type 'Program' can be sealed because it has no subtypes in its containing assembly and is not externally visible
+
+
+
+
+
+
+
+
 
 var g = typealizedGroups;
 

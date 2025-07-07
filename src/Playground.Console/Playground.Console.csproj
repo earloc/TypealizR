@@ -9,6 +9,7 @@
         <IsPackable>false</IsPackable>
         <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
         <SonarQubeExclude>true</SonarQubeExclude>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
     <ItemGroup>
         <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
