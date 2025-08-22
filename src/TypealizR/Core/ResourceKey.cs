@@ -3,7 +3,7 @@ namespace TypealizR.Core;
 internal class ResourceKey
 {
     public string Value { get; }
-    private string sanitizedValue;
+    private readonly string sanitizedValue;
 
     internal ResourceKey(string value)
     {
