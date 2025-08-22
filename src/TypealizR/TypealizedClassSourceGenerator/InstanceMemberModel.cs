@@ -12,16 +12,16 @@ internal class InstanceMemberModel : IMemberModel
 
 
     private readonly string stringFormatterTypeName;
-    private readonly string rawRessourceName;
-    private readonly string ressourceDefaultValue;
+    private readonly ResourceKey resourceKey;
+    private readonly string resourceDefaultValue;
     private readonly IEnumerable<ParameterModel> parameters;
 
 
     public InstanceMemberModel(string rootNameSpace, string rawRessourceName, string ressourceDefaultValue, MemberName name, IEnumerable<ParameterModel> parameters)
     {
         this.stringFormatterTypeName = StringFormatterClassBuilder.GlobalFullTypeName(rootNameSpace);
-        this.rawRessourceName = rawRessourceName;
-        this.ressourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
+        this.resourceKey = new (rawRessourceName);
+        this.resourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
         this.Name = name;
         this.parameters = parameters;
     }
@@ -31,7 +31,7 @@ internal class InstanceMemberModel : IMemberModel
     public string ToCSharp()
     {
         var signature = "";
-        var body = $@"localizer[""{rawRessourceName}""]";
+        var body = $@"localizer[""{resourceKey}""]";
 
         if (parameters.Any())
         {
@@ -39,10 +39,10 @@ internal class InstanceMemberModel : IMemberModel
             signature = $"({additionalParameterDeclarations})";
 
             var parameterCollection = parameters.Select(x => x.DisplayName).ToCommaDelimited();
-            body = $@"{stringFormatterTypeName}.Format(localizer[""{rawRessourceName}""], {parameterCollection})";
+            body = $@"{stringFormatterTypeName}.Format(localizer[""{resourceKey}""], {parameterCollection})";
         }
 
-        var comment = new CommentModel(rawRessourceName, ressourceDefaultValue);
+        var comment = new CommentModel(resourceKey, resourceDefaultValue);
 
         return $"""
 

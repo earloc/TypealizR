@@ -78,4 +78,16 @@ public class TypealizedClassSourceGenerator_Tests
         ;
     }
 
+    [Fact]
+    public async Task Emits_EscapedDoubleQuotes_InKeys()
+    {
+        await GeneratorTesterBuilder<TypealizedClassSourceGenerator>
+            .Create(BaseDirectory, RootNamespace)
+            .WithSeverityConfig(DiagnosticsId.TR0005, DiagnosticSeverity.Error)
+            .WithResxFile("DoubleQuotesInKeys.resx", useParamNamesInMethodNames: "false")
+            .Build()
+            .Verify()
+        ;
+    }
+
 }
