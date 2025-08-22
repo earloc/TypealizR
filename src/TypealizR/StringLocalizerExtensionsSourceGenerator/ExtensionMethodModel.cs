@@ -11,7 +11,7 @@ internal class ExtensionMethodModel : IMemberModel
     public void DeduplicateWith(int discriminator) => Name = new MemberName($"{Name}{discriminator}");
 
     public TypeModel ExtendedType { get; }
-    public string RawRessourceName { get; }
+    public ResourceKey ResourceKey { get; }
     public readonly string RessourceDefaultValue;
     public MemberName Name { get; private set; }
 
@@ -22,7 +22,7 @@ internal class ExtensionMethodModel : IMemberModel
     public ExtensionMethodModel(string rootNamespace, TypeModel extendedType, string rawRessourceName, string ressourceDefaultValue, MemberName name, IEnumerable<ParameterModel> parameters)
     {
         ExtendedType = extendedType;
-        RawRessourceName = rawRessourceName;
+        ResourceKey = new (rawRessourceName);
         RessourceDefaultValue = ressourceDefaultValue.Replace("\r\n", " ").Replace("\n", " ");
         Name = name;
         Parameters = parameters;
@@ -46,14 +46,14 @@ internal class ExtensionMethodModel : IMemberModel
 
             body = $"{stringFormatterTypeName}.Format(that[{constName}], {parameterCollection})";
         }
-        var comment = new CommentModel(RawRessourceName, RessourceDefaultValue);
+        var comment = new CommentModel(ResourceKey, RessourceDefaultValue);
 
         return $$"""
 
             {{comment.ToCSharp()}}
             [DebuggerStepThrough]
             public static LocalizedString {{Name}}{{signature}} => {{body}};
-            private const string {{constName}} = "{{RawRessourceName}}";
+            private const string {{constName}} = "{{ResourceKey}}";
     """;
     }
 
