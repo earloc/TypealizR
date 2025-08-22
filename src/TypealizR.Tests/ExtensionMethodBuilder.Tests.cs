@@ -70,4 +70,16 @@ public class ExtensionMethodBuilder_Tests
         actual.ShouldBe(expected);
     }
 
+    [Theory]
+    [InlineData("Hello", "Hello")]
+    [InlineData("\"Hello\"", "\\\"Hello\\\"")]
+    public void Escapes_DoubleQuotes_InKey(string input, string expected)
+    {
+        var sut = new ExtensionMethodBuilder("Some.Name.Space", false, targetType, input, input, new("Ressource1.resx", input, 42));
+        var method = sut.Build();
+
+        var actual = method.ResourceKey.ToString();
+        actual.ShouldBe(expected);
+    }
+
 }
