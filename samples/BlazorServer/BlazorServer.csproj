@@ -13,16 +13,16 @@
 
 	<ItemGroup>
         <PackageReference Include="Microsoft.CodeAnalysis.CSharp" Version="4.11.0" />
-		<PackageReference Include="TypealizR" Version="0.13.1-pre0002">
+		<PackageReference Include="TypealizR" Version="0.14.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           </PackageReference>
-          <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.13.1-pre0002" />
-          <PackageReference Include="TypealizR.Analyzers" Version="0.13.1-pre0002">
+          <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.14.2" />
+          <PackageReference Include="TypealizR.Analyzers" Version="0.14.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           </PackageReference>
-          <PackageReference Include="TypealizR.Analyzers.CodeFixes" Version="0.13.1-pre0002">
+          <PackageReference Include="TypealizR.Analyzers.CodeFixes" Version="0.14.2">
             <PrivateAssets>all</PrivateAssets>
             <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
           </PackageReference>
