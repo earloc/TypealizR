@@ -10,7 +10,7 @@ on:
     branches: [ "main", "releases/*" ]
 
 jobs:
-  build:
+  samples:
     strategy:
       matrix:
         sdk: [8.x, 9.x]
