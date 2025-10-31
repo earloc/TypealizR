@@ -1,0 +1,31 @@
+# This workflow will build a .NET project
+# For more information see: https://docs.github.com/en/actions/automating-builds-and-tests/building-and-testing-net
+
+name: Samples LTS
+
+on:
+  push:
+    branches: [ "main", "releases/*" ]
+  pull_request:
+    branches: [ "main", "releases/*" ]
+
+jobs:
+  build:
+    strategy:
+      matrix:
+        sdk: [8.x, 9.x]
+        os: [ubuntu-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+    steps:
+    - uses: actions/checkout@v4
+    - name: Setup .NET
+      uses: actions/setup-dotnet@v3
+      with:
+        dotnet-version:  ${{ matrix.sdk }}
+
+    - name: Restore dependencies
+      run: dotnet restore samples/Samples.sln
+    - name: Build
+      run: dotnet build samples/Samples.sln --no-restore
+    - name: Test
+      run: dotnet test samples/Samples.sln --no-build
