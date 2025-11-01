@@ -166,6 +166,14 @@ jobs:
       uses: actions/setup-dotnet@v4
       with:
         dotnet-version:  ${{ matrix.sdk }}
+    
+    - name: force it to ${{ matrix.sdk }}
+      run: |
+        echo '{
+          "sdk": {
+            "version": "${{ matrix.sdk }}"
+          }
+        }' > global.json
 
     - name: restore it
       run: dotnet restore samples/Samples.sln
