@@ -15,6 +15,7 @@
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="TypealizR.CodeFirst" Version="0.14.2" />
     <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.14.2" />
     <PackageReference Include="TypealizR.Analyzers" Version="0.14.2">
       <PrivateAssets>all</PrivateAssets>
