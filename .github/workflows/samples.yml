@@ -12,10 +12,32 @@ on:
 jobs:
   build:
     strategy:
-      fail-fast: false
       matrix:
         sdk: [
           8.x,
+          9.x
+        ]
+        os: [
+          ubuntu-latest,
+          windows-latest
+        ]
+    runs-on: ${{ matrix.os }}
+    steps:
+      - uses: actions/checkout@v4
+      - name: Setup .NET
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version:  ${{ matrix.sdk }}
+      - name: restore it
+        run: dotnet restore samples/Samples.sln
+      - name: build it
+        run: dotnet build samples/Samples.sln --no-restore
+  sdk-compat:
+    needs: build
+    strategy:
+      fail-fast: false
+      matrix:
+        sdk: [
           #8.0.21
           8.0.415, 
           8.0.318,
@@ -99,7 +121,6 @@ jobs:
           8.0.101,
           #8.0.0
           8.0.100, 
-          9.x,
            #9.0.10
           9.0.306,
           9.0.111,
@@ -146,9 +167,9 @@ jobs:
       with:
         dotnet-version:  ${{ matrix.sdk }}
 
-    - name: Restore dependencies
+    - name: restore it
       run: dotnet restore samples/Samples.sln
-    - name: Build
+    - name: build it
       run: dotnet build samples/Samples.sln --no-restore
-    - name: Test
+    - name: test it
       run: dotnet test samples/Samples.sln --no-build
