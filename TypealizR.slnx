@@ -9,12 +9,6 @@
     <Project Path="src/Playground.Common/Playground.Common.csproj" />
     <Project Path="src/Playground.Console/Playground.Console.csproj" />
   </Folder>
-  <Folder Name="/samples/">
-    <Project Path="samples/BlazorServer/BlazorServer.csproj" />
-  </Folder>
-  <Folder Name="/samples/Console/">
-    <Project Path="samples/Console/CLI.csproj" />
-  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".github/workflows/build.yml" />

@@ -29,9 +29,9 @@ jobs:
         with:
           dotnet-version:  ${{ matrix.sdk }}
       - name: restore it
-        run: dotnet restore
+        run: dotnet restore samples/Samples.sln
       - name: build it
-        run: dotnet build --no-restore
+        run: dotnet build samples/Samples.sln --no-restore
   sdk:
     needs: build
     strategy:
@@ -182,6 +182,6 @@ jobs:
         }' > global.json
 
     - name: restore it
-      run: dotnet restore
+      run: dotnet restore samples/Samples.sln
     - name: build it
-      run: dotnet build --no-restore
+      run: dotnet build samples/Samples.sln --no-restore
