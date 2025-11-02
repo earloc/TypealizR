@@ -11,17 +11,17 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Localization" Version="8.0.10" />
     <PackageReference Include="Microsoft.Extensions.Logging" Version="8.0.1" />
-    <PackageReference Include="TypealizR" Version="0.14.2">
+    <PackageReference Include="TypealizR" Version="0.14.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TypealizR.CodeFirst" Version="0.14.2" />
-    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.14.2" />
-    <PackageReference Include="TypealizR.Analyzers" Version="0.14.2">
+    <PackageReference Include="TypealizR.CodeFirst" Version="0.14.0" />
+    <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.14.0" />
+    <PackageReference Include="TypealizR.Analyzers" Version="0.14.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
-    <PackageReference Include="TypealizR.Analyzers.CodeFixes" Version="0.14.2">
+    <PackageReference Include="TypealizR.Analyzers.CodeFixes" Version="0.14.0">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
