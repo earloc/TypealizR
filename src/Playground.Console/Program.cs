@@ -114,7 +114,7 @@ Console.WriteLine(
 
 // Console.WriteLine(localizer.Bar());
 // Console.WriteLine(localizer.Bar("bar"));
-// Console.WriteLine(localizer.Foo("foo"));    
+// Console.WriteLine(localizer.Foo("foo"));
 // Console.WriteLine(localizer.FooBar("fooBar"));
 // Console.WriteLine(localizer.Bars("Arthur", 42));
 

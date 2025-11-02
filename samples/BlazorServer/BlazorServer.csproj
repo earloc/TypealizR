@@ -12,20 +12,11 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		    <PackageReference Include="TypealizR" Version="0.14.0">
-            <PrivateAssets>all</PrivateAssets>
-            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="TypealizR.CodeFirst.Abstractions" Version="0.14.0" />
-        <PackageReference Include="TypealizR.Analyzers" Version="0.14.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-        <PackageReference Include="TypealizR.Analyzers.CodeFixes" Version="0.14.0">
-          <PrivateAssets>all</PrivateAssets>
-          <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
-        </PackageReference>
-	</ItemGroup>
-
+    <ProjectReference Include="..\..\src\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+    <ProjectReference Include="..\..\src\TypealizR.CodeFirst.Abstractions\TypealizR.CodeFirst.Abstractions.csproj" />
+    <ProjectReference Include="..\..\src\TypealizR.CodeFirst\TypealizR.CodeFirst.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+    <ProjectReference Include="..\..\src\TypealizR.Analyzers\TypealizR.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\..\src\TypealizR.Analyzers.CodeFixes\TypealizR.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+  </ItemGroup>
 
 </Project>
