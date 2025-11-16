@@ -1,47 +1,39 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <TargetFramework>netstandard2.0</TargetFramework>
-        <RootNamespace>TypealizR.Analyzers</RootNamespace>
-        <LangVersion>latest</LangVersion>
-    </PropertyGroup>
-
-    <PropertyGroup>
-        <PackageId>TypealizR.Analyzers.CodeFixes</PackageId>
-        <IsPackable>true</IsPackable>
-        <PackageReadmeFile>README.md</PackageReadmeFile>
-        <Title>TypealizR.Analyzers.CodeFixes</Title>
-        <Authors>earloc</Authors>
-        <Product>TypealizR</Product>
-        <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
-        <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
-        <RepositoryType>git</RepositoryType>
-        <PackageOutputPath>../../bin</PackageOutputPath>
-        <DevelopmentDependency>true</DevelopmentDependency>
-        <IsRoslynComponent>true</IsRoslynComponent>
-        <PackageLicenseExpression>MIT</PackageLicenseExpression>
-        <IncludeBuildOutput>false</IncludeBuildOutput>
-    </PropertyGroup>
-    
-    <ItemGroup>
-        <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <None Include="../../README.md" Pack="true" PackagePath="\" />
-    </ItemGroup>
-    
-    <ItemGroup>
-        <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" Version="4.14.0" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <ProjectReference Include="..\TypealizR.Analyzers\TypealizR.Analyzers.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="CodeFixResources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="CodeFixResources.resx" />
-        <EmbeddedResource Update="CodeFixResources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="CodeFixResources.Designer.cs" />
-    </ItemGroup>
-
+  <PropertyGroup>
+    <TargetFramework>netstandard2.0</TargetFramework>
+    <RootNamespace>TypealizR.Analyzers</RootNamespace>
+    <LangVersion>latest</LangVersion>
+  </PropertyGroup>
+  <PropertyGroup>
+    <PackageId>TypealizR.Analyzers.CodeFixes</PackageId>
+    <IsPackable>true</IsPackable>
+    <PackageReadmeFile>README.md</PackageReadmeFile>
+    <Title>TypealizR.Analyzers.CodeFixes</Title>
+    <Authors>earloc</Authors>
+    <Product>TypealizR</Product>
+    <PackageProjectUrl>https://github.com/earloc/TypealizR</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/earloc/TypealizR</RepositoryUrl>
+    <RepositoryType>git</RepositoryType>
+    <PackageOutputPath>../../bin</PackageOutputPath>
+    <DevelopmentDependency>true</DevelopmentDependency>
+    <IsRoslynComponent>true</IsRoslynComponent>
+    <PackageLicenseExpression>MIT</PackageLicenseExpression>
+    <IncludeBuildOutput>false</IncludeBuildOutput>
+  </PropertyGroup>
+  <ItemGroup>
+    <None Include="$(OutputPath)\$(AssemblyName).dll" Pack="true" PackagePath="analyzers/dotnet/cs" Visible="false" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="../../README.md" Pack="true" PackagePath="\" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.CodeAnalysis.CSharp.Workspaces" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\TypealizR.Analyzers\TypealizR.Analyzers.csproj" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="CodeFixResources.Designer.cs" DesignTime="True" AutoGen="True" DependentUpon="CodeFixResources.resx" />
+    <EmbeddedResource Update="CodeFixResources.resx" Generator="ResXFileCodeGenerator" LastGenOutput="CodeFixResources.Designer.cs" />
+  </ItemGroup>
 </Project>

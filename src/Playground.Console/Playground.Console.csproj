@@ -1,78 +1,72 @@
-<Project Sdk="Microsoft.NET.Sdk">
-
-    <PropertyGroup>
-        <OutputType>Exe</OutputType>
-        <TargetFramework>net9.0</TargetFramework>
-        <ImplicitUsings>enable</ImplicitUsings>
-        <Nullable>enable</Nullable>
-        <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
-        <IsPackable>false</IsPackable>
-        <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
-        <SonarQubeExclude>true</SonarQubeExclude>
-        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+﻿<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>Exe</OutputType>
+    <TargetFramework>net9.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+    <ExcludeFromCodeCoverage>true</ExcludeFromCodeCoverage>
+    <IsPackable>false</IsPackable>
+    <EnforceExtendedAnalyzerRules>true</EnforceExtendedAnalyzerRules>
+    <SonarQubeExclude>true</SonarQubeExclude>
+    <GenerateDocumentationFile>true</GenerateDocumentationFile>
   </PropertyGroup>
-    <ItemGroup>
-        <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
-        <ProjectReference Include="..\TypealizR.Analyzers.CodeFixes\TypealizR.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-        <ProjectReference Include="..\TypealizR.Analyzers\TypealizR.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
-        <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
-    </ItemGroup>
-
-    <PropertyGroup>
-        <!-- Update the property to include all EmbeddedResource files -->
-        <AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
-    </PropertyGroup>
-    <ItemGroup>
-        <CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="CustomToolNamespace" />
-        <CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="TypealizR_UseParamNamesInMethodNames" />
-        <CompilerVisibleProperty Include="TypealizR_UseParamNamesInMethodNames" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="9.0.8" />
-        <PackageReference Include="Microsoft.Extensions.Localization" Version="9.0.8" />
-        <PackageReference Include="Microsoft.Extensions.Logging.Console" Version="9.0.6" />
-    </ItemGroup>
-
-    <ItemGroup>
-        <Compile Update="Readme\SomeResource.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>SomeResource.resx</DependentUpon>
-        </Compile>
-        <Compile Update="WithCodeGen\CustomNameSpace.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>CustomNameSpace.resx</DependentUpon>
-        </Compile>
-        <Compile Update="WithCodeGen\Without_Params_In_MethodNames.Designer.cs">
-            <DesignTime>True</DesignTime>
-            <AutoGen>True</AutoGen>
-            <DependentUpon>Without_Params_In_MethodNames.resx</DependentUpon>
-        </Compile>
-    </ItemGroup>
-
-
-    <ItemGroup>
-        <EmbeddedResource Update="NoCodeGen\InternalClass.resx">
-            <Generator></Generator>
-        </EmbeddedResource>
-        <EmbeddedResource Update="Readme\SomeResource.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>SomeResource.Designer.cs</LastGenOutput>
-        </EmbeddedResource>
-        <EmbeddedResource Update="WithCodeGen\CustomNameSpace.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>CustomNameSpace.Designer.cs</LastGenOutput>
-            <CustomToolNamespace>My.Super.Special.Namespace</CustomToolNamespace>
-        </EmbeddedResource>
-        <EmbeddedResource Update="WithCodeGen\Without_Params_In_MethodNames.resx">
-            <Generator>ResXFileCodeGenerator</Generator>
-            <LastGenOutput>Without_Params_In_MethodNames.Designer.cs</LastGenOutput>
-            <TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
-        </EmbeddedResource>
-        <EmbeddedResource Update="AnnotationExtensions.resx">
-            <TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
-        </EmbeddedResource>
-    </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\Playground.Common\Playground.Common.csproj" />
+    <ProjectReference Include="..\TypealizR.Analyzers.CodeFixes\TypealizR.Analyzers.CodeFixes.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\TypealizR.Analyzers\TypealizR.Analyzers.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="false" />
+    <ProjectReference Include="..\TypealizR\TypealizR.csproj" OutputItemType="Analyzer" ReferenceOutputAssembly="true" />
+  </ItemGroup>
+  <PropertyGroup>
+    <!-- Update the property to include all EmbeddedResource files -->
+    <AdditionalFileItemNames>$(AdditionalFileItemNames);EmbeddedResource</AdditionalFileItemNames>
+  </PropertyGroup>
+  <ItemGroup>
+    <CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="CustomToolNamespace" />
+    <CompilerVisibleItemMetadata Include="EmbeddedResource" MetadataName="TypealizR_UseParamNamesInMethodNames" />
+    <CompilerVisibleProperty Include="TypealizR_UseParamNamesInMethodNames" />
+  </ItemGroup>
+  <ItemGroup>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" />
+    <PackageReference Include="Microsoft.Extensions.Localization" />
+    <PackageReference Include="Microsoft.Extensions.Logging.Console" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Update="Readme\SomeResource.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>SomeResource.resx</DependentUpon>
+    </Compile>
+    <Compile Update="WithCodeGen\CustomNameSpace.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>CustomNameSpace.resx</DependentUpon>
+    </Compile>
+    <Compile Update="WithCodeGen\Without_Params_In_MethodNames.Designer.cs">
+      <DesignTime>True</DesignTime>
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Without_Params_In_MethodNames.resx</DependentUpon>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <EmbeddedResource Update="NoCodeGen\InternalClass.resx">
+      <Generator></Generator>
+    </EmbeddedResource>
+    <EmbeddedResource Update="Readme\SomeResource.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>SomeResource.Designer.cs</LastGenOutput>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WithCodeGen\CustomNameSpace.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>CustomNameSpace.Designer.cs</LastGenOutput>
+      <CustomToolNamespace>My.Super.Special.Namespace</CustomToolNamespace>
+    </EmbeddedResource>
+    <EmbeddedResource Update="WithCodeGen\Without_Params_In_MethodNames.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Without_Params_In_MethodNames.Designer.cs</LastGenOutput>
+      <TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
+    </EmbeddedResource>
+    <EmbeddedResource Update="AnnotationExtensions.resx">
+      <TypealizR_UseParamNamesInMethodNames>false</TypealizR_UseParamNamesInMethodNames>
+    </EmbeddedResource>
+  </ItemGroup>
 </Project>

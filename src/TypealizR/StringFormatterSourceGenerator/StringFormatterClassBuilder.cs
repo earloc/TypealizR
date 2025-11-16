@@ -78,7 +78,14 @@ internal class StringFormatterClassBuilder
 
         var typeCandidates = supportsDateAndTimeOnly ? ParameterAnnotation.Net60SupportedTypes : ParameterAnnotation.NetStandard20SupportedTypes;
 
-        foreach (var annotationType in typeCandidates.Keys.Where(x => !userModeImplementedTypes.Contains(x)))
+        var types = typeCandidates
+                .Keys
+                .Where(x => !userModeImplementedTypes.Contains(x))
+                .OrderBy(x => x)
+                .ToArray()
+        ;
+
+        foreach (var annotationType in types)
         {
             builder.AppendLine($$"""
 
