@@ -47,13 +47,13 @@ public class ParameterAnnotation
          DATETIMEOFFSET,
          GUID,
          URI,
-        ]).ToImmutableDictionary(_ => _, _ => _); //TODO: ToFrozenDictionary
+        ]).ToImmutableDictionary(_ => _, _ => _); //TODO: #332 Update Microsoft.CodeAnalysis.CSharp, once net 8 / 9 are entering EOL  ToFrozenDictionary
 
     internal static readonly IReadOnlyDictionary<string, string> Net60SupportedTypes = new HashSet<string>([
          ..NetStandard20SupportedTypes.Keys,
          DATEONLY,
          TIMEONLY
-    ]).ToImmutableDictionary(_ => _, _ => _); //TODO: ToFrozenDictionary
+    ]).ToImmutableDictionary(_ => _, _ => _); //TODO: #332 Update Microsoft.CodeAnalysis.CSharp, once net 8 / 9 are entering EOL  ToFrozenDictionary
 
     public static readonly IReadOnlyDictionary<string, string> Mappings = new Dictionary<string, string>() {
         { STRING, Net60SupportedTypes[STRING] },
@@ -170,5 +170,5 @@ public class ParameterAnnotation
         { "to", Net60SupportedTypes[TIMEONLY]},
         { "TO", Net60SupportedTypes[TIMEONLY]},
 
-    }.ToImmutableDictionary(); //TODO: ToFrozenDictionary
+    }.ToImmutableDictionary(); //TODO: #332 Update Microsoft.CodeAnalysis.CSharp, once net 8 / 9 are entering EOL  ToFrozenDictionary
 }

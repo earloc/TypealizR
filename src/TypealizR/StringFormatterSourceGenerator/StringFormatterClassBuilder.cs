@@ -82,7 +82,7 @@ internal class StringFormatterClassBuilder
                 .Keys
                 .Where(x => !userModeImplementedTypes.Contains(x))
                 .OrderBy(x => x)
-                .ToArray();
+                .ToArray()
         ;
 
         foreach (var annotationType in types)

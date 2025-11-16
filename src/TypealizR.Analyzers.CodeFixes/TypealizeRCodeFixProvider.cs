@@ -20,7 +20,7 @@ public class TypealizRCodeFixProvider : CodeFixProvider
         { UseIndexerAnalyzer.DiagnosticId, (root, diagnostics) => new UseIndexerCodeFixer(root, diagnostics) }
     };
 
-    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(UseIndexerAnalyzer.DiagnosticId); //TODO: [UseIndexerAnalyzer.DiagnosticId]
+    public sealed override ImmutableArray<string> FixableDiagnosticIds => ImmutableArray.Create(UseIndexerAnalyzer.DiagnosticId); //TODO: #332 Update Microsoft.CodeAnalysis.CSharp, once net 8 / 9 are entering EOL  [UseIndexerAnalyzer.DiagnosticId]
 
     public sealed override FixAllProvider GetFixAllProvider() =>
         // See https://github.com/dotnet/roslyn/blob/main/docs/analyzers/FixAllProvider.md for more information on Fix All Providers
