@@ -33,7 +33,7 @@
     <PackageVersion Include="MSTest.TestFramework" Version="3.9.2" />
 
     <PackageVersion Include="Microsoft.VSSDK.BuildTools" Version="17.14.2101" />
-    <PackageVersion Include="BenchmarkDotNet" Version="0.15.2" />
+    <PackageVersion Include="BenchmarkDotNet" Version="0.15.6" />
     <PackageVersion Include="Microsoft.Build.Locator" Version="1.9.1" />
     <PackageVersion Include="System.CommandLine" Version="2.0.0-beta4.22272.1" />
     <PackageVersion Include="System.CommandLine.Hosting" Version="0.4.0-alpha.22272.1" />
