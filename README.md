@@ -72,7 +72,7 @@ void Demo(ILocalizables i18n)
 
 ```
 ### ❌ **DON´T** do that:
-```csharp 
+```csharp
 void Demo(IStringLocalizer i18n)
 {
     Console.WriteLine(i18n["Hello", "Earth"]); // Hello Earth
@@ -83,3 +83,5 @@ void Demo(IStringLocalizer i18n)
 ```
 
 See [code-first](https://github.com/earloc/TypealizR/blob/main/docs/code-first.md) for more details.
+
+sample change
