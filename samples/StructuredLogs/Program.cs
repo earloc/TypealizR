@@ -6,8 +6,8 @@ services.AddLogging(_ => _.AddJsonConsole());
 services.AddLocalization();
 var provider = services.BuildServiceProvider();
 
-var localizer = provider.GetRequiredService<IStringLocalizer<Strings>>();
 var logger = provider.GetRequiredService<ILogger<Strings>>();
+var localizer = provider.GetRequiredService<IStringLocalizer<Strings>>();
 
 // unconditionally log a localized, already interpolated message
 logger.LogInformation(localizer.Hello__Name("Arthur"));
