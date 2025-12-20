@@ -10,7 +10,7 @@
     <Project Path="src/Playground.Console/Playground.Console.csproj" />
   </Folder>
   <Folder Name="/Samples/">
-    <Project Path="samples/StructuredLogging/StructuredLogging/StructuredLogging.csproj" Id="b226404f-1c7a-487d-8605-5d90624e9551" />
+    <Project Path="samples/StructuredLogs/StructuredLogs.csproj" Id="1bf9edd3-31dc-46be-b189-6ee59671dabd" />
   </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
