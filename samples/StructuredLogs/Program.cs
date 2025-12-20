@@ -4,7 +4,6 @@ using StructuredLogs;
 var services = new ServiceCollection();
 services.AddLogging(_ => _.AddJsonConsole());
 services.AddLocalization();
-
 var provider = services.BuildServiceProvider();
 
 var localizer = provider.GetRequiredService<IStringLocalizer<Strings>>();
