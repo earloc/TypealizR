@@ -13,16 +13,16 @@ var localizer = provider.GetRequiredService<IStringLocalizer<Strings>>();
 logger.LogInformation(localizer.Hello__Name("Arthur")); // for resx key: "Hello {Name}" -> value: "Hello {0}"
                                                         // DOES NOT support structured logging
 /* 
- *  {
- *      "EventId":0,
- *      "LogLevel":"Information",
- *      "Category":"StructuredLogs.Strings",
- *      "Message":"Hello Arthur",
- *      "State": {
- *          "Message":"Hello Arthur",
- *          "{OriginalFormat}":"Hello Arthur"
- *      }
- *  }
+    {
+        "EventId":0,
+        "LogLevel":"Information",
+        "Category":"StructuredLogs.Strings",
+        "Message":"Hello Arthur",
+        "State": {
+            "Message":"Hello Arthur",
+            "{OriginalFormat}":"Hello Arthur"
+        }
+    }
 */
 
 // unconditionally log a localized message with no compiler help in spotting missing/mismatching values, works today
@@ -30,19 +30,20 @@ logger.LogInformation(localizer.Hello_Structured(), "Saphod", DateTimeOffset.Now
                                                                                    // works today, if all arguments are provided (no compiler help though)
                                                                                    // DOES support structured logging
 /* 
- * {
- *      "EventId":0,
- *      "LogLevel":"Information",
- *      "Category":"StructuredLogs.Strings",
- *      "Message":"Hello Saphod, today is 12/20/2025 17:49:40+01:00",
- *      "State":{
- *          "Message":"Hello Saphod, today is 12/20/2025 17:49:40+01:00",
- *          "Name":"Saphod",
- *          "Date":"12/20/2025 17:49:40+01:00",
- *          "{OriginalFormat}":"Hello {Name}, today is {Date}"
- *      }
- *  }
+   {
+        "EventId":0,
+        "LogLevel":"Information",
+        "Category":"StructuredLogs.Strings",
+        "Message":"Hello Saphod, today is 12/20/2025 17:49:40+01:00",
+        "State":{
+            "Message":"Hello Saphod, today is 12/20/2025 17:49:40+01:00",
+            "Name":"Saphod",
+            "Date":"12/20/2025 17:49:40+01:00",
+            "{OriginalFormat}":"Hello {Name}, today is {Date}"
+        }
+   }
  */
+
 try
 {
     logger.LogInformation(localizer.Hello_Structured(), "Arthur"); //throws at runtime due to missing "Date" argument
