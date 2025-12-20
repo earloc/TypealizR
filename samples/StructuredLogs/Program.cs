@@ -10,7 +10,8 @@ var logger = provider.GetRequiredService<ILogger<Strings>>();
 var localizer = provider.GetRequiredService<IStringLocalizer<Strings>>();
 
 // unconditionally log a localized, already interpolated message
-logger.LogInformation(localizer.Hello__Name("Arthur"));
+logger.LogInformation(localizer.Hello__Name("Arthur")); // for resx key: "Hello {Name}" -> value: "Hello {0}"
+                                                        // DOES NOT support structured logging
 /* 
  *  {
  *      "EventId":0,
@@ -25,7 +26,9 @@ logger.LogInformation(localizer.Hello__Name("Arthur"));
 */
 
 // unconditionally log a localized message with no compiler help in spotting missing/mismatching values, works today
-logger.LogInformation(localizer.Hello_Structured(), "Saphod", DateTimeOffset.Now); // works, if all arguments are provided (no compiler help though)
+logger.LogInformation(localizer.Hello_Structured(), "Saphod", DateTimeOffset.Now); // for resx key: "Hello_Structured" -> value: "Hello {Name}, today is {Date}"
+                                                                                   // works today, if all arguments are provided (no compiler help though)
+                                                                                   // DOES support structured logging
 /* 
  * {
  *      "EventId":0,
@@ -49,8 +52,6 @@ catch
     // Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
     // ---> System.FormatException: Index (zero based) must be greater than or equal to zero and less than the size of the argument list.
 }
-
-
 
 //// unconditionally try to log a localized message, which throws due to invalid "format-string"
 //try
