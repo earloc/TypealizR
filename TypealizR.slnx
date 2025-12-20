@@ -9,6 +9,9 @@
     <Project Path="src/Playground.Common/Playground.Common.csproj" />
     <Project Path="src/Playground.Console/Playground.Console.csproj" />
   </Folder>
+  <Folder Name="/Samples/">
+    <Project Path="samples/StructuredLogging/StructuredLogging/StructuredLogging.csproj" Id="b226404f-1c7a-487d-8605-5d90624e9551" />
+  </Folder>
   <Folder Name="/Solution Items/">
     <File Path=".editorconfig" />
     <File Path=".github/workflows/build.yml" />
@@ -21,8 +24,6 @@
     <File Path="src/Version.props" />
   </Folder>
   <Folder Name="/Solution Items/workflows/" />
-  <Project Path="src/TypealizR.CodeFirst/TypealizR.CodeFirst.csproj" />
-  <Project Path="src/TypealizR.Core/TypealizR.Core.csproj" />
   <Project Path="src/TypealizR.Analyzers.CodeFixes/TypealizR.Analyzers.CodeFixes.csproj" />
   <Project Path="src/TypealizR.Analyzers.Test/TypealizR.Analyzers.Tests.csproj" />
   <Project Path="src/TypealizR.Analyzers.Vsix/TypealizR.Analyzers.Vsix.csproj">
@@ -32,6 +33,8 @@
   <Project Path="src/TypealizR.Benchmarks/TypealizR.Benchmarks.csproj" />
   <Project Path="src/TypealizR.CLI/TypealizR.CLI.csproj" />
   <Project Path="src/TypealizR.CodeFirst.Abstractions/TypealizR.CodeFirst.Abstractions.csproj" />
+  <Project Path="src/TypealizR.CodeFirst/TypealizR.CodeFirst.csproj" />
+  <Project Path="src/TypealizR.Core/TypealizR.Core.csproj" />
   <Project Path="src/TypealizR.Tests/TypealizR.Tests.csproj" />
   <Project Path="src/TypealizR/TypealizR.csproj" />
 </Solution>
