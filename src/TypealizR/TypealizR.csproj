@@ -36,7 +36,6 @@
   </ItemGroup>
   <ItemGroup>
     <None Remove="MultilingualResources\TypealizR.de.xlf" />
-    <None Remove="MultilingualResources\TypealizR.qps-Ploc.xlf" />
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets" Label="MultilingualAppToolkit" Condition="Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\v$(MultilingualAppToolkitVersion)\Microsoft.Multilingual.ResxResources.targets')" />
   <Target Name="MATPrerequisite" BeforeTargets="PrepareForBuild" Condition="!Exists('$(MSBuildExtensionsPath)\Microsoft\Multilingual App Toolkit\Microsoft.Multilingual.ResxResources.targets')" Label="MultilingualAppToolkit">
@@ -54,7 +53,6 @@
   </ItemGroup>
   <ItemGroup>
     <XliffResource Include="MultilingualResources\TypealizR.de.xlf" />
-    <XliffResource Include="MultilingualResources\TypealizR.qps-Ploc.xlf" />
   </ItemGroup>
   <ItemGroup>
     <Compile Update="Diagnostics\Strings.Designer.cs">
@@ -68,5 +66,8 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Strings.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="MultilingualResources\" />
   </ItemGroup>
 </Project>
